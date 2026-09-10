@@ -569,15 +569,16 @@
 
       <section class="submit-panel">
         <div class="room-head" style="margin-bottom:10px;">
-          <span class="num" style="color:var(--amber);">EXIT REPORT</span><h2 class="room-title" style="color:#fff;margin:0;">Prepare Your Submission</h2>
+          <span class="num" style="color:var(--amber);">EXIT REPORT</span><h2 class="room-title" style="color:#fff;margin:0;">Download Your Evidence</h2>
         </div>
-        <p>This pulls everything from every lock into one clean document and opens your browser's print dialog — choose <b>Save as PDF</b>, then upload that PDF to <b>Elevfeedback</b> to be marked present.</p>
+        <p>Enter your details, then download your completed work as a PDF. Your answers from every lock will be included automatically.</p>
+        <div class="evidence-reminder"><b>Required:</b> upload the downloaded PDF to <b>Elevfeedback</b> as evidence of your work for this lesson. Do not leave the page until you have the PDF saved.</div>
         <div class="submit-fields">
-          <input type="text" id="subName" placeholder="Your name">
+          <input type="text" id="subName" placeholder="Your name" autocomplete="name">
           <input type="text" id="subGroup" placeholder="Class / group">
         </div>
-        <button class="mark gold" id="prepareBtn">Prepare PDF</button>
-        <div id="integrityPreview"></div>
+        <button class="mark gold" id="prepareBtn">Download submission PDF</button>
+        <div id="submissionStatus" class="submission-status" role="status" aria-live="polite"></div>
       </section>
     </div></div>
 
@@ -590,9 +591,10 @@
   <button id="navNext" disabled>Next →</button>
 </div>
 
-<div id="qrHidden" style="display:none;"></div>
+<div id="qrHidden" style="position:fixed;left:-9999px;top:-9999px;width:256px;height:256px;overflow:hidden;" aria-hidden="true"></div>
 <div id="pasteToast">Pasting is disabled here — type your own answer.</div>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script defer src="js/app.js"></script>
 </body>
 </html>

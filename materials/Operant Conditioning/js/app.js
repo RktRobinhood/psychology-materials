@@ -324,40 +324,76 @@ function describeMatchGame(game){
   const total = game.querySelectorAll('.chip').length;
   return correct + '/' + total + ' correct';
 }
-function collectAnswers(){
-  const rooms = document.querySelectorAll('.room');
-  let html = '';
-  rooms.forEach(s=>{
-    const num = s.querySelector('.num');
-    const title = s.querySelector('.room-title');
-    if(!num || !title) return;
-    const boxes = s.querySelectorAll('textarea, input[type=text]');
-    const quizzes = s.querySelectorAll('.quiz');
-    const games = s.querySelectorAll('.matchgame');
-    if(boxes.length === 0 && quizzes.length === 0 && games.length === 0) return;
-    let section = `<div style="margin-bottom:22px;"><div style="font-family:Georgia,serif;font-weight:700;font-size:16px;border-bottom:2px solid #111;padding-bottom:4px;margin-bottom:8px;">${num.textContent.trim()} — ${title.textContent.trim()}</div>`;
-    quizzes.forEach(q=>{
-      const qtext = q.querySelector('.q') ? q.querySelector('.q').textContent.trim() : '';
-      const checked = q.querySelector('input[type=radio]:checked');
-      const chosenLabel = checked ? checked.closest('label').textContent.trim() : '(not answered)';
-      section += `<div style="margin:6px 0;font-size:13px;"><i>${qtext}</i><br><b>Answer:</b> ${chosenLabel}</div>`;
-    });
-    games.forEach(g=>{ section += `<div style="margin:6px 0;font-size:13px;"><b>Matching game:</b> ${describeMatchGame(g)}</div>`; });
-    boxes.forEach(b=>{
-      const val = b.value.trim();
-      const ph = b.getAttribute('placeholder') || '';
-      section += `<div style="margin:6px 0;font-size:13px;">${ph ? '<i>'+ph+'</i><br>' : ''}${val ? val.replace(/</g,'&lt;') : '<span style="color:#999;">(not answered)</span>'}</div>`;
-    });
-    section += `</div>`;
-    html += section;
-  });
-  return html;
+function fieldLabel(field){
+  const box = field.closest('.box');
+  if(box){
+    const h = box.querySelector('h4');
+    if(h) return h.textContent.trim();
+  }
+  const parent = field.parentElement;
+  if(parent){
+    const h = parent.querySelector('h4');
+    if(h) return h.textContent.trim();
+  }
+  return field.getAttribute('placeholder') || 'Written response';
 }
 
-document.getElementById('prepareBtn').addEventListener('click', ()=>{
-  const name = document.getElementById('subName').value.trim() || '(name not entered)';
-  const group = document.getElementById('subGroup').value.trim() || '(group not entered)';
-  if(awayStart){ tabAwayMs += Date.now() - awayStart; awayStart = null; }
+function collectAnswerSections(){
+  const sections = [];
+  document.querySelectorAll('.room').forEach(room=>{
+    const num = room.querySelector('.num');
+    const title = room.querySelector('.room-title');
+    if(!num || !title) return;
+
+    const items = [];
+    room.querySelectorAll('.quiz').forEach((q, i)=>{
+      const qtext = q.querySelector('.q') ? q.querySelector('.q').textContent.trim() : `Question ${i+1}`;
+      const checked = q.querySelector('input[type=radio]:checked');
+      const answer = checked ? checked.closest('label').textContent.trim() : '(not answered)';
+      items.push({type:'quiz', label:qtext, value:answer});
+    });
+
+    room.querySelectorAll('.matchgame').forEach((game, i)=>{
+      items.push({type:'game', label:`Interactive check ${i+1}`, value:describeMatchGame(game)});
+    });
+
+    room.querySelectorAll('textarea, input[type=text]').forEach(field=>{
+      items.push({
+        type:'field',
+        label:fieldLabel(field),
+        value:field.value.trim() || '(not answered)'
+      });
+    });
+
+    if(items.length){
+      sections.push({
+        heading:`${num.textContent.trim()} - ${title.textContent.trim()}`,
+        items
+      });
+    }
+  });
+  return sections;
+}
+
+function pdfSafeText(value){
+  return String(value ?? '')
+    .normalize('NFKC')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\u2026/g, '...')
+    .replace(/\u2192/g, '->')
+    .replace(/\u2190/g, '<-')
+    .replace(/\u2264/g, '<=')
+    .replace(/\u2265/g, '>=')
+    .replace(/\u00A0/g, ' ');
+}
+
+function buildIntegrityText(name, group){
+  if(awayStart){
+    tabAwayMs += Date.now() - awayStart;
+    awayStart = null;
+  }
 
   const mismatches = findKeystrokeMismatches();
   const pasteStations = [...new Set(pasteLog.map(p=>p.id))];
@@ -365,75 +401,229 @@ document.getElementById('prepareBtn').addEventListener('click', ()=>{
   const mismatchStations = [...new Set(mismatches.map(m=>m.id))];
   const hardFlag = pasteLog.length > 0 || dropLog.length > 0 || mismatches.length > 0;
 
-  const totalChars = [...document.querySelectorAll('textarea, input[type=text]')].reduce((sum,t)=> sum + t.value.trim().length, 0);
+  const responseFields = [...document.querySelectorAll('.room textarea, .room input[type=text]')];
+  const totalChars = responseFields.reduce((sum,t)=> sum + t.value.trim().length, 0);
   const totalWords = Math.round(totalChars / 5);
   const minutesActive = Math.max((Date.now() - sessionStart) / 60000, 0.1);
   const wpm = Math.round(totalWords / minutesActive);
-  const speedNote = (totalWords > 40 && wpm > 140);
-  const lowPointerNote = (totalChars > 150 && pointerMoveEvents < 15);
+  const speedNote = totalWords > 40 && wpm > 140;
+  const lowPointerNote = totalChars > 150 && pointerMoveEvents < 15;
 
-  const lines = [
-    hardFlag ? 'INTEGRITY FLAG' : 'INTEGRITY CHECK — CLEAN',
-    name,
-    `Paste attempts blocked: ${pasteLog.length}${pasteStations.length ? ' (rooms ' + pasteStations.join(', ') + ')' : ''}`,
-    `Drag-drop attempts blocked: ${dropLog.length}${dropStations.length ? ' (rooms ' + dropStations.join(', ') + ')' : ''}`,
-    `Keystroke/length mismatch: ${mismatches.length} field(s)${mismatchStations.length ? ' (rooms ' + mismatchStations.join(', ') + ')' : ''}`,
-    `Tab switches away: ${tabAwayCount} (${Math.round(tabAwayMs/1000)}s away total)`,
-    `Composition speed: ~${wpm} wpm over ${totalWords} words${speedNote ? ' — unusually fast' : ''}`,
-    `Pointer activity: ${pointerMoveEvents} moves, ~${Math.round(pointerDistance)}px${lowPointerNote ? ' — unusually low for the amount typed' : ''}`,
-    `Generated: ${new Date().toLocaleString()}`
-  ];
-  const integrityText = lines.join('\n');
+  return [
+    'ESCAPE THE LOOP - TEACHER VERIFICATION',
+    `Check: ${hardFlag ? 'REVIEW' : 'NO PRIMARY FLAGS'}`,
+    `Student: ${name}`,
+    `Class/group: ${group}`,
+    `Paste attempts blocked: ${pasteLog.length}${pasteStations.length ? ' | rooms ' + pasteStations.join(', ') : ''}`,
+    `Drag-drop attempts blocked: ${dropLog.length}${dropStations.length ? ' | rooms ' + dropStations.join(', ') : ''}`,
+    `Keystroke/length mismatch: ${mismatches.length}${mismatchStations.length ? ' | rooms ' + mismatchStations.join(', ') : ''}`,
+    `Tab switches away: ${tabAwayCount} | ${Math.round(tabAwayMs/1000)}s away`,
+    `Composition speed: ~${wpm} wpm over ${totalWords} estimated words${speedNote ? ' | unusually fast' : ''}`,
+    `Pointer activity: ${pointerMoveEvents} moves | ~${Math.round(pointerDistance)}px${lowPointerNote ? ' | unusually low' : ''}`,
+    'Interpretation: browser-side signals only; not proof of misconduct.',
+    `Generated: ${new Date().toISOString()}`
+  ].join('\n');
+}
 
-  const preview = document.getElementById('integrityPreview');
-  preview.style.display = 'block';
-  preview.className = hardFlag ? 'flag' : 'clean';
-  let previewHtml = hardFlag ? `⚠ <b>Flagged.</b> ` : `✓ <b>No paste, drag-drop, or keystroke-mismatch signals detected.</b> `;
-  const parts = [];
-  if(pasteLog.length) parts.push(`${pasteLog.length} paste attempt(s) — ${pasteStations.join(', ')}`);
-  if(dropLog.length) parts.push(`${dropLog.length} drag-drop attempt(s) — ${dropStations.join(', ')}`);
-  if(mismatches.length) parts.push(`${mismatches.length} field(s) with unexplained text — ${mismatchStations.join(', ')}`);
-  if(parts.length) previewHtml += parts.join(' · ') + '. ';
-  previewHtml += `<br><span style="opacity:.75;">Context: ${tabAwayCount} tab switch(es), ~${wpm} wpm, ${pointerMoveEvents} pointer moves. Informational only, not proof.</span>`;
-  preview.innerHTML = previewHtml;
+function qrDataUrlFor(text){
+  if(typeof QRCode === 'undefined'){
+    throw new Error('QR library did not load. Refresh the page and try again.');
+  }
+  const host = document.getElementById('qrHidden');
+  host.innerHTML = '';
+  new QRCode(host, {
+    text,
+    width:256,
+    height:256,
+    correctLevel: QRCode.CorrectLevel ? QRCode.CorrectLevel.M : undefined
+  });
+  const canvas = host.querySelector('canvas');
+  const img = host.querySelector('img');
+  if(canvas) return canvas.toDataURL('image/png');
+  if(img && img.src) return img.src;
+  throw new Error('QR code could not be rendered.');
+}
 
-  const qrHost = document.getElementById('qrHidden');
-  qrHost.innerHTML = '';
-  new QRCode(qrHost, { text: integrityText, width: 150, height: 150 });
+function buildSubmissionPdf(name, group, qrDataUrl, sections){
+  if(!window.jspdf || !window.jspdf.jsPDF){
+    throw new Error('PDF library did not load. Refresh the page and try again.');
+  }
 
-  setTimeout(()=>{
-    const canvas = qrHost.querySelector('canvas');
-    const qrDataUrl = canvas ? canvas.toDataURL('image/png') : '';
-    const answersHtml = collectAnswers();
-    const flagged = hardFlag;
-    const docHtml = `
-      <!DOCTYPE html><html><head><meta charset="utf-8"><title>${name} — Operant Conditioning Submission</title>
-      <style>
-        body{font-family:Georgia,serif;color:#111;max-width:720px;margin:32px auto;padding:0 20px;}
-        h1{font-family:Arial,sans-serif;font-size:22px;margin-bottom:2px;}
-        .meta{font-family:Arial,sans-serif;font-size:13px;color:#555;margin-bottom:18px;}
-        .integrity{display:flex;align-items:center;gap:16px;border:2px solid ${flagged ? '#D6371F' : '#3C7A3F'};padding:14px 16px;margin:20px 0 10px;font-family:Arial,sans-serif;}
-        .integrity img{flex-shrink:0;}
-        .integrity .txt{font-size:12.5px;white-space:pre-line;line-height:1.5;}
-        .integrity .flag-title{font-weight:700;color:${flagged ? '#D6371F' : '#3C7A3F'};margin-bottom:4px;font-size:13.5px;}
-        .caveat{font-family:Arial,sans-serif;font-size:11px;color:#888;margin-bottom:24px;}
-        .attend{font-family:Arial,sans-serif;font-size:12px;background:#FBEFE0;border:1px solid #E7A63C;padding:8px 12px;margin-bottom:20px;}
-        @media print{ body{margin:0;} }
-      </style></head><body>
-        <h1>Operant Conditioning — Escape Room Submission</h1>
-        <div class="meta">${name} · ${group} · ${new Date().toLocaleDateString()}</div>
-        <div class="attend">📋 Remember to upload this PDF to Elevfeedback to be marked present for this lesson.</div>
-        <div class="integrity">
-          ${qrDataUrl ? `<img src="${qrDataUrl}" width="110" height="110">` : ''}
-          <div class="txt"><div class="flag-title">${flagged ? 'INTEGRITY FLAG' : 'INTEGRITY CHECK — CLEAN'}</div>${integrityText.split(String.fromCharCode(10)).slice(2).join(String.fromCharCode(10))}</div>
-        </div>
-        <div class="caveat">These are weak, browser-side signals (blocked paste/drag-drop, keystroke-vs-text mismatch, tab switching, typing speed, pointer activity) — useful as a prompt to look closer, not proof of anything on their own.</div>
-        ${answersHtml}
-      </body></html>`;
-    const w = window.open('', '_blank');
-    w.document.write(docHtml);
-    w.document.close();
-    w.focus();
-    setTimeout(()=> w.print(), 300);
-  }, 200);
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 16;
+  const contentW = pageW - margin * 2;
+  const footerY = pageH - 9;
+  let y = 18;
+  let pageNo = 1;
+
+  doc.setProperties({
+    title: `${name} - Escape the Loop`,
+    subject: 'IB Psychology - Operant Conditioning evidence of work',
+    author: name,
+    creator: 'Escape the Loop'
+  });
+
+  function drawFooter(){
+    doc.setDrawColor(220, 214, 202);
+    doc.line(margin, footerY - 4, pageW - margin, footerY - 4);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(105, 96, 84);
+    doc.text('Escape the Loop - IB Psychology', margin, footerY);
+    doc.text(`Page ${pageNo}`, pageW - margin, footerY, {align:'right'});
+  }
+
+  function addPage(){
+    drawFooter();
+    doc.addPage();
+    pageNo += 1;
+    y = 18;
+  }
+
+  function ensureSpace(mm){
+    if(y + mm > footerY - 7) addPage();
+  }
+
+  function wrapped(text, x, maxWidth, fontSize=9, style='normal', color=[32,28,23], lineFactor=1.25){
+    const safe = pdfSafeText(text);
+    doc.setFont('helvetica', style);
+    doc.setFontSize(fontSize);
+    doc.setTextColor(...color);
+    const lines = doc.splitTextToSize(safe, maxWidth);
+    const lineMm = fontSize * 0.3528 * lineFactor;
+    const height = Math.max(lineMm, lines.length * lineMm);
+    ensureSpace(height + 1);
+    doc.text(lines, x, y, {lineHeightFactor:lineFactor});
+    y += height;
+    return lines;
+  }
+
+  // Header
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(18);
+  doc.setTextColor(28,24,19);
+  doc.text('OPERANT CONDITIONING', margin, y);
+  y += 7;
+  doc.setFontSize(14);
+  doc.text('Escape the Loop - Evidence of Work', margin, y);
+  y += 7;
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(9);
+  doc.setTextColor(95,87,76);
+  doc.text(pdfSafeText(`${name} | ${group} | ${new Date().toLocaleDateString()}`), margin, y);
+
+  // QR is deliberately presented without revealing the encoded result to students.
+  const qrSize = 27;
+  const qrX = pageW - margin - qrSize;
+  const qrY = 13;
+  doc.addImage(qrDataUrl, 'PNG', qrX, qrY, qrSize, qrSize, undefined, 'FAST');
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(6.5);
+  doc.setTextColor(110,100,88);
+  doc.text('Teacher verification', qrX + qrSize/2, qrY + qrSize + 3.2, {align:'center'});
+
+  y = Math.max(y + 7, qrY + qrSize + 8);
+
+  // Required evidence reminder
+  const reminder = 'REQUIRED: Upload this downloaded PDF to Elevfeedback as evidence of your work for this lesson.';
+  doc.setFillColor(250,243,224);
+  doc.setDrawColor(218,169,45);
+  doc.roundedRect(margin, y, contentW, 17, 1.5, 1.5, 'FD');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9.5);
+  doc.setTextColor(55,43,20);
+  const reminderLines = doc.splitTextToSize(reminder, contentW - 8);
+  doc.text(reminderLines, margin + 4, y + 6, {lineHeightFactor:1.25});
+  y += 23;
+
+  sections.forEach(section=>{
+    ensureSpace(18);
+    doc.setDrawColor(214,55,31);
+    doc.setLineWidth(0.8);
+    doc.line(margin, y - 2.5, margin + 4, y - 2.5);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(11.5);
+    doc.setTextColor(34,29,23);
+    const headingLines = doc.splitTextToSize(pdfSafeText(section.heading), contentW - 8);
+    doc.text(headingLines, margin + 7, y, {lineHeightFactor:1.15});
+    y += headingLines.length * 4.7 + 3;
+
+    section.items.forEach(item=>{
+      const label = pdfSafeText(item.label);
+      const value = pdfSafeText(item.value);
+      const labelLines = doc.splitTextToSize(label, contentW);
+      const valueLines = doc.splitTextToSize(value, contentW - 4);
+      const estimated = labelLines.length * 3.6 + valueLines.length * 3.6 + 5;
+      ensureSpace(estimated);
+
+      doc.setFont('helvetica', item.type === 'quiz' ? 'italic' : 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(73,66,57);
+      doc.text(labelLines, margin, y, {lineHeightFactor:1.2});
+      y += labelLines.length * 3.6 + 1;
+
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(9);
+      doc.setTextColor(25,22,19);
+      doc.text(valueLines, margin + 3, y, {lineHeightFactor:1.25});
+      y += valueLines.length * 4 + 3.2;
+    });
+    y += 2;
+  });
+
+  drawFooter();
+  return doc;
+}
+
+function safeFilenamePart(value){
+  return String(value || 'student')
+    .trim()
+    .replace(/[^a-zA-Z0-9._-]+/g, '_')
+    .replace(/^_+|_+$/g, '') || 'student';
+}
+
+const prepareBtn = document.getElementById('prepareBtn');
+const submissionStatus = document.getElementById('submissionStatus');
+
+function showSubmissionStatus(message, kind){
+  submissionStatus.textContent = message;
+  submissionStatus.className = `submission-status show ${kind || ''}`.trim();
+}
+
+prepareBtn.addEventListener('click', async ()=>{
+  const nameField = document.getElementById('subName');
+  const groupField = document.getElementById('subGroup');
+  const name = nameField.value.trim();
+  const group = groupField.value.trim();
+
+  nameField.classList.toggle('needs-input', !name);
+  groupField.classList.toggle('needs-input', !group);
+  if(!name || !group){
+    showSubmissionStatus('Enter both your name and class/group before downloading your evidence PDF.', 'error');
+    return;
+  }
+
+  prepareBtn.disabled = true;
+  const oldLabel = prepareBtn.textContent;
+  prepareBtn.textContent = 'Building PDF...';
+  showSubmissionStatus('Creating your evidence PDF...', '');
+
+  try{
+    const integrityText = buildIntegrityText(name, group);
+    const qrDataUrl = qrDataUrlFor(integrityText);
+    const sections = collectAnswerSections();
+    const doc = buildSubmissionPdf(name, group, qrDataUrl, sections);
+    const filename = `${safeFilenamePart(name)}_Escape_The_Loop_Evidence.pdf`;
+    doc.save(filename);
+    showSubmissionStatus(`PDF downloaded as ${filename}. Upload this file to Elevfeedback now as evidence of your work.`, 'success');
+  }catch(err){
+    console.error(err);
+    showSubmissionStatus(`The PDF could not be created: ${err && err.message ? err.message : 'unknown error'}`, 'error');
+  }finally{
+    prepareBtn.disabled = false;
+    prepareBtn.textContent = oldLabel;
+  }
 });
