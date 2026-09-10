@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape the Loop — Operant Conditioning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&family=Inter:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="lab-backdrop" aria-hidden="true"></div>
+
+<div id="rail">
+  <div id="rail-inner">
+    <span id="rail-label">Lock 0 / 9</span>
+    <div id="track-bar"><div id="fill"></div></div>
+    <span id="streak"></span>
+  </div>
+</div>
+
+<div id="stage">
+  <div id="track">
+
+    <!-- 0: HERO -->
+    <div class="slide" id="slide-hero"><div class="wrap hero-wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker">IB Psychology · Operant Conditioning Lab</p>
+          <h1 class="display">ESCAPE<br>THE <em>LOOP</em></h1>
+          <p class="lede">Nine locks stand between you and the exit. Each one tests the same core idea: behavior has consequences, and those consequences can change what happens next.</p>
+          <div class="meta-row">
+            <span><b>70 min target</b>, self-paced</span>
+            <span><b>Solo or small group</b></span>
+            <span><b>4 short videos</b> + final transfer task</span>
+          </div>
+        </div>
+        <figure class="lab-figure hero-figure">
+          <img src="assets/images/hero-chamber.webp" alt="Line-art operant conditioning chamber with a lever, signal light and food hopper.">
+          <figcaption>EXPERIMENTAL CHAMBER · identify the cue, behavior and consequence</figcaption>
+        </figure>
+      </div>
+      <div class="howto">
+        <div class="t">Lab protocol — work independently today</div>
+        <p style="margin:0 0 8px;">Locks open in order. Use the <b>Prev / Next</b> bar at the bottom to move between rooms you've already reached — you can always go back and edit an earlier answer. Quizzes and matching games need a correct answer to open the next door; reflection rooms need real answers (not one-word non-answers) before they'll let you continue.</p>
+        <p style="margin:0;">Everything you type is pulled together automatically at the very end — you don't need to copy anything anywhere as you go.</p>
+        <div class="attendance"><b>Attendance:</b> once you escape, the last room builds your submission PDF. Upload that PDF to <b>Elevfeedback</b> — that's how you'll be marked present for today's lesson.</div>
+      </div>
+      <button class="begin-btn" id="btn-hero">BEGIN EXPERIMENT</button>
+    </div></div>
+
+    <!-- 1: LOCK 0 -->
+    <div class="slide" id="slide-lock0"><div class="wrap">
+      <section class="room" id="lock0" style="border-top:3px solid var(--red);padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 00</span><h2 class="room-title">Foundation</h2>
+          <span class="room-time">5 min</span>
+        </div>
+        <p class="room-sub">Get the base definitions solid — the rest of the room assumes you already have these.</p>
+        <div class="concept-strip">
+          <b>Field note:</b> In operant conditioning, consequences alter the future probability of behavior. A <b>reinforcer</b> increases a behavior; a <b>punisher</b> decreases it. <b>Positive</b> means something is added; <b>negative</b> means something is removed. These labels describe the contingency, not whether the outcome feels morally “good” or “bad.”
+        </div>
+        <div class="grid2 media-grid">
+          <figure class="lab-figure">
+            <img src="assets/images/skinner-box.webp" alt="Diagram of an operant conditioning chamber showing signal light, lever, food hopper and recording equipment.">
+            <figcaption>THE CHAMBER · a controlled way to isolate behavior and consequence</figcaption>
+          </figure>
+          <div class="box evidence-box">
+            <h4>Reference bench</h4>
+            <p style="font-size:14px;">Use these if you need a fuller explanation before the checks.</p>
+            <a class="source-link" href="https://thinkib.net/psychology/page/52681/operant-conditioning" target="_blank" rel="noopener">ThinkIB · operant conditioning ↗</a>
+            <a class="source-link" href="https://dictionary.apa.org/reinforcement" target="_blank" rel="noopener">APA · reinforcement definition ↗</a>
+            <a class="source-link" href="https://www.simplypsychology.org/operant-conditioning.html" target="_blank" rel="noopener">Simply Psychology · overview ↗</a>
+          </div>
+        </div>
+        <div class="quiz" data-room="lock0">
+          <p class="q">A reinforcer is best defined as anything that...</p>
+          <label><input type="radio" name="q0a" value="a"> feels pleasant to the animal or person</label>
+          <label><input type="radio" name="q0a" value="b"> makes the behavior it follows more likely to happen again</label>
+          <label><input type="radio" name="q0a" value="c"> is given by a teacher or trainer as a reward</label>
+          <div class="fb correct">Right — it's defined by its effect on future behavior, not by how it feels or who gives it.</div>
+          <div class="fb wrong">A reinforcer is defined by what it does to the behavior, not by whether it feels nice.</div>
+        </div>
+        <div class="quiz" data-room="lock0">
+          <p class="q">In this topic, "negative" means...</p>
+          <label><input type="radio" name="q0b" value="a"> the consequence is unpleasant</label>
+          <label><input type="radio" name="q0b" value="b"> the behavior is undesirable</label>
+          <label><input type="radio" name="q0b" value="c"> something is being removed or taken away</label>
+          <div class="fb correct">Right — positive = adding something, negative = removing something. Neither word means good or bad.</div>
+          <div class="fb wrong">This one trips almost everyone up at first — go back to the "positive/negative" section of either reading.</div>
+        </div>
+        <div class="quiz" data-room="lock0">
+          <p class="q">Why did Skinner build the "Skinner box"?</p>
+          <label><input type="radio" name="q0c" value="a"> To observe and precisely control an animal's behavior and its consequences, with no outside interference</label>
+          <label><input type="radio" name="q0c" value="b"> To punish animals until they learned a trick</label>
+          <label><input type="radio" name="q0c" value="c"> To test classical conditioning on rats</label>
+          <div class="fb correct">Right — it let him isolate behavior and consequence cleanly and measure the effect over many trials.</div>
+          <div class="fb wrong">Re-check what the box actually controlled for — it's about isolating variables, not punishment.</div>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-lock0" disabled>Unlock Lock 01</button>
+          <span class="footer-note">Answer all three correctly to unlock.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 2: LOCK 1 — SHAPING -->
+    <div class="slide" id="slide-r1"><div class="wrap">
+      <section class="room" id="r1" style="padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 01</span><h2 class="room-title">Shaping</h2>
+          <span class="room-time">5 min</span>
+        </div>
+        <p class="room-sub">Reinforcing successive approximations toward a target behavior.</p>
+        <p>Shaping builds a new behavior by reinforcing <b>successive approximations</b>: first a rough step toward the target, then a closer one, and eventually only the target response itself.</p>
+        <figure class="lab-figure wide-figure">
+          <img src="assets/images/shaping-sequence.webp" alt="Four-stage diagram showing a rat being shaped from orienting toward a lever to pressing it.">
+          <figcaption>SHAPING · the criterion moves as the learner gets closer to the target response</figcaption>
+        </figure>
+        <div class="box">
+          <h4>Trace the steps</h4>
+          <p class="prompt">If a trainer wanted to shape a dog to close a kitchen drawer with its nose, what might the first three reinforced approximations look like before the final behavior?</p>
+          <textarea placeholder="Step 1: ... Step 2: ... Step 3: ..."></textarea>
+        </div>
+        <div class="grid3">
+          <div class="box"><h4>What counted as the reinforcer?</h4><textarea></textarea></div>
+          <div class="box"><h4>Did the dog need to "understand" the plan?</h4><textarea></textarea></div>
+          <div class="box"><h4>What happens if the reward stops?</h4><textarea></textarea></div>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-r1">Continue → Lock 02</button>
+          <span class="footer-note">Give a real answer in every box.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 3: LOCK 2 — SORT -->
+    <div class="slide" id="slide-r2"><div class="wrap">
+      <section class="room" id="r2" style="padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 02</span><h2 class="room-title">Sort the Loop</h2>
+          <span class="room-time">4 min</span>
+        </div>
+        <p class="room-sub">Classical or operant? Drag each card into the right column (or tap a card, then tap a column).</p>
+        <table class="cmp">
+          <tr><th>Classical conditioning</th><th>Operant conditioning</th></tr>
+          <tr><td>Association between stimuli — one predicts another</td><td>Association between behavior and consequence</td></tr>
+          <tr><td><b>STIMULUS → RESPONSE</b></td><td><b>BEHAVIOR → CONSEQUENCE → FUTURE PROBABILITY</b></td></tr>
+        </table>
+        <div class="lab-note"><b>Diagnostic clue:</b> ask what is being learned. If a <em>stimulus predicts another stimulus</em>, think classical. If a <em>consequence changes a behavior</em>, think operant.</div>
+        <div class="matchgame" id="mg-r2">
+          <div class="bank">
+            <span class="chip" id="c-r2-1" draggable="true" data-answer="classical">A bell predicts food arriving</span>
+            <span class="chip" id="c-r2-2" draggable="true" data-answer="operant">A rat presses a lever and gets a pellet</span>
+            <span class="chip" id="c-r2-3" draggable="true" data-answer="classical">A dog salivates before it even tastes anything</span>
+            <span class="chip" id="c-r2-4" draggable="true" data-answer="operant">A fine follows littering and future littering decreases</span>
+            <span class="chip" id="c-r2-5" draggable="true" data-answer="classical">Two stimuli become linked automatically</span>
+            <span class="chip" id="c-r2-6" draggable="true" data-answer="operant">A behavior changes because of what follows it</span>
+          </div>
+          <div class="zones">
+            <div class="zone" data-accept="classical"><span class="zlabel">Classical</span></div>
+            <div class="zone" data-accept="operant"><span class="zlabel">Operant</span></div>
+          </div>
+          <div class="game-status"></div>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-r2" disabled>Continue → Lock 03</button>
+          <span class="footer-note">Sort all six correctly to unlock.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 4: LOCK 3 — THORNDIKE -->
+    <div class="slide" id="slide-r3"><div class="wrap">
+      <section class="room" id="r3" style="padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 03</span><h2 class="room-title">The Law of Effect</h2>
+          <span class="room-time">7 min</span>
+        </div>
+        <p class="room-sub">Before Skinner's chamber, Thorndike measured how consequences changed escape behavior.</p>
+        <div class="grid2 media-grid">
+          <figure class="lab-figure">
+            <img src="assets/images/thorndike-puzzle-box.webp" alt="Simplified diagram of Thorndike's puzzle box with a cat, latch and food outside the box.">
+            <figcaption>THORNDIKE'S PUZZLE BOX · 1898 · escape latency fell across trials</figcaption>
+          </figure>
+          <div class="box evidence-box">
+            <h4>What the pattern suggested</h4>
+            <p style="font-size:14px;">Responses followed by satisfying outcomes became more likely to occur again in that situation. This became the <b>Law of Effect</b>.</p>
+            <a class="source-link" href="https://dictionary.apa.org/puzzle-box" target="_blank" rel="noopener">APA · puzzle box ↗</a>
+            <a class="source-link" href="https://dictionary.apa.org/law-of-effect" target="_blank" rel="noopener">APA · Law of Effect ↗</a>
+          </div>
+        </div>
+        <div class="callout">BUY 10 COFFEES → GET THE 11TH FREE → <b>returning is reinforced</b></div>
+        <div class="grid3">
+          <div class="box"><h4>Behavior?</h4><textarea placeholder="What did the person do?"></textarea></div>
+          <div class="box"><h4>Consequence?</h4><textarea placeholder="What followed it?"></textarea></div>
+          <div class="box"><h4>Desired future behavior?</h4><textarea placeholder="What's it meant to produce next time?"></textarea></div>
+        </div>
+        <p style="margin-top:10px;">Complete Thorndike's Law of Effect. Drag the four words into place.</p>
+        <div class="matchgame" id="mg-r3">
+          <div class="bank">
+            <span class="chip" id="c-r3-1" draggable="true" data-answer="effect">Effect</span>
+            <span class="chip" id="c-r3-2" draggable="true" data-answer="behavior">behavior</span>
+            <span class="chip" id="c-r3-3" draggable="true" data-answer="satisfying">satisfying</span>
+            <span class="chip" id="c-r3-4" draggable="true" data-answer="repeated">repeated</span>
+          </div>
+          <p class="cloze-line">Thorndike's Law of <span class="zone" data-accept="effect" data-single="true"></span> states that any <span class="zone" data-accept="behavior" data-single="true"></span> followed by a <span class="zone" data-accept="satisfying" data-single="true"></span> consequence will likely be <span class="zone" data-accept="repeated" data-single="true"></span>.</p>
+          <div class="game-status"></div>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-r3" disabled>Continue → Lock 04</button>
+          <span class="footer-note">Complete the sentence and fill in every box to unlock.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 5: LOCK 4 — ABC -->
+    <div class="slide" id="slide-r4"><div class="wrap">
+      <section class="room" id="r4" style="padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 04</span><h2 class="room-title">The ABC Code</h2>
+          <span class="room-time">7 min</span>
+        </div>
+        <p class="room-sub">Skinner's Operant Conditioning: Rewards & Punishments — Sprouts (~3 min)</p>
+        <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/ne6o-uPJarA" title="Skinner's Operant Conditioning: Rewards & Punishments" allowfullscreen></iframe></div>
+        <p class="video-fallback">Video not loading? <a href="https://www.youtube.com/watch?v=ne6o-uPJarA" target="_blank" rel="noopener">Watch it directly on YouTube ↗</a></p>
+        <figure class="lab-figure wide-figure compact-figure">
+          <img src="assets/images/abc-contingency.webp" alt="ABC contingency diagram: antecedent or cue, behavior, consequence, then change in future behavior.">
+          <figcaption>ABC CONTINGENCY · what happens before, what the organism does, what follows</figcaption>
+        </figure>
+        <div class="watch-for">
+          <div class="t">Watch for</div>
+          <p style="margin:0 0 4px;">1. What makes a consequence a reinforcer?</p>
+          <p style="margin:0 0 4px;">2. Why is negative reinforcement <i>not</i> punishment?</p>
+          <p style="margin:0;">3. What are the ABCs of behavior?</p>
+        </div>
+        <p>Crack the code: drag Antecedent, Behavior, and Consequence into the right spots in this real classroom example.</p>
+        <div class="matchgame" id="mg-r4">
+          <div class="bank">
+            <span class="chip" id="c-r4-1" draggable="true" data-answer="a">Antecedent</span>
+            <span class="chip" id="c-r4-2" draggable="true" data-answer="b">Behavior</span>
+            <span class="chip" id="c-r4-3" draggable="true" data-answer="c">Consequence</span>
+          </div>
+          <p class="cloze-line">A teacher asks a question in class <span class="zone" data-accept="a" data-single="true"></span>; a student answers the question <span class="zone" data-accept="b" data-single="true"></span>; the teacher praises the answer <span class="zone" data-accept="c" data-single="true"></span>.</p>
+          <div class="game-status"></div>
+        </div>
+        <div class="box">
+          <h4>Now write your own</h4>
+          <p class="prompt">A → B → C, from real life (classroom, sport, family, anything).</p>
+          <textarea placeholder="A: ...  B: ...  C: ..."></textarea>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-r4" disabled>Continue → Midway Vault</button>
+          <span class="footer-note">Place all three correctly and fill in the box to unlock.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 6: MIDWAY VAULT -->
+    <div class="slide" id="slide-midway"><div class="wrap">
+      <section class="room" id="midway" style="padding-top:0;border-top:4px solid var(--gold);">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 05 · MIDWAY VAULT</span><h2 class="room-title" style="color:#8a5e12;">Schedules &amp; Superstition</h2>
+          <span class="room-time">12 min</span>
+        </div>
+        <p class="room-sub">The biggest door in the room. Three checks guard it — clear all three to reach the second half.</p>
+
+        <h4 style="margin:18px 0 8px;">1 · Name the quadrant</h4>
+        <div class="matrixref">
+          <div class="hd"></div><div class="hd">Behavior MORE likely</div><div class="hd">Behavior LESS likely</div>
+          <div class="rowhd">ADD something</div><div class="cell">Positive reinforcement</div><div class="cell">Positive punishment</div>
+          <div class="rowhd">REMOVE something</div><div class="cell">Negative reinforcement</div><div class="cell">Negative punishment</div>
+        </div>
+        <p class="prompt">POSITIVE ≠ good · NEGATIVE ≠ bad. Drag each example into its quadrant.</p>
+        <div class="matchgame" id="mg-mid1">
+          <div class="bank">
+            <span class="chip" id="c-mid-1" draggable="true" data-answer="pr">Specific praise follows a strong answer, and strong answers increase</span>
+            <span class="chip" id="c-mid-2" draggable="true" data-answer="pp">A fine follows littering, and littering decreases</span>
+            <span class="chip" id="c-mid-3" draggable="true" data-answer="nr">Buzzer stops after buckling up, and buckling up increases</span>
+            <span class="chip" id="c-mid-4" draggable="true" data-answer="np">Gaming access is removed after missed homework, and missed homework decreases</span>
+          </div>
+          <div class="zones" style="grid-template-columns:1fr 1fr;">
+            <div class="zone" data-accept="pr"><span class="zlabel">Positive reinforcement</span></div>
+            <div class="zone" data-accept="pp"><span class="zlabel">Positive punishment</span></div>
+            <div class="zone" data-accept="nr"><span class="zlabel">Negative reinforcement</span></div>
+            <div class="zone" data-accept="np"><span class="zlabel">Negative punishment</span></div>
+          </div>
+          <div class="game-status"></div>
+        </div>
+
+        <h4 style="margin:28px 0 8px;">2 · Reinforcement schedules</h4>
+        <div class="schedule-grid">
+          <div class="schedule-card"><b>Fixed ratio (FR)</b><span>after a predictable number of responses</span></div>
+          <div class="schedule-card"><b>Variable ratio (VR)</b><span>after an unpredictable number of responses</span></div>
+          <div class="schedule-card"><b>Fixed interval (FI)</b><span>first response after a predictable time interval</span></div>
+          <div class="schedule-card"><b>Variable interval (VI)</b><span>first response after an unpredictable time interval</span></div>
+        </div>
+        <div class="matchgame" id="mg-mid-schedules">
+          <div class="bank">
+            <span class="chip" id="c-sch-1" draggable="true" data-answer="fr">Every 10th lever press earns a pellet</span>
+            <span class="chip" id="c-sch-2" draggable="true" data-answer="vr">A pellet follows after an unpredictable number of presses</span>
+            <span class="chip" id="c-sch-3" draggable="true" data-answer="fi">The first press after 30 seconds earns a pellet</span>
+            <span class="chip" id="c-sch-4" draggable="true" data-answer="vi">The first press after an unpredictable time earns a pellet</span>
+          </div>
+          <div class="zones" style="grid-template-columns:1fr 1fr;">
+            <div class="zone" data-accept="fr"><span class="zlabel">Fixed ratio</span></div>
+            <div class="zone" data-accept="vr"><span class="zlabel">Variable ratio</span></div>
+            <div class="zone" data-accept="fi"><span class="zlabel">Fixed interval</span></div>
+            <div class="zone" data-accept="vi"><span class="zlabel">Variable interval</span></div>
+          </div>
+          <div class="game-status"></div>
+        </div>
+        <div class="quiz" data-room="midway">
+          <p class="q">A loyalty card gives a free drink after every 10 purchases. Which schedule is the closest match?</p>
+          <label><input type="radio" name="qmid" value="a"> Variable interval schedule</label>
+          <label><input type="radio" name="qmid" value="b"> Fixed interval schedule</label>
+          <label><input type="radio" name="qmid" value="c"> Variable ratio schedule</label>
+          <label><input type="radio" name="qmid" value="d"> Fixed ratio schedule</label>
+          <div class="fb correct">Right — the reward follows a fixed, predictable number of responses.</div>
+          <div class="fb wrong">Ask whether the rule depends on time or on the number of responses, then whether that requirement is fixed or variable.</div>
+        </div>
+
+        <h4 style="margin:28px 0 8px;">3 · Accidental reinforcement</h4>
+<div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/8AzjDs8aF7g" title="Accidental reinforcement and superstition" allowfullscreen></iframe></div>
+        <p class="video-fallback">Video not loading? <a href="https://www.youtube.com/watch?v=8AzjDs8aF7g" target="_blank" rel="noopener">Watch it directly on YouTube &#8599;</a></p>
+        <div class="grid2 media-grid">
+          <figure class="lab-figure">
+            <img src="assets/images/superstition-pigeon.webp" alt="Pigeon in an experimental chamber with food delivered on a timer independent of behavior.">
+            <figcaption>SKINNER 1948 · food appeared independently of the pigeon's behavior</figcaption>
+          </figure>
+          <div class="box evidence-box">
+            <h4>What Skinner reported</h4>
+            <p style="font-size:14px;">Food was presented automatically; at an effective setting Skinner used <b>15-second intervals</b>. Six of eight pigeons developed distinctive repeated patterns. Skinner interpreted this as accidental reinforcement.</p>
+            <a class="source-link" href="https://psychclassics.yorku.ca/Skinner/Pigeon/" target="_blank" rel="noopener">Read Skinner's 1948 paper ↗</a>
+          </div>
+        </div>
+        <div class="critical-note"><b>Critical lens:</b> later work challenged the simple “accidental reinforcement” interpretation. Staddon &amp; Simmelhag (1971) argued that some repeated actions reflected time-linked, species-typical behavior rather than a mistaken causal association. <a href="https://doi.org/10.1037/h0030305" target="_blank" rel="noopener">Compare the later account ↗</a></div>
+        <div class="matchgame" id="mg-mid2">
+          <div class="bank">
+            <span class="chip" id="c-mid2-1" draggable="true" data-answer="circles">circles</span>
+            <span class="chip" id="c-mid2-2" draggable="true" data-answer="accidentally reinforced">accidentally reinforced</span>
+            <span class="chip" id="c-mid2-3" draggable="true" data-answer="deliberately trained">deliberately trained</span>
+          </div>
+          <p class="cloze-line">In Skinner's account, if a pigeon happened to be walking in <span class="zone" data-accept="circles" data-single="true"></span> when the pellet arrived, that movement could be "<span class="zone" data-accept="accidentally reinforced" data-single="true"></span>," even though the food's delivery did not depend on its actions.</p>
+          <div class="game-status"></div>
+        </div>
+        <div class="grid2">
+          <div class="box">
+            <h4>Lucky equipment</h4>
+            <p style="font-size:14px;">An athlete wears a new pair of socks, plays unusually well, and keeps wearing the same pair before important games.</p>
+            <p class="prompt">How would Skinner explain the repeated behavior? What would have to happen for the behavior to extinguish?</p>
+            <textarea></textarea>
+          </div>
+          <div class="box">
+            <h4>Same observation, rival explanation</h4>
+            <p style="font-size:14px;">A student sits in the same seat after getting an unexpectedly high mark and later insists the seat is “lucky.”</p>
+            <p class="prompt">Give a Skinnerian explanation, then one alternative explanation such as confirmation bias, selective memory, or social learning.</p>
+            <textarea></textarea>
+          </div>
+        </div>
+
+        <div class="room-footer">
+          <button class="mark gold" id="btn-midway" disabled>Unlock the Vault</button>
+          <span class="footer-note">All three checks and both boxes above must pass.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 7: LOCK 6 — CRITICAL LENS -->
+    <div class="slide" id="slide-r6"><div class="wrap">
+      <section class="room" id="r6" style="padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 06</span><h2 class="room-title">Critical Lens</h2>
+          <span class="room-time">7 min</span>
+        </div>
+        <p class="room-sub">A consequence only counts as reinforcement or punishment by its effect on that behavior — and behaviorist explanations still have limits.</p>
+        <div class="lab-note"><b>Do not classify by intention.</b> Praise is not automatically reinforcement; detention is not automatically punishment. The label depends on what happens to the future behavior.</div>
+        <div class="grid3">
+          <div class="box"><h4>Animal research</h4><p style="font-size:14px;">How confidently can we generalize from rats and pigeons to humans?</p><textarea></textarea></div>
+          <div class="box"><h4>Reductionism</h4><p style="font-size:14px;">What is lost if motivation is explained as only rewards and punishments?</p><textarea></textarea></div>
+          <div class="box"><h4>Grades</h4><p style="font-size:14px;">Can one consequence (a grade) reinforce one student but punish another?</p><textarea></textarea></div>
+        </div>
+        <div class="box" style="margin-top:8px;">
+          <h4>Exam-style: apply it</h4>
+          <p style="font-size:14px;">Chris is highly disruptive in class. He talks a lot with his friends, often making it difficult for others to focus. <b>Explain how operant conditioning could be used to change Chris's behavior.</b></p>
+          <textarea placeholder="Your response..."></textarea>
+          <button type="button" class="reveal-toggle" data-target="examinerBox">Reveal what an examiner looks for</button>
+          <div class="examiner-box" id="examinerBox">
+            <ul style="margin:0;padding-left:18px;">
+              <li>Clear understanding of operant conditioning, with correct terminology</li>
+              <li>One worked example — e.g. positive reinforcement when Chris is attentive, or negative punishment such as moving his seat away from friends</li>
+              <li>An explanation of <i>why</i> that particular strategy would work</li>
+            </ul>
+          </div>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-r6">Continue → Lock 07</button>
+          <span class="footer-note">Give a real answer in every box.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 8: LOCK 7 — CHECKING FOR UNDERSTANDING -->
+    <div class="slide" id="slide-r7"><div class="wrap">
+      <section class="room" id="r7" style="padding-top:0;">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 07</span><h2 class="room-title">Checking for Understanding</h2>
+          <span class="room-time">6 min</span>
+        </div>
+        <p class="room-sub">The official check. All six correct opens the Final Vault.</p>
+        <div class="quiz" data-room="r7">
+          <p class="q">1. What does operant conditioning argue?</p>
+          <label><input type="radio" name="qc1" value="a"> Behaviors are influenced by unconscious desires</label>
+          <label><input type="radio" name="qc1" value="b"> Behaviors are modified in response to associations with other stimuli</label>
+          <label><input type="radio" name="qc1" value="c"> Behaviors are modified in response to a reward or punishment</label>
+          <label><input type="radio" name="qc1" value="d"> Behaviors are inherently genetic and cannot be changed</label>
+          <div class="fb correct">Right.</div>
+          <div class="fb wrong">Not quite — re-read the opening definition.</div>
+        </div>
+        <div class="quiz" data-room="r7">
+          <p class="q">2. What principle is operant conditioning based on?</p>
+          <label><input type="radio" name="qc2" value="a"> Pavlov's Law of Conditioning</label>
+          <label><input type="radio" name="qc2" value="b"> Skinner's Law of Reinforcement</label>
+          <label><input type="radio" name="qc2" value="c"> Freud's Theory of the Unconscious</label>
+          <label><input type="radio" name="qc2" value="d"> Thorndike's Law of Effect</label>
+          <div class="fb correct">Right — back to Lock 03.</div>
+          <div class="fb wrong">Which historical figure and law did the coffee-card example illustrate?</div>
+        </div>
+        <div class="quiz" data-room="r7">
+          <p class="q">3. What is positive punishment?</p>
+          <label><input type="radio" name="qc3" value="a"> Removing an aversive stimulus to encourage a behavior</label>
+          <label><input type="radio" name="qc3" value="b"> Presenting a reward to encourage a behavior</label>
+          <label><input type="radio" name="qc3" value="c"> Taking away a reward to discourage a behavior</label>
+          <label><input type="radio" name="qc3" value="d"> Presenting an aversive stimulus to discourage a behavior</label>
+          <div class="fb correct">Right.</div>
+          <div class="fb wrong">Positive = adding. Punishment = behavior less likely. Put those together.</div>
+        </div>
+        <div class="quiz" data-room="r7">
+          <p class="q">4. Which of these is an example of negative reinforcement?</p>
+          <label><input type="radio" name="qc4" value="a"> Giving a fine for littering</label>
+          <label><input type="radio" name="qc4" value="b"> Praising a student for answering a question</label>
+          <label><input type="radio" name="qc4" value="c"> Removing a buzzer sound when a seatbelt is buckled</label>
+          <label><input type="radio" name="qc4" value="d"> Taking away recess time for bad behavior</label>
+          <div class="fb correct">Right — the seatbelt buzzer, again.</div>
+          <div class="fb wrong">Negative = removing something. Reinforcement = behavior more likely. Which option is both?</div>
+        </div>
+        <div class="quiz" data-room="r7">
+          <p class="q">5. A reward is delivered after every 10 responses. Which schedule is this?</p>
+          <label><input type="radio" name="qc5" value="a"> Variable interval schedule</label>
+          <label><input type="radio" name="qc5" value="b"> Fixed interval schedule</label>
+          <label><input type="radio" name="qc5" value="c"> Variable ratio schedule</label>
+          <label><input type="radio" name="qc5" value="d"> Fixed ratio schedule</label>
+          <div class="fb correct">Right — fixed number of responses, so fixed ratio.</div>
+          <div class="fb wrong">The rule is based on a predictable number of responses, not elapsed time.</div>
+        </div>
+        <div class="quiz" data-room="r7">
+          <p class="q">6. How did Skinner explain the development of superstitions in pigeons?</p>
+          <label><input type="radio" name="qc6" value="a"> Superstitions developed from genetic predispositions</label>
+          <label><input type="radio" name="qc6" value="b"> Pigeons were naturally inclined to develop superstitions</label>
+          <label><input type="radio" name="qc6" value="c"> Superstitions arose when pigeons accidentally associated their behavior with receiving food</label>
+          <label><input type="radio" name="qc6" value="d"> Superstitions were intentionally trained by the researchers</label>
+          <div class="fb correct">Right — exactly what you just filled in at the Midway Vault.</div>
+          <div class="fb wrong">Think back to the response-independent food schedule — was the food contingent on what the pigeon did?</div>
+        </div>
+        <div class="room-footer">
+          <button class="mark" id="btn-r7" disabled>Unlock the Final Vault</button>
+          <span class="footer-note">All six correct to proceed.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 9: FINAL VAULT -->
+    <div class="slide" id="slide-vault"><div class="wrap">
+      <section class="room" id="vault" style="padding-top:0;border-top:4px solid var(--red);">
+        <div class="room-head">
+          <span class="lock-badge">🔒</span><span class="num">LOCK 08 · FINAL VAULT</span><h2 class="room-title">Escape</h2>
+          <span class="room-time">17 min</span>
+        </div>
+
+        <div class="vault-hook">
+          <div class="eyebrow">⚠ Before you open Part A</div>
+          <p>Your phone is not literally a Skinner box, but many interfaces pair small behaviors with immediate and sometimes unpredictable consequences. That makes operant-conditioning concepts useful for analysis — as long as you define the behavior precisely.</p>
+          <p style="margin-bottom:0;"><b>Example:</b> checking for messages that arrive at unpredictable times can resemble a <b>variable-interval</b> schedule; repeatedly refreshing or swiping until an interesting item appears can resemble a <b>variable-ratio</b> pattern. Real apps are more complex than either laboratory schedule.</p>
+        </div>
+        <figure class="lab-figure wide-figure vault-visual">
+          <img src="assets/images/phone-loop.webp" alt="Diagram of a phone interaction loop with cue, checking behavior, consequence and a question mark over the reinforcement schedule.">
+          <figcaption>TRANSFER TASK · define the behavior before you classify the schedule</figcaption>
+        </figure>
+
+        <div class="closer-block">
+          <h4>Closer &#183; The Skinner box in your pocket?</h4>
+          <p>Watch both clips before Part A. Use them as prompts for analysis, not as proof that a phone is literally a Skinner box.</p>
+          <div class="grid2 closer-video-grid">
+            <div class="video-card">
+              <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/bNOol5OTasw" title="Phone and Skinner box closer video 1" allowfullscreen></iframe></div>
+              <p class="video-fallback">Video not loading? <a href="https://www.youtube.com/watch?v=bNOol5OTasw" target="_blank" rel="noopener">Open closer video 1 on YouTube &#8599;</a></p>
+            </div>
+            <div class="video-card">
+              <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/tWtvrPTbQ_c" title="Phone and Skinner box closer video 2" allowfullscreen></iframe></div>
+              <p class="video-fallback">Video not loading? <a href="https://www.youtube.com/watch?v=tWtvrPTbQ_c" target="_blank" rel="noopener">Open closer video 2 on YouTube &#8599;</a></p>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="margin:22px 0 8px;">Part A · Is your phone a Skinner box?</h4>
+        <p style="font-size:14.5px;">Pick one app or feature you actually use. <span class="prompt" style="display:inline;">Don't show private messages, photos, contacts, or account details.</span></p>
+        <div class="grid2">
+          <div class="box"><h4>App / feature</h4><input type="text" placeholder="e.g. message notifications, short-video feed, game login reward"></div>
+          <div class="box"><h4>What does it pull you to do?</h4><input type="text"></div>
+        </div>
+        <div class="grid2">
+          <div class="box"><h4>What happens right after?</h4><input type="text"></div>
+          <div class="box"><h4>Which consequence might matter?</h4><input type="text"></div>
+        </div>
+        <div class="grid3">
+          <div class="box"><h4>A — Antecedent</h4><textarea placeholder="What happens just before?"></textarea></div>
+          <div class="box"><h4>B — Behavior</h4><textarea placeholder="What do you actually do?"></textarea></div>
+          <div class="box"><h4>C — Consequence</h4><textarea placeholder="What happens immediately after?"></textarea></div>
+        </div>
+        <div class="box">
+          <h4>Classify it</h4>
+          <p class="prompt">Positive/negative reinforcement or punishment? Which schedule, if any?</p>
+          <textarea></textarea>
+        </div>
+
+        <div class="flip-hook">
+          <div class="eyebrow">→ Now flip it</div>
+          <p style="margin-bottom:0;">Now use the same analytic tools in the opposite direction: design a simple, transparent contingency for a behavior you actually want to strengthen, then state what evidence would show whether it worked.</p>
+        </div>
+        <figure class="lab-figure wide-figure vault-visual">
+          <img src="assets/images/deliberate-loop.webp" alt="Diagram of a student-designed behavior loop using a cue, target behavior, immediate reinforcer and evidence check.">
+          <figcaption>DESIGN TASK · build a deliberate contingency you can actually evaluate</figcaption>
+        </figure>
+
+        <h4 style="margin:22px 0 8px;">Part B · Flip the script</h4>
+        <p style="font-size:14.5px;">Design a simple, ethical conditioning plan for a behavior you actually want more of.</p>
+        <div class="grid2">
+          <div class="box"><h4>Target behavior</h4><input type="text" id="vaultTarget" placeholder="What do you want to do more often?"></div>
+          <div class="box"><h4>Antecedent / cue</h4><input type="text" placeholder="What happens just before?"></div>
+        </div>
+        <div class="grid2">
+          <div class="box"><h4>Consequence / reward</h4><input type="text" placeholder="What makes it more likely next time?"></div>
+          <div class="box"><h4>Remove friction</h4><input type="text" placeholder="What can you take away to make it easier?"></div>
+        </div>
+        <div class="box">
+          <h4>My plan in one sentence</h4>
+          <input type="text" id="vaultPlan" placeholder="I will use operant conditioning on myself by...">
+        </div>
+        <div class="box">
+          <h4>Evidence of success</h4>
+          <p class="prompt">After one week, what would show the plan worked?</p>
+          <textarea></textarea>
+        </div>
+        <div class="room-footer">
+          <button class="mark gold" id="btn-vault">🔓 ESCAPE</button>
+          <span class="footer-note">Fill in every box in both parts before you can escape.</span>
+        </div>
+      </section>
+    </div></div>
+
+    <!-- 10: ESCAPED + SUBMIT -->
+    <div class="slide" id="slide-end"><div class="wrap">
+      <div class="final" id="finalReveal">
+        <h2>🔓 YOU ESCAPED</h2>
+        <p>Look back at the top of this page. As you worked through it, a bar filled in, locks flipped from 🔒 to 🔓, and every "Continue" button changed color the moment you passed a check.</p>
+        <div class="reveal">That's not just decoration. This page deliberately paired your actions with immediate consequences: locks opened, progress moved, and successful checks produced clear feedback. Those consequences were <b>designed to function as reinforcers</b> for continuing the task. Whether they actually reinforced your behavior is an empirical question — exactly the distinction the lesson has been asking you to make.</div>
+        <p style="margin-bottom:0;">Exit question: what did the interface make easier to do, and what evidence would show that it actually changed your behavior?</p>
+      </div>
+
+      <section class="submit-panel">
+        <div class="room-head" style="margin-bottom:10px;">
+          <span class="num" style="color:var(--amber);">EXIT REPORT</span><h2 class="room-title" style="color:#fff;margin:0;">Prepare Your Submission</h2>
+        </div>
+        <p>This pulls everything from every lock into one clean document and opens your browser's print dialog — choose <b>Save as PDF</b>, then upload that PDF to <b>Elevfeedback</b> to be marked present.</p>
+        <div class="submit-fields">
+          <input type="text" id="subName" placeholder="Your name">
+          <input type="text" id="subGroup" placeholder="Class / group">
+        </div>
+        <button class="mark gold" id="prepareBtn">Prepare PDF</button>
+        <div id="integrityPreview"></div>
+      </section>
+    </div></div>
+
+  </div><!-- /track -->
+</div><!-- /stage -->
+
+<div id="navbar">
+  <button id="navPrev">← Prev</button>
+  <span id="navLabel">Hero</span>
+  <button id="navNext" disabled>Next →</button>
+</div>
+
+<div id="qrHidden" style="display:none;"></div>
+<div id="pasteToast">Pasting is disabled here — type your own answer.</div>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script defer src="js/app.js"></script>
+</body>
+</html>
