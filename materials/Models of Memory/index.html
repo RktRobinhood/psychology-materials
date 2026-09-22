@@ -148,11 +148,11 @@ h1,h2,h3{color:var(--navy)}h1,h2{font-family:var(--serif);font-weight:500;letter
   <section id="ltm" class="view">
     <div class="lab-head"><div><div class="eyebrow">Stage 3 · STM and LTM</div><h2>Serial position: one list, two memory systems?</h2><p class="lead">The beginning and end of a list are often remembered better than the middle. Glanzer and Cunitz used a filled delay to ask whether the two ends depend on different processes.</p></div><button class="btn secondary" data-go="model">Back to map</button></div>
     <div class="card lab-shell">
-      <div class="stage active" id="l-intro"><div class="reading-layout"><div class="textbook"><div class="stage-title"><div class="eyebrow">Serial-position experiment</div><h3>Primacy and recency</h3></div><p><strong>Primacy</strong> is better recall for early items. In a multi-store interpretation, early items receive more opportunity for rehearsal and entry into long-term memory. <strong>Recency</strong> is better recall for the final items, which may still be active in short-term memory when recall begins.</p><p>You will see two 15-word lists using the same timing. After the first list, recall begins immediately. After the second, you must complete a 30-second arithmetic distractor before recall. If recency depends on short-term memory, the filled delay should selectively weaken the final items.</p><div class="note amber">This takes several minutes because the timing is part of the manipulation. Nothing begins until you press the ready button, so settle yourself before each list.</div><button class="btn" id="serialStartBtn">Begin the immediate-recall list</button></div><aside class="aside"><div class="kicker">Design</div><ol class="flow-list"><li>15 items, presented one at a time.</li><li>Free recall: order does not matter.</li><li>Second list uses the same schedule.</li><li>30 s filled delay blocks rehearsal.</li><li>Compare early, middle, and final positions.</li></ol><p class="tiny">The arithmetic task is a silent classroom adaptation of a filled distractor.</p></aside></div></div>
+      <div class="stage active" id="l-intro"><div class="reading-layout"><div class="textbook"><div class="stage-title"><div class="eyebrow">Serial-position experiment</div><h3>Primacy and recency</h3></div><p><strong>Primacy</strong> is better recall for early items. In a multi-store interpretation, early items receive more opportunity for rehearsal and entry into long-term memory. <strong>Recency</strong> is better recall for the final items, which may still be active in short-term memory when recall begins.</p><p>You will see two 15-item lists using the same timing. The items are three-letter nonsense syllables such as VEP or ZUF, newly generated every time you run the lab, so no one can lean on the meaning or familiarity of a real word. After the first list, recall begins immediately. After the second, you must complete a 30-second arithmetic distractor before recall. If recency depends on short-term memory, the filled delay should selectively weaken the final items.</p><div class="note amber">This takes several minutes because the timing is part of the manipulation. Nothing begins until you press the ready button, so settle yourself before each list.</div><button class="btn" id="serialStartBtn">Begin the immediate-recall list</button></div><aside class="aside"><div class="kicker">Design</div><ol class="flow-list"><li>15 nonsense syllables, presented one at a time.</li><li>Free recall: order does not matter.</li><li>Second list uses the same schedule.</li><li>30 s filled delay blocks rehearsal.</li><li>Compare early, middle, and final positions.</li></ol><p class="tiny">The arithmetic task is a silent classroom adaptation of a filled distractor.</p></aside></div></div>
       <div class="stage" id="l-present"><div class="trial-box" id="serialPresentBox"></div></div>
       <div class="stage" id="l-recall"><div class="trial-box" id="serialRecallBox"></div></div>
       <div class="stage" id="l-delay"><div class="trial-box" id="distractorBox"></div></div>
-      <div class="stage" id="l-results"><div class="eyebrow">Your evidence</div><h3>Did the delay selectively reduce recency?</h3><p>Your individual curve may be messy. Focus on the logic: a filled delay should remove the immediate advantage for the most recent items more than it removes primacy.</p><div class="serial-chart-tools"><span class="tiny"><strong>Explore the graph:</strong></span><button class="series-toggle" id="serialToggleImmediate" aria-pressed="true"><span class="series-dot immediate"></span>Immediate</button><button class="series-toggle" id="serialToggleDelay" aria-pressed="true"><span class="series-dot delay"></span>30 s filled delay</button><button class="btn secondary" id="serialShowBoth" style="padding:8px 11px">Show both</button><span class="tiny">Hover a series button to make that line stand out. Click it to hide/show the series.</span></div><div class="serial-chart-wrap"><canvas id="serialCanvas" width="760" height="320"></canvas></div><div class="stat-row" id="serialStats"></div><div class="serial-word-lists"><div class="word-list-head"><div><h3 style="margin:0">What was actually on each list?</h3><p class="tiny" style="margin:3px 0 0">Green items are words you successfully recalled. This makes the serial positions concrete rather than just points on a graph.</p></div><div class="recall-key"><span><i class="key-box hit"></i>recalled</span><span><i class="key-box"></i>missed</span></div></div><div id="serialWordLists"></div></div><div class="grid2" style="margin-top:20px"><div class="card soft"><h3>Primacy</h3><p>Early items have more rehearsal opportunity and are therefore often interpreted as reflecting long-term memory.</p></div><div class="card soft"><h3>Recency</h3><p>Final items are still accessible immediately. A filled delay weakens this advantage, which historically supported a distinction between short- and long-term stores.</p></div></div><div class="reflection" style="margin-top:16px"><label>What changed between immediate and delayed recall?<textarea id="serialReflection"></textarea></label></div><div class="row" style="margin-top:16px"><button class="btn secondary" id="ltmRetakeBtn">Retake serial-position lab</button><button class="btn" id="lopStartFromSerial">Continue to Stage 4: Levels of Processing</button><button class="btn secondary" id="ltmDoneBtn">Save and return to map</button></div></div>
+      <div class="stage" id="l-results"><div class="eyebrow">Your evidence</div><h3>Did the delay selectively reduce recency?</h3><p>Your individual curve may be messy. Focus on the logic: a filled delay should remove the immediate advantage for the most recent items more than it removes primacy.</p><div class="serial-chart-tools"><span class="tiny"><strong>Explore the graph:</strong></span><button class="series-toggle" id="serialToggleImmediate" aria-pressed="true"><span class="series-dot immediate"></span>Immediate</button><button class="series-toggle" id="serialToggleDelay" aria-pressed="true"><span class="series-dot delay"></span>30 s filled delay</button><button class="btn secondary" id="serialShowBoth" style="padding:8px 11px">Show both</button><span class="tiny">Hover a series button to make that line stand out. Click it to hide/show the series.</span></div><div class="serial-chart-wrap"><canvas id="serialCanvas" width="760" height="320"></canvas></div><div class="stat-row" id="serialStats"></div><div class="serial-word-lists"><div class="word-list-head"><div><h3 style="margin:0">What was actually on each list?</h3><p class="tiny" style="margin:3px 0 0">Green items are syllables you successfully recalled. This makes the serial positions concrete rather than just points on a graph.</p></div><div class="recall-key"><span><i class="key-box hit"></i>recalled</span><span><i class="key-box"></i>missed</span></div></div><div id="serialWordLists"></div></div><div class="grid2" style="margin-top:20px"><div class="card soft"><h3>Primacy</h3><p>Early items have more rehearsal opportunity and are therefore often interpreted as reflecting long-term memory.</p></div><div class="card soft"><h3>Recency</h3><p>Final items are still accessible immediately. A filled delay weakens this advantage, which historically supported a distinction between short- and long-term stores.</p></div></div><div class="reflection" style="margin-top:16px"><label>What changed between immediate and delayed recall?<textarea id="serialReflection"></textarea></label></div><div class="row" style="margin-top:16px"><button class="btn secondary" id="ltmRetakeBtn">Retake serial-position lab</button><button class="btn" id="lopStartFromSerial">Continue to Stage 4: Levels of Processing</button><button class="btn secondary" id="ltmDoneBtn">Save and return to map</button></div></div>
     </div>
   </section>
 
@@ -181,7 +181,7 @@ h1,h2,h3{color:var(--navy)}h1,h2{font-family:var(--serif);font-weight:500;letter
 <li><strong>Sperling (1960):</strong> whole- and partial-report logic with a brief visual array. Classic exposures were about 50 ms; cue delay rapidly reduces partial-report advantage.</li>
 <li><strong>Darwin, Turvey & Crowder (1972):</strong> auditory partial report across spatial channels; superiority was present at short indicator delays and decayed over roughly 2–4 seconds depending on the experiment. The optional browser task here uses the related auditory suffix effect instead of pretending to reproduce spatial speech.</li>
 <li><strong>Miller (1956):</strong> “7 ± 2” is presented here as the classic claim students encounter. It should not be treated as a precise modern estimate of a universal STM capacity.</li>
-<li><strong>Glanzer & Cunitz (1966):</strong> this lesson follows the commonly reported Experiment 2 timing: 15 monosyllabic words, each displayed for 1 second with about 2 seconds between words, then immediate or filled-delay recall. The on-screen arithmetic is an adaptation of their counting distractor.</li>
+<li><strong>Glanzer & Cunitz (1966):</strong> this lesson follows the commonly reported Experiment 2 timing: 15 items, each displayed for 1 second with about 2 seconds between items, then immediate or filled-delay recall. The on-screen arithmetic is an adaptation of their counting distractor. The original lists were monosyllabic words; this version substitutes randomly generated three-letter nonsense syllables in the Ebbinghaus tradition, because a classroom group brings very uneven familiarity and imagery to real words. Candidates are screened against a blocklist of real words, names and abbreviations in the languages our students speak, and the two lists never share an item.</li>
 <li><strong>Craik & Tulving (1975):</strong> structural/phonemic/semantic orienting questions followed by an unexpected memory test. The item set and trial count here are shortened for a classroom.</li>
 </ul><p class="tiny">A browser is not a tachistoscope. Very short visual timings depend on display refresh rate, operating system scheduling, and browser rendering, so this is a teaching simulation rather than laboratory instrumentation.</p></div></div>
 <div class="toast" id="toast"></div>
@@ -315,19 +315,152 @@ function renderSTMResults(){const a=state.stm.span;const best=Math.max(0,...a.fi
 $('#stmReflection').oninput=e=>{state.stm.reflection=e.target.value;save()};$('#stmDoneBtn').onclick=()=>{state.done.stm=true;save();showView('model');toast('STM lab saved')}; $('#stmRetakeBtn').onclick=()=>{state.stm.span=[];state.stm.phones=[];state.done.stm=false;save();showStage('stm','m-intro');window.scrollTo({top:0,behavior:'smooth'})};
 
 // ----- LTM serial position -----
-const wordPool=['bread','clock','river','stone','chair','horse','glass','plant','shirt','cloud','train','brush','house','light','field','spoon','beach','frame','grape','flame','drum','lake','rope','star','book','road','shoe','bell','pear','door','fish','rain','park','ring','leaf','boat','milk','farm','cake','desk','bird','salt','moon','coat','hill','key','sand','lamp','fork','snow','cup','tree','plate','mouse','king','coin','grass','brick','shell','glove','wheel','storm','bread','chalk','bench'];
-function makeWordList(){return shuffle(uniq(wordPool)).slice(0,15)}
-$('#serialStartBtn').onclick=()=>{state.ltm.trials=[];save();showStage('ltm','l-present');runSerialPresentation(0,'immediate')};
-async function runSerialPresentation(trialIndex,condition){const box=$('#serialPresentBox'),list=makeWordList(); const total=state.settings.serial; const wordMs=total===1500?800:1000,blankMs=total-wordMs;readyCard(box,{label:`${condition==='immediate'?'Immediate':'Delayed'} list · 15 words`,title:'Ready for the list?',copy:condition==='immediate'?'After the list, recall begins immediately. Keep your attention on each word; do not write.':'After this list, a 30-second arithmetic task comes before recall. Do not rehearse during the distractor.',button:'I’m ready for the list',onReady:async()=>{await countdownAndFixate(box,3);for(let i=0;i<list.length;i++){box.innerHTML=`<div><div class="tiny">${i+1} / 15</div><div class="word">${list[i]}</div></div>`;await sleep(wordMs);box.innerHTML='<div></div>';await sleep(blankMs)}state.ltm.trials[trialIndex]={condition,list,recall:[],positions:[]};save();if(condition==='immediate'){showStage('ltm','l-recall');runSerialRecall(trialIndex);}else{showStage('ltm','l-delay');runDistractor(trialIndex);}}});}
-function runSerialRecall(trialIndex){const box=$('#serialRecallBox'),trial=state.ltm.trials[trialIndex];box.innerHTML=`<div style="width:min(750px,100%)"><div class="trial-status">Free recall · ${trial.condition}</div><h3>Type as many words as you can remember</h3><p class="tiny">Any order. Separate with spaces or commas.</p><textarea class="answer" style="height:130px;text-transform:none;letter-spacing:1px;text-align:left;resize:none"></textarea><div class="feedback"></div><button class="btn submit-answer" style="margin-top:10px">Score recall</button></div>`;const input=box.querySelector('.answer');input.focus();box.querySelector('.submit-answer').onclick=()=>{if(input.disabled)return;const typed=uniq(wordsFrom(input.value));const recalled=trial.list.filter(w=>typed.includes(w));trial.recall=recalled;trial.positions=trial.list.map(w=>recalled.includes(w)?1:0);trial.intrusions=typed.filter(w=>!trial.list.includes(w));save();box.querySelector('.feedback').innerHTML=`<span class="correct">${recalled.length}/15 correct</span>${trial.intrusions.length?` · ${trial.intrusions.length} intrusion(s)`:''}`;box.querySelector('.submit-answer').disabled=true;input.disabled=true;if(trial.condition==='immediate'){nextButton(box,'Continue to the delayed-recall list',()=>{showStage('ltm','l-present');runSerialPresentation(1,'delayed')});}else{nextButton(box,'See serial-position results',()=>{renderSerialResults();showStage('ltm','l-results')});}};}
+// Glanzer & Cunitz used short familiar words, but in a classroom a real word is
+// never neutral: students visualise it, attach a personal association, or simply
+// know it better in one language than another, and that flattens the serial
+// position curve. This lab therefore builds fresh three-letter pseudowords for
+// every run - mostly consonant-vowel-consonant, occasionally a double vowel - so
+// the items stay pronounceable and word-like while carrying no meaning.
+const SYL_ONSETS=['b','d','f','g','h','j','k','l','m','n','p','r','s','t','v','z'];
+const SYL_CODAS=['b','d','f','g','k','l','m','n','p','r','s','t','z'];
+const SYL_VOWELS=['a','e','i','o','u'];
+const SYL_VOWEL_PAIRS=['ae','ao','au','ea','ei','eo','eu','ia','ie','io','oa','oe','oi','ou','ua','ue','ui'];
+const SYL_DOUBLE_VOWEL_RATE=.15; // share of items built as consonant + vowel pair; set to 0 for strict CVC
+// Three letters is a small space, so a generator will eventually land on a real
+// word. Screening only English would bias the lab towards students whose other
+// language supplies the meaning, so the blocklist covers the languages in the
+// room. Extend it freely: a slightly smaller item pool costs nothing, a
+// meaningful item costs the experiment.
+const SYL_BLOCKLIST=new Set([
+  // English
+  'bad bag ban bar bat bed bee beg bet bib bid big bin bit boa bob bog bot bow box boy bud bug bum bun bus but buy',
+  'dab dad dam day dee den did die dig dim din dip doe dog don dot dry dub dud due dug dun duo dye',
+  'fad fan far fat fed fee fen few fez fib fig fin fir fit fix fly fob foe fog fop for fox fun fur',
+  'gag gal gap gas gel gem get gig gin git gob god goo got gum gun gut guy',
+  'had hag ham has hat hay hem hen her hew hid hie him hip his hit hob hoe hog hop hot how hub hue hug hum hut',
+  'jab jag jam jar jaw jay jet jib jig job jog jot joy jug jut',
+  'keg ken key kid kin kip kit',
+  'lab lad lag lap law lax lay lea led lee leg lei let lid lie lip lit lob log loo lop lot low lug',
+  'mad man map mar mat maw may men met mid mix moa mob mod mom moo mop mow mud mug mum',
+  'nab nag nap nay net new nib nil nip nit nod nor not now nun nut',
+  'oaf oak oar oat odd off oft one opt orb ore our out owe own',
+  'pad pal pan par pat paw pay pea peg pen pep per pet pew pie pig pin pip pit ply pod poi pop pot pub pug pun pup pus put',
+  'rad rag ram ran rap rat raw ray red ref rib rid rig rim rip rob rod roe rot row rub rue rug rum run rut rye',
+  'sad sag sap sat saw sax say sea see set sew she shy sib sin sip sir sit six sky sly sob sod son sop sow soy spa spy sub sue sum sun sup',
+  'tab tad tag tan tap tar tax tea ted tee ten the thy tie tin tip tit toe ton too top tot tow toy try tub tug tun tut two',
+  'van vat vet via vie vim vow vox',
+  'wad wag wan war was wax way web wed wee wet who why wig win wit woe wok won woo wry',
+  'yea yes yet yew yin you zag zap zed zen zig zip zit zoo',
+  'aha bah duh gah hah heh huh meh nah ooh pah tsk ugh yay',
+  // Crude, slang or slur-adjacent in at least one European language
+  'ass bum cum dic dik fag fak fap fik fuk fud gok goi jap jew jis jiz kak kok kuk kur kut lul mof neg nig pee pik pis poo pus sik suk tit vag wee wog zog',
+  // Spanish
+  'bar buz con dar dia dio dos don dua due duo era eso fin fue gas gol han hay hoy iba ida ido ley las les los luz mal mar mas mes mil mio mis muy nos pan par paz pez pie pin pon por pos que rea red res rey rio sal sed ser sin sol son sos sub sud sur tal tan tos tus vas ved ven ver vez vid vil vio voy voz zas',
+  // French
+  'bas bel ben bon bus but dan des dit dis don dos duc due dur feu fer fil fin fis fit fou fut gai gaz gel gui ici jeu jus lac lai las lit loi lui mai mal mer mes met mis moi mot mur nid nom nos nue nul oui pas peu pic pie pis pli plu pot pou pre pur qui rat rez ris rit roi rue sac sel ses sol son sou sud sur tas tel tes tir toi ton tot tue vas vie vin vis vit vos vue',
+  // German
+  'bad bar bei bin bis bot dem den der des die dir dom dur ein eis fun gab gas gib gut hab hat hut ihm ihn ihr kam lag las leg mag mal man mir mit nah nie nun nur rat rot ruf sah sei sie tag tat tot tun uhr und von vor zeh zog zug zum zur',
+  // Italian
+  'bue cui dai dal dei del dio dir due fai far fra gia giu hai han ira lei lui mai mal man mar mia mio nei nel noi non per pie poi pro qua qui rai reo rio sai sei sia sto sua sue sui suo sul tra tre tua tue tuo vai van via vie voi zio',
+  // Portuguese
+  'bem boa bom dai das dei deu dez dia diz doi dos dou ela ele era faz fez fim foi foz fui gol ida ide ido ira lar lei lua luz mae mal mao mar mas meu mil mim nao nem nos pai par pau pao paz por rei rio rir riu rua sal sao sei sem ser seu sim sob sol sou sua sul tal tao tem ter teu tia tio tua vai vem ver vez viu vos voz vou',
+  // Dutch
+  'bed ben bij bom dag dan dat den der die dit dom dus een eer elf gaf gat had heb hem hen het hij hoe hoi hun ijs jij kan kom laf lag las lat let lid maf mag mee met mij mis moe nee net nog nou nul oog oor pad pak pas per pot rad ram rij rok ruk tak tas tot vak van vel ver vet vis vol was wat weg wel wie wij zag zal zat zee zei zes zij zit zon zou',
+  // Polish
+  'bez bal bok bol but dam dla dno dom dwa gaz gra ich ile jak jem kim kot lat lek lis los lub lud mag mam mit mur nad nam nic nie noc nos pan pas pod pot rad rok sam sen ser sok sto stu tak tam ten tez ton tor tuz tym wam was wie zab zas zle zlo zna',
+  // Czech and Slovak
+  'ale ano aut bez bod bok bol byl dal dam den dnu dum dva had jak jed jen jim kam kde kdo kus les let lid lze mam mas mel mit moc muj nad nam nas nic noc pak pan pas pes pod pro rad rok sam sen sto tak tam ten tri vam vas ven ves vid vim zas zde zem zle zlo',
+  // Swedish, Danish, Norwegian
+  'bad ben bil bit bla bra bur dag dem den det din dit duk ett fem fin fot fru gas god gul han har hat hel hem het hon hos hot hus jag jul kan kom kul lag lat leg lek lev lik lin mat med men mer mig min mot mun ned nej ner nio och ost pil rad ram ren rik rum sen ser sig sin sju sol som sur syv tag tak tal tid til tio tre tur vad var ved vem ven vet vid vik vin',
+  // Finnish
+  'ala ase eli hae jaa kai koi kun maa mies nyt ole ota puu saa sen sun tai tee tie tuo vai vie voi vuo',
+  // Hungarian
+  'baj bal ban bor bot dob fej fel fog fut haj has hat hol hus ide jel jog kap kar kel ken kep kez kis kor kut lap lat leg lop mar mas meg mit mos nap nem nez ott pad pap par per rag rak sok sor sut tag tan tej tel tol tud vag van var vel ver vet viz',
+  // Romanian
+  'ani ard are azi bat bea bun dar dat dau des din doi dor dos duc dus fac far fel fii fir fiu gol hai iar las lat lor lua lui mai mar mic mie mii mor nas noi nor nou par pas pat pic pot pui pun pus rau rea rog rol rup sat sau sec sta sub sus tau tot tur vad val var vas vin vis viu voi vor zic zid',
+  // Greek and Turkish, transliterated
+  'den gia kai mia nai pou tis ton tou bak bal ben bir biz bul dil din diz fil gel gez git gol gul gun hal hep his kal kan kar kas kes kim kir kis kol kul kum kus mal mum nem pek pul sen ser ses son sor sut tam tas tat tek ter ton tur tuz var ver zam zil',
+  // Latin and common tags students meet in other subjects
+  'ave dei deo dum ego est ibi ita non pax per pro quo rex sic sub sum via vox',
+  // Abbreviations, brands and short first names
+  'app atm bio ceo diy dvd faq fyi gif hiv ios ipo led mba nba nfl nhs pdf pin ram rip roi sim sos ufo url usb vip vpn gap sap kia tui bic',
+  'ana ava bea bob dan dee eva ida ina ivo jan jim joe jon kai kim lea leo lev lia lin mia nia noa pia rob ron sam sue tia tim tom uma zoe',
+  // Second screening pass: forms this generator can produce that are real words,
+  // names, brands or slang in at least one language spoken in the room
+  // Dutch and Flemish
+  'bek boe bos bui dak dek dof dok dol dop dut fok gek gom hak hap hek hok hoi hou hup huk jas jol jou juf juk kaf kat kei ket keu koe kon kop kou lak lam lef lig lok lus mak mei mok mol mus nat nek nep nok nop puk raf ras rek rem reu rif suf tik tof vul zak zeg zep zet zie zin zol zot zul zus',
+  // German
+  'bau bub fon gar gau gen hau heu hin hof jod jud kau lau mut neu rau rom sau tau tod',
+  // French
+  'bip fol mon mou nef paf soi sot vif zut',
+  // Spanish, Portuguese and Catalan
+  'boi fea fio fum gos ler lua mol nua pio pua rea ria rua rui san vea veo voa',
+  // Italian
+  'dea gio zia',
+  // Polish, Czech, Slovak and neighbouring Slavic
+  'buk huk jad jeb jez kod kos kup len lep luk mak raz vuk zad zub',
+  // Nordic
+  'gud hur jeg lus mus nis',
+  // Turkish
+  'bes duz fes hak hiz kil kiz muz nar saz sek siz tul zar zor',
+  // Romanian, Hungarian and Greek
+  'fos hir joi leu lup',
+  // English words, slang and abbreviations
+  'bae bam bap dap deb def fab fam fie fiz fug gad gam jin kef kif koi lib neb neo nub reg rep seo tao tog tum veg vig vug',
+  // Names, places and brands
+  'dao fao goa gus kea lao liz lou pam poe rae seb sid teo',
+  // Crude or slur-adjacent in at least one language
+  'hui lez naz pom',
+  // Month abbreviations
+  'jun sep',
+  // Further forms caught by reviewing what this generator actually produces
+  'bao bof bou dul fal feb feo fet ful fus geo gir haz hei hod hoz jif jos kaz lan laz mea mue nea ped peo pol riz ros roz rus vir'
+].join(' ').split(/\s+/).filter(Boolean));
+const pick=a=>a[rand(0,a.length-1)];
+const syllableDiff=(a,b)=>[0,1,2].reduce((n,i)=>n+(a[i]===b[i]?0:1),0);
+function makeSyllable(){
+  const onset=pick(SYL_ONSETS);
+  if(Math.random()<SYL_DOUBLE_VOWEL_RATE)return onset+pick(SYL_VOWEL_PAIRS);
+  const coda=pick(SYL_CODAS);
+  if(coda===onset)return null; // reduplications (bab, kik) are too distinctive to sit in a neutral list
+  return onset+pick(SYL_VOWELS)+coda;
+}
+function syllableOk(s,chosen,minDiff){ return !!s&&!SYL_BLOCKLIST.has(s)&&chosen.every(p=>syllableDiff(p,s)>=minDiff); }
+// Builds every list for one run at once, so no item can repeat across the
+// immediate and the delayed list. Items are kept at least two letters apart,
+// which also stops the list containing near-rhymes such as "bek" and "dek".
+function makeSyllableLists(listCount,perList){
+  const need=listCount*perList,chosen=[];
+  for(const minDiff of [2,1]){
+    for(let guard=0;chosen.length<need&&guard<20000;guard++){
+      const s=makeSyllable();
+      if(syllableOk(s,chosen,minDiff))chosen.push(s);
+    }
+    if(chosen.length>=need)break;
+  }
+  if(chosen.length<need){ // last resort: walk the whole CVC space so a list is never short
+    for(const o of shuffle(SYL_ONSETS))for(const v of shuffle(SYL_VOWELS))for(const c of shuffle(SYL_CODAS)){
+      const s=o+v+c;
+      if(chosen.length<need&&o!==c&&syllableOk(s,chosen,1))chosen.push(s);
+    }
+  }
+  const out=[];
+  for(let i=0;i<listCount;i++)out.push(chosen.slice(i*perList,(i+1)*perList));
+  return out;
+}
+let serialLists=null;
+function makeSyllableList(trialIndex){ if(!serialLists)serialLists=makeSyllableLists(2,15); return serialLists[trialIndex]||makeSyllableLists(1,15)[0]; }
+$('#serialStartBtn').onclick=()=>{state.ltm.trials=[];serialLists=null;save();showStage('ltm','l-present');runSerialPresentation(0,'immediate')};
+async function runSerialPresentation(trialIndex,condition){const box=$('#serialPresentBox'),list=makeSyllableList(trialIndex); const total=state.settings.serial; const wordMs=total===1500?800:1000,blankMs=total-wordMs;readyCard(box,{label:`${condition==='immediate'?'Immediate':'Delayed'} list · 15 syllables`,title:'Ready for the list?',copy:condition==='immediate'?'After the list, recall begins immediately. Keep your attention on each syllable; do not write.':'After this list, a 30-second arithmetic task comes before recall. Do not rehearse during the distractor.',button:'I’m ready for the list',onReady:async()=>{await countdownAndFixate(box,3);for(let i=0;i<list.length;i++){box.innerHTML=`<div><div class="tiny">${i+1} / 15</div><div class="word">${list[i].toUpperCase()}</div></div>`;await sleep(wordMs);box.innerHTML='<div></div>';await sleep(blankMs)}state.ltm.trials[trialIndex]={condition,list,recall:[],positions:[]};save();if(condition==='immediate'){showStage('ltm','l-recall');runSerialRecall(trialIndex);}else{showStage('ltm','l-delay');runDistractor(trialIndex);}}});}
+function runSerialRecall(trialIndex){const box=$('#serialRecallBox'),trial=state.ltm.trials[trialIndex];box.innerHTML=`<div style="width:min(750px,100%)"><div class="trial-status">Free recall · ${trial.condition}</div><h3>Type as many syllables as you can remember</h3><p class="tiny">Three letters each. Any order. Separate with spaces or commas.</p><textarea class="answer" style="height:130px;text-transform:none;letter-spacing:1px;text-align:left;resize:none"></textarea><div class="feedback"></div><button class="btn submit-answer" style="margin-top:10px">Score recall</button></div>`;const input=box.querySelector('.answer');input.focus();box.querySelector('.submit-answer').onclick=()=>{if(input.disabled)return;const typed=uniq(wordsFrom(input.value));const recalled=trial.list.filter(w=>typed.includes(w));trial.recall=recalled;trial.positions=trial.list.map(w=>recalled.includes(w)?1:0);trial.intrusions=typed.filter(w=>!trial.list.includes(w));save();box.querySelector('.feedback').innerHTML=`<span class="correct">${recalled.length}/15 correct</span>${trial.intrusions.length?` · ${trial.intrusions.length} intrusion(s)`:''}`;box.querySelector('.submit-answer').disabled=true;input.disabled=true;if(trial.condition==='immediate'){nextButton(box,'Continue to the delayed-recall list',()=>{showStage('ltm','l-present');runSerialPresentation(1,'delayed')});}else{nextButton(box,'See serial-position results',()=>{renderSerialResults();showStage('ltm','l-results')});}};}
 async function runDistractor(trialIndex){const box=$('#distractorBox');let remaining=30,score=0,total=0;const started=Date.now();function nextQ(){const a=rand(11,49),b=rand(3,19),op=Math.random()<.5?'+':'−',ans=op==='+'?a+b:a-b;const opts=shuffle([ans,ans+rand(1,4),ans-rand(1,4)]);box.innerHTML=`<div style="width:min(620px,100%)"><div class="eyebrow">Filled delay · <span id="delayClock">${remaining}s</span></div><p>Keep solving. This is meant to block rehearsal.</p><div class="math-q">${a} ${op} ${b} = ?</div><div class="math-options">${opts.map(x=>`<button data-v="${x}">${x}</button>`).join('')}</div><div class="tiny">Correct: ${score} / ${total}</div></div>`;box.querySelectorAll('.math-options button').forEach(bu=>bu.onclick=()=>{total++;if(+bu.dataset.v===ans)score++;nextQ()});}
 nextQ();const timer=setInterval(()=>{remaining=30-Math.floor((Date.now()-started)/1000);const el=$('#delayClock');if(el)el.textContent=Math.max(0,remaining)+'s';if(remaining<=0){clearInterval(timer);showStage('ltm','l-recall');runSerialRecall(trialIndex)}},250);}
 let serialGraphVisible=[true,true],serialGraphFocus=null;
 function drawSerialResultsChart(){const [imm,del]=state.ltm.trials;if(!imm||!del)return;drawMultiLineChart($('#serialCanvas'),[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],[{name:'Immediate',values:imm.positions},{name:'30 s filled delay',values:del.positions}],{title:'Recall by serial position',yMax:1,yLabel:'recalled (1 = yes)',xLabel:'serial position',visible:serialGraphVisible,focusIndex:serialGraphFocus});}
-function renderSerialWordLists(imm,del){const block=(trial,title,conditionClass)=>`<div class="word-list-block"><div class="word-list-head"><strong>${title}</strong><span class="tiny">${trial.recall.length}/15 recalled</span></div><div class="word-strip">${trial.list.map((w,i)=>`<div class="word-chip ${trial.positions[i]?'recalled':'missed'}" title="Serial position ${i+1}: ${trial.positions[i]?'recalled':'not recalled'}"><span class="pos">${i+1}</span><span>${escapeHTML(w)}</span></div>`).join('')}</div></div>`;$('#serialWordLists').innerHTML=block(imm,'Immediate-recall list','immediate')+block(del,'30-second-delay list','delay');}
+function renderSerialWordLists(imm,del){const block=(trial,title,conditionClass)=>`<div class="word-list-block"><div class="word-list-head"><strong>${title}</strong><span class="tiny">${trial.recall.length}/15 recalled</span></div><div class="word-strip">${trial.list.map((w,i)=>`<div class="word-chip ${trial.positions[i]?'recalled':'missed'}" title="Serial position ${i+1}: ${trial.positions[i]?'recalled':'not recalled'}"><span class="pos">${i+1}</span><span>${escapeHTML(w.toUpperCase())}</span></div>`).join('')}</div></div>`;$('#serialWordLists').innerHTML=block(imm,'Immediate-recall list','immediate')+block(del,'30-second-delay list','delay');}
 function syncSerialToggleUI(){const a=$('#serialToggleImmediate'),b=$('#serialToggleDelay');if(a)a.setAttribute('aria-pressed',String(serialGraphVisible[0]));if(b)b.setAttribute('aria-pressed',String(serialGraphVisible[1]));}
 function renderSerialResults(){const [imm,del]=state.ltm.trials;serialGraphVisible=[true,true];serialGraphFocus=null;drawSerialResultsChart();const early=t=>mean(t.positions.slice(0,4)),middle=t=>mean(t.positions.slice(5,10)),late=t=>mean(t.positions.slice(-4));$('#serialStats').innerHTML=`<div class="stat"><span class="tiny">Immediate recalled</span><strong>${imm.recall.length}/15</strong></div><div class="stat"><span class="tiny">Delayed recalled</span><strong>${del.recall.length}/15</strong></div><div class="stat"><span class="tiny">Immediate last 4</span><strong>${Math.round(late(imm)*100)}%</strong></div><div class="stat"><span class="tiny">Delayed last 4</span><strong>${Math.round(late(del)*100)}%</strong></div>`;renderSerialWordLists(imm,del);$('#serialReflection').value=state.ltm.reflection||'';const toggles=[$('#serialToggleImmediate'),$('#serialToggleDelay')];toggles.forEach((btn,idx)=>{if(!btn)return;btn.onclick=()=>{if(serialGraphVisible[idx]&&serialGraphVisible.filter(Boolean).length===1){toast('Keep at least one series visible');return;}serialGraphVisible[idx]=!serialGraphVisible[idx];serialGraphFocus=null;syncSerialToggleUI();drawSerialResultsChart();};btn.onmouseenter=()=>{if(serialGraphVisible[idx]){serialGraphFocus=idx;drawSerialResultsChart();}};btn.onmouseleave=()=>{serialGraphFocus=null;drawSerialResultsChart();};});const both=$('#serialShowBoth');if(both)both.onclick=()=>{serialGraphVisible=[true,true];serialGraphFocus=null;syncSerialToggleUI();drawSerialResultsChart();};syncSerialToggleUI();}
-$('#serialReflection').oninput=e=>{state.ltm.reflection=e.target.value;save()};$('#ltmDoneBtn').onclick=()=>{state.done.ltm=true;save();showView('model');toast('Serial-position lab saved')}; $('#ltmRetakeBtn').onclick=()=>{state.ltm.trials=[];state.done.ltm=false;save();showStage('ltm','l-intro');window.scrollTo({top:0,behavior:'smooth'})}; $('#lopStartFromSerial').onclick=()=>{state.done.ltm=true;save();showView('lop');showStage('lop','p-intro')};
+$('#serialReflection').oninput=e=>{state.ltm.reflection=e.target.value;save()};$('#ltmDoneBtn').onclick=()=>{state.done.ltm=true;save();showView('model');toast('Serial-position lab saved')}; $('#ltmRetakeBtn').onclick=()=>{state.ltm.trials=[];serialLists=null;state.done.ltm=false;save();showStage('ltm','l-intro');window.scrollTo({top:0,behavior:'smooth'})}; $('#lopStartFromSerial').onclick=()=>{state.done.ltm=true;save();showView('lop');showStage('lop','p-intro')};
 
 // ----- Levels of Processing -----
 const lopItems=[
