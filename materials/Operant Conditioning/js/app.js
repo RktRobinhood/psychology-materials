@@ -282,6 +282,15 @@ if(!state.order){
     (o.banks[g.id] || []).forEach(id=>{ const chip = document.getElementById(id); if(chip && chip.parentNode === bank) bank.appendChild(chip); });
   });
 })();
+// Runs after the shuffle: consecutive questions share a grid that shows two columns on laptops.
+document.querySelectorAll('.room').forEach(room=>{
+  const qs = [...room.children].filter(el => el.classList.contains('quiz'));
+  if(qs.length < 2) return;
+  const grid = document.createElement('div');
+  grid.className = 'quiz-grid';
+  qs[0].before(grid);
+  qs.forEach(q => grid.appendChild(q));
+});
 
 /* ============ FIELD VALIDATION ============ */
 function textFieldsFilled(roomEl){

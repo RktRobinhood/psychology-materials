@@ -28,7 +28,11 @@ What the user wants from every lesson, learned by working together. Add to it wh
 
 ## Layout
 
-- Target viewport: **1366x650** (a school laptop minus browser toolbars), with compact CSS for max-height 800 and 680. Phones should work too.
+- **Laptop first, phones first-class.** Target viewport: **1366x650** (a school laptop minus browser toolbars), with compact CSS for max-height 800 and 680. Phones (375 wide) and tablets must be fully usable too, not just "work".
+- On a laptop, **use the width**: a content column of about 1100 to 1200px, two-column question grids, cards and drop zones side by side, body text around 16 to 17px. Never a fixed ~800px column. Why: Escape the Loop looked like "a small mobile site" on the user's laptop.
+- Build laptop and phone layouts together: a single-column base, with a `min-width:1000px` block that spreads it out. Size the page as a flex column (`height:100dvh`) so bars and stage fit without hard-coded heights.
+- Videos and figures must fit the viewport height on a laptop (cap video width by `100vh`); no image taller than the screen.
+- On phones: no sideways scrolling, touch targets at least 40px, and a tap alternative for every drag-and-drop.
 - Nothing inside the activity panel may grow mid-activity: the user saw scrollbars flash. Inside the panel, use fade animations only, never slide or scale.
 
 ## Build conventions

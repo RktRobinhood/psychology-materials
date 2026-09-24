@@ -22,6 +22,14 @@ Every lesson moves through five stages, each with its own role. The user usually
 
 At the end of every stage, update the lesson's row in [docs/lessons.md](docs/lessons.md).
 
+## Devices
+
+Every lesson must work well on both laptops and phones.
+
+- **The laptop is the primary surface** (target viewport 1366x650). Design for it first and use its width: multi-column layouts, generous type. A laptop must never get a narrow, phone-sized column with empty space on both sides.
+- **Phones and tablets are first-class citizens**, not an afterthought: every activity must be completable by touch on a 375-wide screen with no sideways scrolling. Drag-and-drop needs a tap alternative.
+- Check both at every stage that touches layout (Spark, Designer, Playtester). The details are in [preferences.md](docs/preferences.md#layout).
+
 ## House style
 
 [docs/preferences.md](docs/preferences.md) is the single record of the user's standards and habits: writing style, copyright rules, assets, build conventions, git. Read it before writing any lesson content or code.

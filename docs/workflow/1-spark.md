@@ -13,12 +13,13 @@
    - format, length, hook, the chapter or station outline
    - sources, with copyright status
    - open questions and assumed defaults
-4. **Build the first playable version** in `materials/<Lesson Name>/`, following the build conventions in [preferences.md](../preferences.md). Salvage what is good from any prototype; move prototype leftovers (docs, style boards, crops) into `design/<lesson-slug>/`.
+4. **Build the first playable version** in `materials/<Lesson Name>/`, following the build conventions in [preferences.md](../preferences.md). Lay it out for the laptop and the phone from the first version (see [Layout](../preferences.md#layout)): it is much harder to retrofit a phone-width lesson for laptops, or the reverse. Salvage what is good from any prototype; move prototype leftovers (docs, style boards, crops) into `design/<lesson-slug>/`.
 5. **List what is missing**: assets the user needs to make or source (the user often generates art with ChatGPT and relays it), content gaps, anything you stubbed.
 
 ## Done when
 
 - The lesson opens from `file://` and from the local server, and every chapter or station is reachable start to finish.
+- It has been looked at in the browser at 1366x650 and at phone width (375), and uses the laptop's width.
 - The menu or top bar has a working **Report a problem** entry, with `MindfieldReport.where` set (see [materials/README.md](../../materials/README.md#report-a-problem)).
 - The brief exists and its open questions are listed.
 - The lesson has a row in [lessons.md](../lessons.md) marked Spark done, with the missing-items list linked.

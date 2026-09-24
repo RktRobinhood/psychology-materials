@@ -20,7 +20,8 @@ Check throughout:
 
 - zero console errors
 - no overflow in the activity panel: a `MutationObserver` comparing panel `scrollHeight` to `clientHeight` while each activity plays
-- layout at 1366x650 (the target laptop), plus phone (375 wide) and tablet presets
+- layout at 1366x650 (the target laptop): content uses the width, no phone-sized column, videos and figures fit the screen height
+- layout at phone (375 wide) and tablet presets: every activity completable by touch, no sideways scrolling (`scrollWidth` equals `innerWidth`)
 - keyboard and clicker navigation (arrows, Page Up/Down), presenter mode, Calm mode where there are timers
 - the evidence PDF contains what the teacher needs and opens
 - the lesson still runs from `file://`
