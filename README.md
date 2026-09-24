@@ -25,3 +25,7 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## How lessons are made
+
+Every lesson goes through the same five stages (Spark, Examiner, Designer, Playtester, Release). See [`AGENTS.md`](AGENTS.md) for the workflow and [`docs/lessons.md`](docs/lessons.md) for where each lesson stands.
