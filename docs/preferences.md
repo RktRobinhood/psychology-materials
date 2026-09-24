@@ -8,6 +8,7 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - Some students spam Continue. Every lesson has **anti-skip**: a short reading pause on each new screen, a minimum count of distinct words on write screens, and a menu that cannot jump past unfinished core chapters.
 - Every lesson ends in **evidence for Elevfeedback**: a PDF made with jsPDF (student name, class, responses, core progress, presenter-mode flag). Always with fallbacks: open the PDF in a new tab, print to PDF, copy as text. Why: students once could not open or make the PDF.
 - Danish names must survive the PDF (æ, ø, å).
+- **Review games for independent study** (e.g. the Odyssey Unit 1 review) do not need a work-alone submission: the PDF is an optional record, never a requirement. Why: the user said so on 2026-09-24.
 - A **teacher panel** with per-chapter notes, a lesson plan and presenter mode (unlocks Continue for projector use; arrow keys and clicker Page Up/Down navigate).
 - Timed checks offer a **Calm mode** with no timer.
 - Classroom tasks are **informal replications or demonstrations**, never diagnosis of a student.
@@ -25,6 +26,8 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - Icons: Lucide from jsDelivr at a pinned version, plus custom SVG; game-icons.net (CC BY) with credit.
 - Every lesson has `assets/CREDITS.md`. **Ask before downloading** a new asset pack.
 - The user often makes art with ChatGPT and relays it; list exactly which assets are still needed.
+- **Voiced lessons** use Gemini text-to-speech, pre-rendered at build time to small MP3s (never an API key in the site), with the browser's speech as a fallback. Why: the user wants lessons "fully voiced" with a distinct voice per character (Odyssey review, 2026-09-24).
+- **Aim for free** tools and tiers. The user is new to API keys and similar setup, so give click-by-click steps and keep keys in a file outside the repo. Why: the user said so when setting up Gemini (2026-09-24).
 
 ## Layout
 

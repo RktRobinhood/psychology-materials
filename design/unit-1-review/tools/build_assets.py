@@ -1,0 +1,113 @@
+"""Export the runtime art for the Odyssey review game.
+
+Reads sliced sprites (tools/slice_sheets.py output in ../sliced) and the
+environment paintings, and writes resized WebP files into the lesson's
+assets folder. Pose names here are the names the story script uses.
+"""
+import os
+import json
+import numpy as np
+from PIL import Image
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SL = os.path.join(HERE, '..', 'sliced')
+ENV = os.path.join(HERE, '..', 'source-assets', 'environments')
+OUT = os.path.join(HERE, '..', '..', '..', 'materials', 'Unit 1 Review - Learning and Cognition', 'assets')
+
+POSES = {
+    'odysseus': dict(stand='odysseus_00', walk='odysseus_01', point='odysseus_02', think='odysseus_03', sword='odysseus_04',
+                     listen='odysseus_05', fist='odysseus_06', sit='odysseus_07'),
+    'athena': dict(stand='athena_00', offer='athena_01', point='athena_02', arms='athena_03', open='athena_04', magic='athena_05',
+                   walk='athena_06', heart='athena_07'),
+    'penelope': dict(stand='penelope_00', pray='penelope_01', scroll='penelope_02', think='penelope_03', gesture='penelope_04',
+                     firm='penelope_05', sit='penelope_06', hope='penelope_07'),
+    'eurylochus': dict(stand='eurylochus_00', arms='eurylochus_01', argue='eurylochus_02', lookout='eurylochus_03', rope='eurylochus_04',
+                       spear='eurylochus_06', despair='eurylochus_07'),
+    'poseidon': dict(stand='poseidon_00', point='poseidon_03', calm='poseidon_02'),
+    'circe': dict(potion='circe_01', magic='circe_02', stand=('circe_00', 0), point=('circe_00', 1), sit=('circe_03', 1)),
+    'cyclops': dict(stand='cyclops_00', walk='cyclops_01', reach='cyclops_03', boulder='cyclops_04', fists='cyclops_06', punch='cyclops_07'),
+    'antinous': dict(stand='antinous_00', toast='antinous_01', lounge='antinous_02', point='antinous_03', sneer='antinous_04', alarm='antinous_05'),
+    'scylla': dict(rise='scylla_00', strike='scylla_02', coil='scylla_03'),
+    'sirens': dict(dark='sirens_00', fair='sirens_01'),
+    'elpenor': dict(stand='crewA_02', sit='crewA_05'),
+    'polites': dict(sit='crewA_14', stand='crewA_00', point='crewA_01'),
+    'tiresias': dict(stand='crewA_10', point='crewA_11'),
+}
+FACES = {
+    'odysseus': dict(calm='odysseus_08', wary='odysseus_09', worried='odysseus_10', shout='odysseus_11'),
+    'athena': dict(calm='athena_08', warm='athena_09', stern='athena_10', awe='athena_11'),
+    'penelope': dict(calm='penelope_08', sad='penelope_09', wary='penelope_10', warm='penelope_11'),
+    'eurylochus': dict(calm='eurylochus_08', wary='eurylochus_09', angry='eurylochus_10', tired='eurylochus_11'),
+    'poseidon': dict(calm='poseidon_05', smug='poseidon_06', roar='poseidon_07', stern='poseidon_08', cold='poseidon_09', angry='poseidon_10'),
+    'circe': dict(calm='circe_04', smile='circe_05', stern='circe_06', bored='circe_07'),
+    'cyclops': dict(calm='cyclops_08', wary='cyclops_09', angry='cyclops_10', roar='cyclops_11', up='cyclops_12', think='cyclops_13', howl='cyclops_14'),
+    'antinous': dict(smug='antinous_06', calm='antinous_07', angry='antinous_08', alarm='antinous_09'),
+    'scylla': dict(calm='scylla_05', roar='scylla_06', hiss='scylla_10'),
+    'sirens': dict(calm='sirens_08', sing='sirens_13', fair='sirens_16', fairsing='sirens_21'),
+    'elpenor': dict(calm='crewA_08', awe='crewA_09'),
+    'polites': dict(calm='crewA_18', worried='crewA_19', pain='crewA_20'),
+    'tiresias': dict(calm='crewA_15', speak='crewA_16', think='crewA_17'),
+}
+PROPS = {
+    'coin': 'puzzle_25', 'owl': 'inv_04', 'moly': 'puzzle_23', 'wax': 'inv_10', 'laurel': 'inv_08', 'lyre': 'inv_07',
+    'lantern': 'inv_02', 'bag': 'inv_09', 'amphora': 'inv_06', 'scroll': 'inv_00', 'compass': 'inv_01', 'rope': 'inv_05',
+    'key': 'chest_00', 'chest': 'chest_01', 'chest_open': 'chest_03', 'sparkle': 'chest_04', 'card_back': 'puzzle_00',
+    'card_owl': 'puzzle_01', 'card_temple': 'puzzle_03', 'scales': 'puzzle_21', 'gem': 'puzzle_26', 'vase': 'puzzle_20',
+    'shard1': 'puzzle_13', 'shard2': 'puzzle_14', 'shard3': 'puzzle_15', 'shard4': 'puzzle_16', 'shard5': 'puzzle_17',
+    'medal_mind': 'medal_00', 'medal_chain': 'medal_01', 'medal_tree': 'medal_02', 'medal_compass': 'medal_04',
+    'medal_scroll': 'medal_05', 'medal_exam': 'medal_06', 'medal_bag': 'medal_08', 'medal_gear': 'medal_09', 'medal_ship': 'medal_11',
+    'lock': 'medal_12', 'unlock': 'medal_13', 'medal_owl': 'medal_14', 'medal_check': 'medal_15', 'spear': 'inv_03',
+}
+ENVS = {
+    'troy': 'a_wide_cinematic_painterly_illustrated_scene_of.png', 'circe': 'circe_s_moonlit_enchanted_hall.png',
+    'cave_mouth': 'cyclops_cave_by_the_sea.png', 'lotus': 'lotus_bay_beneath_the_ruins.png', 'deck': 'sunset_aboard_an_ancient_ship.png',
+    'ithaca': 'sunset_feast_in_the_ancient_throne_hall.png', 'sirens': 'sunset_over_the_wreckage_coast.png',
+    'strait': 'sunset_passage_through_stormy_cliffs.png', 'underworld': 'underworld_river_beneath_ruined_temples.png',
+    'cave': 'wide_cinematic_digital_painting_of_a_giant_cave_in.png', 'hades': 'wide_cinematic_fantasy_landscape_scene_of_a_ruine.png',
+    'garden': 'wide_cinematic_painterly_illustration_style_fant.png',
+}
+
+
+def split(im, part):
+    """Split an image holding two side-by-side figures at its emptiest column."""
+    a = np.array(im.getchannel('A')) > 40
+    cols = a.sum(0)
+    w = im.width
+    mid = int(np.argmin(cols[w // 4: 3 * w // 4])) + w // 4
+    piece = im.crop((0, 0, mid, im.height)) if part == 0 else im.crop((mid, 0, w, im.height))
+    return piece.crop(piece.getbbox())
+
+
+def load(src):
+    if isinstance(src, tuple):
+        return split(Image.open(os.path.join(SL, src[0] + '.png')).convert('RGBA'), src[1])
+    return Image.open(os.path.join(SL, src + '.png')).convert('RGBA')
+
+
+def save(im, path, max_h=None, max_w=None, q=86):
+    if max_h and im.height > max_h:
+        im = im.resize((round(im.width * max_h / im.height), max_h), Image.LANCZOS)
+    if max_w and im.width > max_w:
+        im = im.resize((max_w, round(im.height * max_w / im.width)), Image.LANCZOS)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    im.save(path, 'WEBP', quality=q, method=6)
+    return im.size
+
+
+sizes = {}
+for who, poses in POSES.items():
+    for pose, src in poses.items():
+        sizes[f'{who}-{pose}'] = save(load(src), os.path.join(OUT, 'cast', f'{who}-{pose}.webp'), max_h=620)
+for who, faces in FACES.items():
+    for face, src in faces.items():
+        save(load(src), os.path.join(OUT, 'faces', f'{who}-{face}.webp'), max_h=240)
+for name, src in PROPS.items():
+    save(load(src), os.path.join(OUT, 'props', f'{name}.webp'), max_h=260, max_w=300)
+for name, f in ENVS.items():
+    im = Image.open(os.path.join(ENV, f)).convert('RGB')
+    save(im, os.path.join(OUT, 'scenes', f'{name}.webp'), max_w=1600, q=78)
+    save(im, os.path.join(OUT, 'scenes', f'{name}-sm.webp'), max_w=800, q=72)
+# Sprite aspect ratios let the stage reserve space before images load.
+with open(os.path.join(HERE, 'sprite-sizes.json'), 'w') as fh:
+    json.dump(sizes, fh)
+print('done')

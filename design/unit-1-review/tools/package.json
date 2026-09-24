@@ -1,0 +1,9 @@
+{
+  "name": "odyssey-review-tools",
+  "private": true,
+  "type": "module",
+  "description": "Build tools for the Odyssey Unit 1 review game (not published).",
+  "dependencies": {
+    "lamejs": "^1.2.1"
+  }
+}

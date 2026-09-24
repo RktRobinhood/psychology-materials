@@ -42,3 +42,8 @@ next-env.d.ts
 /design/*/reference/
 /design/*/ui/
 /.claude/
+
+# Odyssey review build tools (local only)
+/design/*/tools/node_modules/
+/design/*/sliced/
+/design/*/voice-auditions/
