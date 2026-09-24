@@ -198,7 +198,7 @@
     return `<table class="av-table"><thead><tr><th>Pair</th><th>You said</th><th>Actually more deaths</th><th></th></tr></thead><tbody>
       ${res.deaths.map(d => {
         const p = pairOf(res.mode, d.id);
-        return `<tr class="${d.correct ? 'ok' : 'no'}"><td>${p.a} vs ${p.b}</td><td>${p[d.pick]}</td><td><b>${p.b}</b><br><span class="muted" style="font-size:14px">${p.note}</span></td><td class="mark">${d.correct ? '✓' : '✗'}</td></tr>`;
+        return `<tr class="${d.correct ? 'ok' : 'no'}"><td>${p.a} versus ${p.b}</td><td>${p[d.pick]}</td><td><b>${p.b}</b><br><span class="muted" style="font-size:14px">${p.note}</span></td><td class="mark">${d.correct ? '✓' : '✗'}</td></tr>`;
       }).join('')}</tbody></table>`;
   }
 
@@ -289,7 +289,7 @@
           ])}`,
       },
       {
-        kicker: 'System 1 vs System 2', title: 'Swapping a hard question for an easy one',
+        kicker: 'System 1 versus System 2', title: 'Swapping a hard question for an easy one',
         html: res => `<p>“How often does ${res.L} appear in third position across all English text?” is a very hard question. Nobody has those counts in their head. So System 1 quietly answers an easier one.</p>
           ${ui.s1s2(
             `<p><b>Substitutes the question.</b> Instead of “which is more common?”, it asks “which can I think of more easily?”</p><p>Words starting with ${res.L}: loads, instantly. Tornadoes and shark attacks: vivid news images. Asthma and diabetes: nothing dramatic comes to mind.</p><p>The answer comes fast and feels certain.</p>`,
@@ -369,6 +369,25 @@
         'Why do you think tornadoes and sharks feel more deadly than asthma and lightning?',
       ],
     },
+    concepts: [
+      { name: 'Measurement', html: `Availability is about the <i>ease</i> of recall, which is hard to measure directly. The word races at this station use the number of words found in 20 seconds as a stand-in for ease. Schwarz et al. (1991) went further: instead of measuring ease, they manipulated it by asking for 6 or 12 examples, which makes it a far more valid test. The death-rate task also depends on measurement, because the “right” answer is only as good as the official statistics used.` },
+      { name: 'Bias', html: `The station is about a bias in thinking, but the research has its own possible bias. Tversky &amp; Kahneman (1973) chose five letters that are all more common in third position. If most other consonants are more common in first position, choosing only the exceptions could make people look more biased than they are. News media add a further bias by reporting rare, dramatic deaths far more often than common, quiet ones.` },
+      { name: 'Causality', html: `Lichtenstein et al. (1978) found that people overestimate dramatic causes of death, and a follow-up study (Combs &amp; Slovic, 1979) linked this to newspaper coverage. That link is correlational: vivid events might be both reported more and remembered more for other reasons. Schwarz et al. (1991) is stronger on causality, because participants were randomly allocated to recall 6 or 12 examples, so the difference in ease caused the difference in self-ratings.` },
+      { name: 'Responsibility', html: `If people judge risk by what comes to mind, then news editors, film makers and social media platforms shape what people fear. Heavy coverage of plane crashes or shark attacks can lead people to avoid safe activities and ignore bigger risks. Public health campaigns carry a responsibility too: making a real but quiet risk (such as heat or diabetes) easy to picture can correct the bias.` },
+    ],
+    debate: {
+      title: 'Are people really bad at judging how often letters appear?',
+      sideA: { label: 'People get it wrong (Tversky & Kahneman, 1973)', html: `University students judged whether each of five consonants (K, L, N, R and V) is more common as the first or the third letter of English words. Most judged the first position more likely, although all five letters are actually more common in third position. The authors explained this with ease of retrieval: words are easier to search for by their first letter.` },
+      sideB: { label: 'People are often fairly accurate (Sedlmeier, Hertwig & Gigerenzer, 1998)', html: `These researchers tested a wider and more typical set of letters and asked for frequency judgements in several ways. They reported that people's judgements were often reasonably accurate and did not show a consistent pull towards the first position. They pointed out that the five original letters were unusual: they were chosen because they are more common in third position, while many consonants are not.` },
+      why: [
+        { factor: 'Stimulus selection', html: `The original study only used letters where first-position words come to mind easily but third-position words are actually more common. Testing only the cases where a shortcut fails will always make the shortcut look bad. A representative sample of letters gives a fairer picture.` },
+        { factor: 'Operationalisation', html: `“Is it more common first or third?” is a forced choice between two positions. Asking people to estimate frequencies on a scale, or across many letters, measures the same idea in a different way and can give a different answer.` },
+        { factor: 'Different samples and materials', html: `The studies were run decades apart with different participants and different materials. Letter patterns differ between languages and texts, so what counts as “correct” depends on which language and which word counts are used.` },
+        { factor: 'What the heuristic predicts', html: `The availability heuristic says ease of recall is used as a clue to frequency. Usually the clue is good. It should only lead to errors when ease and frequency come apart, which is exactly what the five original letters were chosen to do. So both findings can be true at once.` },
+      ],
+      trust: `For the specific claim that people are generally poor at judging letter positions, the later study is more trustworthy, because it used a more representative set of letters and more than one way of measuring judgements. The original study still shows something real: when ease of recall and true frequency come apart, people follow ease. But the letter task is the weakest evidence for the availability heuristic. Schwarz et al. (1991) is more convincing, because it manipulated ease experimentally and separated it from the amount recalled. Note that the Learn version of this station used R, one of the original five letters, so it was chosen to catch you out.`,
+      ask: 'Is it fair to test a mental shortcut using only the situations where you already know it will fail?',
+    },
     quiz: {
       core: [
         { q: 'What is the <b>availability heuristic</b>?', a: 'Judging how frequent or likely something is by how easily examples come to mind', d: ['Choosing options because they match the words used in a problem', 'Making different choices when the same facts are described differently', 'Judging probability by how much something resembles a stereotype'], why: 'Availability = ease of recall used as a stand-in for frequency.' },
@@ -380,6 +399,7 @@
         { q: 'Why is <b>Schwarz et al. (1991)</b> especially strong evidence for the availability heuristic?', a: 'It separates the ease of recall from the number of examples recalled', d: ['It used a very large sample from many countries', 'It measured brain activity during recall with fMRI', 'It showed that people can recall unlimited examples'], why: 'People who recalled more examples judged themselves lower, so it must be the ease, not the amount, that drives the judgement.' },
         { q: 'After a plane crash is shown on the news for days, many people feel flying is dangerous and choose to drive. What explains this?', a: 'The availability heuristic, because vivid coverage makes plane crashes easy to recall', d: ['The framing effect, because flying is described as safe', 'Matching bias, because the news matches their beliefs', 'Their System 2 has calculated the real risk of each option'], why: 'Vivid, recent, emotional events are easy to recall, so System 1 judges them to be common. Driving is far more dangerous per journey.' },
         { q: 'Which is a <b>limitation</b> of the availability research?', a: 'Tasks like judging letter positions are artificial and may not reflect real decisions', d: ['No study has ever found evidence for the availability heuristic', 'It only used participants who were afraid of flying', 'It shows that System 2 is always faster than System 1'], why: 'Low-stakes lab tasks give participants little reason to think carefully, which limits generalisation.' },
+        { q: 'What was the main criticism of the original letter study by <b>Sedlmeier, Hertwig & Gigerenzer (1998)</b>?', a: 'The five letters tested were unusual exceptions, not typical letters', d: ['Participants were told the right answers before they judged', 'The letters were shown too quickly for anyone to read', 'The study used brain scans, which cannot show cause and effect'], why: 'The original letters were all more common in third position. With a more representative set of letters, people’s judgements were often reasonably accurate.' },
       ],
       extra: [
         { q: 'Tversky & Kahneman also asked about the letter <b>K</b>. Which set of words has K in <b>third</b> position?', a: 'ask, make, like', d: ['kite, keep, kind', 'book, milk, park', 'knee, king, key'], why: 'A-S-K, M-A-K-E, L-I-K-E: the K is the third letter. These words are common but hard to search for.' },
@@ -387,6 +407,7 @@
         { q: 'TV shows lottery winners but never the millions who lose. How does this affect people’s judgements?', a: 'Winning becomes easy to imagine, so people overestimate their chances', d: ['People underestimate their chances because winning seems unusual', 'People judge their chances accurately because they know the odds', 'People stop buying tickets because the winners look unhappy'], why: 'Vivid examples of winners are easy to recall; the losers are invisible. Ease of recall inflates the perceived probability.' },
         { q: 'Why is the availability heuristic often <b>useful</b> rather than harmful?', a: 'Things we meet often usually are easier to recall, so ease is often a good clue', d: ['It is always more accurate than careful counting', 'It is only used by experts who have seen real data', 'It forces System 2 to check every judgement carefully'], why: 'Heuristics survive because they usually work. They cause bias when ease of recall is driven by something other than frequency, such as media coverage.' },
         { q: 'A critic says: “In real life, we remember more examples of things that really are common, so ease and amount can’t be separated.” Which study best answers this?', a: 'Schwarz et al. (1991), where fewer examples led to higher ratings', d: ['Tversky & Kahneman (1973), where letters were judged by position', 'Lichtenstein et al. (1978), where deaths were estimated', 'Griggs & Cox (1982), where the rule was about drinking age'], why: 'In Schwarz et al., recalling fewer examples (but more easily) produced a stronger judgement, so ease can be separated from amount.' },
+        { q: 'People overestimate causes of death that get heavy news coverage. Why can’t this finding alone show that coverage <b>causes</b> the overestimates?', a: 'It is correlational, so something else, such as vividness, could explain both', d: ['Random allocation was used, which rules out causal conclusions', 'The researchers measured real deaths rather than people’s estimates', 'News coverage of death is the same for every cause'], why: 'Without manipulating coverage, dramatic events might be both reported and remembered more for other reasons. Experiments like Schwarz et al. (1991) are needed to show cause and effect.' },
       ],
     },
   });

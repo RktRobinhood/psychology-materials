@@ -220,6 +220,69 @@
     </div>`;
   }
 
+  /* ── Abbreviations ─────────────────────────────────────────
+     The first time an abbreviation appears in a flow it is written out in
+     full: "functional magnetic resonance imaging (fMRI)". Learn and Teach are
+     separate flows, so each starts fresh. Screens are scanned as they render,
+     including content added later (quiz questions). */
+  const ABBR = [
+    ['VMPFC', 'ventromedial prefrontal cortex'],
+    ['PFC', 'prefrontal cortex'],
+    ['fMRI', 'functional magnetic resonance imaging'],
+    ['CRT', 'Cognitive Reflection Test'],
+    ['MIT', 'Massachusetts Institute of Technology'],
+    ['USA', 'United States'],
+    ['IB', 'International Baccalaureate'],
+    ['S1', 'System 1'],
+    ['S2', 'System 2'],
+    ['TV', 'television'],
+    ['ID', 'identity'],
+  ].map(([a, full]) => ({ a, full, re: new RegExp(`(^|[^A-Za-z0-9-])(${a})(?![A-Za-z0-9])`) }));
+  const SKIP = 'script, style, svg, code, .q-letter, .lock-b, .wu-b, .flow-mode';
+
+  function abbrTracker(stage) {
+    const owner = new Map(); // abbreviation → index of the screen that introduced it
+    let busy = false;
+    function scan(root, screenIdx) {
+      if (busy) return;
+      busy = true;
+      try {
+        const nodes = [];
+        const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: n => n.parentElement && !n.parentElement.closest(SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+        });
+        while (w.nextNode()) nodes.push(w.currentNode);
+        let before = ''; // text seen so far on this screen, for "full name (" checks
+        let prevNode = null;
+        for (const n of nodes) {
+          for (const x of ABBR) {
+            if (owner.has(x.a)) continue;
+            const m = n.data.match(x.re);
+            if (!m) continue;
+            const at = m.index + m[1].length;
+            const prev = (before + n.data.slice(0, at)).slice(-x.full.length - 4).toLowerCase();
+            owner.set(x.a, screenIdx);
+            if (prev.includes(x.full.toLowerCase())) continue; // already written out by hand
+            n.data = n.data.slice(0, at) + `${x.full} (${x.a})` + n.data.slice(at + x.a.length);
+            // "an fMRI" → "a functional…": fix the article, which may sit in the previous text node.
+            if (!/^[aeiou]/i.test(x.full)) {
+              const fix = t => t.replace(/\b([Aa])n(\s*)$/, '$1$2');
+              const head = n.data.slice(0, at);
+              if (head.trim()) n.data = fix(head) + n.data.slice(at);
+              else if (prevNode) prevNode.data = fix(prevNode.data);
+            }
+          }
+          before = (before + n.data).slice(-200);
+          prevNode = n;
+        }
+      } finally { busy = false; }
+    }
+    return {
+      scan,
+      release(screenIdx) { for (const [k, v] of owner) if (v === screenIdx) owner.delete(k); },
+    };
+  }
+
   /* ── Flow engine ───────────────────────────────────────── */
   function runFlow(st, mode) {
     document.title = `Station ${st.num} · ${mode === 'learn' ? 'Learn' : 'Teach'} · ${st.title}`;
@@ -256,6 +319,9 @@
       stage.appendChild(s.el);
     });
     dots.innerHTML = screens.map((s, i) => `<span class="dot" title="${esc(s.label)}"></span>`).join('');
+    const abbr = abbrTracker(stage);
+    new MutationObserver(() => { const s = screens[idx]; if (s && s.rendered) abbr.scan(s.el, idx); })
+      .observe(stage, { childList: true, subtree: true, characterData: false });
 
     const ctx = {
       mode, station: st, state,
@@ -288,8 +354,10 @@
       const s = screens[idx];
       if (!s.rendered || s.rerender) {
         s.el.innerHTML = '';
+        abbr.release(idx);
         s.render(s.el, ctx);
         s.rendered = true;
+        abbr.scan(s.el, idx);
       }
       s.el.hidden = false;
       stage.scrollTop = 0;
@@ -333,6 +401,73 @@
   }
   const state_ = ctx => ctx.state.result;
 
+  /* ── IB concepts & evidence debates ───────────────────── */
+  const CONCEPTS = [
+    ['Bias', 'filter', 'Systematic distortion, in how we think or in how research is done.'],
+    ['Causality', 'workflow', 'Can we conclude that one thing causes another?'],
+    ['Change', 'refresh-cw', 'How thinking and behaviour change, and how knowledge changes.'],
+    ['Measurement', 'ruler', 'How we operationalise and measure things, and how valid that is.'],
+    ['Perspective', 'eye', 'Other explanations, theories, cultures and viewpoints.'],
+    ['Responsibility', 'shield-check', 'Ethics, and how findings should (and should not) be used.'],
+  ];
+
+  function conceptsHTML(st, compact) {
+    const linked = st.concepts || [];
+    const names = new Set(linked.map(c => c.name));
+    return `<div class="concept-strip">${CONCEPTS.map(([n, ic]) => `<span class="concept-chip ${names.has(n) ? 'on' : ''}">${icon(ic)}${n}</span>`).join('')}</div>
+      <div class="concept-cards ${compact ? 'compact' : ''}">${linked.map(c => {
+        const def = CONCEPTS.find(x => x[0] === c.name) || [c.name, 'circle', ''];
+        return `<div class="concept-card"><div class="concept-head">${icon(def[1])}<b>${c.name}</b><span>${def[2]}</span></div><p>${c.html}</p></div>`;
+      }).join('')}</div>`;
+  }
+
+  function debateBlock(el, st, mode) {
+    const d = st.debate;
+    el.insertAdjacentHTML('beforeend', `
+      <div class="debate-q">${d.title}</div>
+      <div class="debate-sides">
+        <div class="side a"><div class="side-tag">Evidence A</div><h3>${d.sideA.label}</h3><p>${d.sideA.html}</p></div>
+        <div class="vs">versus</div>
+        <div class="side b"><div class="side-tag">Evidence B</div><h3>${d.sideB.label}</h3><p>${d.sideB.html}</p></div>
+      </div>
+      <h3>Why might they disagree?</h3>
+      <div class="why-grid">${d.why.map(w => `<div class="why"><b>${w.factor}</b><p>${w.html}</p></div>`).join('')}</div>
+      <div class="vote">
+        <p><b>${mode === 'teach' ? 'Both of you: before' : 'Before'} you read on, which evidence would you trust more?</b></p>
+        <div class="btn-row"><button class="btn ghost small" data-vote="A">Evidence A</button><button class="btn ghost small" data-vote="B">Evidence B</button><button class="btn ghost small" data-vote="?">Not sure yet</button></div>
+      </div>
+      <div class="trust" hidden>${ui.callout('key', `<b>Which should we trust?</b> ${d.trust}`)}
+        ${ui.callout('note', `<b>How to judge any disagreement:</b> compare the sample sizes and who was sampled; check how each study measured the behaviour; ask whether one result is a single study and the other a large replication or meta-analysis; watch for publication bias (surprising positive results get published more easily); and ask whether both could be right under different conditions.`)}
+      </div>
+      ${d.ask ? `<div class="discuss">${icon('messages-square')}<div><b>Discuss ${mode === 'teach' ? 'together' : 'with your group'}:</b> ${d.ask}</div></div>` : ''}`);
+    el.querySelectorAll('[data-vote]').forEach(b => b.onclick = () => {
+      el.querySelectorAll('[data-vote]').forEach(x => x.classList.toggle('picked', x === b));
+      el.querySelector('.trust').hidden = false;
+      sfx.play('reveal');
+    });
+  }
+
+  function thinkDeeperScreens(st, mode) {
+    const out = [];
+    const learn = mode === 'learn';
+    if (st.concepts?.length) out.push({
+      label: 'IB concepts',
+      render(el) {
+        el.innerHTML = `${screenHead(learn ? 'Think deeper 1 of 2 · IB concepts' : 'Think deeper · IB concepts', 'Link it to the IB concepts')}
+          <p class="prose">IB Psychology is built around six concepts. The highlighted ones are the clearest links for this station. ${learn ? 'Using them in an essay shows you can go beyond describing a study.' : 'Host: talk your guest through at least one of them.'}</p>
+          ${conceptsHTML(st, !learn)}`;
+      },
+    });
+    if (st.debate) out.push({
+      label: 'When the evidence disagrees',
+      render(el) {
+        el.innerHTML = screenHead(learn ? 'Think deeper 2 of 2 · Evaluating evidence' : 'Think deeper · Evaluating evidence', 'When the evidence disagrees');
+        debateBlock(el, st, mode);
+      },
+    });
+    return out;
+  }
+
   function learnScreens(st, state) {
     const list = [];
     list.push({
@@ -341,7 +476,7 @@
         el.innerHTML = `${screenHead(`Station ${st.num} · Learn mode`, esc(st.title))}
           <div class="prose">${resolve(st.intro?.learn, ctx)}</div>
           ${ui.callout('note', `<b>Do the experiment before you read anything else.</b> Answer honestly and go with your first instinct if you have one. The bias is easiest to understand once you've fallen for it yourself.`)}
-          <div class="plan"><span>1 · Experiment</span><span>2 · Your results</span><span>3 · Step-by-step explanation</span><span>4 · Prepare to teach</span><span>5 · Quiz</span></div>`;
+          <div class="plan"><span>1 · Experiment</span><span>2 · Your results</span><span>3 · Step-by-step explanation</span><span>4 · IB concepts &amp; evidence</span><span>5 · Prepare to teach</span><span>6 · Quiz</span></div>`;
       },
     });
     list.push(experimentScreen(st, state, 'Experiment'));
@@ -360,6 +495,7 @@
         },
       });
     });
+    list.push(...thinkDeeperScreens(st, 'learn'));
     list.push({
       label: 'Prepare to teach',
       render(el, ctx) {
@@ -440,10 +576,11 @@
         });
       },
     });
+    list.push(...thinkDeeperScreens(st, 'teach'));
     list.push({
       label: 'Head-to-head quiz',
       render(el) {
-        el.innerHTML = screenHead('Host vs Guest', 'Head-to-head quiz');
+        el.innerHTML = screenHead('Host versus Guest', 'Head-to-head quiz');
         duelQuiz(el, st);
       },
     });

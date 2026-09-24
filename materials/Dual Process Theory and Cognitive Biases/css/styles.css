@@ -405,3 +405,40 @@ svg.lucide { width: 1.15em; height: 1.15em; vertical-align: -.2em; stroke-width:
 :root[data-theme="dark"] .st-card, :root[data-theme="dark"] .landing, :root[data-theme="dark"] .flow {
   --accent: hsl(var(--hue) 75% 62%); --accent-soft: hsl(var(--hue) 35% 18%); --accent-ink: hsl(var(--hue) 80% 80%);
 }
+
+
+/* ── IB concepts ── */
+.concept-strip { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.concept-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; border: 1.5px solid var(--line-2); color: var(--muted); background: var(--paper); }
+.concept-chip.on { border-color: var(--accent); color: #fff; background: var(--accent); }
+.concept-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.concept-card { background: var(--paper); border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: 12px; padding: 14px 18px; box-shadow: var(--shadow); }
+.concept-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--accent-ink); }
+.concept-head b { font-family: var(--f-display); font-size: 21px; color: var(--ink); }
+.concept-head span { flex-basis: 100%; font-size: 13.5px; color: var(--muted); }
+.concept-card p { margin: 8px 0 0; font-size: 16px; }
+.concept-cards.compact .concept-card p { font-size: 15px; }
+
+/* ── Evidence debate ── */
+.debate-q { font-family: var(--f-display); font-weight: 700; font-size: clamp(21px, 3vw, 27px); line-height: 1.25; margin: 4px 0 16px; }
+.debate-sides { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: stretch; }
+.side { background: var(--paper); border: 2px solid var(--line-2); border-radius: 14px; padding: 14px 18px; }
+.side h3 { margin: 4px 0 6px; font-size: 18px; }
+.side p { margin: 0; font-size: 16px; }
+.side.a { border-color: var(--s1); }
+.side.b { border-color: var(--s2); }
+.side-tag { font-family: var(--f-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.side.a .side-tag { color: var(--s1-ink); }
+.side.b .side-tag { color: var(--s2-ink); }
+.vs { align-self: center; font-family: var(--f-display); font-weight: 900; font-size: 18px; color: var(--muted); }
+.why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+.why { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.why b { font-size: 13px; color: var(--accent-ink); text-transform: uppercase; letter-spacing: .04em; font-family: var(--f-mono); }
+.why p { margin: 6px 0 0; font-size: 15.5px; }
+.vote { margin-top: 20px; padding: 14px 18px; border: 2px dashed var(--accent); border-radius: 14px; }
+.vote p { margin: 0; }
+.vote .btn-row { margin: 10px 0 0; }
+.btn.picked { background: var(--accent); color: #fff; border-color: var(--accent); }
+.discuss { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; padding: 14px 18px; background: var(--accent-soft); border-radius: 14px; font-size: 16.5px; }
+.discuss svg.lucide { width: 26px; height: 26px; color: var(--accent); margin-top: 2px; }
+@media (max-width: 680px) { .debate-sides { grid-template-columns: 1fr; } .vs { justify-self: center; } }

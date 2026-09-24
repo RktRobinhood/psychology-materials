@@ -11,7 +11,7 @@
     bat: {
       short: 'Bat and ball',
       q: 'A bat and a ball cost <b>£1.10</b> in total. The bat costs <b>£1.00 more</b> than the ball. How much does the ball cost?',
-      type: 'num', unit: 'pence', placeholder: 'e.g. 25',
+      type: 'num', unit: 'pence', placeholder: 'for example 25',
       correctText: '5p', intuitiveText: '10p',
       check(raw) {
         let n = cleanNum(raw);
@@ -22,7 +22,7 @@
     widgets: {
       short: 'Machines and widgets',
       q: 'If it takes <b>5 machines 5 minutes</b> to make <b>5 widgets</b>, how long would it take <b>100 machines</b> to make <b>100 widgets</b>?',
-      type: 'num', unit: 'minutes', placeholder: 'e.g. 12',
+      type: 'num', unit: 'minutes', placeholder: 'for example 12',
       correctText: '5 minutes', intuitiveText: '100 minutes',
       check(raw) {
         const n = cleanNum(raw);
@@ -32,7 +32,7 @@
     lily: {
       short: 'Lily pads',
       q: 'A lake has a patch of lily pads. Every day, the patch <b>doubles</b> in size. It takes <b>48 days</b> for the patch to cover the whole lake. How long does it take to cover <b>half</b> the lake?',
-      type: 'num', unit: 'days', placeholder: 'e.g. 30',
+      type: 'num', unit: 'days', placeholder: 'for example 30',
       correctText: '47 days', intuitiveText: '24 days',
       check(raw) {
         const n = cleanNum(raw);
@@ -49,7 +49,7 @@
     sheep: {
       short: 'The farmer’s sheep',
       q: 'A farmer had <b>15 sheep</b>, and all but <b>8</b> died. How many sheep are left?',
-      type: 'num', unit: 'sheep', placeholder: 'e.g. 3',
+      type: 'num', unit: 'sheep', placeholder: 'for example 3',
       correctText: '8', intuitiveText: '7',
       check(raw) {
         const n = cleanNum(raw);
@@ -69,7 +69,7 @@
     goat: {
       short: 'The mountain goat',
       q: 'A mountain goat is climbing a <b>60-foot</b> cliff. Every minute it climbs <b>up 3 feet</b>, then slips <b>back 2 feet</b>. How many minutes does it take to reach the top?',
-      type: 'num', unit: 'minutes', placeholder: 'e.g. 20',
+      type: 'num', unit: 'minutes', placeholder: 'for example 20',
       correctText: '58 minutes', intuitiveText: '60 minutes',
       check(raw) {
         const n = cleanNum(raw);
@@ -312,16 +312,12 @@
       },
       {
         kicker: 'Critical thinking', title: 'How strong is this evidence?',
-        html: `${ui.study({ name: 'Meyer et al. (2015)', rows: [
-            ['What they did', 'A large replication of the disfluent-font effect, combining data from many samples (more than 7,000 participants).'],
-            ['Findings', 'The hard-to-read font did <b>not</b> improve CRT scores.'],
-            ['So what?', 'The original Alter et al. result came from only 40 students. A small study can produce a striking result by chance. This is why replication matters before we trust a finding.'],
-          ] })}
-          ${ui.s1s2(
+        html: `${ui.s1s2(
             `<ul><li>The bat-and-ball error is very <b>reliable</b>: large samples, many universities.</li><li>The wrong answers are <b>the same</b> across people, which supports the idea of a fast, automatic process.</li><li>Easy to replicate in class, as you just did.</li></ul>`,
             `<ul><li>CRT scores are linked to <b>maths ability</b>, so errors may partly reflect numeracy. (Newer items like “Emily’s father” need no maths for this reason.)</li><li>The test is now <b>well known</b>. Many people have seen it, so scores may reflect memory rather than reflection.</li><li><b>Artificial</b>: a puzzle with nothing at stake may not reflect real decisions.</li></ul>`,
             { s1: 'Strengths', s2: 'Limitations' }
-          )}`,
+          )}
+          ${ui.callout('note', `<b>Coming up:</b> the hard-to-read font study (Alter et al., 2007) did not survive a much larger replication. You'll look at why in the “evidence disagrees” step.`)}`,
       },
     ],
     host: {
@@ -331,7 +327,7 @@
         { point: 'Why System 2 didn’t check', hint: 'Kahneman’s <b>lazy controller</b>: checking costs effort, the answer felt certain, so it went through. Cognitive miser.' },
         { point: 'Name it: intuitive error / cognitive reflection', hint: 'System 1 gives a quick answer that feels right and System 2 fails to check it. Cognitive reflection = stopping to question the first answer.' },
         { point: 'Frederick (2005)', hint: 'About 3,400 people. Bat and ball: more than 50% at Harvard, MIT and Princeton said 10p; over 80% at less selective universities.' },
-        { point: 'Alter et al. (2007), and the problem with it', hint: '40 Princeton students. Hard-to-read font: 35% made an error vs 90% in a clear font. But Meyer et al. (2015) could not replicate it in a much larger sample.' },
+        { point: 'Alter et al. (2007), and the problem with it', hint: '40 Princeton students. Hard-to-read font: 35% made an error versus 90% in a clear font. But Meyer et al. (2015) could not replicate it in a much larger sample.' },
       ],
       visual: `${STYLE}<p><b>Give your guest the bat-and-ball question</b>: a bat and a ball cost £1.10; the bat costs £1.00 more than the ball. How much is the ball? Then show them this:</p>${batAlgebra}`,
       ask: [
@@ -339,6 +335,26 @@
         'How confident were you? Why do you think you felt that sure?',
         'What could you have done in five seconds to catch the mistake?',
       ],
+    },
+    concepts: [
+      { name: 'Measurement', html: 'The CRT turns an invisible process, “System 2 failed to check”, into something we can count: giving the tempting wrong answer (10p, 100, 24). Response time and confidence ratings add extra measures, as they did at this station. But the measure is only valid if the score reflects reflection. Maths ability, and having seen the questions before, can both change scores without any change in reflection.' },
+      { name: 'Change', html: 'Scientific knowledge changes through replication. The claim that a hard-to-read font switches on System 2 was widely cited after Alter et al. (2007), then weakened when Meyer et al. (2015) tested thousands of people and found no effect. Thinking itself can change too: once people have learned the bat-and-ball trick, their CRT scores go up, which is why newer items were written.' },
+      { name: 'Bias', html: 'The error at this station is a cognitive bias: nearly everyone who gets it wrong gives the same wrong answer, so it is systematic, not random. Research can be biased as well. Journals are more likely to publish small studies with striking results (publication bias), which may explain why the font effect looked stronger than it really was.' },
+      { name: 'Causality', html: 'Alter et al. used an experiment with random allocation to fonts, so in principle it could show that disfluency causes fewer errors. A causal claim still needs to be replicated before we trust it. Separately, CRT scores correlate with being more patient about money and with lower belief in the paranormal, but a correlation does not show that low reflection causes them.' },
+    ],
+    debate: {
+      title: 'Does a hard-to-read font really switch on System 2?',
+      sideA: { label: 'Yes: Alter, Oppenheimer, Epley & Eyre (2007)', html: '40 Princeton students did the CRT printed in either a clear font or a faint, hard-to-read font. In the clear font 90% made at least one error; in the hard-to-read font only 35% did. The researchers concluded that a feeling of difficulty (disfluency) makes people slow down and use System 2.' },
+      sideB: { label: 'No: Meyer et al. (2015)', html: 'Researchers, including the creator of the CRT, combined the results of many studies, including repeats of the original method, with more than 7,000 participants in total. They found no reliable difference in CRT scores between hard-to-read and clear fonts.' },
+      why: [
+        { factor: 'Sample size', html: 'With 20 people per group, a few unusual participants can create a big difference by chance. With thousands of participants, chance differences cancel out, so the true size of the effect (here, close to zero) shows through.' },
+        { factor: 'Publication bias', html: 'A small study with a surprising result is exciting and gets published. Small studies that found nothing are more likely to stay in a drawer. So the published record can make an effect look more reliable than it is.' },
+        { factor: 'The replication crisis', html: 'From around 2011, psychologists repeated many famous findings in large samples, and a worrying number shrank or disappeared. The font effect is one example of a striking, simple result that did not hold up.' },
+        { factor: 'Measurement', html: 'How “hard to read” a font is depends on printing, screen size and brightness, so the manipulation may not have been equally strong in every study. The original also counted “at least one error”, a rough measure that can exaggerate small differences.' },
+        { factor: 'Different samples', html: 'The original used only Princeton students, while the replications included a wider range of people. It is possible that the effect only appears in some groups, but there is little evidence for this, and it would make the original claim much narrower.' },
+      ],
+      trust: 'The large replication is more trustworthy. It tested far more people, across many studies, and included repeats of the original method, so a chance result is much less likely. A single study of 40 people, however well designed, can give a false positive. This does not prove that disfluency never matters for anyone, but the claim that a hard-to-read font reliably switches on System 2 is not supported. The main idea of the station, that people often fail to check an intuitive answer, still stands: it rests on Frederick’s much larger data set, not on the font study.',
+      ask: 'A news article says “Use a hard-to-read font in exams to make students think harder!” Using what you know about the two studies, would you advise a school to do this? Why or why not?',
     },
     quiz: {
       core: [
@@ -350,8 +366,10 @@
         { q: 'In <b>Alter et al. (2007)</b>, what happened when the CRT was printed in a hard-to-read font?', a: 'Fewer students made errors (35% compared with 90%)', d: ['More students made errors (90% compared with 35%)', 'There was no difference in errors between the two fonts', 'Students took longer but made exactly the same errors'], why: 'The difficulty made the task feel less certain, which was thought to trigger System 2.' },
         { q: 'Which situation is <b>most</b> likely to produce intuitive errors?', a: 'Doing a quiz on your phone while walking and chatting with a friend', d: ['Doing a quiz at a desk with pen, paper and plenty of time', 'Going back over your answers at the end of an exam', 'Explaining each step of your working out loud to a friend'], why: 'Divided attention raises cognitive load, leaving less capacity for System 2 to check System 1.' },
         { q: 'Why is <b>Meyer et al. (2015)</b> important when evaluating Alter et al. (2007)?', a: 'A much larger replication found that the hard-to-read font did not improve scores', d: ['It showed the hard-to-read font doubled the number of correct answers', 'It found the original study had used the wrong CRT questions', 'It showed the effect only works on students at Princeton'], why: 'Alter et al. had only 40 participants. When the effect was tested in more than 7,000 people, it disappeared.' },
+        { q: 'Alter et al. (2007) and Meyer et al. (2015) disagree about the hard-to-read font. What is the best reason to trust Meyer et al. more?', a: 'It tested thousands of people across many studies, so a chance result is far less likely', d: ['It was published more recently, so its methods must be more modern', 'It used students from a more famous university than Princeton', 'It found a bigger effect, so it is more likely to be correct'], why: 'Large samples and repeated studies reduce the role of chance. A study of 40 people can easily produce a false positive.' },
       ],
       extra: [
+        { q: 'Why might a small study with a striking result, like the font study, look more reliable in journals than it really is?', a: 'Studies that find an effect are more likely to be published than ones that find nothing', d: ['Journals only publish studies that have been replicated at least twice', 'Small studies always use more careful methods than large ones', 'Researchers are not allowed to publish studies with small samples'], why: 'This is publication bias. Null results tend to go unpublished, so the published record over-represents positive findings.' },
         { q: 'A pencil and an eraser cost £1.20 in total. The pencil costs £1.00 more than the eraser. How much is the eraser?', a: '10p', d: ['20p', '5p', '12p'], why: 'Eraser 10p, pencil £1.10: total £1.20, difference £1.00. The tempting answer is 20p, which gives a total of £1.40.' },
         { q: 'If 3 cooks take 3 hours to bake 3 cakes, how long do 9 cooks take to bake 9 cakes?', a: '3 hours', d: ['9 hours', '1 hour', '27 hours'], why: 'Each cook bakes one cake in 3 hours. Nine cooks working together bake nine cakes in the same 3 hours.' },
         { q: 'A shop offers “3 for the price of 2”. What discount is this on each item?', a: 'About 33% off', d: ['50% off', '25% off', '66% off'], why: 'You pay for 2 items and get 3, so each costs two-thirds of the price: a third off. “Feels like half price” is System 1.' },

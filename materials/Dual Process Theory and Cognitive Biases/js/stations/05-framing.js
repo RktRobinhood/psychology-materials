@@ -122,7 +122,7 @@
         <p class="exp-progress">Question 3 of ${TOTAL}</p>
         <h2 class="screen-title">A quick shopping judgement</h2>
         <p class="prose">You're buying minced beef for a lasagne. This is what the label on the packet says:</p>
-        <div class="f5-pack"><b>${m.label}</b><span>minced beef · 500 g</span></div>
+        <div class="f5-pack"><b>${m.label}</b><span>minced beef · 500 grams</span></div>
         <p class="prose">Overall, how good do you expect this beef to be?</p>
         <div class="f5-scale">${[1, 2, 3, 4, 5, 6, 7].map(v => `<button class="choice" data-v="${v}">${v}</button>`).join('')}</div>
         <div class="f5-ends"><span>1 = very poor</span><span>7 = excellent</span></div>
@@ -165,7 +165,7 @@
       lPct: util.pct(l.filter(p => p.safe1).length, l.length),
     };
   }
-  const pctText = (p, n) => (n ? `${p}% (n=${n})` : 'no data yet');
+  const pctText = (p, n) => (n ? `${p}% of ${n} ${n === 1 ? "person" : "people"}` : 'no data yet');
 
   function equivalenceTable() {
     return `${STYLE}<table class="f5-table">
@@ -211,8 +211,8 @@
       extraHtml = `<h3>Question 3: the minced beef</h3>
         <p>You saw the <b>${MINCE[res.extraFrame].label}</b> label and gave it <b>${res.extraVal} out of 7</b>. Other visitors saw the other label. 75% lean and 25% fat are the same beef.</p>
         ${ui.bars([
-          { label: '“75% lean” label: mean rating', value: pos.length ? mp : 0, max: 7, text: pos.length ? `${util.fmt(mp, 1)} (n=${pos.length})` : 'no data yet', cls: 's2' },
-          { label: '“25% fat” label: mean rating', value: neg.length ? mn : 0, max: 7, text: neg.length ? `${util.fmt(mn, 1)} (n=${neg.length})` : 'no data yet', cls: 's1' },
+          { label: '“75% lean” label: mean rating', value: pos.length ? mp : 0, max: 7, text: pos.length ? `${util.fmt(mp, 1)} (${pos.length} people)` : 'no data yet', cls: 's2' },
+          { label: '“25% fat” label: mean rating', value: neg.length ? mn : 0, max: 7, text: neg.length ? `${util.fmt(mn, 1)} (${neg.length} people)` : 'no data yet', cls: 's1' },
         ])}`;
     } else {
       const pos = pool.filter(p => p.extraType === 'surgery' && p.extraFrame === 'pos');
@@ -305,7 +305,7 @@
             '<b>Result:</b> people avoid risk when options are framed as gains and seek risk when they are framed as losses.',
             '<b>System 2 failure:</b> nobody translates the options into the same terms, so the equivalence goes unnoticed.',
           ])}
-          ${ui.callout('tip', `<b>Two kinds of frame at this station:</b> the disease problem uses <i>gain vs loss</i> framing (a choice about risk). The minced beef and the surgery survival rates use <i>positive vs negative</i> labels for one fact (75% lean vs 25% fat, 90% survive vs 10% die).`)}`,
+          ${ui.callout('tip', `<b>Two kinds of frame at this station:</b> the disease problem uses <i>gain versus loss</i> framing (a choice about risk). The minced beef and the surgery survival rates use <i>positive versus negative</i> labels for one fact (75% lean versus 25% fat, 90% survive versus 10% die).`)}`,
       },
       {
         kicker: 'The evidence', title: 'Three key studies',
@@ -357,9 +357,9 @@
         { point: 'What System 1 did', hint: 'Reacted to the words. “Saved” feels like a gain, so play safe. “Die” feels like a loss, so gamble.' },
         { point: 'What System 2 would have done', hint: 'Converted both wordings into the same terms, noticed A = C and B = D, and chosen consistently.' },
         { point: 'Why: prospect theory and loss aversion', hint: 'Kahneman & Tversky (1979): losses feel worse than equal gains feel good. Gains → avoid risk. Losses → take risks.' },
-        { point: 'Name it: the framing effect', hint: 'Making different decisions about the same information depending on how it is presented (gains vs losses, positive vs negative).' },
-        { point: 'The studies', hint: 'Tversky & Kahneman (1981): 72% certain option when “saved”, 22% when “die”. McNeil et al. (1982): doctors too, surgery vs radiation.' },
-        { point: 'A real-world example and a limitation', hint: '“90% fat-free” vs “10% fat”. Limitation: hypothetical choices, no real consequences.' },
+        { point: 'Name it: the framing effect', hint: 'Making different decisions about the same information depending on how it is presented (gains versus losses, positive versus negative).' },
+        { point: 'The studies', hint: 'Tversky & Kahneman (1981): 72% certain option when “saved”, 22% when “die”. McNeil et al. (1982): doctors too, surgery versus radiation.' },
+        { point: 'A real-world example and a limitation', hint: '“90% fat-free” versus “10% fat”. Limitation: hypothetical choices, no real consequences.' },
       ],
       visual: () => equivalenceTable(),
       ask: [
@@ -367,6 +367,25 @@
         'Did you change your answer when you saw the other wording? What made you change, or not?',
         'Which would you rather buy: “90% fat-free” or “contains 10% fat”?',
       ],
+    },
+    concepts: [
+      { name: 'Measurement', html: `The disease problem measures decision-making with a hypothetical choice on paper, not a real decision about real lives. The wording itself is part of the measurement: “200 people will be saved” doesn't say what happens to the other 400, so the task may partly measure how people fill that gap rather than their attitude to risk. In Levin &amp; Gaeth (1988) the label effect shrank once people tasted the beef, a reminder that ratings of a label in a lab are not the same as judgements based on real experience.` },
+      { name: 'Causality', html: `Tversky &amp; Kahneman (1981) randomly allocated participants to the “saved” or the “die” wording, and nothing else differed. That lets us conclude that the <b>wording caused</b> the change in choices. What the design cannot tell us is <i>why</i>: loss aversion and a simple misreading of the incomplete wording would both produce the same result.` },
+      { name: 'Responsibility', html: `McNeil et al. (1982) showed that the way a doctor presents survival figures can steer a patient's choice of treatment, and that doctors themselves are affected. A responsible doctor might give both frames (“90 out of 100 survive, 10 die”). Marketers who write “90% fat-free” and politicians who pick the kinder frame are using the same effect, which raises questions about when framing becomes manipulation.` },
+      { name: 'Change', html: `Framing is one of the main tools used to change behaviour, for example in health campaigns that stress what you lose by not getting screened. Our scientific knowledge of framing has also changed over time: large replication projects confirmed the classic result, while later studies with fuller wording changed how researchers explain it.` },
+    ],
+    debate: {
+      title: 'Is the framing effect about losses, or about missing words?',
+      sideA: { label: 'The classic effect replicates (Tversky & Kahneman, 1981; Klein et al., 2014)', html: `With the original wording, most people choose the certain option when it is described as lives saved and the gamble when it is described as deaths. Many Labs 1 (Klein et al., 2014) repeated the task with thousands of participants in many labs and countries and found the effect again. A meta-analysis by Kühberger (1998) concluded that framing effects are reliable, although their size varies a lot between tasks.` },
+      sideB: { label: 'Complete wording shrinks it (Kühberger, 1995; Mandel, 2014)', html: `When the certain option is described in full (“200 people will be saved and 400 will not be saved”), the framing effect becomes much smaller, and in some studies it largely disappears. Mandel argued that people read “200 will be saved” as “at least 200 will be saved”. On that reading, choosing A in one frame and D in the other is not irrational at all.` },
+      why: [
+        { factor: 'Wording', html: `The original certain options only mention one side of the outcome. “200 saved” leaves open whether more might survive, and “400 die” leaves open whether more might die. The gambles are described in full, so the two kinds of option are not described in the same way.` },
+        { factor: 'Operationalisation', html: `Both sides use “the disease problem”, but not the same version of it. The replications used the original incomplete wording, so they show that the result is reliable, not what causes it. The complete-wording studies change the task in order to test the explanation.` },
+        { factor: 'Sample size and setting', html: `A single study with students can be a fluke. A multi-site project with thousands of people across countries is much stronger evidence that the classic result is real. The complete-wording studies are smaller, so their exact effect sizes are less certain.` },
+        { factor: 'Publication bias', html: `Meta-analyses can only include studies that were published. If studies that found no framing effect were less likely to be published, the average effect in a meta-analysis could look larger than it really is.` },
+      ],
+      trust: `We can trust that the classic wording produces a framing effect: it has been replicated in a very large, multi-site project, which is stronger than any single study. The disagreement is about the explanation. The complete-wording studies are the better test of <i>why</i> the effect happens, because they remove the ambiguity, and they suggest that part of the classic effect comes from how people read the missing information. Framing effects also appear in other tasks, such as the beef and surgery studies, so ambiguity is unlikely to be the whole story. The honest conclusion is that both loss aversion and the way people interpret incomplete wording probably play a part, and researchers still disagree about how much each contributes.`,
+      ask: 'If “200 people will be saved” really means “at least 200” to most people, were the participants actually making a mistake?',
     },
     quiz: {
       core: [
@@ -379,6 +398,7 @@
         { q: 'Which is a <b>limitation</b> of the original disease problem study?', a: 'The choices were hypothetical, so participants faced no real consequences', d: ['It used random allocation, so the groups cannot be compared', 'It has never been replicated with any other sample', 'Participants were told the correct answer before choosing'], why: 'People may think harder when real lives or real money are at stake, so hypothetical tasks may exaggerate the effect.' },
         { q: 'A yoghurt is labelled “90% fat-free”. An identical yoghurt is labelled “contains 10% fat”. What does the framing effect predict?', a: 'People will judge the “90% fat-free” yoghurt as healthier', d: ['People will judge the “10% fat” yoghurt as healthier', 'People will judge both as equally healthy', 'People will refuse to buy either yoghurt'], why: 'The positive frame (“fat-free”) triggers a positive System 1 feeling, even though the two labels mean the same thing.' },
         { q: 'Why does System 1 fall for framing?', a: 'It responds to the emotional meaning of the words and uses only the information as presented', d: ['It carefully calculates the expected value of every option', 'It remembers the other wording from a previous experiment', 'It is only active when people are under time pressure'], why: 'System 1 takes information at face value (“what you see is all there is”) and uses the feeling it creates to decide.' },
+        { q: 'Why do some researchers call the classic disease problem wording a <b>measurement</b> problem?', a: '“200 will be saved” leaves out the other 400, so it can be read as “at least 200”', d: ['The numbers are too large for most participants to work out in their heads', 'Participants were told which programme the researchers preferred', 'The two groups were given the problem in different languages'], why: 'The certain options are described incompletely while the gambles are complete. Studies that describe both outcomes in full (Kühberger, 1995; Mandel, 2014) find a much smaller effect.' },
       ],
       extra: [
         { q: 'In <b>Levin & Gaeth (1988)</b>, how did people rate minced beef labelled “75% lean” compared with “25% fat”?', a: 'As better quality and less greasy', d: ['As worse quality and more greasy', 'Exactly the same on every rating', 'As less healthy but better tasting'], why: 'The positive label created a more positive impression of the same meat.' },
@@ -387,6 +407,7 @@
         { q: 'A student chose Programme A with the “saved” wording and Programme D with the “die” wording. What best describes this?', a: 'Their preference reversed because of the wording, although the outcomes were identical', d: ['They were consistent, because A and D describe the same outcome', 'They chose the option that saves the most lives both times', 'They showed the availability heuristic, not framing'], why: 'A is the certain plan and D is the gamble. Switching from certain to gamble when only the words change is the classic framing effect.' },
         { q: 'Some studies find framing effects get smaller when participants must <b>justify</b> their choice. Why might this be?', a: 'Explaining a choice engages System 2, which is more likely to spot the equivalence', d: ['Justifying a choice makes people rely more heavily on gut feelings', 'Participants copy the answers of the researcher', 'It makes the losses seem larger and the gains seem smaller'], why: 'Having to give reasons prompts slower, more careful thinking, which can override the first System 1 reaction.' },
         { q: 'A government can say “employment is at 92%” or “unemployment is at 8%”. Which wording will make most people feel better about the economy?', a: '“Employment is at 92%”', d: ['“Unemployment is at 8%”', 'Both wordings will produce identical feelings', 'Neither, because economic figures do not produce feelings'], why: 'Same fact, positive frame. System 1 reacts to “employment” as good news and “unemployment” as bad news.' },
+        { q: 'Tversky & Kahneman randomly allocated people to the “saved” or “die” wording. What does this design allow us to conclude?', a: 'The wording caused the change in choices, but not why it did', d: ['Loss aversion is proven to be the cause of the framing effect', 'The effect will be the same size in every culture and sample', 'The two groups already had different attitudes to risk'], why: 'Random allocation means the wording is the only systematic difference, so it caused the effect. It cannot separate loss aversion from a misreading of the incomplete wording.' },
       ],
     },
   });

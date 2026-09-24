@@ -201,7 +201,7 @@
       <div class="stat-row">
         ${ui.stat(res.nonOK + '/4', 'correct: no conflict', 's2')}
         ${ui.stat(res.confOK + '/4', 'correct: conflict', 's1')}
-        ${res.rtConf && res.rtNon ? ui.stat(`${util.fmt(res.rtConf / 1000, 1)}s vs ${util.fmt(res.rtNon / 1000, 1)}s`, 'your average time: conflict vs no conflict') : ''}
+        ${res.rtConf && res.rtNon ? ui.stat(`${util.fmt(res.rtConf / 1000, 1)}s versus ${util.fmt(res.rtNon / 1000, 1)}s`, 'your average time: conflict versus no conflict') : ''}
       </div>
       ${res.timeouts ? `<p class="muted">You ran out of time on ${res.timeouts} argument${res.timeouts > 1 ? 's' : ''}.</p>` : ''}
       <h3>Everyone at this station so far: % saying “valid”</h3>
@@ -235,7 +235,7 @@
 
   DPT.register({
     id: 'beliefbias', num: 9, hue: 95, minutes: 15,
-    title: 'Logic vs Belief',
+    title: 'Logic versus Belief',
     bias: 'Belief bias',
     hook: '“All flowers need water. Roses need water. So roses are flowers.” True. But is it logical?',
     intro: {
@@ -274,7 +274,7 @@
             <tr><th>Valid</th><td>S1 says <b>accept</b><br>S2 says <b>accept</b><br><span class="bb-tag ok">agree</span></td><td class="conf">S1 says <b>reject</b><br>S2 says <b>accept</b><br><span class="bb-tag conf">conflict</span></td></tr>
             <tr><th>Invalid</th><td class="conf">S1 says <b>accept</b><br>S2 says <b>reject</b><br><span class="bb-tag conf">conflict</span></td><td>S1 says <b>reject</b><br>S2 says <b>reject</b><br><span class="bb-tag ok">agree</span></td></tr>
           </tbody></table>
-          ${ui.callout('s1', `<b>The key idea:</b> on conflict items System 2 must actively <b>override</b> the answer System 1 has already produced. ${res.confOK < res.nonOK ? `Your results show this: <b>${res.confOK}/4</b> on conflict items vs <b>${res.nonOK}/4</b> when they agreed.` : 'That takes effort and time, which is why most people score worse on these.'}`)}`,
+          ${ui.callout('s1', `<b>The key idea:</b> on conflict items System 2 must actively <b>override</b> the answer System 1 has already produced. ${res.confOK < res.nonOK ? `Your results show this: <b>${res.confOK}/4</b> on conflict items versus <b>${res.nonOK}/4</b> when they agreed.` : 'That takes effort and time, which is why most people score worse on these.'}`)}`,
       },
       {
         kicker: 'Name the bias', title: 'Belief bias',
@@ -332,7 +332,7 @@
         { point: 'What System 1 did', hint: 'Asked “is the conclusion believable?” and accepted or rejected on that basis, ignoring the premises.' },
         { point: 'What System 2 would have done', hint: 'Assumed the premises were true and checked whether the conclusion is forced. Slow; the time limit made it harder.' },
         { point: 'Name it: belief bias', hint: 'Judging an argument’s logic by how believable its conclusion is. Worst on conflict items.' },
-        { point: 'The evidence', hint: 'Evans et al. (1983): VB 89%, VU 56%, IB 71%, IU 10%. Evans & Curtis-Holmes (2005): time pressure → more belief bias. Goel & Dolan (2003): right lateral PFC when logic wins; VMPFC when belief wins.' },
+        { point: 'The evidence', hint: 'Evans et al. (1983): valid and believable 89%, valid and unbelievable 56%, invalid and believable 71%, invalid and unbelievable 10%. Evans & Curtis-Holmes (2005): time pressure → more belief bias. Goel & Dolan (2003): right lateral PFC when logic wins; VMPFC when belief wins.' },
         { point: 'Real life', hint: 'Judging political arguments by whether you like the conclusion; sharing fake news; accepting weak studies in essays.' },
       ],
       visual: `${STYLE}<div class="bb-euler">
@@ -345,6 +345,26 @@
         'What might happen to your score with unlimited time?',
       ],
     },
+    concepts: [
+      { name: 'Causality', html: `Evans and Curtis-Holmes (2005) <b>manipulated</b> the time allowed, so they can claim that time pressure <i>causes</i> more belief-based answers. Goel and Dolan (2003) only <b>recorded</b> which brain areas were active when belief or logic won. That is correlational: it shows what happens alongside each kind of answer, not what causes it.` },
+      { name: 'Measurement', html: `Belief bias is measured by asking people to judge arguments as “valid” or “invalid”. But some participants may read “valid” as “true” or “sensible”, whatever the instructions say, so part of the effect could be a misunderstanding of the task. Researchers also have to choose what to measure: accuracy alone, or response time and confidence as well, which can tell a different story.` },
+      { name: 'Bias', html: `Belief bias applies to researchers too. A scientist, examiner or student may accept a weak study without question when its conclusion fits what they already believe, and pick holes in an equally good study that disagrees. Checking the method before looking at the conclusion is one way research tries to guard against this.` },
+      { name: 'Perspective', html: `The same bias can be studied at different levels: behaviour (which answers people give), cognition (how two systems compete) and biology (which brain areas are active). Within the cognitive perspective, researchers also disagree about whether System 1 is blind to logic or has some fast sense of it (see the next screen).` },
+    ],
+    debate: {
+      title: 'Is System 1 blind to logic?',
+      sideA: { label: 'System 2 is needed for logic (Evans & Curtis-Holmes, 2005)', html: `In the classic view, System 1 gives a fast, belief-based answer and System 2 may step in later to check the logic. Evans and Curtis-Holmes supported this: when participants had to answer within about 10 seconds, belief-based answers increased and logic-based answers fell. Cutting System 2’s time seemed to leave only belief.` },
+      sideB: { label: 'Some logic may be intuitive (De Neys and colleagues)', html: `Studies by Wim De Neys and colleagues found that people who give the belief-based answer on conflict items still tend to be <b>slower</b> and <b>less confident</b> than on items where logic and belief agree. In some studies, many people who reached the logical answer already gave it as a fast first response. This suggests System 1 may pick up some logical structure, not just believability.` },
+      why: [
+        { factor: 'What is measured', html: `Evans and Curtis-Holmes measured the <b>final answer</b>. De Neys and colleagues also measured <b>response time and confidence</b>. A wrong answer given with hesitation shows something that accuracy alone would miss, so the studies may be looking at different parts of the same process.` },
+        { factor: 'How “fast” is defined', html: `A 10-second limit reduces System 2 time but doesn’t remove it. Later studies used much shorter deadlines, sometimes with an extra memory task, to be surer that only fast processes were at work. Different time limits could lead to different conclusions.` },
+        { factor: 'Interpretation', html: `Slower, less confident belief-based answers could mean System 1 detects a logical conflict. But they could also mean System 2 started checking and then gave up. The data fit both explanations, so the disagreement is partly about interpretation.` },
+        { factor: 'Individual differences', html: `Averages hide variety. Some people may have good logical intuitions while others rely only on belief. A study that averages across everyone can make the whole group look either more or less logical than any one person is.` },
+        { factor: 'Sample size in brain studies', html: `Goel and Dolan (2003), often cited for the two-system view, used a small sample, as was common in early fMRI research. Small samples make findings less reliable, so the brain evidence should be treated as supportive rather than decisive.` },
+      ],
+      trust: `The behavioural finding that time pressure increases belief bias is well replicated, and so is the finding that people are slower and less confident on conflict items. So both sets of data are trustworthy. What is uncertain is the theory built on them: the idea that System 1 is completely blind to logic looks too simple. It is probably safest to say that belief usually dominates fast responses, but that some sensitivity to logic can be fast too. The small-sample brain evidence is the weakest link and should carry the least weight.`,
+      ask: 'If people feel uneasy about a conflict item even when they get it wrong, does that mean System 1 “knows” some logic, or that System 2 started and gave up?',
+    },
     quiz: {
       core: [
         { q: 'What is <b>belief bias</b>?', a: 'Judging whether an argument is logically valid by whether its conclusion is believable', d: ['Trusting information more when it comes from an expert or authority figure', 'Holding on to a belief after the evidence for it has been shown to be false', 'Looking only for information that supports what you already believe'], why: 'Belief bias is about letting the believability of the conclusion stand in for a judgement of logic.' },
@@ -355,6 +375,7 @@
         { q: 'Why does the time-pressure finding support dual process theory?', a: 'System 2 needs time, so limiting time leaves System 1’s belief-based answer in charge', d: ['System 1 needs time, so limiting time leaves System 2’s logical answer in charge', 'Time pressure raises motivation, which switches System 2 on more strongly', 'Time pressure affects memory rather than reasoning, so only one system is involved'], why: 'If limiting time increases belief bias, the process being cut short is the slow, logical one.' },
         { q: 'In <b>Goel & Dolan (2003)</b>, which area was more active when participants <b>overrode</b> belief and answered logically?', a: 'The right lateral prefrontal cortex', d: ['The ventromedial prefrontal cortex', 'The left temporal lobe', 'The hippocampus'], why: 'Right lateral PFC when logic won; ventromedial PFC (linked with emotion) when belief won.' },
         { q: 'Which arguments are <b>conflict items</b>?', a: 'Valid-unbelievable and invalid-believable, because logic and belief give different answers', d: ['Valid-believable and invalid-unbelievable, because logic and belief give different answers', 'Any argument with a premise that is false in real life', 'Any argument that takes longer than ten seconds to read'], why: 'On conflict items System 1 (belief) and System 2 (logic) disagree, so System 2 has to override System 1.' },
+        { q: 'De Neys and colleagues found that people who gave belief-based answers on conflict items were slower and less confident. What might this suggest?', a: 'Some fast sensitivity to logic may exist, even when the final answer is wrong', d: ['System 2 played no part at all in any of their reasoning', 'Belief bias only appears when people are given plenty of time', 'Confidence ratings cannot be used in reasoning research at all'], why: 'Hesitation on a wrong answer hints that something noticed the conflict with logic, although System 2 starting and giving up is another possible explanation.' },
       ],
       extra: [
         { q: '“All students who revise pass the exam. Maya passed the exam. Therefore Maya revised.” Is this valid?', a: 'Invalid: Maya could have passed without revising', d: ['Valid: passing the exam proves that Maya revised', 'Valid: both premises sound believable', 'Invalid: the first premise is unlikely to be true'], why: 'Same structure as the roses argument. Passing is compatible with not revising.' },
@@ -362,6 +383,7 @@
         { q: 'Which pattern of results would show <b>no</b> belief bias at all?', a: 'Valid arguments accepted equally often whether or not the conclusion is believable', d: ['Believable conclusions accepted more often than unbelievable ones', 'Invalid-believable arguments accepted more often than valid-unbelievable ones', 'Unbelievable conclusions rejected regardless of the logic'], why: 'If believability had no effect, only validity would change acceptance rates.' },
         { q: 'People with higher cognitive ability and a stronger need for cognition tend to show less belief bias. What does this suggest?', a: 'Some people are more able or more willing to use System 2 to override belief', d: ['Belief bias only affects people with low intelligence', 'Belief bias is caused by a lack of knowledge about the topic', 'High ability makes System 1 faster, so it wins more often'], why: 'Overriding System 1 takes effort and capacity. Individual differences affect how often System 2 steps in.' },
         { q: 'Why should Goel & Dolan’s (2003) findings be interpreted with caution?', a: 'fMRI shows areas active at the same time as a process, not that they cause it', d: ['The study used no conflict items, so belief could not be measured at all', 'All of the participants were patients with damage to the frontal lobe', 'fMRI can only measure activity in the brain stem, not the cortex'], why: 'Brain imaging is correlational. It fits a two-system view but doesn’t prove it.' },
+        { q: 'Evans & Curtis-Holmes changed the time allowed; Goel & Dolan recorded brain activity. Which concept explains why only the first supports a cause-and-effect claim?', a: 'Causality: only a variable the researcher manipulates allows a causal conclusion', d: ['Measurement: brain scanners cannot record activity in the frontal lobes', 'Perspective: biological studies are always less valid than cognitive ones', 'Change: brain activity changes too quickly for any scanner to measure'], why: 'Manipulating time is an experiment. Recording brain activity alongside answers is correlational.' },
       ],
     },
   });
