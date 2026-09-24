@@ -69,6 +69,16 @@
     ['Counting how many times the letter “e” appears in a paragraph', 2],
   ];
 
+  const bandHead = (n, ic, kicker, title, what) => `
+    <header class="band-head">
+      <span class="band-num">${n}</span>
+      <div>
+        <p class="band-kicker">${icon(ic)}${kicker}</p>
+        <h2>${title}</h2>
+        <p class="band-what">${what}</p>
+      </div>
+    </header>`;
+
   function renderHome() {
     document.title = 'Two Minds — Dual Process Theory & Cognitive Biases';
     app.innerHTML = `
@@ -91,80 +101,121 @@
       </div>
     </header>
 
-    <main class="wrap home-main">
-      <section class="home-block">
-        <h2>How the lesson works</h2>
-        <div class="how-grid">
-          <div class="how"><span class="how-ic">${icon('book-open')}</span><span class="how-n">1</span><h3>Learn your station</h3><p>Your group gets one station. Press <b>Learn</b>: do the experiment yourself first, then work through the step-by-step explanation and the quiz.</p></div>
-          <div class="how"><span class="how-ic">${icon('presentation')}</span><span class="how-n">2</span><h3>Host a visitor</h3><p>When a visitor arrives, press <b>Teach</b>. It skips the explanation and goes straight to the experiment. <b>You</b> do the explaining, from memory.</p></div>
-          <div class="how"><span class="how-ic">${icon('swords')}</span><span class="how-n">3</span><h3>Quiz each other</h3><p>Teach mode finishes with a head-to-head quiz for the host and the guest. It includes questions the host hasn't seen before.</p></div>
-        </div>
-      </section>
+    <nav class="jump" aria-label="On this page">
+      <div class="wrap jump-inner">
+        <a href="#how" data-jump>${icon('route')}How it works</a>
+        <a href="#theory" data-jump>${icon('book-open')}The theory</a>
+        <a href="#warmup-band" data-jump>${icon('zap')}Warm-up</a>
+        <a href="#stations" data-jump class="jump-main">${icon('layout-grid')}Stations</a>
+        <a href="#teacher" data-jump>${icon('graduation-cap')}Teacher guide</a>
+      </div>
+    </nav>
 
-      <section class="home-block">
-        <h2>The theory in two minutes</h2>
-        <div class="primer">
-          <p><b>Dual process theory</b> says that thinking and decision-making run on two systems. You can't avoid making hundreds of decisions a day, and thinking hard about every one would exhaust you. So the brain acts as a <b>cognitive miser</b>: it saves effort by letting a fast, automatic system handle most things, and brings in slow, careful reasoning only when it has to.</p>
-          ${ui.s1s2(
-            `<ul><li>Automatic, quick, needs almost no effort</li><li>Runs on <b>heuristics</b>, mental rules of thumb</li><li>Driven by context and whatever evidence is in front of it; ignores what's missing</li><li>Gives impressions, gut feelings and a strong sense of certainty</li><li>Handles everyday decisions; takes over when cognitive load is high or time is short</li></ul>`,
-            `<ul><li>Conscious, slow, takes effort</li><li>Works through possibilities and rules them out one by one</li><li>Can think abstractly and apply a rule to a new situation</li><li>More logical and more reliable, but feels less certain</li><li>Needs time, motivation and spare mental capacity</li></ul>`
-          )}
-          <p>The key point for this lesson: <b>System 1 answers first.</b> Its answer arrives quickly and feels right, so System 2 often accepts it without checking. When a heuristic doesn't fit the situation, the result is a <b>cognitive bias</b>: an error that is <i>systematic</i> (it happens to most people in the same direction), not random.</p>
-        </div>
-      </section>
-
-      <section class="home-block">
-        <h2>Warm-up: System 1 or System 2?</h2>
-        <p class="muted">Decide for each one. Most things use both systems, so pick whichever does most of the work.</p>
-        <div class="warmup" id="warmup"></div>
-      </section>
-
-      <section class="home-block">
-        <h2>The stations</h2>
-        <div class="station-grid">
-          ${DPT.stations.map(st => `
-            <article class="st-card" style="${hueStyle(st)}">
-              <a class="st-card-main" href="#s${st.num}">
-                <span class="st-top"><span class="st-num">${String(st.num).padStart(2, '0')}</span><span class="st-icon">${icon(ICONS[st.id] || 'brain')}</span></span>
-                <span class="st-bias">${esc(st.bias)}</span>
-                <span class="st-title">${esc(st.title)}</span>
-                <span class="st-hook">${esc(st.hook)}</span>
-              </a>
-              <div class="st-actions">
-                <a class="btn small learn" href="#s${st.num}/learn">Learn</a>
-                <a class="btn small teach" href="#s${st.num}/teach">Teach</a>
-              </div>
-            </article>`).join('')}
-        </div>
-      </section>
-
-      <section class="home-block">
-        <details class="teacher">
-          <summary>Teacher guide</summary>
-          <div class="teacher-body">
-            <h3>Set-up</h3>
-            <ul>
-              <li>One laptop per station. Open each laptop on its station page (click the station card) so it shows the big station number and the Learn / Teach buttons. Each station has its own address ending in <code>#s1</code> to <code>#s10</code>, which you can bookmark.</li>
-              <li>Groups of 2–3 per station. Everyone in the group should be ready to host.</li>
-            </ul>
-            <h3>Suggested timing (about 75 min)</h3>
-            <ol>
-              <li><b>Round 0, whole class (5 min):</b> the primer and warm-up above on the board.</li>
-              <li><b>Round 1, Learn (15–20 min):</b> each group does its own station in Learn mode, together, and finishes the quiz.</li>
-              <li><b>Rounds 2–5, rotate (10 min each):</b> split every group into <i>hosts</i> and <i>visitors</i>. Visitors move to the next station; hosts run Teach mode for them. Swap the roles each round, or every two rounds, so everyone both hosts and visits.</li>
-              <li><b>Plenary (5 min):</b> which biases share the same System 1 shortcut? (Substitution, ease of retrieval, surface features.)</li>
-            </ol>
-            <h3>Station notes</h3>
-            <ul>
-              <li>The <b>IB-required biases</b> are Anchoring (station 3) and Confirmation bias (station 4). Put your strongest groups there or have everyone visit both.</li>
-              <li>Some stations assign visitors to conditions at random and <b>save anonymous results on that laptop</b>, so over the lesson each station builds up its own class data set. Clear it below before a new class.</li>
-              <li>Teach mode has a head-to-head quiz drawing on a bigger question pool, including questions that never appear in Learn mode. Question order and answer order are shuffled every time.</li>
-            </ul>
-            <button class="btn ghost small" id="clearData">Clear saved class data on this laptop</button>
+    <main class="home-main">
+      <section class="band band-how" id="how">
+        <div class="wrap">
+          ${bandHead(1, 'route', 'Start here', 'How the lesson works', 'Three steps. Read them once so you know what happens at your station.')}
+          <div class="how-grid how-flow">
+            <div class="how"><span class="how-ic">${icon('book-open')}</span><span class="how-n">1</span><h3>Learn your station</h3><p>Your group gets one station. Press <b>Learn</b>: do the experiment yourself first, then work through the step-by-step explanation and the quiz.</p></div>
+            <div class="how"><span class="how-ic">${icon('presentation')}</span><span class="how-n">2</span><h3>Host a visitor</h3><p>When a visitor arrives, press <b>Teach</b>. It skips the explanation and goes straight to the experiment. <b>You</b> do the explaining, from memory.</p></div>
+            <div class="how"><span class="how-ic">${icon('swords')}</span><span class="how-n">3</span><h3>Quiz each other</h3><p>Teach mode finishes with a head-to-head quiz for the host and the guest. It includes questions the host hasn't seen before.</p></div>
           </div>
-        </details>
+        </div>
       </section>
-      <footer class="foot">Two Minds · original teaching material. Studies cited are summarised for classroom use.</footer>
+
+      <section class="band band-theory" id="theory">
+        <div class="wrap">
+          ${bandHead(2, 'book-open', 'Read', 'The theory in two minutes', 'The one idea every station comes back to.')}
+          <div class="theory-grid">
+            <div class="theory-intro">
+              <p><b>Dual process theory</b> says that thinking and decision-making run on two systems.</p>
+              <p>You make hundreds of decisions a day. Thinking hard about every one would exhaust you, so the brain acts as a <b>cognitive miser</b>: a fast, automatic system handles most things, and slow, careful reasoning is brought in only when it has to be.</p>
+            </div>
+            ${ui.s1s2(
+              `<ul><li>Automatic, quick, needs almost no effort</li><li>Runs on <b>heuristics</b>, mental rules of thumb</li><li>Driven by context and the evidence in front of it; ignores what's missing</li><li>Gives gut feelings and a strong sense of certainty</li><li>Takes over when cognitive load is high or time is short</li></ul>`,
+              `<ul><li>Conscious, slow, takes effort</li><li>Works through possibilities one by one</li><li>Can think abstractly and apply a rule to a new situation</li><li>More logical and reliable, but feels less certain</li><li>Needs time, motivation and spare mental capacity</li></ul>`
+            )}
+          </div>
+          <div class="chain" aria-label="How a bias happens">
+            <div class="chain-step s1">${icon('zap')}<b>System 1 answers first</b><span>fast, using a shortcut</span></div>
+            <div class="chain-arrow">${icon('arrow-right')}</div>
+            <div class="chain-step s1">${icon('thumbs-up')}<b>It feels right</b><span>so it seems certain</span></div>
+            <div class="chain-arrow">${icon('arrow-right')}</div>
+            <div class="chain-step s2">${icon('eye-off')}<b>System 2 doesn't check</b><span>checking takes effort</span></div>
+            <div class="chain-arrow">${icon('arrow-right')}</div>
+            <div class="chain-step bias">${icon('triangle-alert')}<b>Cognitive bias</b><span>a systematic error</span></div>
+          </div>
+          <p class="chain-note">A bias is <b>systematic</b>: most people make the same error in the same direction. That is what makes it predictable, and what every station lets you see for yourself.</p>
+        </div>
+      </section>
+
+      <section class="band band-warmup" id="warmup-band">
+        <div class="wrap">
+          ${bandHead(3, 'zap', 'Try it', 'Warm-up: System 1 or System 2?', 'Tap S1 or S2 for each one. Most things use both, so pick whichever does most of the work.')}
+          <div class="warmup-card">
+            <div class="wu-progress"><div class="wu-bar"><div id="wuFill"></div></div><span id="wuCount">0 / ${WARMUP.length}</span></div>
+            <div class="warmup" id="warmup"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band-stations" id="stations">
+        <div class="wrap">
+          ${bandHead(4, 'layout-grid', 'Choose your station', 'The ten stations', 'Go to the station your teacher gives you. Press Learn the first time, Teach when you host a visitor.')}
+          <div class="station-grid">
+            ${DPT.stations.map(st => `
+              <article class="st-card" style="${hueStyle(st)}">
+                <a class="st-card-main" href="#s${st.num}">
+                  <span class="st-top"><span class="st-num">${String(st.num).padStart(2, '0')}</span><span class="st-icon">${icon(ICONS[st.id] || 'brain')}</span></span>
+                  ${st.num === 3 || st.num === 4 ? '<span class="st-req">IB required</span>' : ''}
+                  <span class="st-bias">${esc(st.bias)}</span>
+                  <span class="st-title">${esc(st.title)}</span>
+                  <span class="st-hook">${esc(st.hook)}</span>
+                </a>
+                <div class="st-actions">
+                  <a class="btn small learn" href="#s${st.num}/learn">${icon('book-open')}Learn</a>
+                  <a class="btn small teach" href="#s${st.num}/teach">${icon('presentation')}Teach</a>
+                </div>
+              </article>`).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="band band-teacher" id="teacher">
+        <div class="wrap">
+          <details class="teacher">
+            <summary>${icon('graduation-cap')}<span>Teacher guide</span><small>Set-up, timings and station notes</small></summary>
+            <div class="teacher-body">
+              <div class="teacher-cols">
+                <div>
+                  <h3>Set-up</h3>
+                  <ul>
+                    <li>One laptop per station. Open each laptop on its station page (click the station card) so it shows the big station number and the Learn / Teach buttons. Each station has its own address ending in <code>#s1</code> to <code>#s10</code>, which you can bookmark.</li>
+                    <li>Groups of 2–3 per station. Everyone in the group should be ready to host.</li>
+                  </ul>
+                  <h3>Station notes</h3>
+                  <ul>
+                    <li>The <b>IB-required biases</b> are Anchoring (station 3) and Confirmation bias (station 4). Put your strongest groups there or have everyone visit both.</li>
+                    <li>Some stations assign visitors to conditions at random and <b>save anonymous results on that laptop</b>, so each station builds up its own class data set. Clear it below before a new class.</li>
+                    <li>Teach mode has a head-to-head quiz drawing on a bigger question pool, including questions that never appear in Learn mode. Question and answer order are shuffled every time.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3>Suggested timing (about 75 minutes)</h3>
+                  <ol class="timeline">
+                    <li><b>Round 0, whole class · 5 min</b>The theory and warm-up above, on the board.</li>
+                    <li><b>Round 1, Learn · 15–20 min</b>Each group does its own station in Learn mode, together, and finishes the quiz.</li>
+                    <li><b>Rounds 2–5, rotate · 10 min each</b>Split every group into <i>hosts</i> and <i>visitors</i>. Visitors move to the next station; hosts run Teach mode. Swap roles each round, or every two rounds.</li>
+                    <li><b>Plenary · 5 min</b>Which biases share the same System 1 shortcut? (Substitution, ease of retrieval, surface features.)</li>
+                  </ol>
+                </div>
+              </div>
+              <button class="btn ghost small" id="clearData">${icon('trash-2')}Clear saved class data on this laptop</button>
+            </div>
+          </details>
+          <footer class="foot">Two Minds · original teaching material. Studies cited are summarised for classroom use. Sounds by Kenney (CC0 licence, public domain). Icons by Lucide.</footer>
+        </div>
+      </section>
     </main>`;
 
     const wu = document.getElementById('warmup');
@@ -183,9 +234,16 @@
       const ok = b.dataset.pick === item.dataset.sys;
       answered++; if (ok) right++;
       item.classList.add(ok ? 'ok' : 'no');
+      document.getElementById('wuFill').style.width = `${(answered / WARMUP.length) * 100}%`;
+      document.getElementById('wuCount').textContent = `${answered} / ${WARMUP.length}`;
       sfx.play(ok ? 'correct' : 'wrong');
       item.querySelector(`.wu-b.s${item.dataset.sys}`).classList.add('answer');
       if (answered === WARMUP.length) document.getElementById('wuScore').textContent = `${right} / ${WARMUP.length}. Did you have to think about any of them? That was System 2 at work.`;
+    });
+
+    app.querySelectorAll('[data-jump]').forEach(a => a.onclick = e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     document.getElementById('clearData').onclick = () => {
