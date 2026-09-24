@@ -539,3 +539,56 @@ ol.timeline li b { display: block; color: var(--ink); }
   :root:not([data-theme="light"]) .chain-step.bias span { color: #45424d; }
   :root:not([data-theme="light"]) .jump a.jump-main { background: var(--ink); color: var(--bg); }
 }
+
+/* ── Phone polish ── */
+/* Hover lifts only where there is a real pointer, so taps don't leave elements "stuck" raised. */
+@media (hover: none) {
+  .btn:hover:not(:disabled), .mode-btn:hover, .band-stations .st-card:hover { transform: none; }
+}
+.flow-nav { padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+.landing, .flow { min-height: 100dvh; }
+@media (max-width: 680px) {
+  /* Jump menu wraps instead of hiding links off-screen. */
+  .jump-inner { flex-wrap: wrap; justify-content: center; gap: 4px; padding: 8px 12px; }
+  .jump a { padding: 6px 10px; font-size: 13px; }
+  .band { scroll-margin-top: 96px; }
+  /* Wason cards: long words on narrow cards. */
+  .wcard-face { font-size: clamp(18px, 7vw, 30px); border-width: 2px; border-radius: 10px; }
+  .wcard-face.small { font-size: 12px; padding: 4px; overflow-wrap: anywhere; hyphens: auto; }
+  /* Bigger tap targets. */
+  .wu-b { padding: 8px 14px; }
+  .wu-item { flex-wrap: wrap; }
+  .flow-nav .btn { padding: 10px 16px; }
+  .flow-label { font-size: 12.5px; }
+  .flow-top { padding: 8px 14px; gap: 10px; }
+  .flow-title { font-size: 14px; }
+  .screen-title { font-size: 28px; }
+  .big-q { font-size: 19px; }
+  .task-card { padding: 16px; }
+  .quiz-score, .duel-final b { font-size: 52px; }
+  .lock-btns { gap: 6px; }
+  .lock-b { width: 44px; }
+}
+@media (max-width: 680px) {
+  /* Any results table fits the screen; words wrap rather than push the page sideways. */
+  .screen table { width: 100%; max-width: 100%; font-size: 14px; }
+  .screen th, .screen td { padding: 6px 5px !important; overflow-wrap: anywhere; }
+  .host-visual { padding: 12px 10px; overflow-x: auto; }
+  .card, .study, .callout, .define { padding-left: 14px; padding-right: 14px; }
+}
+@media (max-width: 680px) {
+  /* Headers never break mid-word; only long cell content wraps. */
+  .screen th { overflow-wrap: normal; word-break: normal; }
+  /* Row labels down the side of 2×2 tables read sideways instead of splitting. */
+  .screen tbody th { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center !important; white-space: nowrap; width: 1.6em; }
+  .bb-table { border-spacing: 5px !important; margin: 10px -5px !important; }
+}
+@media (max-width: 680px) {
+  /* Station 10 rating scale: label on top, 1–7 in one row, end labels underneath. */
+  .flow .ic-row { grid-template-columns: 1fr !important; gap: 6px !important; margin-bottom: 14px; }
+  .flow .ic-scale { display: grid !important; grid-template-columns: repeat(7, 1fr); gap: 5px !important; }
+  .flow .ic-scale .choice { width: auto !important; min-height: 44px; }
+  .flow .ic-scale .ic-end { grid-row: 2; margin: 0 !important; font-size: 12.5px; }
+  .flow .ic-scale .ic-end:first-child { grid-column: 1 / 4; }
+  .flow .ic-scale .ic-end:last-child { grid-column: 5 / 8; text-align: right; }
+}
