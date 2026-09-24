@@ -24,6 +24,7 @@ Check throughout:
 - keyboard and clicker navigation (arrows, Page Up/Down), presenter mode, Calm mode where there are timers
 - the evidence PDF contains what the teacher needs and opens
 - the lesson still runs from `file://`
+- **Report a problem** opens from every screen and names the right chapter, station or screen
 
 Fix each bug as you find it, then replay that activity from its start.
 

@@ -113,6 +113,9 @@ function App() {
           <span>Mindfield</span>
         </a>
         <p>Psychology resources for curious minds.</p>
+        <a className="footer-report" href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose" target="_blank" rel="noopener">
+          Found a problem in a lesson? Report it
+        </a>
       </footer>
     </main>
   );

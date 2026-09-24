@@ -19,5 +19,6 @@
 ## Done when
 
 - The lesson opens from `file://` and from the local server, and every chapter or station is reachable start to finish.
+- The menu or top bar has a working **Report a problem** entry, with `MindfieldReport.where` set (see [materials/README.md](../../materials/README.md#report-a-problem)).
 - The brief exists and its open questions are listed.
 - The lesson has a row in [lessons.md](../lessons.md) marked Spark done, with the missing-items list linked.

@@ -17,6 +17,7 @@
 1. `npm run build` passes.
 2. Commit only this lesson's files and push to `origin main`.
 3. Wait for the Pages deploy (about 40 s), open the live URL, and check the lesson loads and appears on the homepage.
+4. Open **Report a problem** on the live lesson and check both forms open on GitHub with the lesson name and place filled in.
 
 ## Done when
 

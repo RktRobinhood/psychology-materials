@@ -48,6 +48,12 @@
     if (t.matches('.btn, .mode-btn, .st-card-main')) sfx.play('click');
   });
   app.addEventListener('change', e => { if (e.target.matches('.check-item input') && e.target.checked) sfx.play('tap'); });
+  const reportBtn = () => `<a class="report-btn" href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose" target="_blank" rel="noopener" data-report-problem title="Report a problem" aria-label="Report a problem">${icon('flag')}</a>`;
+  // Tells the shared Report a problem form where the student is.
+  (window.MindfieldReport = window.MindfieldReport || {}).where = () => {
+    const step = document.getElementById('navLabel');
+    return [document.title, step && step.textContent.trim()].filter(Boolean).join(', ');
+  };
   const muteBtn = () => `<button class="mute-btn" type="button" title="Sound on/off" aria-label="Sound on/off">${icon(sfx.muted ? 'volume-x' : 'volume-2')}</button>`;
   app.addEventListener('click', e => {
     const b = e.target.closest('.mute-btn');
@@ -108,6 +114,7 @@
         <a href="#warmup-band" data-jump>${icon('zap')}Warm-up</a>
         <a href="#stations" data-jump class="jump-main">${icon('layout-grid')}Stations</a>
         <a href="#teacher" data-jump>${icon('graduation-cap')}Teacher guide</a>
+        <a href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose" target="_blank" rel="noopener" data-report-problem>${icon('flag')}Report a problem</a>
       </div>
     </nav>
 
@@ -257,7 +264,7 @@
     document.title = `Station ${st.num} · ${st.title}`;
     app.innerHTML = `
     <div class="landing" style="${hueStyle(st)}">
-      <div class="landing-bar"><a class="landing-home" href="#">← All stations</a>${muteBtn()}</div>
+      <div class="landing-bar"><a class="landing-home" href="#">← All stations</a><span class="bar-tools">${reportBtn()}${muteBtn()}</span></div>
       <div class="landing-inner">
         <div class="landing-icon">${icon(ICONS[st.id] || 'brain')}</div>
         <div class="landing-num">Station ${st.num}</div>
@@ -354,7 +361,7 @@
         <a class="flow-back" href="#s${st.num}" title="Back to station start">‹ Station ${st.num}</a>
         <div class="flow-title"><span class="flow-mode ${mode}">${mode === 'learn' ? 'Learn' : 'Teach'}</span> ${esc(st.title)}</div>
         <div class="flow-dots" id="dots"></div>
-        ${muteBtn()}
+        ${reportBtn()}${muteBtn()}
       </header>
       <main class="flow-stage" id="stage"></main>
       <nav class="flow-nav">

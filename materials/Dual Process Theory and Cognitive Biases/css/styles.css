@@ -379,8 +379,11 @@ svg.lucide { width: 1.15em; height: 1.15em; vertical-align: -.2em; stroke-width:
 @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .hero-art { display: none; } }
 @media (prefers-reduced-motion: reduce) { .orb { animation: none !important; } .screen { animation: none; } }
 .hero-mute { position: absolute; top: -34px; right: 20px; }
-.mute-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--paper); color: var(--ink-2); display: grid; place-items: center; flex: none; }
-.mute-btn:hover { color: var(--ink); border-color: var(--ink-2); }
+.mute-btn, .report-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--paper); color: var(--ink-2); display: grid; place-items: center; flex: none; }
+.report-btn { text-decoration: none; }
+.report-btn svg { width: 18px; height: 18px; }
+.bar-tools { display: inline-flex; gap: 8px; }
+.mute-btn:hover, .report-btn:hover { color: var(--ink); border-color: var(--ink-2); }
 .how-ic { position: absolute; right: 18px; top: 18px; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--s2-soft); color: var(--s2); }
 .how:nth-child(3) .how-ic { background: var(--s1-soft); color: var(--s1); }
 .how-ic svg.lucide { width: 22px; height: 22px; }

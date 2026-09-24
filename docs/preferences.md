@@ -36,6 +36,7 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - Plain HTML, CSS and **classic scripts** (no modules, no build step), so a lesson runs from `file://` and from GitHub Pages.
 - Lesson content in `data/lesson-data.js`; engine in `js/app.js`; tasks in their own `js/` files.
 - External libraries from cdnjs at a pinned version, with jsDelivr as a backup.
+- Every lesson has a **Report a problem** entry in its menu or top bar, wired to `materials/shared/report-problem.js` (see [materials/README.md](../materials/README.md#report-a-problem)). It opens the student-friendly GitHub issue forms with the lesson, place and device filled in. Why: the user wants students to report bugs straight to GitHub issues.
 - Folder names: `materials/<Lesson Name>/` in Title Case with spaces (matches existing lessons); `design/<lesson-slug>/` in kebab-case.
 
 ## Git

@@ -98,6 +98,8 @@ button:disabled { cursor: default; }
 .chapter-jump:hover, .chapter-jump.current { border-color: var(--gold); background: #203243; }
 .cj-title { font-weight: 700; }
 .cj-meta { grid-column: 1; font-size: 13px; color: var(--muted); }
+.report-link { margin-left: auto; margin-right: 8px; color: var(--muted); font-size: 13px; text-decoration: none; padding: 6px 10px; border: 1px solid transparent; border-radius: 8px; }
+.report-link:hover { color: var(--gold-bright); border-color: #455463; }
 .cj-done { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 13px; color: var(--muted); }
 .core { color: var(--green); font-weight: 600; }
 .opt { color: var(--gold-bright); font-weight: 600; }

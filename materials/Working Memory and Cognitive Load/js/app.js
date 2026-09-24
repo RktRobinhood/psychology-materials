@@ -1008,6 +1008,8 @@
   els.dialogue.onclick = finishTyping;
   $('menuBtn').onclick = () => { renderMenu(); els.menu.showModal(); sound('open'); };
   $('teacherBtn').onclick = () => { renderTeacher(); els.teacher.showModal(); sound('open'); };
+  // Tells the shared Report a problem form where the student is.
+  (window.MindfieldReport = window.MindfieldReport || {}).where = () => `${chapter().title}, screen ${els.step.textContent}`;
   document.querySelectorAll('dialog').forEach(d => d.addEventListener('close', () => sound('close')));
   // A soft click for plain choice buttons; tasks add their own right/wrong sounds on top.
   document.addEventListener('click', e => {

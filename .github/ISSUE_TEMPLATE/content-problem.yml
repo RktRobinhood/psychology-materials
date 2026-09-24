@@ -1,0 +1,51 @@
+name: Something is wrong or confusing
+description: A typo, a fact that looks wrong, an unclear question, or a check that marks a right answer as wrong.
+title: "[Content] "
+labels: ["content", "student report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Good catch. Tell us what looks wrong and, if you can, what you think it should say. Please do **not** write your full name, email or any other personal details here: this page is public.
+  - type: input
+    id: lesson
+    attributes:
+      label: Lesson
+      description: Which lesson were you using?
+      placeholder: e.g. Two Minds
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where in the lesson?
+      description: Chapter, station, lock or screen.
+      placeholder: e.g. Station 3, Learn, step 5
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem is it?
+      options:
+        - Typo or spelling
+        - A fact or study detail looks wrong
+        - A question or instruction is confusing
+        - A check marked my answer wrong (or right) by mistake
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What is the problem?
+      description: Copy the text if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: What should it say instead? (optional)
+  - type: textarea
+    id: device
+    attributes:
+      label: Device and browser
+      description: Filled in for you when you use the lesson's Report a problem button.
