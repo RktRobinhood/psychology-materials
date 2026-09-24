@@ -1,7 +1,7 @@
 /* Memory Quest — lesson engine: navigation, screens, teacher tools, evidence PDF. */
 (() => {
   const data = window.MEMORY_QUEST;
-  const { h, btn, shuffle, bars } = window.MQHelpers;
+  const { h, btn, shuffle, bars, reveal, explain } = window.MQHelpers;
   const $ = id => document.getElementById(id);
   const els = {
     scene: $('scene'), portrait: $('portraitImg'), portraitStage: $('portraitStage'),
@@ -379,9 +379,7 @@
     const p = els.panel;
     let i = 0, score = 0;
     const body = h('div');
-    p.append(h('h2', 'game-title', 'Check your understanding'));
-    if (sc.intro) p.append(h('p', 'quiz-intro', sc.intro));
-    p.append(body);
+    p.append(h('h2', 'game-title', 'Check your understanding'), body);
     const show = () => {
       body.innerHTML = '';
       if (i >= sc.questions.length) {
@@ -393,20 +391,24 @@
       }
       const q = sc.questions[i];
       body.append(h('p', 'muted', `Question ${i + 1} of ${sc.questions.length}`));
-      if (q.passage) { const d = h('div', 'passage'); d.innerHTML = q.passage; body.append(d); }
+      // The scenario is only needed once; later questions quote what they need.
+      if (sc.intro && i === 0) body.append(h('p', 'quiz-intro', sc.intro));
+      let passage = null;
+      if (q.passage) { passage = h('div', 'passage'); passage.innerHTML = q.passage; body.append(passage); }
       body.append(h('h3', 'q-title', q.q));
-      const row = h('div', 'game-button-row col');
+      const row = h('div', 'game-button-row' + (q.inline ? '' : ' col'));
       const correct = q.options[q.answer];
       (q.fixed ? q.options : shuffle(q.options)).forEach(o => row.append(btn(o, () => {
         const ok = o === correct;
         if (ok) score++;
-        [...row.children].forEach(b => { b.disabled = true; if (b.textContent === correct) b.classList.add('right'); else if (b.textContent === o) b.classList.add('wrong'); });
+        reveal([...row.children], correct, o);
+        // A long passage makes room for the explanation, so the panel does not grow.
+        if (passage && passage.offsetHeight > 150) passage.hidden = true;
         sound(ok ? 'correct' : 'wrong');
-        const why = h('div', 'why ' + (ok ? 'good' : 'bad'));
-        why.innerHTML = `<b>${ok ? 'Correct.' : 'Not quite.'}</b> ${esc(q.explain)}`;
-        const nb = btn(i < sc.questions.length - 1 ? 'Next question ▸' : 'Finish', () => { i++; show(); }, 'jrpg-btn primary');
-        body.append(why, nb);
-        nb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        const { box, next } = explain(ok, `<b>${ok ? 'Correct.' : 'Not quite.'}</b> ${esc(q.explain)}`,
+          i < sc.questions.length - 1 ? 'Next question ▸' : 'Finish', () => { i++; show(); });
+        body.append(box);
+        next.focus({ preventScroll: true });
       })));
       body.append(row);
     };
@@ -453,12 +455,13 @@
         body.innerHTML = '';
         body.append(h('p', 'muted center', `Question ${i + 1} of ${n}`), h('h3', 'q-title', q.q));
         let tick = null, left = sc.seconds, settled = false;
-        const bar = h('div', 'timebar'), fill = h('div'), clock = h('div', 'surge-clock');
+        const timing = h('div', 'surge-timing'), bar = h('div', 'timebar'), fill = h('div'), clock = h('div', 'surge-clock');
         bar.append(fill);
+        timing.append(bar, clock);
         if (!state.calm) {
           fill.style.animation = `drain ${sc.seconds}s linear forwards`;
           clock.textContent = `${left}s`;
-          body.append(bar, clock);
+          body.append(timing);
           tick = r.every(1000, () => {
             left--;
             clock.textContent = `${Math.max(0, left)}s`;
@@ -475,18 +478,16 @@
           if (settled) return;
           settled = true;
           if (tick) r.stop(tick);
-          fill.style.animationPlayState = 'paused';
+          timing.remove();
           const ok = o === correct;
           marks[i] = ok;
           drawTrack(marks);
-          buttons.forEach(b => { b.disabled = true; if (b.textContent === correct) b.classList.add('right'); else if (b.textContent === o) b.classList.add('wrong'); });
+          reveal(buttons, correct, o);
           sound(ok ? 'shatter' : 'wrong');
-          const why = h('div', 'why ' + (ok ? 'good' : 'bad'));
-          why.innerHTML = `<b>${ok ? 'Held!' : o === null ? 'Time is up.' : 'The Static advances.'}</b> ${esc(q.explain)}`;
-          const nb = btn(i < n - 1 ? 'Next question ▸' : 'See the result', () => res(ok), 'jrpg-btn primary');
-          body.append(why, nb);
-          nb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-          nb.focus({ preventScroll: true });
+          const { box, next } = explain(ok, `<b>${ok ? 'Held!' : o === null ? 'Time is up.' : 'The Static advances.'}</b> ${esc(q.explain)}`,
+            i < n - 1 ? 'Next question ▸' : 'See the result', () => res(ok));
+          body.append(box);
+          next.focus({ preventScroll: true });
         }
       });
     }
@@ -515,23 +516,49 @@
   function recap(sc) {
     const p = els.panel;
     const ratings = state.recap;
-    p.append(h('h2', 'game-title', 'What can you do now?'),
-      h('p', 'muted', 'Rate each statement. Open "Remind me" if you are unsure, then rate yourself honestly.'));
+    const PER = 4, pages = Math.ceil(sc.items.length / PER);
+    const names = ['Part 1 · Working memory', 'Part 2 · Cognitive load'];
+    let page = 0;
+    const head = h('div', 'recap-head');
     const list = h('ol', 'recap-list');
+    // Reminders appear in one fixed-size box, so opening one never makes the panel grow.
+    const remindBox = h('div', 'recap-remind');
+    const nav = h('div', 'recap-nav');
+    p.append(h('h2', 'game-title', 'What can you do now?'), head, list, remindBox, nav);
     const check = () => { if (sc.items.every((_, k) => ratings[k])) markDone(); };
-    sc.items.forEach(([can, remind], k) => {
-      const li = h('li', 'recap-item');
-      li.append(h('p', 'recap-can', `I can ${can.charAt(0).toLowerCase()}${can.slice(1)}`));
-      const d = h('details', 'hint');
-      d.innerHTML = `<summary>Remind me</summary><p>${esc(remind)}</p>`;
-      const row = h('div', 'recap-levels');
-      const draw = () => [...row.children].forEach(b => b.classList.toggle('chosen', b.textContent === ratings[k]));
-      RECAP_LEVELS.forEach(l => row.append(btn(l, () => { ratings[k] = l; save(); draw(); check(); })));
-      draw();
-      li.append(row, d);
-      list.append(li);
-    });
-    p.append(list);
+    function draw() {
+      head.textContent = `${names[page] || `Part ${page + 1}`} · rate yourself honestly. Tap ? for a reminder.`;
+      remindBox.textContent = '';
+      remindBox.classList.remove('on');
+      list.innerHTML = '';
+      list.start = page * PER + 1;
+      sc.items.slice(page * PER, page * PER + PER).forEach(([can, remind], j) => {
+        const k = page * PER + j;
+        const li = h('li', 'recap-item');
+        const text = h('p', 'recap-can', `I can ${can.charAt(0).toLowerCase()}${can.slice(1)}`);
+        const q = btn('?', () => { remindBox.textContent = remind; remindBox.classList.add('on'); }, 'recap-q');
+        q.title = 'Remind me';
+        text.append(q);
+        const row = h('div', 'recap-levels');
+        const mark = () => [...row.children].forEach(b => b.classList.toggle('chosen', b.textContent === ratings[k]));
+        RECAP_LEVELS.forEach(l => row.append(btn(l, () => { ratings[k] = l; save(); mark(); check(); drawNav(); })));
+        mark();
+        li.append(text, row);
+        list.append(li);
+      });
+      drawNav();
+    }
+    function drawNav() {
+      nav.innerHTML = '';
+      if (page > 0) nav.append(btn(`◂ ${names[page - 1] || 'Back'}`, () => { page--; draw(); }, 'jrpg-btn secondary'));
+      if (page < pages - 1) {
+        const ready = sc.items.slice(page * PER, page * PER + PER).every((_, j) => ratings[page * PER + j]);
+        const b = btn(`${names[page + 1] || 'Next'} ▸`, () => { page++; draw(); }, 'jrpg-btn primary');
+        b.disabled = !ready;
+        nav.append(b);
+      }
+    }
+    draw();
     check();
   }
 
@@ -627,21 +654,24 @@
         <label class="tally-field"><span>Name</span><input id="subName" autocomplete="name"></label>
         <label class="tally-field"><span>Class / group</span><input id="subGroup"></label>
       </div>
-      <div class="summary"></div>
-      <button class="jrpg-btn primary big" id="pdfBtn">Download evidence PDF</button>
-      <div id="pdfStatus" class="pdf-status" role="status"></div>
-      <details class="hint save-help" id="saveHelp">
-        <summary>Download did not work, or the PDF will not open?</summary>
-        <p>Try these in order. Any one of them is fine for Elevfeedback.</p>
-        <div class="save-options">
-          <button type="button" class="jrpg-btn secondary" id="openBtn">1 · Open PDF in a new tab</button>
-          <button type="button" class="jrpg-btn secondary" id="printBtn">2 · Print → Save as PDF</button>
-          <button type="button" class="jrpg-btn secondary" id="copyBtn">3 · Copy as text</button>
+      <div class="finish-layout">
+        <div class="finish-main">
+          <div class="summary"></div>
+          <button class="jrpg-btn primary big" id="pdfBtn">Download evidence PDF</button>
+          <div id="pdfStatus" class="pdf-status" role="status"></div>
+          <div class="attendance"><b>Required:</b> upload your evidence to <b>Elevfeedback</b> before you leave.</div>
         </div>
-        <p class="muted">1: on iPad, tap Share → Save to Files. 2: uses your browser's own PDF maker; choose "Save as PDF" as the printer. 3: paste the text straight into Elevfeedback.</p>
-        <textarea id="copyBox" class="answer-box" readonly hidden></textarea>
-      </details>
-      <div class="attendance"><b>Required:</b> upload your evidence to <b>Elevfeedback</b> before you leave.</div>`;
+        <div class="save-help" id="saveHelp">
+          <p class="save-help-head">Download failed, or the PDF will not open? Try these in order:</p>
+          <div class="save-options">
+            <button type="button" class="jrpg-btn secondary" id="openBtn">1 · Open PDF in a new tab</button>
+            <button type="button" class="jrpg-btn secondary" id="printBtn">2 · Print → Save as PDF</button>
+            <button type="button" class="jrpg-btn secondary" id="copyBtn">3 · Copy as text</button>
+          </div>
+          <p class="muted" id="saveTips">1: on iPad, tap Share → Save to Files. 2: choose "Save as PDF" as the printer. 3: paste the text into Elevfeedback.</p>
+          <textarea id="copyBox" class="answer-box" readonly hidden></textarea>
+        </div>
+      </div>`;
     const name = $('subName'), group = $('subGroup'), st = $('pdfStatus');
     name.value = state.name; group.value = state.group;
     name.oninput = () => { state.name = name.value; save(); };
@@ -660,8 +690,7 @@
       return null;
     };
     const fail = e => {
-      status(`The PDF could not be made here (${e.message}). Use one of the options below instead.`, false);
-      $('saveHelp').open = true;
+      status(`The PDF could not be made here (${e.message}). Use one of the other options instead.`, false);
     };
     const openInTab = async w => {
       const tab = window.open('', '_blank'); // must open during the click or it is blocked
@@ -678,8 +707,7 @@
       if (IS_IOS) return openInTab(w);
       try {
         const file = await savePdf(...w);
-        status(`Downloaded ${file}. Upload it to Elevfeedback. Nothing downloaded? Open the options below.`, true);
-        $('saveHelp').open = true;
+        status(`Downloaded ${file}. Upload it to Elevfeedback. Nothing downloaded? Use the options on the right.`, true);
       } catch (e) { fail(e); }
     };
     $('openBtn').onclick = () => { const w = who(); if (w) openInTab(w); };
@@ -689,6 +717,7 @@
       const box = $('copyBox');
       box.value = evidenceText(...w);
       box.hidden = false;
+      $('saveTips').hidden = true; // the text box takes the tips' place, so nothing grows
       try { await navigator.clipboard.writeText(box.value); status('Copied. Paste it into Elevfeedback.', true); }
       catch { box.focus(); box.select(); status('Select all the text in the box, copy it, and paste it into Elevfeedback.', true); }
     };

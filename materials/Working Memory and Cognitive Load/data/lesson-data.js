@@ -565,12 +565,14 @@ window.MEMORY_QUEST = {
           questions: [
             { q: 'Which answer would an examiner place in the highest band?',
               passage: '<p><b>A.</b> Cognitive load is when you use too much technology. Freja has a tablet and a phone, so her cognitive load is very high. This is why she cannot remember anything. She should use less technology.</p><p><b>B.</b> Cognitive load is the demand on working memory, which has limited capacity. Freja\'s phone creates extraneous load: the group chat has nothing to do with cell division. This is why she remembers little.</p><p><b>C.</b> Cognitive load is the total demand on working memory, which has limited capacity. Cell division is new to Freja, so intrinsic load is high: she has no schema to build on, which also makes germane processing harder. On top of this, the group chat adds extraneous load, taking capacity away from the lesson. Together these overload her working memory, so little is encoded.</p>',
-              options: ['A', 'B', 'C', 'They would all score the same'], answer: 2, fixed: true,
+              options: ['A', 'B', 'C', 'They would all score the same'], answer: 2, fixed: true, inline: true,
               explain: 'C defines the theory accurately AND applies every relevant type of load to details in the scenario. That application is what lifts it to the top band.' },
             { q: 'What is the biggest problem with answer A?',
+              passage: '<p><b>A.</b> Cognitive load is when you use too much technology. Freja has a tablet and a phone, so her cognitive load is very high. This is why she cannot remember anything. She should use less technology.</p>',
               options: ['It defines cognitive load wrongly, as "technology", not as demand on working memory', 'It is too long', 'It does not mention a study', 'It gives advice'], answer: 0,
               explain: 'Without an accurate definition, nothing that follows can be good psychology. Technology is only one possible source of load.' },
             { q: 'Answer B is accurate. What would improve it most?',
+              passage: '<p><b>B.</b> Cognitive load is the demand on working memory, which has limited capacity. Freja’s phone creates extraneous load: the group chat has nothing to do with cell division. This is why she remembers little.</p>',
               options: ['Applying intrinsic load too: the topic is new to Freja', 'Adding the date of the theory', 'Describing Sana et al. in detail', 'Making it shorter'], answer: 0,
               explain: 'B only uses one clue in the scenario. "A topic she has never studied" is an obvious clue about intrinsic load and schemas.' }
           ] },

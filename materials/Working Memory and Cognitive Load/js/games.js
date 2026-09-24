@@ -76,6 +76,26 @@
 
   function verdict(text) { return h('p', 'verdict', text); }
 
+  /* After a multiple-choice answer: mark right/wrong and hide the other options,
+     so the explanation replaces space instead of adding to it (no scrollbar). */
+  function reveal(buttons, correct, picked) {
+    buttons.forEach(b => {
+      b.disabled = true;
+      if (b.textContent === correct) b.classList.add('right');
+      else if (b.textContent === picked) b.classList.add('wrong');
+      else b.hidden = true;
+    });
+  }
+  /* Explanation box with its Next button inside it. */
+  function explain(ok, html, label, onNext) {
+    const box = h('div', 'why ' + (ok ? 'good' : 'bad'));
+    const text = h('div', 'why-text');
+    text.innerHTML = html;
+    const next = btn(label, onNext, 'jrpg-btn primary');
+    box.append(text, next);
+    return { box, next };
+  }
+
   /* 1–9 mental effort rating (self-report measure). */
   function effort(body, question = 'How hard did your brain work?') {
     return new Promise(resolve => {
@@ -246,8 +266,9 @@
       stim.append(h('span', 'wait', cond === 'suppression' ? 'keep chanting…' : 'wait…'));
       fill.style.animation = 'none'; void fill.offsetWidth; fill.style.animation = 'drain 5s linear forwards';
       await ctx.sleep(5000);
+      // The empty stimulus box would push the answer keys down, so it goes before they appear.
       timer.remove();
-      stim.textContent = '';
+      stim.remove();
       const answer = await pickLetters(body, ctx);
       if (tick) { ctx.stop(tick); chant.remove(); }
       const correct = answer.filter((c, i) => c === seq[i]).length;
@@ -813,7 +834,8 @@
         ctx.sleep(4000 + i * 7500).then(() => {
           popTotal++;
           const p = h('div', 'popup-task');
-          p.style.top = (8 + (i % 3) * 26) + '%';
+          // Two slots from the top and one anchored to the bottom, so no pop-up hangs below the card.
+          if (i % 3 === 2) p.style.bottom = '6%'; else p.style.top = (6 + (i % 3) * 28) + '%';
           const app = h('div', 'popup-app'); app.innerHTML = `${window.Studies.ic('phone')} New message`; p.append(app, h('strong', '', q));
           const r = h('div', 'game-button-row');
           opts.forEach(o => r.append(btn(o, () => { if (ans === null || o === ans) popDone++; p.remove(); })));
@@ -881,17 +903,13 @@
       const buttons = [];
       const picked = await new Promise(res => shuffle(s.o).forEach(o => { const b = btn(o, () => res(o)); buttons.push(b); row.append(b); }));
       const ok = picked === s.answer;
-      buttons.forEach(b => { b.disabled = true; if (b.textContent === s.answer) b.classList.add('right'); else if (b.textContent === picked) b.classList.add('wrong'); });
+      reveal(buttons, s.answer, picked);
       if (ok) { score++; hp.children[i].classList.add('down'); }
       ctx.sound(ok ? 'shatter' : 'wrong');
-      const why = h('div', 'why ' + (ok ? 'good' : 'bad'));
-      why.innerHTML = `<b>${ok ? 'Correct.' : 'Not quite.'}</b> ${s.why}`;
-      body.append(why);
       await new Promise(r => {
-        const nb = btn(i < scenarios.length - 1 ? 'Next layer ▸' : 'See result', r, 'jrpg-btn primary');
-        body.append(nb);
-        nb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        nb.focus({ preventScroll: true });
+        const { box, next } = explain(ok, `<b>${ok ? 'Correct.' : 'Not quite.'}</b> ${s.why}`, i < scenarios.length - 1 ? 'Next layer ▸' : 'See result', r);
+        body.append(box);
+        next.focus({ preventScroll: true });
       });
     }
     body.innerHTML = '';
@@ -908,5 +926,5 @@
     digitSpan, letterRecall, spatialSpan, dualTask, stroop, taskSwitch, storyLoom,
     intrinsicTrial, extraneousTrial, germaneTrial, microLecture, bossBattle
   };
-  window.MQHelpers = { h, btn, shuffle, bars, verdict };
+  window.MQHelpers = { h, btn, shuffle, bars, verdict, reveal, explain };
 })();
