@@ -26,7 +26,7 @@
           html: '<ol><li>A list of 7 letters was shown for <b>5 seconds</b>.</li><li>Participants waited <b>5 seconds</b>.</li><li>They wrote the letters in order.</li></ol><p>The suppression group said <b>"1, 2"</b> twice a second from seeing the list until they finished writing. Ten lists each.</p>',
           visual: '<div class="v-timeline"><div class="seg show">SHOW 5s</div><div class="seg wait">WAIT 5s</div><div class="seg recall">WRITE</div><div class="chant-line">"1, 2, 1, 2, 1, 2…"</div></div>' },
         { tag: 'Results', title: '76% vs 45%', result: true,
-          html: '<p>Mean correct recall was <b>76%</b> for the control group but only <b>45%</b> for the suppression group.</p>' },
+          html: '<p>Mean correct recall was <b>76%</b> for the control group but only <b>45%</b> for the suppression group.</p><p>The spread of scores was almost identical (SD = 0.13 and 0.14), and a t-test showed the difference was significant (<b>p ≤ 0.01</b>).</p>' },
         { tag: 'Conclusion', title: 'The loop needs its inner voice',
           html: '<p>Saying "1, 2" occupied the articulatory control process, so the letters could not be rehearsed and faded from the phonological store. This supports the WMM.</p>' },
         { tag: 'Evaluate', title: 'What can — and cannot — we conclude?',
@@ -92,7 +92,27 @@
           html: '<p>Students who could see the multitasking screens scored about <b>17% lower</b> — even though they did nothing different themselves.</p>',
           visual: '<div class="v-arrow down">−17%</div>' },
         { tag: 'Evaluate', title: 'What does this tell us?',
-          html: '<ul class="eval"><li class="plus">Random allocation and a controlled lecture: strong cause and effect.</li><li class="plus">Clear real-world use: laptop rules in classrooms.</li><li class="minus">Cognitive load was assumed, not measured directly.</li><li class="minus">One short lecture — real lessons, motivation and grades differ.</li></ul>' }
+          html: '<ul class="eval"><li class="plus">Random allocation and a controlled lecture: strong cause and effect.</li><li class="plus">Clear real-world use: laptop rules in classrooms.</li><li class="minus">Cognitive load was assumed, not measured directly.</li><li class="minus">One short lecture — real lessons, motivation and grades differ.</li><li class="minus">Undergraduates at one Canadian university: a WEIRD sample, so be careful generalising.</li></ul>' }
+      ]
+    },
+
+    sparrow: {
+      icon: 'magnifier',
+      name: 'Sparrow, Liu & Wegner (2011)',
+      label: 'Laboratory experiment',
+      steps: [
+        { tag: 'Background', title: 'Transactive memory',
+          html: '<p>We have always shared memory with others: one family member remembers birthdays, another remembers passwords. We remember <b>who knows</b>, not the information itself.</p><p>Is the internet now the "person" who knows everything?</p>',
+          visual: '<div class="v-dual"><div class="task a">{i:person} I know WHERE</div><div class="plus">→</div><div class="task b">{i:laptop} it knows WHAT</div></div>' },
+        { tag: 'Method', title: 'Type it, then try to recall it',
+          html: '<p>Participants typed <b>40 trivia facts</b> (e.g. about ostriches) into a computer.</p><p><b>2 × 2 independent samples design:</b> half were told the computer would <b>save</b> the facts, half that it would <b>erase</b> them. Within each group, half were also told to <b>try to remember</b> them.</p>',
+          visual: '<div class="v-groups"><div><b>saved</b><span>± "remember"</span></div><div><b>erased</b><span>± "remember"</span></div></div>' },
+        { tag: 'Results', title: 'Believing it is saved lowers recall',
+          html: '<p>Participants who thought the facts would be <b>erased</b> recalled more than those who thought they would be <b>saved</b>.</p><p>Being told to remember made little difference.</p>' },
+        { tag: 'Conclusion', title: 'Cognitive offloading',
+          html: '<p>When we expect information to be available later, we seem to put less effort into encoding it. This is called the <b>Google effect</b>.</p><p class="muted">Note: "effort" was never measured directly. Like load, it was inferred from recall.</p>' },
+        { tag: 'Evaluate', title: 'A famous result on shaky ground',
+          html: '<ul class="eval"><li class="plus">Two IVs manipulated with random allocation: cause and effect can be tested.</li><li class="minus">Trivia facts: low ecological validity. Would we offload things that matter to us?</li><li class="minus">Harvard undergraduates: a narrow, WEIRD sample.</li><li class="minus">A large replication project (Camerer et al., 2018) <b>did not find the effect again</b>. Plausible is not the same as reliable.</li></ul>' }
       ]
     },
 
@@ -117,7 +137,7 @@
         { tag: 'Conclusion', title: 'Poverty is a load, not a lack of ability',
           html: '<p>Worrying about money uses up working memory, leaving less for other thinking. The farmers were no less capable — they were carrying more.</p>' },
         { tag: 'Evaluate', title: 'How was load measured?',
-          html: '<ul class="eval"><li class="plus">Field study: real people with real money worries — high ecological validity.</li><li class="plus">Same farmers compared with themselves, which controls for individual differences.</li><li class="minus">Lab study: the car and the bill were imaginary.</li><li class="minus">Load was <b>inferred</b> (from income or season), never measured directly.</li><li class="minus">Other things change after a harvest too: diet, sleep, workload, and practice on the tests.</li></ul>' }
+          html: '<ul class="eval"><li class="plus">Field study: real people with real money worries — high ecological validity.</li><li class="plus">Same farmers compared with themselves, which controls for individual differences.</li><li class="plus">Rural Indian farmers, not university students: evidence from outside the usual WEIRD samples.</li><li class="minus">Lab study: the car and the bill were imaginary.</li><li class="minus">Load was <b>inferred</b> (from income or season), never measured directly.</li><li class="minus">Other things change after a harvest too: diet, sleep, workload, and practice on the tests.</li></ul>' }
       ]
     },
 

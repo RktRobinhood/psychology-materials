@@ -1,6 +1,6 @@
 /* Memory Quest — lesson content.
    All narrative, teacher notes and checks live here; js/app.js renders them.
-   Screen types: dialogue, keyfact, video, poll, game, study, model, sort, quiz, write, tally, title, finish. */
+   Screen types: dialogue, keyfact, video, poll, game, study, model, sort, quiz, trial (timed Static Surge), recap, write, tally, title, finish. */
 window.MEMORY_QUEST = {
   meta: {
     title: 'Memory Quest: The Mind Archive',
@@ -48,7 +48,9 @@ window.MEMORY_QUEST = {
       screens: [
         { type: 'title' },
         { type: 'dialogue', speaker: 'Lyra', expr: 'concerned', text: 'Pages are vanishing from the Archive. Routes blur. Even simple instructions get tangled.' },
-        { type: 'dialogue', speaker: 'Cael', expr: 'serious', text: 'Then something is broken. Find it and fix it.' },
+        { type: 'dialogue', speaker: 'Nova', expr: 'surprised', text: 'Look at the east stacks. That grey haze. Wherever it drifts, the shelves go blank.' },
+        { type: 'dialogue', speaker: 'Orin', expr: 'confused', text: 'The archivists call it the Static. Nobody knows where it came from. Only that it moves faster when we fumble.' },
+        { type: 'dialogue', speaker: 'Cael', expr: 'serious', text: 'Then something is broken and the Static got in through the crack. Find the crack. Fix it.' },
         { type: 'dialogue', speaker: 'Selene', expr: 'neutral', text: 'Perhaps. Or perhaps the Archive is being asked to do too much at once. Before we decide, let us hear the rumour going around the outside world.' },
         { type: 'video', speaker: 'Selene', expr: 'teaching', text: 'Watch the opening. Listen for the skills the narrator says are declining.' },
         { type: 'dialogue', speaker: 'Orin', expr: 'confused', text: '"Executive function." Sustained attention, working memory, resisting a quick reward, reasoning under pressure. That is quite a list.' },
@@ -56,7 +58,8 @@ window.MEMORY_QUEST = {
           prompt: 'Is our ability to focus and hold things in mind getting worse?',
           options: ['Yes, probably', 'Maybe, but I would need better evidence', 'No, I am not convinced'] },
         { type: 'dialogue', speaker: 'Lyra', expr: 'happy', text: 'Testing a few memory systems? That seems easy enough.' },
-        { type: 'dialogue', speaker: 'Selene', expr: 'serious', text: 'Those words have a habit of becoming evidence. Evidence first. Confidence second.' }
+        { type: 'dialogue', speaker: 'Selene', expr: 'serious', text: 'Those words have a habit of becoming evidence. Evidence first. Confidence second.' },
+        { type: 'dialogue', speaker: 'Selene', expr: 'teaching', text: 'Three times today the Static will surge. Each time you must answer against the clock to hold it back. Learn well between surges.' }
       ]
     },
 
@@ -99,7 +102,7 @@ window.MEMORY_QUEST = {
         { type: 'dialogue', speaker: 'Nova', expr: 'neutral', text: 'You said the numbers were easy too.' },
         { type: 'game', gameId: 'letterRecall', speaker: 'Orin', expr: 'neutral', text: 'Round 1: just remember the letters. Round 2: same task, but say "one, two, one, two" out loud the whole time.' },
         { type: 'dialogue', speaker: 'Orin', expr: 'frustrated', text: 'My inner voice appears to have union rules. It will not do two jobs at once.' },
-        { type: 'tally', id: 'echoTally', speaker: 'Selene', expr: 'teaching', text: 'One result is an anecdote. A class is a sample. Pool your results.' },
+        { type: 'tally', id: 'echoTally', speaker: 'Selene', expr: 'teaching', text: 'One result is an anecdote. A class is a sample. Working alone? Your one result still counts: compare it with the study next.' },
         { type: 'study', studyId: 'landry', speaker: 'Selene', expr: 'teaching', text: 'You just repeated a real experiment. Here is the original.' },
         { type: 'keyfact', icon: 'phonological_loop', title: 'Phonological loop', speaker: 'Selene', expr: 'teaching',
           text: 'The phonological loop holds sounds and words. Its "inner voice" (articulatory control process) rehearses them; its "inner ear" (phonological store) holds them for about 2 seconds unless they are rehearsed.',
@@ -132,13 +135,13 @@ window.MEMORY_QUEST = {
     /* ───────────────────────────── CHAPTER 4 ───────────────────────────── */
     {
       id: 'dual', title: 'Chapter 4 — Two Hands, Two Tools', short: 'Dual task · the model · patient KF',
-      minutes: 12, core: true, background: 'map_of_shards',
+      minutes: 16, core: true, background: 'map_of_shards',
       teacher: {
         goal: 'Show that two tasks clash most when they use the same component — the key evidence for the WMM.',
         say: 'The question is not "Can we multitask?" It is "What is competing?"',
         ask: 'If the spatial + spatial round was worse, what does that suggest about how short-term memory is organised?',
         expect: 'On average, tapping (spatial) hurts the grid memory more than chanting (verbal). Individual results are noisy — compare the class pattern.',
-        fidelity: 'Conceptual replication of the dual-task / selective interference method. KF is shown as a case file, not a game.'
+        fidelity: 'Conceptual replication of the dual-task / selective interference method. KF is shown as a case file, not a game. Static Surge I is a timed 6-question check (25 s per question; untimed if "Calm mode" is on).'
       },
       screens: [
         { type: 'dialogue', speaker: 'Lyra', expr: 'neutral', text: 'So the important question is not "Can we multitask?"' },
@@ -148,18 +151,33 @@ window.MEMORY_QUEST = {
         { type: 'study', studyId: 'dualTask', speaker: 'Selene', expr: 'teaching', text: 'This is the method Baddeley and Hitch used to take short-term memory apart.' },
         { type: 'model', speaker: 'Selene', expr: 'teaching', text: 'Now you have earned the whole model. Open each part.' },
         { type: 'study', studyId: 'kf', speaker: 'Selene', expr: 'serious', text: 'Some of the strongest evidence came from one man after a serious accident.' },
-        { type: 'quiz', id: 'wmmCheck', speaker: 'Selene', expr: 'neutral', text: 'Quick check before we move on.',
+        { type: 'keyfact', icon: 'working_memory', title: 'A biological link', speaker: 'Selene', expr: 'teaching',
+          text: 'KF shows how a biological factor, damage to the brain, can affect one part of memory and leave another intact.',
+          detail: 'Exam tip: KF works as evidence for the model AND as an example of a biological factor in a cognitive process.' },
+        { type: 'dialogue', speaker: 'Nova', expr: 'surprised', text: 'The haze is back. It is rolling down the east stairs!' },
+        { type: 'trial', id: 'surge1', speaker: 'Cael', expr: 'serious', text: 'Answer fast and answer right. Every correct answer pushes the Static back.',
+          title: 'Static Surge I: The East Stairs', seconds: 25, pass: 4,
           questions: [
-            { q: 'You repeat a new song lyric over and over in your head. Which component is doing the work?',
+            { q: 'Someone repeats "the, the, the" while memorising a shopping list. Which component are they blocking?',
               options: ['Phonological loop', 'Visuospatial sketchpad', 'Episodic buffer', 'Long-term memory'], answer: 0,
-              explain: 'Silent repetition is the inner voice rehearsing words — the phonological loop.' },
-            { q: 'What was new about the WMM compared with the multi-store model?',
-              options: ['Short-term memory has several parts, not one store', 'Long-term memory has several parts', 'Short-term memory has unlimited capacity', 'Rehearsal is not needed'], answer: 0,
-              explain: 'The big change was splitting short-term memory into components.' },
-            { q: 'Why did KF\'s case support the model?',
-              options: ['Heard words were impaired but seen words were not, so the stores are separate', 'He could not form any new long-term memories', 'His visual memory was worse than his verbal memory', 'He could no longer multitask at all'], answer: 0,
-              explain: 'One store was damaged and the other was not — so they must be separate.' }
-          ] }
+              explain: 'Saying a word over and over keeps the inner voice busy, so the list cannot be rehearsed in the phonological loop.' },
+            { q: 'What is the key change the WMM made to the multi-store model?',
+              options: ['Short-term memory is several components, not one store', 'Long-term memory is several stores', 'Short-term memory has no capacity limit', 'Rehearsal is not needed to keep information'], answer: 0,
+              explain: 'The WMM split short-term memory into components that can work side by side.' },
+            { q: 'Which of these is NOT a job of the central executive?',
+              options: ['Storing information permanently in long-term memory', 'Switching attention between tasks', 'Sending information to the right component', 'Blocking out distractions'], answer: 0,
+              explain: 'The central executive controls attention. It is not a permanent store.' },
+            { q: 'How does the WMM explain Landry & Bartling\'s result?',
+              options: ['Saying "1, 2" stopped rehearsal in the phonological loop', 'Saying "1, 2" overloaded the visuospatial sketchpad', 'The control group improved through practice', 'The letters sounded too similar to each other'], answer: 0,
+              explain: 'Suppression occupies the inner voice, so the letters fade from the inner ear. The letters were chosen to sound different.' },
+            { q: 'Why does KF\'s case support the WMM in particular?',
+              options: ['Heard verbal information was impaired but seen information was much better', 'It proved that short-term and long-term memory are separate', 'He lost all short-term memory', 'His visual memory was worse than his verbal memory'], answer: 0,
+              explain: 'The MSM already separated STM and LTM. KF matters for the WMM because one STM component was damaged while another worked.' },
+            { q: 'In a dual-task study, two tasks can be done together with almost no loss. What does the WMM conclude?',
+              options: ['They probably use different components', 'They both use the central executive only', 'Working memory has no limit', 'One of the tasks was too easy to count'], answer: 0,
+              explain: 'Little interference suggests the tasks draw on different components. Heavy interference suggests the same one.' }
+          ] },
+        { type: 'dialogue', speaker: 'Selene', expr: 'teaching', text: 'Did you notice? The questions were not harder than a normal quiz. The clock made them feel harder. Hold on to that feeling. We will give it a name later.' }
       ]
     },
 
@@ -231,9 +249,9 @@ window.MEMORY_QUEST = {
     /* ───────────────────────────── CHAPTER 8 ───────────────────────────── */
     {
       id: 'examiner', title: 'Chapter 8 — The Examiner\'s Desk', short: 'Evaluating the WMM',
-      minutes: 6, core: true, background: 'pattern_shrine',
+      minutes: 10, core: true, background: 'pattern_shrine',
       teacher: {
-        goal: 'Students evaluate the model and think about measurement.',
+        goal: 'Students evaluate the model and think about measurement. Static Surge II checks research-methods understanding (design, SD, p-values).',
         say: 'A good model explains evidence AND can be tested. Where is this one weak?',
         ask: 'How would you measure the capacity of the central executive on its own?',
         expect: 'The honest answer is: we cannot easily. That is the main limitation.',
@@ -256,7 +274,30 @@ window.MEMORY_QUEST = {
           ] },
         { type: 'write', id: 'wmmMeasure', speaker: 'Selene', expr: 'neutral', text: 'One sentence is enough.',
           prompt: 'Which part of the working memory model is hardest to measure, and why?',
-          hint: 'Think about the central executive or episodic buffer. Can you observe them directly?' }
+          hint: 'Think about the central executive or episodic buffer. Can you observe them directly?' },
+        { type: 'dialogue', speaker: 'Orin', expr: 'frustrated', text: 'Selene. The Static has reached the reading room. It is eating the methods section.' },
+        { type: 'trial', id: 'surge2', speaker: 'Selene', expr: 'serious', text: 'Examiners ask about methods as often as findings. Defend the reading room.',
+          title: 'Static Surge II: The Reading Room', seconds: 30, pass: 4,
+          questions: [
+            { q: 'Landry & Bartling used an independent samples design. What is one advantage of that?',
+              options: ['No order effects, because nobody does both conditions', 'Individual differences are fully controlled', 'Fewer participants are needed', 'Each person acts as their own control'], answer: 0,
+              explain: 'Nobody could improve through practice or get bored between conditions. The cost is that the two groups may differ in memory ability.' },
+            { q: 'The standard deviations were 0.13 (control) and 0.14 (suppression). What does that tell us?',
+              options: ['Scores were spread out by a similar amount in both groups', 'Both groups had the same average', 'The difference between groups was not significant', 'The sample was large enough to generalise'], answer: 0,
+              explain: 'Similar SDs mean neither group was unusually variable, so the gap between the means is not just a few extreme scorers.' },
+            { q: 'The result was significant at p ≤ 0.01. What does that mean?',
+              options: ['There is a 1% chance or less that a difference this big happened by chance alone', '99% of participants did worse when chanting', 'Chanting lowered recall by 1%', 'The hypothesis has been proven true'], answer: 0,
+              explain: 'The null hypothesis can be rejected. Significance never means "proven".' },
+            { q: 'Why did the researchers use only the letters F, K, L, M, R, X and Q?',
+              options: ['They sound different and contain no vowels, so they are hard to chunk or confuse', 'They are the most common letters in English', 'They form a word that is easy to rehearse', 'They were chosen at random with no special reason'], answer: 0,
+              explain: 'Similar-sounding letters (like B, D, P) or vowels (which help make pronounceable chunks) would have muddied the results.' },
+            { q: 'Which of these is NOT a limitation of the WMM?',
+              options: ['There is no biological evidence for it', 'The role of the central executive is unclear', 'It does not explain how the components interact', 'It says little about memory distortion'], answer: 0,
+              explain: 'KF and brain imaging DO give biological support, even if the imaging results are not always consistent.' },
+            { q: 'Why is the central executive so hard to test?',
+              options: ['Its capacity cannot be measured separately from the other components', 'It only works when people are asleep', 'It was removed from the model in 2000', 'It only handles visual information'], answer: 0,
+              explain: 'Every task that uses the central executive also uses a slave system, so its own capacity is never isolated.' }
+          ] }
       ]
     },
 
@@ -278,7 +319,9 @@ window.MEMORY_QUEST = {
         { type: 'keyfact', icon: 'working_memory', title: 'Cognitive load theory', speaker: 'Selene', expr: 'teaching',
           text: 'Cognitive load is the total demand placed on working memory. Because working memory is limited, when the demand is greater than its capacity we get overload — and learning and recall suffer.',
           detail: 'Fiske & Taylor (1991) called us "cognitive misers": we save mental effort wherever we can, because there is only so much to spend.' },
-        { type: 'dialogue', speaker: 'Selene', expr: 'serious', text: 'Nothing was broken. The Archive was being asked to carry more than its workshop can hold.' }
+        { type: 'dialogue', speaker: 'Selene', expr: 'serious', text: 'Nothing was broken. The Archive was being asked to carry more than its workshop can hold.' },
+        { type: 'dialogue', speaker: 'Nova', expr: 'surprised', text: 'So the Static never broke in through a crack. It IS the overload. It thickens every time we pile on more than the workshop can hold.' },
+        { type: 'dialogue', speaker: 'Cael', expr: 'serious', text: 'Then we cannot fight it with force. We have to understand what feeds it.' }
       ]
     },
 
@@ -302,11 +345,11 @@ window.MEMORY_QUEST = {
         { type: 'game', gameId: 'extraneousTrial', speaker: 'Orin', expr: 'frustrated', text: 'Chamber two: the same easy search, first in a clean room, then in a noisy one.' },
         { type: 'keyfact', icon: 'extraneous_load', title: 'Extraneous load', speaker: 'Selene', expr: 'teaching', sigil: 'extraneous_load',
           text: 'Extraneous load comes from things that have nothing to do with the task: pop-ups, noise, messy design, or worrying about something else.',
-          detail: 'It wastes working memory. It is the load that teachers, and you, can most easily remove.' },
+          detail: 'Remember the Static\'s countdown clock? It added nothing to the questions, only pressure. That was extraneous load. It is the load that teachers, and you, can most easily remove.' },
         { type: 'game', gameId: 'germaneTrial', speaker: 'Lyra', expr: 'neutral', text: 'Chamber three: crack a code. Then crack another one.' },
         { type: 'keyfact', icon: 'germane_load', title: 'Germane load', speaker: 'Selene', expr: 'teaching', sigil: 'germane_load',
           text: 'Germane load is the effort of actually understanding: building a pattern (a schema) you can reuse. Once you have one, new information is easier to process.',
-          detail: 'The first code took effort to figure out. That effort built a schema, so the second code was easier.' },
+          detail: 'The first code took effort to figure out. That effort built a schema, so the second code was easier. In exam answers: germane load is lower when previous learning helps you process new information.' },
         { type: 'dialogue', speaker: 'Cael', expr: 'serious', text: 'So "just focus harder" is sometimes poor advice. Sometimes the room is the problem.' },
         { type: 'dialogue', speaker: 'Selene', expr: 'happy', text: 'The goal is not zero effort. The goal is useful effort.' }
       ]
@@ -327,9 +370,43 @@ window.MEMORY_QUEST = {
         { type: 'dialogue', speaker: 'Orin', expr: 'happy', text: 'I can listen to a lecture and clear a few messages. Easy.' },
         { type: 'dialogue', speaker: 'Cael', expr: 'serious', text: 'That sentence has already cost us once.' },
         { type: 'game', gameId: 'microLecture', speaker: 'Selene', expr: 'neutral', text: 'Read the short lesson carefully. A quiz follows. Some of you will also get interruptions.' },
-        { type: 'tally', id: 'sanaTally', speaker: 'Selene', expr: 'teaching', text: 'Pool the class results. Your teacher can enter each group\'s average.' },
+        { type: 'tally', id: 'sanaTally', speaker: 'Selene', expr: 'teaching', text: 'In class, pool the results by group. Working alone? Note your score and read on.' },
         { type: 'study', studyId: 'sana', speaker: 'Selene', expr: 'teaching', text: 'Here is what happened when researchers ran it properly.' },
         { type: 'dialogue', speaker: 'Lyra', expr: 'concerned', text: 'So I can finish both jobs and still learn less. And my laptop can distract the person behind me.' }
+      ]
+    },
+
+    /* ───────────────────────────── CHAPTER 11b ───────────────────────────── */
+    {
+      id: 'outsourced', title: 'Chapter 11½ — The Outsourced Memory', short: 'Google effect · Sparrow et al.',
+      minutes: 6, core: false, background: 'pattern_shrine',
+      teacher: {
+        goal: 'A second environmental factor (technology) and a study that did not replicate: good material for evaluating research and for the HL extension.',
+        say: 'If you know you can look it up, do you bother to remember it?',
+        ask: 'A big replication project could not reproduce Sparrow\'s result. What should that do to our confidence in the "Google effect"?',
+        expect: 'Students often accept the Google effect as obvious. The failed replication is the key teaching point: a plausible idea still needs reliable evidence.',
+        fidelity: 'Study walkthrough plus a 4-question check. No classroom replication.'
+      },
+      screens: [
+        { type: 'dialogue', speaker: 'Orin', expr: 'happy', text: 'I have a solution to the Static. I will simply stop remembering things. The Archive\'s search engine can do it for me.' },
+        { type: 'dialogue', speaker: 'Nova', expr: 'neutral', text: 'Does that lower the load, or just move it somewhere else?' },
+        { type: 'study', studyId: 'sparrow', speaker: 'Selene', expr: 'teaching', text: 'Researchers asked the same question about the internet.' },
+        { type: 'quiz', id: 'sparrowCheck', speaker: 'Selene', expr: 'neutral', text: 'Four quick questions.',
+          questions: [
+            { q: 'What is the "Google effect"?',
+              options: ['Treating the internet as an external memory store, so we remember less ourselves', 'Search engines making people more intelligent', 'Social media improving recall', 'Technology having no effect on memory'], answer: 0,
+              explain: 'It is a modern form of transactive memory: remembering WHERE information is instead of the information itself.' },
+            { q: 'In Sparrow et al., what lowered recall of the trivia facts?',
+              options: ['Believing the computer would save them', 'Being told to try to remember them', 'Typing them slowly', 'Reading them on paper'], answer: 0,
+              explain: 'Being told to remember made little difference. Believing the facts would be saved did.' },
+            { q: 'What is the main ecological validity concern with this study?',
+              options: ['Trivia facts are not like the meaningful information we need in daily life', 'It took place in a real classroom', 'There were too many conditions', 'Participants were randomly allocated'], answer: 0,
+              explain: 'Why try hard to remember trivia? We might behave differently with information that matters to us.' },
+            { q: 'Participants guess the aim and change how hard they try. What is this called?',
+              options: ['Demand characteristics', 'Participant variability', 'A confounding variable from the room', 'Random allocation'], answer: 0,
+              explain: 'Demand characteristics: knowing you are being studied changes behaviour.' }
+          ] },
+        { type: 'dialogue', speaker: 'Orin', expr: 'confused', text: 'So the famous result may not even be real. I will keep remembering things. For now.' }
       ]
     },
 
@@ -347,7 +424,7 @@ window.MEMORY_QUEST = {
       screens: [
         { type: 'dialogue', speaker: 'Nova', expr: 'neutral', text: 'Pop-ups are one thing. What about a worry you cannot close?' },
         { type: 'study', studyId: 'mani', speaker: 'Selene', expr: 'teaching', text: 'Mani and colleagues tested this in two very different settings.' },
-        { type: 'write', id: 'maniMeasure', speaker: 'Selene', expr: 'neutral', text: 'This is exactly the kind of evaluation examiners look for.',
+        { type: 'write', id: 'maniMeasure', minWords: 15, speaker: 'Selene', expr: 'neutral', text: 'This is exactly the kind of evaluation examiners look for.',
           prompt: 'How was cognitive load operationalised in the two Mani et al. studies — and what is one limitation of that?',
           hint: 'Lab study: a hypothetical car repair. Field study: before vs after the harvest. Was load ever measured directly?' }
       ]
@@ -384,6 +461,52 @@ window.MEMORY_QUEST = {
       ]
     },
 
+    /* ───────────────────────────── CHAPTER 13b: SURGE III ───────────────────────────── */
+    {
+      id: 'surge3', title: 'Chapter 13½ — The Last Surge', short: 'Timed check · cognitive load',
+      minutes: 5, core: true, background: 'overload_engine',
+      teacher: {
+        goal: 'Timed retrieval practice on the cognitive load half of the lesson before the final challenge.',
+        say: 'This is retrieval practice. Getting one wrong and reading why is still learning.',
+        ask: 'Which question did most people miss? Read its explanation aloud.',
+        expect: 'Students who skipped Chapter 13 may miss the Modi and measurement questions. The explanations cover them.',
+        fidelity: 'Timed multiple-choice check (8 questions, 25 s each; untimed in Calm mode).'
+      },
+      screens: [
+        { type: 'dialogue', speaker: 'Lyra', expr: 'concerned', text: 'It is everywhere now. The whole Archive is grey.' },
+        { type: 'dialogue', speaker: 'Selene', expr: 'serious', text: 'Then this is the last surge before the Engine itself. Everything you learned about load, all at once.' },
+        { type: 'trial', id: 'surge3', speaker: 'Selene', expr: 'serious', text: 'Hold the line.',
+          title: 'Static Surge III: The Great Hall', seconds: 25, pass: 6,
+          questions: [
+            { q: 'What does cognitive load theory assume about working memory?',
+              options: ['It has a limited capacity', 'It has an unlimited capacity', 'It is not affected by the environment', 'Everyone processes information the same way'], answer: 0,
+              explain: 'Everything in CLT follows from the limit: too much demand means overload.' },
+            { q: 'Which type of load comes from how difficult the task itself is?',
+              options: ['Intrinsic', 'Extraneous', 'Germane', 'Internal'], answer: 0,
+              explain: 'Intrinsic load is built into the material. "Internal load" is not one of the three types.' },
+            { q: 'A student worries about an argument with a friend during a test. Which load is that?',
+              options: ['Extraneous', 'Intrinsic', 'Germane', 'No load at all'], answer: 0,
+              explain: 'The worry has nothing to do with the test content, so it is extraneous, like the farmers\' money worries.' },
+            { q: 'In Sana et al.\'s second experiment, what happened to students who could SEE classmates multitasking?',
+              options: ['They scored about 17% lower, even though they did not multitask', 'They scored higher because they were more alert', 'There was no difference', 'They started multitasking too'], answer: 0,
+              explain: 'Other people\'s screens were enough extraneous load to reduce learning.' },
+            { q: 'How was cognitive load increased in Mani et al.\'s lab study?',
+              options: ['A hypothetical car repair bill of about $150 or $1,500', 'Participants chanted while solving problems', 'A noisy room during the test', 'A real bill they had to pay'], answer: 0,
+              explain: 'Load was manipulated with an imaginary scenario, which is one limitation of the study.' },
+            { q: 'Why is the sugarcane farmer study a natural experiment?',
+              options: ['The IV (before vs after harvest) happens naturally; researchers did not manipulate it', 'It was done outdoors', 'Participants were randomly allocated to be poor or rich', 'There was no dependent variable'], answer: 0,
+              explain: 'Researchers measured the same farmers at two times that nature and the economy provided.' },
+            { q: 'According to Modi et al. (2019), what happened in the prefrontal cortex as load increased?',
+              options: ['Activity decreased, possibly showing disengagement', 'Activity kept increasing', 'Nothing changed', 'The hippocampus took over'], answer: 0,
+              explain: 'fNIRS showed the PFC deactivating as surgical performance dropped.' },
+            { q: 'Which statement about measuring cognitive load is true?',
+              options: ['Load differs between people and tasks, so there is no single perfect measure', 'Self-report measures are completely reliable', 'Load is the same for everyone doing a task', 'Brain scans measure load directly'], answer: 0,
+              explain: 'That is why researchers combine self-report, performance and physiological measures.' }
+          ] },
+        { type: 'dialogue', speaker: 'Cael', expr: 'confident', text: 'The Static is thinning. Now we go to its source.' }
+      ]
+    },
+
     /* ───────────────────────────── CHAPTER 14 ───────────────────────────── */
     {
       id: 'boss', title: 'Chapter 14 — The Overload Engine', short: 'Final challenge',
@@ -401,20 +524,23 @@ window.MEMORY_QUEST = {
         { type: 'game', gameId: 'bossBattle', speaker: 'Selene', expr: 'serious', text: 'Each layer of the Engine is a real situation. Diagnose it to break through.' },
         { type: 'dialogue', speaker: 'Orin', expr: 'happy', text: 'Protect the rehearsal channel.' },
         { type: 'dialogue', speaker: 'Nova', expr: 'happy', text: 'And remember: a picture can be crowded too.' },
-        { type: 'dialogue', speaker: 'Cael', expr: 'confident', text: 'Control helps. Design decides how much control we must spend.' }
+        { type: 'dialogue', speaker: 'Cael', expr: 'confident', text: 'Control helps. Design decides how much control we must spend.' },
+        { type: 'keyfact', icon: 'germane_load', title: 'Strategies to improve memory', speaker: 'Selene', expr: 'teaching',
+          text: 'Dual coding: learn with words AND pictures, so the loop and the sketchpad share the work. Chunking: group items so they take fewer slots. Cut extraneous load: phone out of the room, one task at a time.',
+          detail: 'Worked examples lower intrinsic load for beginners and help build schemas. Paivio\'s dual coding theory fits the WMM: two channels, two memory traces.' }
       ]
     },
 
     /* ───────────────────────────── EPILOGUE ───────────────────────────── */
     {
       id: 'epilogue', title: 'Epilogue — Return to the Claim', short: 'Exam question + evidence PDF',
-      minutes: 8, core: true, background: 'mind_archive',
+      minutes: 15, core: true, background: 'mind_archive',
       teacher: {
-        goal: 'Return to the hook claim with better methods language, practise an exam-style answer and download the evidence PDF.',
+        goal: 'Return to the hook claim, recap the lesson, think like an examiner, write an application answer and save the evidence.',
         say: 'We tested the mechanisms. That is not the same as proving a whole generation has changed.',
-        ask: 'What study design would you trust to test the video\'s claim?',
-        expect: 'Students download their PDF and upload it to Elevfeedback.',
-        fidelity: 'Research-methods conclusion and exam practice.'
+        ask: 'Plenary (5 min): compare the start and end polls by show of hands. Then cold-call two "Not yet" items from the recap list and have a confident student explain each.',
+        expect: 'If students worked alone, the recap screen is their self-check and its ratings go into the PDF, so you can see who is not yet confident. The PDF screen has four ways to save evidence (download, open in tab, print/save as PDF, copy text) for devices where downloads fail.',
+        fidelity: 'Recap, examiner-marking practice with original sample answers, and an application question.'
       },
       screens: [
         { type: 'dialogue', speaker: 'Selene', expr: 'neutral', text: 'We began with a claim: that our executive skills are getting worse.' },
@@ -423,9 +549,34 @@ window.MEMORY_QUEST = {
         { type: 'poll', id: 'endPoll', speaker: 'Selene', expr: 'neutral', text: 'Compare this with your first answer.',
           prompt: 'Now: is our ability to focus and hold things in mind getting worse?',
           options: ['Yes, probably', 'Maybe, but I would need better evidence', 'No, I am not convinced'] },
-        { type: 'write', id: 'examAnswer', speaker: 'Selene', expr: 'teaching', text: 'Exam practice. Aim for about 100–150 words.', large: true,
-          prompt: 'A friend has a big exam tomorrow. Using cognitive load theory, explain how they could improve their recall on the day.',
-          hint: 'Define cognitive load. Then give ways to reduce extraneous load (phone away, quiet room, sleep, less worry) and explain how things they already know well (schemas) lower the load of new questions.' },
+        { type: 'recap', id: 'recap', speaker: 'Selene', expr: 'teaching', text: 'Before you leave the Archive, check what you can do. Be honest. Your teacher sees these ratings.',
+          items: [
+            ['Describe the four components of the WMM and one job of each.', 'Central executive (attention boss), phonological loop (inner voice + inner ear), visuospatial sketchpad (inner eye), episodic buffer (combines everything into one episode).'],
+            ['Explain how dual-task studies and patient KF support the WMM.', 'Tasks clash most when they share a component. KF lost heard verbal STM but kept visual STM, so the stores are separate.'],
+            ['Describe Landry & Bartling (2011): aim, method, results, conclusion.', '34 students, independent samples. 7 letters, "1, 2" suppression. 76% vs 45%. Suppression blocks rehearsal in the phonological loop.'],
+            ['Evaluate the WMM: one strength and one limitation.', 'Strength: explains when we can and cannot multitask. Limitation: the central executive cannot be measured on its own.'],
+            ['Define cognitive load and tell intrinsic, extraneous and germane load apart.', 'Intrinsic: difficulty of the task. Extraneous: anything unrelated (noise, pop-ups, worry). Germane: effort of building schemas; lower when prior learning helps.'],
+            ['Explain how an environmental factor affects memory, using Sana et al. or Mani et al.', 'Multitasking, or seeing others multitask, lowered comprehension. Money worries lowered reasoning scores in the same farmers.'],
+            ['Explain why cognitive load is hard to measure.', 'It differs between people and tasks. Self-report, performance and physiology (e.g. fNIRS in Modi et al.) each capture only part of it.'],
+            ['Suggest strategies to improve memory using the WMM or CLT.', 'Dual coding, chunking, removing extraneous load, worked examples.']
+          ] },
+        { type: 'quiz', id: 'examinerDesk', speaker: 'Selene', expr: 'teaching', text: 'You have seen the evidence. Now sit in the examiner\'s chair.',
+          intro: 'Question: "Freja is revising cell division, a topic she has never studied. Her tablet plays a video lesson while her phone buzzes with a group chat about the weekend. After two hours she remembers very little. Explain the role of cognitive load in Freja\'s revision." Read three student answers and judge them.',
+          questions: [
+            { q: 'Which answer would an examiner place in the highest band?',
+              passage: '<p><b>A.</b> Cognitive load is when you use too much technology. Freja has a tablet and a phone, so her cognitive load is very high. This is why she cannot remember anything. She should use less technology.</p><p><b>B.</b> Cognitive load is the demand on working memory, which has limited capacity. Freja\'s phone creates extraneous load: the group chat has nothing to do with cell division. This is why she remembers little.</p><p><b>C.</b> Cognitive load is the total demand on working memory, which has limited capacity. Cell division is new to Freja, so intrinsic load is high: she has no schema to build on, which also makes germane processing harder. On top of this, the group chat adds extraneous load, taking capacity away from the lesson. Together these overload her working memory, so little is encoded.</p>',
+              options: ['A', 'B', 'C', 'They would all score the same'], answer: 2, fixed: true,
+              explain: 'C defines the theory accurately AND applies every relevant type of load to details in the scenario. That application is what lifts it to the top band.' },
+            { q: 'What is the biggest problem with answer A?',
+              options: ['It defines cognitive load wrongly, as "technology", not as demand on working memory', 'It is too long', 'It does not mention a study', 'It gives advice'], answer: 0,
+              explain: 'Without an accurate definition, nothing that follows can be good psychology. Technology is only one possible source of load.' },
+            { q: 'Answer B is accurate. What would improve it most?',
+              options: ['Applying intrinsic load too: the topic is new to Freja', 'Adding the date of the theory', 'Describing Sana et al. in detail', 'Making it shorter'], answer: 0,
+              explain: 'B only uses one clue in the scenario. "A topic she has never studied" is an obvious clue about intrinsic load and schemas.' }
+          ] },
+        { type: 'write', id: 'examAnswer', minWords: 50, speaker: 'Selene', expr: 'teaching', text: 'Your turn. Aim for about 100–150 words.', large: true,
+          prompt: 'Using cognitive load theory, explain two changes Freja could make to remember more from her revision.',
+          hint: 'Start with a one-sentence definition. Then take each change (for example: phone in another room; start with worked examples or a summary video before the details) and say WHICH type of load it changes and WHY that helps her working memory.' },
         { type: 'dialogue', speaker: 'Orin', expr: 'happy', text: 'For the record, my inner voice has returned to work.' },
         { type: 'dialogue', speaker: 'Lyra', expr: 'happy', text: 'And I am officially retiring "that seems easy enough."' },
         { type: 'finish', speaker: 'Selene', expr: 'happy', text: 'Well done. Download your evidence and upload it to Elevfeedback.' }

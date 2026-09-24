@@ -13,7 +13,7 @@
   };
 
   /* ── state ─────────────────────────────────────────────── */
-  const blank = () => ({ chapter: 0, screen: 0, earned: [], results: {}, polls: {}, writes: {}, checks: {}, tally: {}, memo: {}, done: {}, sound: true, presenter: false, reducedMotion: false, name: '', group: '' });
+  const blank = () => ({ chapter: 0, screen: 0, earned: [], results: {}, polls: {}, writes: {}, checks: {}, tally: {}, memo: {}, done: {}, recap: {}, maxChapter: 0, presenterUsed: false, sound: true, presenter: false, reducedMotion: false, calm: false, name: '', group: '' });
   let state = load();
   function load() {
     try { return { ...blank(), ...JSON.parse(localStorage.getItem(data.meta.storageKey) || '{}') }; }
@@ -160,8 +160,22 @@
   }
 
   /* ── gating: interactive screens must be completed ─────── */
-  const GATED = new Set(['game', 'study', 'model', 'sort', 'quiz', 'poll']);
+  const GATED = new Set(['game', 'study', 'model', 'sort', 'quiz', 'poll', 'trial', 'recap', 'write']);
   const isLocked = () => GATED.has(screen().type) && !state.done[key()] && !state.presenter;
+  // A chapter is complete when every activity in it is done; core chapters cannot be skipped from the menu.
+  const chapterComplete = i => data.chapters[i].screens.every((sc, s) => !GATED.has(sc.type) || state.done[key(i, s)]);
+  const canJump = i => state.presenter || i <= state.maxChapter ||
+    data.chapters.slice(0, i).every((c, j) => !c.core || chapterComplete(j));
+
+  /* Short reading pause so Continue cannot be spammed; shorter on screens already seen. */
+  let readyAt = 0, coolTimer = null;
+  function startCooldown() {
+    const ms = state.presenter ? 0 : state.done[key()] ? 300 : 900;
+    readyAt = Date.now() + ms;
+    clearTimeout(coolTimer);
+    els.next.classList.toggle('cooling', ms > 0);
+    coolTimer = setTimeout(() => els.next.classList.remove('cooling'), ms);
+  }
   function markDone(extra) {
     state.done[key()] = true;
     save();
@@ -215,7 +229,7 @@
     els.scene.classList.toggle('no-dialogue', sc.type === 'title');
     typeText(sc.text || '');
 
-    const renderers = { keyfact, video, poll, game, study, model, sort, quiz, write, tally, title, finish };
+    const renderers = { keyfact, video, poll, game, study, model, sort, quiz, trial, recap, write, tally, title, finish };
     if (renderers[sc.type]) {
       els.panel.hidden = false;
       els.panel.classList.add('type-' + sc.type);
@@ -223,6 +237,7 @@
     }
     renderSigils();
     updateNav();
+    startCooldown();
   }
 
   /* ── screen renderers ──────────────────────────────────── */
@@ -236,7 +251,7 @@
         <p class="lede">The Archive is failing. Five guides, fourteen chambers, one question: <b>is something broken — or is it simply overloaded?</b> Along the way you will test your own working memory and discover how cognitive load works.</p>
         <div class="party"></div>
         <div class="meta-row"><span><b>~90 min</b> core · optional extras</span><span><b>Sound on</b> for some tasks</span><span><b>Evidence PDF</b> at the end</span></div>
-        <div class="attendance"><b>Attendance:</b> the final screen builds your evidence PDF. Upload it to <b>Elevfeedback</b>.</div>
+        <div class="attendance"><b>Working alone?</b> That is how it is built: go at your own pace, and use headphones for the sound tasks. <b>Attendance:</b> the final screen saves your evidence. Upload it to <b>Elevfeedback</b>.</div>
       </div>`;
     const party = p.querySelector('.party');
     Object.entries(data.characters).forEach(([name, c]) => {
@@ -364,7 +379,9 @@
     const p = els.panel;
     let i = 0, score = 0;
     const body = h('div');
-    p.append(h('h2', 'game-title', 'Check your understanding'), body);
+    p.append(h('h2', 'game-title', 'Check your understanding'));
+    if (sc.intro) p.append(h('p', 'quiz-intro', sc.intro));
+    p.append(body);
     const show = () => {
       body.innerHTML = '';
       if (i >= sc.questions.length) {
@@ -375,10 +392,12 @@
         return;
       }
       const q = sc.questions[i];
-      body.append(h('p', 'muted', `Question ${i + 1} of ${sc.questions.length}`), h('h3', 'q-title', q.q));
+      body.append(h('p', 'muted', `Question ${i + 1} of ${sc.questions.length}`));
+      if (q.passage) { const d = h('div', 'passage'); d.innerHTML = q.passage; body.append(d); }
+      body.append(h('h3', 'q-title', q.q));
       const row = h('div', 'game-button-row col');
       const correct = q.options[q.answer];
-      shuffle(q.options).forEach(o => row.append(btn(o, () => {
+      (q.fixed ? q.options : shuffle(q.options)).forEach(o => row.append(btn(o, () => {
         const ok = o === correct;
         if (ok) score++;
         [...row.children].forEach(b => { b.disabled = true; if (b.textContent === correct) b.classList.add('right'); else if (b.textContent === o) b.classList.add('wrong'); });
@@ -394,6 +413,128 @@
     show();
   }
 
+  /* Static Surge: a timed multiple-choice check. Every answer holds or loses one page.
+     Calm mode drops the clock for anyone who needs it. */
+  function trial(sc, r) {
+    const p = els.panel;
+    const n = sc.questions.length;
+    p.append(h('h2', 'game-title', sc.title));
+    const track = h('div', 'surge-track');
+    track.setAttribute('aria-hidden', 'true');
+    const body = h('div');
+    p.append(track, body);
+    const drawTrack = marks => {
+      track.innerHTML = '';
+      for (let k = 0; k < n; k++) track.append(h('span', marks[k] === true ? 'held' : marks[k] === false ? 'lost' : ''));
+      const lost = marks.filter(m => m === false).length;
+      track.style.setProperty('--static', `${lost / n * 100}%`);
+    };
+
+    function intro() {
+      drawTrack([]);
+      body.innerHTML = '';
+      const best = state.checks[sc.id];
+      const box = h('div', 'brief');
+      box.innerHTML = `<p>${n} questions. Get <b>${sc.pass} or more</b> right to hold back the Static.</p>
+        <p>${state.calm ? 'Calm mode is on: no clock.' : `You have <b>${sc.seconds} seconds</b> per question. The explanation after each answer is untimed, so read it.`}</p>
+        ${best ? `<p class="muted">Your best so far: ${best.score}/${best.total}${best.calm ? ' (calm mode)' : ''}.</p>` : ''}`;
+      const calm = h('label', 'switch calm-switch');
+      calm.innerHTML = `<input type="checkbox" ${state.calm ? 'checked' : ''}> <span>Calm mode: no timer (for anyone who needs it)</span>`;
+      calm.querySelector('input').onchange = e => { state.calm = e.target.checked; save(); intro(); };
+      const go = btn('Face the surge ▸', play, 'jrpg-btn primary big');
+      box.append(calm, go);
+      body.append(box);
+    }
+
+    function ask(i, marks) {
+      return new Promise(res => {
+        const q = sc.questions[i];
+        const correct = q.options[q.answer];
+        body.innerHTML = '';
+        body.append(h('p', 'muted center', `Question ${i + 1} of ${n}`), h('h3', 'q-title', q.q));
+        let tick = null, left = sc.seconds, settled = false;
+        const bar = h('div', 'timebar'), fill = h('div'), clock = h('div', 'surge-clock');
+        bar.append(fill);
+        if (!state.calm) {
+          fill.style.animation = `drain ${sc.seconds}s linear forwards`;
+          clock.textContent = `${left}s`;
+          body.append(bar, clock);
+          tick = r.every(1000, () => {
+            left--;
+            clock.textContent = `${Math.max(0, left)}s`;
+            clock.classList.toggle('urgent', left <= 5);
+            if (left <= 5 && left > 0) sound('tick');
+            if (left <= 0) answer(null);
+          });
+        }
+        const row = h('div', 'game-button-row col');
+        const buttons = shuffle(q.options).map(o => btn(o, () => answer(o)));
+        row.append(...buttons);
+        body.append(row);
+        function answer(o) {
+          if (settled) return;
+          settled = true;
+          if (tick) r.stop(tick);
+          fill.style.animationPlayState = 'paused';
+          const ok = o === correct;
+          marks[i] = ok;
+          drawTrack(marks);
+          buttons.forEach(b => { b.disabled = true; if (b.textContent === correct) b.classList.add('right'); else if (b.textContent === o) b.classList.add('wrong'); });
+          sound(ok ? 'shatter' : 'wrong');
+          const why = h('div', 'why ' + (ok ? 'good' : 'bad'));
+          why.innerHTML = `<b>${ok ? 'Held!' : o === null ? 'Time is up.' : 'The Static advances.'}</b> ${esc(q.explain)}`;
+          const nb = btn(i < n - 1 ? 'Next question ▸' : 'See the result', () => res(ok), 'jrpg-btn primary');
+          body.append(why, nb);
+          nb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          nb.focus({ preventScroll: true });
+        }
+      });
+    }
+
+    async function play() {
+      const marks = [];
+      let score = 0;
+      for (let i = 0; i < n; i++) if (await ask(i, marks)) score++;
+      const prev = state.checks[sc.id];
+      if (!prev || score >= prev.score) state.checks[sc.id] = { score, total: n, calm: state.calm };
+      save();
+      const held = score >= sc.pass;
+      body.innerHTML = '';
+      const big = h('div', 'big-result');
+      big.append(h('span', 'big-number', `${score}/${n}`),
+        h('span', '', held ? 'The line holds. The Static falls back.' : 'The Static broke through this time. Read the explanations, then try again.'));
+      body.append(big);
+      sound(held ? 'victory' : 'wrong');
+      body.append(btn('↻ Try again', intro, 'jrpg-btn secondary'));
+      markDone(held ? 'Surge held' : 'Result saved');
+    }
+    intro();
+  }
+
+  const RECAP_LEVELS = ['Not yet', 'Getting there', 'Confident'];
+  function recap(sc) {
+    const p = els.panel;
+    const ratings = state.recap;
+    p.append(h('h2', 'game-title', 'What can you do now?'),
+      h('p', 'muted', 'Rate each statement. Open "Remind me" if you are unsure, then rate yourself honestly.'));
+    const list = h('ol', 'recap-list');
+    const check = () => { if (sc.items.every((_, k) => ratings[k])) markDone(); };
+    sc.items.forEach(([can, remind], k) => {
+      const li = h('li', 'recap-item');
+      li.append(h('p', 'recap-can', `I can ${can.charAt(0).toLowerCase()}${can.slice(1)}`));
+      const d = h('details', 'hint');
+      d.innerHTML = `<summary>Remind me</summary><p>${esc(remind)}</p>`;
+      const row = h('div', 'recap-levels');
+      const draw = () => [...row.children].forEach(b => b.classList.toggle('chosen', b.textContent === ratings[k]));
+      RECAP_LEVELS.forEach(l => row.append(btn(l, () => { ratings[k] = l; save(); draw(); check(); })));
+      draw();
+      li.append(row, d);
+      list.append(li);
+    });
+    p.append(list);
+    check();
+  }
+
   function write(sc) {
     const p = els.panel;
     p.append(h('h2', 'game-title', sc.prompt));
@@ -406,7 +547,15 @@
     ta.value = state.writes[sc.id] || '';
     ta.placeholder = 'Type your answer here. It is saved automatically and goes into your PDF.';
     const count = h('div', 'word-count');
-    const upd = () => { const n = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0; count.textContent = `${n} words · saved`; };
+    const min = sc.minWords || 10;
+    const upd = () => {
+      const words = ta.value.trim() ? ta.value.trim().split(/\s+/) : [];
+      // Distinct words stop "a a a a a" from counting.
+      const enough = words.length >= min && new Set(words.map(w => w.toLowerCase())).size >= min * .6;
+      count.textContent = enough ? `${words.length} words · saved` : `${words.length} words · write at least ${min} real words to continue`;
+      count.classList.toggle('short', !enough);
+      if (!!state.done[key()] !== enough) { state.done[key()] = enough; save(); updateNav(); }
+    };
     ta.addEventListener('input', () => { state.writes[sc.id] = ta.value; save(); upd(); });
     p.append(ta, count);
     upd();
@@ -416,7 +565,7 @@
   const TALLIES = {
     echoTally: {
       title: 'Class results: quiet vs chanting',
-      help: 'Teacher: ask for a show of hands in 10% bands (90–100%, 80–89%…) for each round, then enter a rough class average.',
+      help: 'Working alone? You can skip the boxes: the next screen compares your own result with the study. In class, the teacher asks for a show of hands in 10% bands and enters a rough class average.',
       max: 100, unit: '%',
       fields: [['quiet', 'Class · quiet'], ['chant', 'Class · chanting']],
       mine: () => { const r = state.results['echo:letterRecall']; return r && `You scored ${r.normal}% quiet and ${r.suppression}% while chanting.`; },
@@ -425,7 +574,7 @@
     },
     sanaTally: {
       title: 'Class results: Focus vs Multitask',
-      help: 'Teacher: ask each group for their scores (hands up for 5, 4, 3…) and enter the group average.',
+      help: 'Working alone? You can skip the boxes: the next screen shows what the real study found. In class, the teacher asks each group for their scores (hands up for 5, 4, 3…) and enters the group averages.',
       max: 5, unit: '/5',
       fields: [['focus', 'Group F · Focus'], ['multi', 'Group M · Multitask']],
       mine: () => { const r = state.results['lecture:microLecture']; return r && `You were in ${r.condition === 'focus' ? 'Group F (Focus)' : 'Group M (Multitask)'} and scored ${r.score}/5.`; },
@@ -473,7 +622,7 @@
   function finish() {
     const p = els.panel;
     p.innerHTML = `<h2 class="game-title">Your evidence of work</h2>
-      <p class="game-instruction">Enter your details, then download your PDF. Everything you did today is included automatically.</p>
+      <p class="game-instruction">Enter your details, then save your evidence. Everything you did today is included automatically.</p>
       <div class="finish-grid">
         <label class="tally-field"><span>Name</span><input id="subName" autocomplete="name"></label>
         <label class="tally-field"><span>Class / group</span><input id="subGroup"></label>
@@ -481,8 +630,19 @@
       <div class="summary"></div>
       <button class="jrpg-btn primary big" id="pdfBtn">Download evidence PDF</button>
       <div id="pdfStatus" class="pdf-status" role="status"></div>
-      <div class="attendance"><b>Required:</b> upload the PDF to <b>Elevfeedback</b> before you leave.</div>`;
-    const name = $('subName'), group = $('subGroup');
+      <details class="hint save-help" id="saveHelp">
+        <summary>Download did not work, or the PDF will not open?</summary>
+        <p>Try these in order. Any one of them is fine for Elevfeedback.</p>
+        <div class="save-options">
+          <button type="button" class="jrpg-btn secondary" id="openBtn">1 · Open PDF in a new tab</button>
+          <button type="button" class="jrpg-btn secondary" id="printBtn">2 · Print → Save as PDF</button>
+          <button type="button" class="jrpg-btn secondary" id="copyBtn">3 · Copy as text</button>
+        </div>
+        <p class="muted">1: on iPad, tap Share → Save to Files. 2: uses your browser's own PDF maker; choose "Save as PDF" as the printer. 3: paste the text straight into Elevfeedback.</p>
+        <textarea id="copyBox" class="answer-box" readonly hidden></textarea>
+      </details>
+      <div class="attendance"><b>Required:</b> upload your evidence to <b>Elevfeedback</b> before you leave.</div>`;
+    const name = $('subName'), group = $('subGroup'), st = $('pdfStatus');
     name.value = state.name; group.value = state.group;
     name.oninput = () => { state.name = name.value; save(); };
     group.oninput = () => { state.group = group.value; save(); };
@@ -490,31 +650,74 @@
     const secs = collectSections();
     const done = secs.reduce((n, s) => n + s.items.filter(i => !i.missing).length, 0);
     const all = secs.reduce((n, s) => n + s.items.length, 0);
-    sumEl.innerHTML = `<b>${done}</b> of <b>${all}</b> activities recorded.` + (done < all ? ' <span class="muted">Missing ones show as "not completed" — use the chapter menu (☰) to go back.</span>' : '');
-    $('pdfBtn').onclick = () => {
-      const st = $('pdfStatus');
-      if (!name.value.trim() || !group.value.trim()) { st.textContent = 'Enter your name and class first.'; st.className = 'pdf-status error'; return; }
+    sumEl.innerHTML = `<b>${done}</b> of <b>${all}</b> activities recorded.` + (done < all ? ' <span class="muted">Missing ones show as "not completed". Optional chapters are fine to skip; use the chapter menu (☰) to go back to anything else.</span>' : '');
+    ensurePdfLib(); // start loading now so the click is quick
+    const status = (t, ok) => { st.textContent = t; st.className = 'pdf-status ' + (ok ? 'ok' : 'error'); };
+    const who = () => {
+      if (name.value.trim() && group.value.trim()) return [name.value.trim(), group.value.trim()];
+      status('Enter your name and class first.', false);
+      name.focus();
+      return null;
+    };
+    const fail = e => {
+      status(`The PDF could not be made here (${e.message}). Use one of the options below instead.`, false);
+      $('saveHelp').open = true;
+    };
+    const openInTab = async w => {
+      const tab = window.open('', '_blank'); // must open during the click or it is blocked
       try {
-        const file = buildPdf(name.value.trim(), group.value.trim());
-        st.textContent = `Downloaded ${file}. Now upload it to Elevfeedback.`;
-        st.className = 'pdf-status ok';
-      } catch (e) {
-        st.textContent = 'The PDF could not be created: ' + e.message;
-        st.className = 'pdf-status error';
-      }
+        const doc = await makePdf(...w);
+        const url = doc.output('bloburl');
+        if (tab) { tab.location.href = url; status('The PDF opened in a new tab. Save or share it from there, then upload it to Elevfeedback.', true); }
+        else { doc.save(pdfName(w[0])); status('Pop-ups are blocked, so the PDF was downloaded instead.', true); }
+      } catch (e) { if (tab) tab.close(); fail(e); }
+    };
+    $('pdfBtn').onclick = async () => {
+      const w = who(); if (!w) return;
+      // iPads and some embedded browsers ignore downloads, so they get the PDF in a new tab.
+      if (IS_IOS) return openInTab(w);
+      try {
+        const file = await savePdf(...w);
+        status(`Downloaded ${file}. Upload it to Elevfeedback. Nothing downloaded? Open the options below.`, true);
+        $('saveHelp').open = true;
+      } catch (e) { fail(e); }
+    };
+    $('openBtn').onclick = () => { const w = who(); if (w) openInTab(w); };
+    $('printBtn').onclick = () => { const w = who(); if (w) printEvidence(...w); };
+    $('copyBtn').onclick = async () => {
+      const w = who(); if (!w) return;
+      const box = $('copyBox');
+      box.value = evidenceText(...w);
+      box.hidden = false;
+      try { await navigator.clipboard.writeText(box.value); status('Copied. Paste it into Elevfeedback.', true); }
+      catch { box.focus(); box.select(); status('Select all the text in the box, copy it, and paste it into Elevfeedback.', true); }
     };
   }
 
-  /* ── evidence PDF ──────────────────────────────────────── */
+  /* ── evidence: shared by the PDF, print sheet and text copy ── */
   function collectSections() {
     const res = (c, g) => state.results[`${c}:${g}`];
     const item = (label, value) => ({ label, value: value ?? 'not completed', missing: value == null || value === '' });
     const chk = id => {
       const c = state.checks[id];
       if (!c) return null;
-      return c.score !== undefined ? `${c.score}/${c.total} correct` : `${c.firstTry}/${c.total} right first time`;
+      if (c.score === undefined) return `${c.firstTry}/${c.total} right first time`;
+      return `${c.score}/${c.total} correct${c.calm ? ' (calm mode, untimed)' : ''}`;
     };
+    const recapScreen = data.chapters.flatMap(c => c.screens).find(s => s.type === 'recap');
+    let need = 0, got = 0;
+    const unfinished = [];
+    data.chapters.forEach((c, i) => {
+      if (!c.core) return;
+      c.screens.forEach((sc, k) => { if (GATED.has(sc.type)) { need++; if (state.done[key(i, k)]) got++; } });
+      if (!chapterComplete(i)) unfinished.push(c.title.split(/ [—-] /).pop());
+    });
+    const progress = [
+      item('Core activities completed', `${got} of ${need}`),
+      item('Core chapters not finished', unfinished.length ? unfinished.join('; ') : 'none: all core chapters complete')];
+    if (state.presenterUsed) progress.push(item('Note for the teacher', 'Presenter mode (which lets you skip activities) was switched on at some point on this device.'));
     return [
+      { heading: 'Progress', items: progress },
       { heading: 'Hook: the claim', items: [
         item('Start of lesson: is our ability to focus getting worse?', state.polls.hookPoll),
         item('End of lesson: is our ability to focus getting worse?', state.polls.endPoll)] },
@@ -526,30 +729,64 @@
         item('Stroop', res('focus', 'stroop')?.summary),
         item('Task switching', res('switchyard', 'taskSwitch')?.summary),
         item('Story Loom', res('loom', 'storyLoom')?.summary),
-        item('WMM check', chk('wmmCheck')),
         item('Evaluating the WMM (sort)', chk('wmmEval'))] },
       { heading: 'Cognitive load tasks', items: [
         item('Intrinsic load', res('loads', 'intrinsicTrial')?.summary),
         item('Extraneous load', res('loads', 'extraneousTrial')?.summary),
         item('Germane load', res('loads', 'germaneTrial')?.summary),
         item('Distracted lecture (Sana replication)', res('lecture', 'microLecture')?.summary),
+        item('Google effect check (Sparrow et al.)', chk('sparrowCheck')),
         item('Measurement types (sort)', chk('measureSort')),
         item('Final challenge', res('boss', 'bossBattle')?.summary)] },
+      { heading: 'Timed checks (best score)', items: [
+        item('Static Surge I: the working memory model', chk('surge1')),
+        item('Static Surge II: research methods & evaluation', chk('surge2')),
+        item('Static Surge III: cognitive load', chk('surge3')),
+        item('Examiner\'s chair: judging sample answers', chk('examinerDesk'))] },
+      { heading: 'Self-check: what I can do now', items: (recapScreen?.items || []).map(([can], k) => item(can, state.recap[k])) },
       { heading: 'Written answers', items: [
         item('Which part of the WMM is hardest to measure, and why?', state.writes.wmmMeasure?.trim()),
         item('How was cognitive load operationalised by Mani et al., and one limitation?', state.writes.maniMeasure?.trim()),
-        item('Exam practice: using CLT to improve recall on exam day', state.writes.examAnswer?.trim())] }
+        item('Application: two changes Freja could make, using cognitive load theory', state.writes.examAnswer?.trim())] }
     ];
+  }
+
+  const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const pdfName = name => {
+    const ascii = name.replace(/[æÆ]/g, 'ae').replace(/[øØ]/g, 'oe').replace(/[åÅ]/g, 'aa')
+      .normalize('NFD').replace(/[̀-ͯ]/g, '');
+    return `${ascii.replace(/[^a-zA-Z0-9._-]+/g, '_') || 'student'}_Memory_Quest_Evidence.pdf`;
+  };
+  const stamp = () => new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+
+  // Two CDNs, tried in turn: some school networks block one of them.
+  const PDF_SOURCES = [
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+    'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js'
+  ];
+  let pdfLoading = null;
+  function ensurePdfLib() {
+    const ready = () => !!window.jspdf?.jsPDF;
+    if (ready()) return Promise.resolve(true);
+    if (pdfLoading) return pdfLoading;
+    pdfLoading = PDF_SOURCES.reduce((chain, src) => chain.then(ok => ok || new Promise(res => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => res(ready());
+      s.onerror = () => res(false);
+      document.head.append(s);
+    })), Promise.resolve(false)).then(ok => { if (!ok) pdfLoading = null; return ok; });
+    return pdfLoading;
   }
 
   function pdfSafe(v) {
     return String(v ?? '').normalize('NFKC')
       .replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, '-')
-      .replace(/…/g, '...').replace(/·/g, '-').replace(/[^\x00-\xFF]/g, '');
+      .replace(/…/g, '...').replace(/·/g, '-').replace(/≤/g, '<=').replace(/[^\x00-\xFF]/g, '');
   }
 
-  function buildPdf(name, group) {
-    if (!window.jspdf?.jsPDF) throw new Error('PDF library did not load. Check the internet connection and refresh.');
+  async function makePdf(name, group) {
+    if (!(await ensurePdfLib())) throw new Error('the PDF tool could not load; the network may be blocking it');
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
     const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 16, CW = W - M * 2;
@@ -565,7 +802,7 @@
     doc.text('WORKING MEMORY & COGNITIVE LOAD', M, y); y += 7;
     doc.setFontSize(13); doc.text('Memory Quest - Evidence of Work', M, y); y += 6;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(95, 87, 76);
-    doc.text(pdfSafe(`${name} | ${group} | ${new Date().toLocaleDateString()}`), M, y); y += 7;
+    doc.text(pdfSafe(`${name} | ${group} | ${stamp()}`), M, y); y += 7;
     doc.setFillColor(250, 243, 224); doc.setDrawColor(196, 138, 53);
     doc.roundedRect(M, y, CW, 11, 1.5, 1.5, 'FD');
     doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5); doc.setTextColor(55, 43, 20);
@@ -590,9 +827,30 @@
       y += 2;
     });
     footer();
-    const file = `${name.replace(/[^a-zA-Z0-9._-]+/g, '_') || 'student'}_Memory_Quest_Evidence.pdf`;
+    return doc;
+  }
+  async function savePdf(name, group) {
+    const doc = await makePdf(name, group);
+    const file = pdfName(name);
     doc.save(file);
     return file;
+  }
+
+  /* Browser-native fallback: a plain sheet that the print dialog turns into a PDF. */
+  function printEvidence(name, group) {
+    let sheet = $('printSheet');
+    if (!sheet) { sheet = h('div'); sheet.id = 'printSheet'; document.body.append(sheet); }
+    sheet.innerHTML = `<h1>Memory Quest: Evidence of Work</h1>
+      <p class="ps-meta">${esc(name)} | ${esc(group)} | ${esc(stamp())}</p>
+      <p class="ps-req">Upload this to Elevfeedback as evidence of your work for this lesson.</p>
+      ${collectSections().map(sec => `<h2>${esc(sec.heading)}</h2><dl>${sec.items.map(it =>
+        `<dt>${esc(it.label)}</dt><dd class="${it.missing ? 'missing' : ''}">${esc(it.value)}</dd>`).join('')}</dl>`).join('')}`;
+    window.print();
+  }
+
+  function evidenceText(name, group) {
+    return ['MEMORY QUEST - EVIDENCE OF WORK', `${name} | ${group} | ${stamp()}`, '',
+      ...collectSections().flatMap(sec => [`== ${sec.heading} ==`, ...sec.items.map(it => `- ${it.label}: ${it.value}`), ''])].join('\n');
   }
 
   /* ── sigils ────────────────────────────────────────────── */
@@ -619,6 +877,7 @@
   /* ── navigation ────────────────────────────────────────── */
   function next() {
     if (finishTyping()) return;
+    if (Date.now() < readyAt) return;
     if (isLocked()) {
       els.next.classList.add('shake');
       setTimeout(() => els.next.classList.remove('shake'), 450);
@@ -632,7 +891,7 @@
       sound('page');
     } else {
       earn(ch.sigil);
-      if (state.chapter < data.chapters.length - 1) { state.chapter++; state.screen = 0; sound('page'); }
+      if (state.chapter < data.chapters.length - 1) { state.chapter++; state.screen = 0; state.maxChapter = Math.max(state.maxChapter, state.chapter); sound('page'); }
       else { sound('victory'); toast('Quest complete!'); return; }
     }
     save();
@@ -648,6 +907,7 @@
   }
   function jump(c, s = 0) {
     state.chapter = c; state.screen = s;
+    state.maxChapter = Math.max(state.maxChapter, c);
     save();
     if (els.menu.open) els.menu.close();
     render();
@@ -658,10 +918,11 @@
     els.chapterList.innerHTML = '';
     data.chapters.forEach((c, i) => {
       const doneCount = c.screens.filter((_, s) => state.done[key(i, s)]).length;
-      const b = btn('', () => jump(i), 'chapter-jump' + (i === state.chapter ? ' current' : ''));
+      const open = canJump(i);
+      const b = btn('', () => open ? jump(i) : toast('Finish the core chapters before this one first'), 'chapter-jump' + (i === state.chapter ? ' current' : '') + (open ? '' : ' locked'));
       b.innerHTML = `<span class="cj-title">${esc(c.title)}</span>
         <span class="cj-meta">${esc(c.short)} · ${c.minutes} min · ${c.core ? '<b class="core">core</b>' : '<b class="opt">optional</b>'}</span>
-        <span class="cj-done">${doneCount}/${c.screens.length}</span>`;
+        <span class="cj-done">${open ? '' : '🔒 '}${doneCount}/${c.screens.length}</span>`;
       els.chapterList.append(b);
     });
   }
@@ -689,15 +950,18 @@
     } else {
       body = `<label class="switch"><input type="checkbox" id="presenterToggle" ${state.presenter ? 'checked' : ''}> <span><b>Presenter mode</b> — Continue is never locked, so you can click through activities on the projector without completing them.</span></label>
         <label class="switch"><input type="checkbox" id="motionToggle" ${state.reducedMotion ? 'checked' : ''}> <span><b>Reduce motion</b> — no typing effect or animations.</span></label>
+        <label class="switch"><input type="checkbox" id="calmToggle" ${state.calm ? 'checked' : ''}> <span><b>Calm mode</b> — the three Static Surge checks have no timer. Students can also switch this on themselves before each surge; the PDF notes it.</span></label>
         <p><b>Keyboard / clicker:</b> → or Page Down = continue · ← or Page Up = back.</p>
         <p><button type="button" class="jrpg-btn secondary" id="resetBtn">Reset all progress on this device</button></p>`;
     }
     els.teacherBody.innerHTML = tabs + body;
     els.teacherBody.querySelectorAll('.tab').forEach(b => b.onclick = () => renderTeacher(b.dataset.tab));
     const pt = $('presenterToggle');
-    if (pt) pt.onchange = () => { state.presenter = pt.checked; save(); updateNav(); };
+    if (pt) pt.onchange = () => { state.presenter = pt.checked; if (pt.checked) state.presenterUsed = true; save(); updateNav(); };
     const mt = $('motionToggle');
     if (mt) mt.onchange = () => { state.reducedMotion = mt.checked; applyMotion(); save(); };
+    const ct = $('calmToggle');
+    if (ct) ct.onchange = () => { state.calm = ct.checked; save(); if (screen().type === 'trial') render(); };
     const rb = $('resetBtn');
     if (rb) rb.onclick = () => {
       if (!confirm('Reset all answers and results on this device?')) return;

@@ -523,3 +523,46 @@ button:disabled { cursor: default; }
 .sort-pool { gap: 6px; margin-bottom: 10px; }
 .sort-bin { min-height: 70px; }
 .panel.type-sort .game-title::after, .panel.type-quiz .game-title::after, .panel.type-poll .game-title::after, .panel.type-write .game-title::after, .panel.type-model .game-title::after { display: none; }
+
+/* ── Static Surge (timed checks) ─────────────────────────── */
+.surge-track { position: relative; display: flex; gap: 6px; justify-content: center; margin: 6px auto 12px; padding: 8px 10px; max-width: 560px; border-radius: 10px; background: linear-gradient(90deg, rgba(233, 189, 104, .12), rgba(233, 189, 104, .12) calc(100% - var(--static, 0%)), rgba(150, 160, 170, .55) calc(100% - var(--static, 0%))); transition: background .4s; }
+.surge-track span { flex: 1; max-width: 56px; height: 14px; border-radius: 4px; background: #2a3947; border: 1px solid #4b5b6a; transition: .3s; }
+.surge-track span.held { background: var(--gold-bright); border-color: #fff0c8; box-shadow: 0 0 8px rgba(233, 189, 104, .6); }
+.surge-track span.lost { background: #7d8791; border-color: #aab3bb; filter: blur(.6px); }
+.surge-clock { text-align: center; font: 800 22px var(--f-title); color: var(--gold-bright); margin: -2px 0 4px; }
+.surge-clock.urgent { color: var(--red); animation: shake .45s; }
+.calm-switch { justify-content: center; margin: 6px auto 14px; font-size: 15px; text-align: left; max-width: 460px; }
+
+/* ── Quiz passages, recap ────────────────────────────────── */
+.quiz-intro { max-width: 760px; margin: 4px auto 10px; font-family: var(--f-read); font-size: 18px; line-height: 1.4; color: #ffe9bd; }
+.passage { max-width: 760px; margin: 6px auto 8px; padding: 10px 14px; border-left: 3px solid var(--gold); background: rgba(255, 255, 255, .05); border-radius: 6px; font-family: var(--f-read); font-size: 17px; line-height: 1.4; }
+.passage p { margin: 0 0 8px; }
+.recap-list { max-width: 780px; margin: 6px auto; padding-left: 22px; }
+.recap-item { margin: 0 0 12px; }
+.recap-can { margin: 0 0 6px; font-family: var(--f-read); font-size: 18px; font-weight: 600; }
+.recap-levels { display: flex; flex-wrap: wrap; gap: 6px; }
+.recap-levels .answer-btn { min-width: 0; padding: 7px 12px; font-size: 15px; }
+.recap-levels .answer-btn.chosen { background: #5a4520; border-color: var(--gold-bright); color: #fff3d6; }
+.recap-item .hint { margin-top: 4px; font-size: 15px; }
+
+/* ── Evidence fallbacks ──────────────────────────────────── */
+.save-help { max-width: 720px; margin: 12px auto 0; }
+.save-options { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 8px 0; }
+.save-help .answer-box { min-height: 140px; margin-top: 8px; font-size: 13px; }
+#printSheet { display: none; }
+@media print {
+  html, body { height: auto; overflow: visible; background: #fff; color: #000; }
+  .app-shell, dialog, .toast { display: none !important; }
+  #printSheet { display: block; font: 11pt/1.4 Georgia, serif; color: #000; }
+  #printSheet h1 { font-size: 18pt; margin: 0 0 4px; }
+  #printSheet h2 { font-size: 13pt; margin: 14px 0 4px; border-bottom: 1px solid #999; }
+  #printSheet dt { font-weight: bold; margin-top: 6px; }
+  #printSheet dd { margin: 0 0 0 12px; white-space: pre-wrap; }
+  #printSheet dd.missing { color: #777; font-style: italic; }
+  #printSheet .ps-req { border: 1px solid #c48a35; padding: 6px 8px; }
+}
+
+/* ── Anti-skip: reading pause, locked chapters, word minimum ── */
+.jrpg-btn.cooling { opacity: .55; cursor: progress; }
+.chapter-jump.locked { opacity: .45; cursor: not-allowed; }
+.word-count.short { color: var(--gold-bright); }
