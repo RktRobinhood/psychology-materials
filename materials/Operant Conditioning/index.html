@@ -15,7 +15,12 @@
   <div id="rail-inner">
     <span id="rail-label">Lock 0 / 9</span>
     <div id="track-bar"><div id="fill"></div></div>
+    <div id="code" title="Vault code: each lock you open reveals one digit">
+      <span class="code-key" data-icon="key"></span>
+      <span class="digit">•</span><span class="digit">•</span><span class="digit">•</span><span class="digit">•</span><span class="digit">•</span><span class="digit">•</span><span class="digit">•</span><span class="digit">•</span><span class="digit">•</span>
+    </div>
     <span id="streak"></span>
+    <button id="soundBtn" type="button"></button>
   </div>
 </div>
 
@@ -43,8 +48,12 @@
       <div class="howto">
         <div class="t">Lab protocol — work independently today</div>
         <p style="margin:0 0 8px;">Locks open in order. Use the <b>Prev / Next</b> bar at the bottom to move between rooms you've already reached — you can always go back and edit an earlier answer. Quizzes and matching games need a correct answer to open the next door; reflection rooms need real answers (not one-word non-answers) before they'll let you continue.</p>
-        <p style="margin:0;">Everything you type is pulled together automatically at the very end — you don't need to copy anything anywhere as you go.</p>
+        <p style="margin:0;">Every lock you open reveals one digit of the vault code at the top of the screen. Everything you type is saved as you go and pulled together automatically at the very end — you don't need to copy anything anywhere.</p>
         <div class="attendance"><b>Attendance:</b> once you escape, the last room builds your submission PDF. Upload that PDF to <b>Elevfeedback</b> — that's how you'll be marked present for today's lesson.</div>
+      </div>
+      <div class="resume-note" id="resumeNote" hidden>
+        <span><b>Welcome back.</b> Your answers were saved on this device and have been restored.</span>
+        <button type="button" class="reset-btn" id="btn-reset">Start over</button>
       </div>
       <button class="begin-btn" id="btn-hero">BEGIN EXPERIMENT</button>
     </div></div>
@@ -53,7 +62,7 @@
     <div class="slide" id="slide-lock0"><div class="wrap">
       <section class="room" id="lock0" style="border-top:3px solid var(--red);padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 00</span><h2 class="room-title">Foundation</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 00</span><h2 class="room-title">Foundation</h2>
           <span class="room-time">5 min</span>
         </div>
         <p class="room-sub">Get the base definitions solid — the rest of the room assumes you already have these.</p>
@@ -108,7 +117,7 @@
     <div class="slide" id="slide-r1"><div class="wrap">
       <section class="room" id="r1" style="padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 01</span><h2 class="room-title">Shaping</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 01</span><h2 class="room-title">Shaping</h2>
           <span class="room-time">5 min</span>
         </div>
         <p class="room-sub">Reinforcing successive approximations toward a target behavior.</p>
@@ -138,7 +147,7 @@
     <div class="slide" id="slide-r2"><div class="wrap">
       <section class="room" id="r2" style="padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 02</span><h2 class="room-title">Sort the Loop</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 02</span><h2 class="room-title">Sort the Loop</h2>
           <span class="room-time">4 min</span>
         </div>
         <p class="room-sub">Classical or operant? Drag each card into the right column (or tap a card, then tap a column).</p>
@@ -174,7 +183,7 @@
     <div class="slide" id="slide-r3"><div class="wrap">
       <section class="room" id="r3" style="padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 03</span><h2 class="room-title">The Law of Effect</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 03</span><h2 class="room-title">The Law of Effect</h2>
           <span class="room-time">7 min</span>
         </div>
         <p class="room-sub">Before Skinner's chamber, Thorndike measured how consequences changed escape behavior.</p>
@@ -218,7 +227,7 @@
     <div class="slide" id="slide-r4"><div class="wrap">
       <section class="room" id="r4" style="padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 04</span><h2 class="room-title">The ABC Code</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 04</span><h2 class="room-title">The ABC Code</h2>
           <span class="room-time">7 min</span>
         </div>
         <p class="room-sub">Skinner's Operant Conditioning: Rewards & Punishments — Sprouts (~3 min)</p>
@@ -260,7 +269,7 @@
     <div class="slide" id="slide-midway"><div class="wrap">
       <section class="room" id="midway" style="padding-top:0;border-top:4px solid var(--gold);">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 05 · MIDWAY VAULT</span><h2 class="room-title" style="color:#8a5e12;">Schedules &amp; Superstition</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 05 · MIDWAY VAULT</span><h2 class="room-title" style="color:#8a5e12;">Schedules &amp; Superstition</h2>
           <span class="room-time">12 min</span>
         </div>
         <p class="room-sub">The biggest door in the room. Three checks guard it — clear all three to reach the second half.</p>
@@ -370,7 +379,7 @@
     <div class="slide" id="slide-r6"><div class="wrap">
       <section class="room" id="r6" style="padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 06</span><h2 class="room-title">Critical Lens</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 06</span><h2 class="room-title">Critical Lens</h2>
           <span class="room-time">7 min</span>
         </div>
         <p class="room-sub">A consequence only counts as reinforcement or punishment by its effect on that behavior — and behaviorist explanations still have limits.</p>
@@ -404,7 +413,7 @@
     <div class="slide" id="slide-r7"><div class="wrap">
       <section class="room" id="r7" style="padding-top:0;">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 07</span><h2 class="room-title">Checking for Understanding</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 07</span><h2 class="room-title">Checking for Understanding</h2>
           <span class="room-time">6 min</span>
         </div>
         <p class="room-sub">The official check. All six correct opens the Final Vault.</p>
@@ -473,7 +482,7 @@
     <div class="slide" id="slide-vault"><div class="wrap">
       <section class="room" id="vault" style="padding-top:0;border-top:4px solid var(--red);">
         <div class="room-head">
-          <span class="lock-badge">🔒</span><span class="num">LOCK 08 · FINAL VAULT</span><h2 class="room-title">Escape</h2>
+          <span class="lock-badge" aria-hidden="true"></span><span class="num">LOCK 08 · FINAL VAULT</span><h2 class="room-title">Escape</h2>
           <span class="room-time">17 min</span>
         </div>
 
@@ -552,7 +561,7 @@
           <textarea></textarea>
         </div>
         <div class="room-footer">
-          <button class="mark gold" id="btn-vault">🔓 ESCAPE</button>
+          <button class="mark gold" id="btn-vault">DIAL THE CODE &amp; ESCAPE</button>
           <span class="footer-note">Fill in every box in both parts before you can escape.</span>
         </div>
       </section>
@@ -561,8 +570,8 @@
     <!-- 10: ESCAPED + SUBMIT -->
     <div class="slide" id="slide-end"><div class="wrap">
       <div class="final" id="finalReveal">
-        <h2>🔓 YOU ESCAPED</h2>
-        <p>Look back at the top of this page. As you worked through it, a bar filled in, locks flipped from 🔒 to 🔓, and every "Continue" button changed color the moment you passed a check.</p>
+        <h2>YOU ESCAPED</h2>
+        <p>Look back at what this page did as you worked through it: a bar filled in, padlocks clicked open, a code digit appeared with every lock, and a correct answer earned a sound the moment you got it.</p>
         <div class="reveal">That's not just decoration. This page deliberately paired your actions with immediate consequences: locks opened, progress moved, and successful checks produced clear feedback. Those consequences were <b>designed to function as reinforcers</b> for continuing the task. Whether they actually reinforced your behavior is an empirical question — exactly the distinction the lesson has been asking you to make.</div>
         <p style="margin-bottom:0;">Exit question: what did the interface make easier to do, and what evidence would show that it actually changed your behavior?</p>
       </div>
@@ -579,6 +588,16 @@
         </div>
         <button class="mark gold" id="prepareBtn">Download submission PDF</button>
         <div id="submissionStatus" class="submission-status" role="status" aria-live="polite"></div>
+        <div class="save-help" id="saveHelp">
+          <p class="save-help-head">Download failed, or the PDF will not open? Try these in order:</p>
+          <div class="save-options">
+            <button type="button" class="alt-btn" id="openBtn">1 · Open PDF in a new tab</button>
+            <button type="button" class="alt-btn" id="printBtn">2 · Print → Save as PDF</button>
+            <button type="button" class="alt-btn" id="copyBtn">3 · Copy as text</button>
+          </div>
+          <p class="save-tips">1: on iPad, tap Share → Save to Files. 2: choose "Save as PDF" as the printer. 3: paste the text into Elevfeedback.</p>
+          <textarea id="copyBox" readonly hidden></textarea>
+        </div>
       </section>
     </div></div>
 
@@ -591,10 +610,27 @@
   <button id="navNext" disabled>Next →</button>
 </div>
 
-<div id="qrHidden" style="position:fixed;left:-9999px;top:-9999px;width:256px;height:256px;overflow:hidden;" aria-hidden="true"></div>
+<div id="unlockFx" class="fx" hidden>
+  <div class="fx-card">
+    <div class="fx-lock"></div>
+    <div class="fx-title">LOCK OPEN</div>
+    <div class="fx-code">Code digit recovered <b class="fx-digit"></b></div>
+  </div>
+</div>
+<div id="vaultFx" class="fx" hidden>
+  <div class="vault-stage">
+    <div class="vault-light">
+      <div class="vault-escaped">YOU ESCAPED</div>
+    </div>
+    <div class="vault-door">
+      <div class="vault-bolts"><i></i><i></i><i></i><i></i></div>
+      <div class="vault-wheel"></div>
+    </div>
+  </div>
+  <div class="vault-digits"></div>
+</div>
 <div id="pasteToast">Pasting is disabled here — type your own answer.</div>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<div id="printSheet" aria-hidden="true"></div>
 <script defer src="js/app.js"></script>
 </body>
 </html>
