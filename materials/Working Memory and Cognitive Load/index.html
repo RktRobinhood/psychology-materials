@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memory Quest — Working Memory &amp; Cognitive Load</title>
+  <meta name="description" content="A story-driven lab: test your own working memory, replicate Landry &amp; Bartling and Sana et al., and discover intrinsic, extraneous and germane cognitive load.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Crimson+Pro:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn" aria-label="Chapter menu" title="Chapters">☰</button>
+      <div class="chapter-meta">
+        <span id="chapterLabel" class="chapter-label">Memory Quest</span>
+        <div class="progress-row">
+          <div class="progress" aria-hidden="true"><div id="progressFill"></div></div>
+          <span id="screenProgress" class="screen-progress"></span>
+        </div>
+      </div>
+      <div id="sigilBar" class="sigil-bar" aria-label="Sigils earned"></div>
+      <div class="top-actions">
+        <button id="soundBtn" class="icon-btn" aria-label="Sound on">🔊</button>
+        <button id="teacherBtn" class="small-btn">Teacher</button>
+      </div>
+    </header>
+
+    <main id="scene" class="scene">
+      <div class="scene-shade"></div>
+      <aside id="portraitStage" class="portrait-stage" aria-hidden="true">
+        <img id="portraitImg" class="portrait-img" alt="">
+      </aside>
+      <section class="center-stage">
+        <div id="panel" class="panel" hidden></div>
+      </section>
+      <section id="dialogueBox" class="dialogue-box" aria-live="polite">
+        <img id="speakerAvatar" class="speaker-avatar" alt="" hidden>
+        <div class="speaker-tab" id="speakerName">Selene</div>
+        <div id="dialogueText" class="dialogue-text"></div>
+        <div class="dialogue-actions">
+          <span id="lockHint" class="lock-hint" hidden>Finish the activity to continue</span>
+          <button id="backBtn" class="jrpg-btn secondary">◂ Back</button>
+          <button id="replayBtn" class="jrpg-btn secondary" hidden>↻ Replay</button>
+          <button id="continueBtn" class="jrpg-btn primary">Continue ▸</button>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="chapterMenu" class="modal-panel">
+      <div class="modal-inner">
+        <div class="modal-head">
+          <h2>Chapters</h2>
+          <button class="icon-btn" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
+        </div>
+        <div id="chapterList" class="chapter-list"></div>
+      </div>
+    </dialog>
+
+    <dialog id="teacherPanel" class="modal-panel teacher-panel">
+      <div class="modal-inner">
+        <div class="modal-head">
+          <h2>Teacher</h2>
+          <button class="icon-btn" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
+        </div>
+        <div id="teacherBody" class="teacher-body"></div>
+      </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script defer src="data/lesson-data.js"></script>
+  <script defer src="js/icons.js"></script>
+  <script defer src="js/games.js"></script>
+  <script defer src="js/studies.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>

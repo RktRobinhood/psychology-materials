@@ -36,3 +36,9 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# local design sources and tool settings (not published)
+/design/*/source-assets/
+/design/*/reference/
+/design/*/ui/
+/.claude/
