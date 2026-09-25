@@ -16,6 +16,15 @@ ODY.topics = {
       "Section C hands you a concept and an area of study. Keep both on the table in every paragraph. An essay about bias with no memory research in it is simply a lecture on smudges.",
       "Try this before the next island. Take any study you know and ask it one question for each concept. Whichever question gives you the most to say is where your essay plan begins."
     ],
+    tutor: [
+      "Section C of Paper 1 is built on six concepts: bias, causality, change, measurement, perspective and responsibility. Every Section C question pairs one of these concepts with one area of study from a context.",
+      "The concept is the focus, but the area of study must stay present in every paragraph. An essay that discussed only bias, with no real research content, was capped at about nine marks out of fifteen.",
+      "Keep perspective and bias apart. A perspective is a deliberate lens, such as the biological or cognitive approach. Bias is a systematic error that distorts results without anyone intending it. Choosing one approach is a perspective, not a bias.",
+      "Causality comes in degrees and shapes: linear, domino and cyclical. A correlation is a hint that can be strengthened, not a dead end, so say what supports or limits a causal claim and why.",
+      "The most common mistake is the empty verdict, such as saying the study was biased or causality was low. Instead, name the specific issue, explain why it strengthens or limits the claim, and link it to the content.",
+      "Also use the right validity term. A narrow sample threatens population validity, which is about who the results apply to. Ecological validity is about how lifelike the task and setting are.",
+      "In the exam, choose one of the two Section C questions and plan for two minutes with a scaffold, such as sampling, participant and researcher bias. Two well-developed strands beat four thin ones, and your conclusion should add nothing new."
+    ],
     key: [
       "Every Section C question pairs one concept with one area of study from a context, for example 'Discuss bias with regard to one model of memory'.",
       "The concept is the focus. Study details earn little on their own; what counts is how the evidence shows the concept at work.",
@@ -138,6 +147,15 @@ ODY.topics = {
       "That is classical conditioning. A neutral stimulus is paired with one that already triggers a reflex. After enough pairings, the once neutral stimulus triggers a similar response on its own.",
       "Pavlov did it with dogs, food and a metronome. Write bell in the exam and nobody will take a mark away, but you and I will know the truth.",
       "Your turn. In the next scene, find the unconditioned stimulus, the neutral stimulus that becomes conditioned, and the conditioned response, before I say a word."
+    ],
+    tutor: [
+      "Classical conditioning is learning by association. A neutral stimulus is repeatedly paired with an unconditioned stimulus that already triggers a reflex, until the neutral stimulus triggers a similar response on its own.",
+      "The unconditioned stimulus produces the unconditioned response without learning. After pairing, the neutral stimulus becomes the conditioned stimulus, and it produces the conditioned response. If the pairing stops, the response fades, which is called extinction.",
+      "In Pavlov's 1903 study, food made dogs salivate as a reflex. A metronome was repeatedly sounded just before the food, and eventually the metronome alone produced salivation. Behaviour can be learned when a stimulus becomes associated with a biologically significant one.",
+      "A strength is tight laboratory control: the pairing is isolated as the cause, and salivation can be measured objectively. A limitation is that the theory is reductionist, ignoring thought and expectation, and much of the evidence comes from animals.",
+      "The most common mistake is confusing classical and operant conditioning. In classical conditioning, a stimulus comes before a reflexive response. Learning from consequences that follow a behaviour is operant conditioning. Also, the conditioned stimulus and the unconditioned stimulus are never the same thing.",
+      "Classical conditioning can appear in Sections A, B and C. In Section A, write one paragraph using all five terms, then a second that maps each term onto one example. In Section B, map the terms onto the scenario explicitly.",
+      "Give only one example, because only the first example is marked. In Section C, perspective and responsibility are strong angles: behaviourist versus biological evidence, and the historical misuse of aversion therapy."
     ],
     key: [
       "Classical conditioning is learning by association: a neutral stimulus (NS) is repeatedly paired with an unconditioned stimulus (UCS) that triggers a reflex, the unconditioned response (UCR).",
@@ -263,6 +281,15 @@ ODY.topics = {
       "A seatbelt buzzer that stops when you buckle up is not a punishment. Something unpleasant was removed, and buckling up increased. Negative reinforcement. It catches nearly everyone once.",
       "Skinner's pigeons were fed whatever they did, yet several repeated odd little rituals as if those had earned the food. Before judging them, consider your lucky pen. Then sort the next consequences."
     ],
+    tutor: [
+      "Operant conditioning is learning from consequences: a behaviour becomes more or less likely depending on what follows it. It builds on Thorndike's Law of Effect, and Skinner extended it.",
+      "Reinforcement makes a behaviour more likely, and punishment makes it less likely. Positive means something is added, and negative means something is removed. Neither word means good or bad.",
+      "That gives four combinations. Positive reinforcement adds something pleasant. Negative reinforcement removes something unpleasant. Positive punishment adds something unpleasant. Negative punishment removes something pleasant. Always classify a consequence by its effect on future behaviour, not by what anyone intended.",
+      "In Skinner's 1948 study, pigeons were given food at fixed intervals whatever they did. Six of eight developed repeated behaviours, such as turning in circles. Skinner concluded that whatever the bird happened to be doing was accidentally reinforced, and used this to explain superstition.",
+      "A strength is strong experimental support from controlled animal research, with behaviour that is observable and measurable. A limitation is that it treats the mind as a black box, and Bandura showed that learning can happen without direct reinforcement.",
+      "The most common mistake is calling negative reinforcement a punishment. Negative reinforcement removes something unpleasant and increases a behaviour, as when a seatbelt buzzer stops once you buckle up. Punishment always decreases behaviour.",
+      "Operant conditioning can appear in Sections A, B and C. In Section B, choose one strategy rather than all four quadrants, apply it to details in the scenario, and use the word because to explain why it would work."
+    ],
     key: [
       "Operant conditioning: behaviour changes according to its consequences. It builds on Thorndike's Law of Effect, and Skinner extended it.",
       "Reinforcement increases a behaviour; punishment decreases it. Positive means something is added; negative means something is removed.",
@@ -358,6 +385,15 @@ ODY.topics = {
       "That is social learning theory. We learn by observing models, and seeing a model rewarded, which Bandura called vicarious reinforcement, makes us more likely to copy them.",
       "Watching is not enough, though. You must pay attention, retain what you saw, be able to reproduce it, and be motivated to bother. Four conditions. Miss one and the lesson stays in the audience.",
       "Bandura's children watched an adult attack an inflatable doll, and many then did the same, sometimes word for word. Before the next island, can you name all four conditions without looking?"
+    ],
+    tutor: [
+      "Social learning theory, from Bandura, says that people learn by observing and imitating models, without needing direct reinforcement themselves. A model is anyone whose behaviour is observed, such as a parent, a peer, a teacher or a media figure.",
+      "Learning depends on four mediating processes. Attention means noticing the model. Retention means remembering what you saw. Reproduction means being able to perform it. Motivation means wanting to perform it, based on the outcomes you expect.",
+      "Imitation is more likely with vicarious reinforcement, which means seeing the model rewarded, and with identification, which means feeling similar to the model, for example in age or gender. Self-efficacy, your belief that you can do it, supports reproduction.",
+      "In the 1961 study by Bandura, Ross and Ross, seventy-two children aged three to nearly six watched an aggressive model, a non-aggressive model or no model. Those who saw aggression showed more physical and verbal aggression, often exact imitation. Aggression can be learned through observation.",
+      "A strength of the theory is its range and support: it explains behaviours from aggression to eating, and mirror neurons offer a biological basis. A limitation is that its key evidence, hitting an inflatable doll, may measure play rather than aggression.",
+      "The most common mistake is writing that people simply copy others. That earns about two marks out of four. Name attention, retention, reproduction and motivation, and show vicarious reinforcement and identification. Remember that self-efficacy is not one of the four processes.",
+      "Social learning theory can appear in Sections A, B and C. In Section B, for example a recycling campaign, choose a model the students identify with, reward the model visibly, and explain each of the four processes using details from the scenario."
     ],
     key: [
       "Social learning theory: people learn by observing and imitating models, without needing direct reinforcement.",
@@ -487,6 +523,15 @@ ODY.topics = {
       "Bartlett gave British readers an unfamiliar Native American legend. Their retellings grew shorter, more familiar and more sensible to them. Remembering, he argued, is reconstruction, not replay.",
       "One warning before the next island. Schema theory is a theory, not a model of memory. If a question asks for a cognitive model, reach for the multi-store model or the working memory model."
     ],
+    tutor: [
+      "A schema is a mental representation built from experience. It organises knowledge and guides attention, interpretation, recall and behaviour. Schema theory says we process new information through these existing structures, which makes processing fast and economical.",
+      "When new information fits an existing schema, it is assimilated without changing the schema. When it does not fit, accommodation happens: the existing schema is modified, or a new schema is created. A script is a schema for a sequence of events.",
+      "In Bartlett's 1932 study, British participants recalled an unfamiliar Native American legend, either repeatedly or passed from person to person. Both methods produced the same kinds of distortion: the story became shorter and more familiar. Remembering is active reconstruction shaped by schemas.",
+      "A second study, by Bransford and Johnson in 1972, showed that knowledge must be activated at encoding. Participants told the topic before hearing a vague passage about washing clothes recalled more. Those told the topic afterwards were no better than those never told.",
+      "A strength is that schema theory explains memory distortion, which neither the multi-store model nor the working memory model can. A limitation, from Cohen in 1993, is that a schema is too vague to observe or measure, which challenges construct validity.",
+      "The most common mistake is offering schema theory as a cognitive model. It is a theory, not a model. Another is explaining reconstructive memory without first explaining schemas, assimilation and accommodation, which are the theory itself.",
+      "Schema theory can appear in Sections A, B and C. In Section A, explain the theory before the example, then link Bartlett or Bransford and Johnson back to it. In Section C, Cohen's vagueness criticism is strong measurement material."
+    ],
     key: [
       "A schema is a mental representation built from experience. It organises knowledge and guides attention, interpretation, recall and behaviour.",
       "Schemas make processing economical: schema-congruent information is processed quickly; incongruent information takes effort and may be forgotten, distorted or trigger schema change.",
@@ -614,6 +659,15 @@ ODY.topics = {
       "Short-term memory holds about seven items, give or take two, for up to about thirty seconds unless you rehearse. New arrivals push old ones out. Long-term memory seems almost limitless.",
       "After surgery, Henry Molaison could no longer form new long-term memories, yet he could hold a number in mind by constant rehearsal. Separate stores, it seems. Can you name all three, with their limits?"
     ],
+    tutor: [
+      "The multi-store model, proposed by Atkinson and Shiffrin in 1968, says memory has three stores in sequence: sensory memory, short-term memory and long-term memory. The stores differ in encoding, capacity and duration.",
+      "Sensory memory holds a lot of raw sensory information for a fraction of a second or a few seconds. Attention passes information on to short-term memory, which holds about seven items, plus or minus two, for up to about thirty seconds.",
+      "Short-term memory encodes mainly by sound. Without rehearsal, information decays or is displaced by new input. Rehearsal transfers it to long-term memory, which encodes mainly by meaning and has effectively unlimited capacity and duration. Retrieval brings information back into short-term memory.",
+      "In Glanzer and Cunitz's 1966 study, forty-six army men recalled word lists immediately or after counting for ten or thirty seconds. Recency was sharply reduced at ten seconds and gone at thirty, because the counting displaced the last words from short-term memory.",
+      "A strength is biological support: patient HM kept a working short-term memory but could not form new long-term memories. A limitation is oversimplification. HM learned a procedural skill, mirror drawing, without remembering it, so long-term memory is not one single store.",
+      "The most common mistake is mixing vocabularies. The central executive belongs to the working memory model, never to the multi-store model. Also, do not call sensory memory selective memory: it is a brief store, and attention selects what moves on.",
+      "The multi-store model can appear in Sections A, B and C. A full-mark Section A answer gives all three stores with capacity, duration and encoding, plus rehearsal and displacement, then links one study back to the model. A diagram alone is never enough."
+    ],
     key: [
       "Atkinson and Shiffrin (1968): memory has three stores in sequence: sensory memory, short-term memory (STM) and long-term memory (LTM).",
       "The stores differ in encoding, capacity and duration. Sensory memory keeps the raw sensory form; STM encodes mainly acoustically (by sound); LTM encodes mainly semantically (by meaning).",
@@ -733,6 +787,15 @@ ODY.topics = {
       "An episodic buffer was added later to bind everything into one experience and link with long-term memory. Two tasks clash when they need the same component, and coexist when they do not.",
       "Landry and Bartling had students chant one, two while remembering letters. Recall dropped sharply. Which component was the chanting keeping busy? Decide before you open the next chest."
     ],
+    tutor: [
+      "The working memory model, proposed by Baddeley and Hitch in 1974, says short-term memory is not a single store but a system of components that hold and work on information for a few seconds while you use it.",
+      "The central executive controls attention: it allocates tasks, focuses and switches attention, and links to long-term memory. It controls rather than stores. The phonological loop handles sounds and words, and the visuospatial sketchpad handles visual and spatial information.",
+      "The phonological loop contains the phonological store, or inner ear, where traces fade in about two seconds, and the articulatory control process, or inner voice, which rehearses them. The episodic buffer, added later, binds information from the components and long-term memory into one episode.",
+      "The model's main support is the dual-task technique. Two tasks that need the same component interfere, while tasks using different components can run together. Patient KF also supports it: his short-term memory for spoken letters and digits was poor, but better when he saw them.",
+      "In Landry and Bartling's 2011 study, thirty-four students recalled lists of seven letters in order. One group repeated one, two aloud throughout. Correct recall was 76 percent for the control group and 45 percent for the suppression group.",
+      "The chanting occupied the inner voice, so the letters could not be rehearsed, which supports a separate phonological loop. A limitation of the model is that the central executive is vague, and its capacity cannot be measured separately.",
+      "The most common mistake is treating the central executive as a store: it only controls attention. In Section B, for example a footballer forgetting a rapid instruction, name the phonological loop and explain its limited capacity and rehearsal using details from the scenario."
+    ],
     key: [
       "Baddeley and Hitch (1974): short-term memory is a system of components, not a single store.",
       "Central executive: a limited-capacity, modality-free attention controller that allocates tasks, focuses, divides and switches attention, and links to LTM.",
@@ -842,6 +905,14 @@ ODY.topics = {
       "Shallow processing notices appearance or sound. Deep processing works with meaning. Craik and Tulving found that words processed for meaning were recognised more often in a surprise test.",
       "One snag. Depth cannot be measured separately from memory itself, so the argument risks going round in a circle. Can you explain why that matters, before the owl does?"
     ],
+    tutor: [
+      "Levels of processing, from Craik and Lockhart in 1972, says that how long a memory lasts depends on how deeply the information was processed at encoding, not on which store it sits in.",
+      "Shallow processing is structural, meaning what a word looks like, or phonological, meaning what it sounds like. Deep processing is semantic: working with meaning and linking to existing knowledge. Deep processing gives better recall.",
+      "In Craik and Tulving's 1975 study, participants answered questions about words: whether a word was in capital letters, whether it rhymed, or whether it fitted a sentence. In a surprise recognition test, recognition was best for meaning and worst for appearance.",
+      "The conclusion is that deeper, meaning-based processing produces more durable memory. Controlled experiments such as this one support it. The key limitation is circularity: depth cannot be measured independently of recall, so recall is used both to define depth and to prove it.",
+      "The most common mistake is thinking that repeating something many times is deep processing. Repetition is maintenance rehearsal, which is shallow. Depth means working with meaning. Another mistake is treating levels of processing as a fourth memory store.",
+      "Levels of processing is not one of the required models, and it mainly belongs in Section C. Use it as evidence that challenges the multi-store model, because it shows that the type of rehearsal matters, not just the amount."
+    ],
     key: [
       "Craik and Lockhart (1972): how long a memory lasts depends on the depth of processing at encoding, not on the store it is in.",
       "Shallow processing: structural (appearance, such as capital letters) or phonological (sound, such as rhyme).",
@@ -911,6 +982,15 @@ ODY.topics = {
       "Cognitive load theory says working memory has a limited capacity, so learning suffers when the total demand grows too high. That demand comes in three kinds.",
       "Intrinsic load is how hard the task itself is. Extraneous load is distraction and poor presentation. Germane load is the useful effort of building a schema you can reuse.",
       "Sana and colleagues found that students who could merely see a classmate multitasking on a laptop understood less of a lecture. Which kind of load was that? Decide before we sail on."
+    ],
+    tutor: [
+      "Cognitive load theory says that working memory has a limited capacity. Cognitive load is the total demand on it at a given moment. When demand exceeds capacity, learning and recall suffer. This is called cognitive overload.",
+      "There are three types of load. Intrinsic load is the inherent difficulty of the task. Extraneous load comes from distraction or poor presentation. Germane load is the useful effort of building schemas in long-term memory.",
+      "The loads interact. High extraneous load leaves less capacity for germane processing, so recall is poor. Intrinsic load cannot be removed, but it can be broken into smaller steps, while extraneous load is the easiest to remove.",
+      "In Sana, Weston and Cepeda's 2013 study, university students took laptop notes in a lecture. Those who also multitasked scored about 11 percent lower on comprehension, and those who could see multitasking peers scored about 17 percent lower. Multitasking adds extraneous load.",
+      "A strength is practical value: the theory guides teaching design, such as worked examples and removing distractions. A limitation is measurement: load is hard to measure directly, so studies such as Sana's infer it from performance rather than measuring it.",
+      "The most common mistake is leaving germane load vague, or defining cognitive load as using lots of technology. Cognitive load is the demand on working memory. Also, worry during a test is extraneous load, not intrinsic load.",
+      "Cognitive load theory can appear in Sections A, B and C. A full-mark Section B answer applies each relevant type of load to a detail in the scenario and shows how the loads interact to reduce recall."
     ],
     key: [
       "Cognitive load is the total demand on working memory. When demand exceeds its limited capacity, learning and recall suffer.",
@@ -1023,6 +1103,15 @@ ODY.topics = {
       "Dual process theory says thinking runs on both. We lean on System 1 because we are cognitive misers who save effort. Usually that works. Sometimes it produces errors in the same direction, which we call biases.",
       "The ball costs five pence. System 2 had to do that subtraction. Next, sort the tasks you meet by which system most likely handled them."
     ],
+    tutor: [
+      "Dual process theory says that thinking and decision-making run on two systems. System 1 is fast, automatic, intuitive and low in effort. System 2 is slow, conscious, effortful and analytic.",
+      "System 1 runs on heuristics, which are mental rules of thumb. It is usually right but error-prone. System 2 is more reliable but needs time, motivation and spare capacity, so it steps in only when it must.",
+      "We lean on System 1 because we are cognitive misers who save mental effort. When System 1 answers and System 2 fails to check, systematic errors called cognitive biases follow. System 1 also takes over when cognitive load is high or time is short.",
+      "In 2005, Frederick gave a large sample the Cognitive Reflection Test. In the bat-and-ball problem, the intuitive answer is ten cents but the correct answer is five cents. Over half of students at highly selective universities gave the intuitive answer.",
+      "The conclusion is that System 1 supplies a fast answer that System 2 often fails to check, even in very able people. A strength of the theory is that one framework explains a wide range of everyday errors and biases.",
+      "A limitation is that the two systems cannot be observed directly: they are inferred from speed and errors. The most common mistake is thinking the systems are two brain regions. They describe two kinds of processing, not two places.",
+      "Dual process theory can appear in Sections A, B and C. In Section A, describe both systems, then map them onto one example such as the bat-and-ball problem. Give an example even if the question does not ask for one."
+    ],
     key: [
       "Dual process theory: thinking and decision-making run on two systems.",
       "System 1: fast, automatic, intuitive and low effort. It runs on heuristics, gives strong gut feelings and is error-prone.",
@@ -1108,6 +1197,15 @@ ODY.topics = {
       "That is anchoring bias. The first number becomes a starting point, and we adjust away from it, but not far enough, even when the anchor is obviously random.",
       "Confirmation bias is its quieter cousin. We seek out, favour and remember evidence that fits what we already believe, and we explain away whatever does not.",
       "Both are System 1 shortcuts that System 2 fails to check. Next, spot which bias is at work in each scene, and be ready to say why it happened, not just its name."
+    ],
+    tutor: [
+      "A cognitive bias is a systematic error in judgement: most people make the same error in the same direction. Two biases matter most here: anchoring bias and confirmation bias.",
+      "Anchoring bias means relying too heavily on the first value you receive. That value acts as a reference point, and you adjust away from it too little, even when the anchor is obviously random.",
+      "In Tversky and Kahneman's 1974 study, people had five seconds to estimate eight times seven times six and so on down to one, or the same numbers in ascending order. The median estimates were 2,250 for descending and 512 for ascending.",
+      "The true answer is 40,320, so both groups were far too low, and the group that started with larger numbers anchored higher. People anchor on the first few numbers and adjust insufficiently.",
+      "Confirmation bias means seeking, interpreting, favouring and remembering information that supports what you already believe, and explaining away what does not. It works through selective exposure, selective interpretation and selective memory.",
+      "Both biases are explained by dual process theory: System 1 answers and System 2 fails to check. A strength is robustness, since anchoring is one of the most replicated effects. A limitation is that the tasks are artificial, with little motivation to be accurate.",
+      "The most common mistake is naming or describing a bias without explaining why it happens. In Sections A and B, explain the mechanism, and when a question asks about one bias, keep that bias at the centre rather than writing about dual process theory."
     ],
     key: [
       "A cognitive bias is a systematic error: most people err in the same direction.",
@@ -1240,6 +1338,15 @@ ODY.topics = {
       "Every model simplifies. The multi-store model ignores emotion and distortion. As the statistician George Box put it, all models are wrong, but some are useful. The skill is knowing which parts to trust.",
       "Remember, you need only one memory model, and schema theory is not a model. Which model is yours, and which study tested it?"
     ],
+    tutor: [
+      "A cognitive model is a simplified representation of a cognitive process, broken into components that can be tested. It rests on the cognitive approach, which treats people as information processors and holds that mental processes can be studied scientifically.",
+      "Psychologists use models because they simplify processes that cannot be seen, break them into parts that can be tested one at a time, predict behaviour, and communicate ideas clearly.",
+      "Models also have limits. They oversimplify: the multi-store model ignores emotion and distortion. They rest on assumptions, such as linear flow between stores. And their components are hypothetical constructs, which are hard to measure and can only be inferred.",
+      "Models are tested empirically, but one study rarely tests a whole model, and each construct must first be operationalised, meaning turned into something measurable, such as recall of a word list. Support from any one study is always partial.",
+      "The most common mistake is offering schema theory or flashbulb memory as a cognitive model: examiners accept neither. You need only one memory model, the multi-store model or the working memory model, and you do not need to compare two.",
+      "In the IB specimen Section B question, a three-stage model of imagination is tested with children. A top answer explains the value of models: they allow empirical testing, constructs must be operationalised, and one study supports only some stages.",
+      "Also, a drawn model never earns full marks on its own. Describe each component and how information moves between them. In Section C perspective essays, the cognitive lens explains what happens, and the biological lens shows the mechanism."
+    ],
     key: [
       "Cognitive approach assumptions: humans are information processors; mental processes can be studied scientifically; mental representations guide behaviour; soft determinism.",
       "The cognitive approach arose in the 1950s in reaction to behaviourism, which treated the mind as a black box.",
@@ -1306,6 +1413,15 @@ ODY.topics = {
       "In Section A, two short paragraphs win. The theory in its own vocabulary, then one example with every term mapped onto it. Only your first example is marked, so choose it well.",
       "In Section B, open with a line of theory, then take two or three details from the scenario and explain why each one happens. If you could have written it without reading the scenario, it is not finished.",
       "In Section C, the concept is the star and the area of study is the stage. Keep both in every paragraph, and let your conclusion follow from what you argued. Which section needs you most?"
+    ],
+    tutor: [
+      "Paper 1 lasts ninety minutes and is the same at standard and higher level. Section A has two four-mark questions, Section B has two six-mark questions, and Section C has one fifteen-mark response, chosen from two.",
+      "Spend about twenty minutes on Section A, thirty on B and forty on C. Cognition in general can appear in any section, but objectives on memory itself, such as biological, cultural and environmental factors and strategies to improve it, appear only in Section C.",
+      "In Section A, you describe or explain a named content point with one example. Write two paragraphs: the theory in its own vocabulary, then one example with each term linked to it. Only the first example is marked.",
+      "Read the command term. Describe means say what the theory is and how it works. Explain means say why and how it happens, and link the example back. A description earns only about two out of four on an explain question.",
+      "In Section B, you apply a theory to an unseen scenario. Explain the theory in one or two lines, then take two or three details from the scenario and explain why each happens, using because. Do not evaluate.",
+      "Test your Section B answer: if you could have written it without reading the scenario, add more application. Theory with no reference to the scenario has an unofficial cap of three marks, and scenario with no theory a cap of two.",
+      "In Section C, the concept is the focus and the area of study must stay present in every paragraph. Link them throughout, avoid absolute verdicts such as the study was biased, and end with a conclusion that follows from your argument and adds nothing new."
     ],
     key: [
       "Paper 1: 90 minutes, identical for SL and HL. Section A: two 4-mark questions. Section B: two 6-mark questions. Section C: one 15-mark response, chosen from two.",
@@ -1910,6 +2026,14 @@ ODY.topics.methods = {
     'Every study in this unit is only as strong as its method. So before you trust a finding, ask how the groups were formed and how the behaviour was measured.',
     'Manipulating the IV and allocating people at random is what supports a causal claim. Matching and repeated measures deal with differences between people. Neither makes a laboratory any less artificial.',
     'When you evaluate, be precise. A small, unusual sample threatens population validity. An artificial task threatens ecological validity. They are not the same problem, and examiners notice.'
+  ],
+  tutor: [
+    "Every study in this unit is only as strong as its method. Before you trust a finding, ask two things: how were the groups formed, and how was the behaviour measured?",
+    "In an independent samples design, different people do each condition. There are no order effects, but the groups may differ, as in Landry and Bartling, where each group had only seventeen students.",
+    "In a repeated measures design, the same people do every condition, which controls participant differences but risks order effects, as in Glanzer and Cunitz. In a matched pairs design, participants are matched first, as Bandura matched children on prior aggression.",
+    "Random allocation strengthens a causal claim, because participant differences are spread evenly across conditions. A natural experiment, such as Mani and colleagues comparing farmers before and after harvest, cannot allocate at random, so other changes may explain the result.",
+    "Case studies such as HM and KF give rich data on rare cases, but one person may not generalise. Inter-rater reliability checks that observers agree, as in Bandura's study, where the raters' scores correlated at 0.89.",
+    "The most common mistake is confusing validity terms. A small or narrow sample threatens population validity. An artificial task threatens ecological validity. In Section C, method points earn credit only when tied to the concept in the question."
   ],
   key: [
     'Independent samples: different people in each condition, so no order effects, but groups may differ (Sana et al., Landry and Bartling).',

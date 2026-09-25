@@ -53,7 +53,7 @@ export function voicedLines(ODY) {
       }
     }
   }
-  for (const t of Object.values(ODY.topics)) (t.voice || []).forEach(x => add('narrator', x));
+  for (const t of Object.values(ODY.topics)) (t.voice || []).concat(t.tutor || []).forEach(x => add('narrator', x));
   for (const e of Object.values(ODY.endings)) add('narrator', e.text);
   (ODY.chestLines || []).forEach(t => add('narrator', t));
   (ODY.shopLines || [

@@ -757,7 +757,10 @@
           stage2 = true;
           ta.readOnly = true;
           var checks = h('ul.checklist', (o.checks || []).map(function (c) { return h('li', h('label', h('input', { type: 'checkbox' }), h('span', c))); }));
-          out.append(h('h3', 'A model answer'), h('div.model', o.model), h('h3', 'Does yours...'), checks);
+          out.append(h('h3', 'A model answer'), h('div.model', o.model), h('h3', 'Does yours...'), checks,
+            h('div', { style: { marginTop: '6px' } }, FEEDBACK.button(function () {
+              return { sec: 'log', item: { id: key.replace(':', '-'), stem: o.stem }, q: o.q, text: ta.value, extraModel: o.model, checks: o.checks };
+            }, 'Get AI feedback (optional)')));
           go.textContent = 'Save to my log';
           go.disabled = true;
           U.later(function () { go.disabled = false; }, S.opt('presenter') ? 0 : 2500);

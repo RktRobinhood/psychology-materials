@@ -173,7 +173,9 @@
     inner.append(h('button.btn.btn-ghost.btn-sm', { type: 'button', html: U.icon('back', 16) + ' All Section ' + sec + ' prompts', onclick: function () { T.screen(sec); } }),
       h('div.prompt-box', { style: { marginTop: '12px' } }, it.stem ? h('p.stem', it.stem) : null, h('p.q', it.q)),
       h('div.two-col', { style: { marginTop: '14px' } },
-        h('div', h('h3', 'Your answer'), h('div.model', { style: { background: 'rgba(255,255,255,.04)', borderColor: 'rgba(255,255,255,.15)' } }, text)),
+        h('div', h('h3', 'Your answer'), h('div.model', { style: { background: 'rgba(255,255,255,.04)', borderColor: 'rgba(255,255,255,.15)' } }, text),
+          h('div.feedback-cta', h('p.small', h('b', 'Want feedback on your own writing? '), 'Get a feedback request to paste into an AI tutor. It tells you roughly where you are and asks questions to help you improve it.'),
+            FEEDBACK.button(function () { var st = store()[it.id]; return { sec: sec, item: it, text: text, mins: mins, selfMark: st && st.text === text ? st.mark : null, max: MAX[sec] }; }))),
         checkPart()));
     function checkPart() {
       var list = h('ul.checklist', (it.checklist || []).map(function (c) { return h('li', h('label', h('input', { type: 'checkbox' }), h('span', c))); }));
@@ -285,7 +287,8 @@
       inner.appendChild(h('details.study-card', { style: { marginTop: '12px' }, open: true },
         h('summary', h('b', 'Section ' + f.sec + ': ' + it.q)),
         h('div.two-col', { style: { marginTop: '10px' } },
-          h('div', h('h4', 'Your answer'), h('div.model', { style: { background: 'rgba(255,255,255,.04)', borderColor: 'rgba(255,255,255,.15)' } }, f.ta.value)),
+          h('div', h('h4', 'Your answer'), h('div.model', { style: { background: 'rgba(255,255,255,.04)', borderColor: 'rgba(255,255,255,.15)' } }, f.ta.value),
+            h('div', { style: { marginTop: '8px' } }, FEEDBACK.button(function () { return { sec: f.sec, item: it, text: f.ta.value, selfMark: sel.value === '' ? null : +sel.value, max: MAX[f.sec] }; }))),
           h('div', h('h4', 'Checklist'), h('ul.checklist', (it.checklist || []).map(function (c) { return h('li', h('label', h('input', { type: 'checkbox' }), h('span.small', c))); })),
             h('details', h('summary', f.sec === 'C' ? 'Model plan' : 'Model answer'), h('div.model', f.sec === 'C' ? (it.plan || []).join('\n') : it.model || '')),
             h('label.field', { style: { marginTop: '8px' } }, 'Your mark', sel)))));

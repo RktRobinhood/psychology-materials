@@ -213,12 +213,12 @@
   var LOP_FOILS = ['temple', 'sail', 'arrow', 'marble', 'grape', 'shield', 'lamp', 'rope', 'sheep', 'bread', 'river', 'crown'];
   var LEVELS = { s: 'Structural', p: 'Phonological', m: 'Semantic' };
 
-  function lopEncode(host, onDone) {
+  function lopEncode(host, onDone, plain) {
     var pick = U.shuffle(LOP_POOL).slice(0, 9);
     var plan = pick.map(function (x, i) { return { w: x.w, level: ['s', 'p', 'm'][i % 3], q: x.q }; });
     plan = U.shuffle(plan);
     var i = 0;
-    host.append.apply(host, head('The cargo tally', 'Answer the quartermaster\'s question about each word. Just yes or no.'));
+    host.append.apply(host, plain ? head('Word questions', 'Answer the question about each word. Just yes or no.') : head('The cargo tally', 'Answer the quartermaster\'s question about each word. Just yes or no.'));
     var box = h('div.big-center');
     host.appendChild(box);
     function next() {
@@ -236,13 +236,13 @@
     }
     next();
   }
-  function lopRecall(host, seed, resolve, title) {
+  function lopRecall(host, seed, resolve, title, plain) {
     var targets = seed.map(function (s) { return s.w; });
     var foils = U.shuffle(LOP_FOILS.filter(function (f) { return targets.indexOf(f) < 0; })).slice(0, 9);
     var all = U.shuffle(targets.concat(foils));
     var chosen = {};
     host.innerHTML = '';
-    host.append.apply(host, head(title || 'Do you remember the cargo?', 'Earlier you answered questions about nine words. Tap every word you think you saw. Some of these are new.'));
+    host.append.apply(host, head(title || (plain ? 'Which words did you see?' : 'Do you remember the cargo?'), 'Earlier you answered questions about nine words. Tap every word you think you saw. Some of these are new.'));
     var grid = h('div.pick-grid');
     all.forEach(function (w) {
       var b = h('button', { type: 'button' }, w);
@@ -297,7 +297,7 @@
   };
   D.lop = function (cfg, host) {
     return new Promise(function (resolve) {
-      lopEncode(host, function (s) { fillerThen(host, function () { lopRecall(host, s, resolve, 'Surprise: which words did you see?'); }); });
+      lopEncode(host, function (s) { fillerThen(host, function () { lopRecall(host, s, resolve, 'Surprise: which words did you see?', true); }); }, true);
     });
   };
   function fillerThen(host, then) {
@@ -320,12 +320,14 @@
   /* ---------- operant: the lotus grove (variable ratio, then extinction) ---------- */
   D.reinforce = function (cfg, host) {
     return new Promise(function (resolve) {
-      host.append.apply(host, head('The lotus grove', 'Pick lotus flowers. Some give a sweet dream (a point), most do not. Pick as long as you like, and leave when you choose.'));
+      host.append.apply(host, cfg.standalone ? head('An unpredictable reward', 'Press the button. Some presses give a point, most do not. Press as long as you like, and stop when you choose.')
+        : head('The lotus grove', 'Pick lotus flowers. Some give a sweet dream (a point), most do not. Pick as long as you like, and leave when you choose.'));
       var dreams = 0, picks = 0, afterStop = 0, stopped = false, t0 = Date.now(), lastWin = 0;
       var nextWin = 2 + Math.floor(Math.random() * 5);
-      var counter = h('p.lede', 'Dreams: 0');
-      var btn = h('button.lotus-btn', { type: 'button' }, 'Pick a lotus');
-      var leave = h('button.btn', { type: 'button' }, 'Leave the grove');
+      var noun = cfg.standalone ? 'Points' : 'Dreams';
+      var counter = h('p.lede', noun + ': 0');
+      var btn = h('button.lotus-btn', { type: 'button' }, cfg.standalone ? 'Press' : 'Pick a lotus');
+      var leave = h('button.btn', { type: 'button' }, cfg.standalone ? 'Stop' : 'Leave the grove');
       var note = h('p.small.muted', 'There is no right number of picks.');
       host.appendChild(h('div.big-center', counter, btn, note, leave));
       btn.addEventListener('click', function () {
@@ -335,7 +337,7 @@
           dreams++;
           lastWin = picks;
           nextWin = picks + 1 + Math.floor(Math.random() * 6);
-          counter.textContent = 'Dreams: ' + dreams;
+          counter.textContent = noun + ': ' + dreams;
           AUDIO.sfx('correct', 0.35);
           btn.animate && btn.animate([{ transform: 'scale(1.08)' }, { transform: 'scale(1)' }], 250);
         } else AUDIO.sfx('tap', 0.25);
@@ -344,12 +346,14 @@
       });
       leave.addEventListener('click', function () {
         var resisted = stopped ? afterStop < 8 : true;
-        var q = { id: 'lotusq', t: 'operant', q: 'In the grove, dreams came after an unpredictable number of picks. Which schedule was that?',
+        var q = { id: 'lotusq', t: 'operant', q: cfg.standalone ? 'Points came after an unpredictable number of presses. Which schedule was that?' : 'In the grove, dreams came after an unpredictable number of picks. Which schedule was that?',
           a: 'Variable ratio', d: ['Fixed ratio', 'Fixed interval', 'Variable interval'],
           why: 'Reward after an unpredictable number of responses is variable ratio. It produces fast, persistent responding that is slow to extinguish.' };
         host.innerHTML = '';
-        var summary = '<b>You picked ' + picks + ' flowers and got ' + dreams + ' dreams.</b> ' +
-          (stopped ? 'The grove stopped paying a while ago, and you picked <b>' + afterStop + '</b> more times after the last dream. ' : 'You left before the grove stopped paying. ') +
+        var unit = cfg.standalone ? ['pressed ', ' times', ' points', 'The button stopped paying a while ago, and you pressed ', ' more times after the last point. ', 'You stopped before the button stopped paying. ']
+          : ['picked ', ' flowers', ' dreams', 'The grove stopped paying a while ago, and you picked ', ' more times after the last dream. ', 'You left before the grove stopped paying. '];
+        var summary = '<b>You ' + unit[0] + picks + unit[1] + ' and got ' + dreams + unit[2] + '.</b> ' +
+          (stopped ? unit[3] + '<b>' + afterStop + '</b>' + unit[4] : unit[5]) +
           'That persistence is exactly what a variable ratio schedule produces: when rewards are unpredictable, a run of nothing does not feel like a signal to stop. It is why slot machines, loot boxes and refresh feeds are so hard to put down. When reinforcement stops completely, the behaviour eventually dies away: <b>extinction</b>.';
         host.append.apply(host, head('What just happened', null));
         host.appendChild(h('div.drill-result', { html: summary }));
@@ -774,7 +778,7 @@
     return new Promise(function (resolve) {
       var high = Math.random() < 0.5;
       var anchor = high ? 6000 : 800;
-      host.append.apply(host, head("Poseidon's wheel", 'Spin the wheel. Then answer a question about Mount Olympus.'));
+      host.append.apply(host, head(cfg.standalone ? 'A random first number' : "Poseidon's wheel", 'Spin the wheel. Then answer a question about Mount Olympus.'));
       var stage = h('div.big-center');
       host.appendChild(stage);
       var num = h('div.word-big', '????');
@@ -865,7 +869,8 @@
     return new Promise(function (resolve) {
       var tests = [];
       function fits(a, b, c) { return a < b && b < c; }
-      host.append.apply(host, head("The Oracle's rule", 'The numbers **2, 4, 6** follow the Oracle\'s secret rule. Test any three numbers and the Oracle will say whether they fit. When you are sure, name the rule.'));
+      host.append.apply(host, cfg.standalone ? head('The 2-4-6 task', 'The numbers **2, 4, 6** follow a secret rule. Test any three numbers and you will be told whether they fit. When you are sure, name the rule.')
+        : head("The Oracle's rule", 'The numbers **2, 4, 6** follow the Oracle\'s secret rule. Test any three numbers and the Oracle will say whether they fit. When you are sure, name the rule.'));
       var a = h('input', { type: 'text', inputmode: 'numeric' }), b = h('input', { type: 'text', inputmode: 'numeric' }), c = h('input', { type: 'text', inputmode: 'numeric' });
       var test = h('button.btn.btn-primary', { type: 'button' }, 'Test');
       var log = h('div.rule-log');

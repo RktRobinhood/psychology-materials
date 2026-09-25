@@ -25,6 +25,10 @@ KEYS = {
     'rugged_greek_sailor_character_sheet': 'eurylochus', 'siren_sisters_odyssey_character_sheet': 'sirens',
     'ancient_odyssey_icon_medallion_sheet': 'medal', 'enchanted_treasure_chest_asset_sheet': 'chest',
     'greek_mythology_puzzle_asset_atlas': 'puzzle', 'odyssey_adventure_inventory_collection': 'inv',
+    # second round (ChatGPT, after the look-alike review): distinct crew and palace extras
+    'eurylochus_v2': 'eury2', 'polites_v2': 'pol2', 'elpenor_v2': 'elp2', 'telemachus_v2': 'tele',
+    'eurylochus_v3': 'eury3', 'polites_v3': 'pol3', 'elpenor_v3': 'elp3',
+    'maid_v2': 'maid', 'servant_v2': 'servant', 'spare-bearded-a_v2': 'spareA', 'spare-bearded-b_v2': 'spareB',
 }
 
 def blobs(mask, labels):
@@ -45,7 +49,9 @@ def blobs(mask, labels):
                 out.append((n, x0, y0, x1, y1))
     return out
 
-for f in sorted(glob.glob(os.path.join(SRC, 'characters', '*.png')) + glob.glob(os.path.join(SRC, 'props_ui', '*.png'))):
+SRC_GLOB = sys.argv[3] if len(sys.argv) > 3 else None
+FILES = sorted(glob.glob(SRC_GLOB)) if SRC_GLOB else sorted(glob.glob(os.path.join(SRC, 'characters', '*.png')) + glob.glob(os.path.join(SRC, 'props_ui', '*.png')))
+for f in FILES:
     name = os.path.splitext(os.path.basename(f))[0]
     key = KEYS.get(name, name[:10])
     im = Image.open(f).convert('RGBA')
@@ -66,10 +72,10 @@ for f in sorted(glob.glob(os.path.join(SRC, 'characters', '*.png')) + glob.glob(
         box = (max(0, x0*SCALE - 4), max(0, y0*SCALE - 4), min(im.width, (x1+1)*SCALE + 4), min(im.height, (y1+1)*SCALE + 4))
         own = labels == lab
         grow = own.copy()
-        for _ in range(3):
+        for _ in range(4):
             g = grow.copy(); g[1:, :] |= grow[:-1, :]; g[:-1, :] |= grow[1:, :]; g[:, 1:] |= grow[:, :-1]; g[:, :-1] |= grow[:, 1:]; grow = g
-        other = (labels > 0) & ~grow
-        keep = Image.fromarray(((~other) * 255).astype('uint8')).resize(im.size, Image.NEAREST)
+        # keep only this figure plus a soft margin, so faint edges of neighbouring figures are dropped
+        keep = Image.fromarray((grow * 255).astype('uint8')).resize(im.size, Image.NEAREST)
         piece = im.copy(); A = np.array(piece.getchannel('A')); A = np.minimum(A, np.array(keep)); piece.putalpha(Image.fromarray(A))
         crop = piece.crop(box)
         crop = crop.crop(crop.getbbox())

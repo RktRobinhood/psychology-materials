@@ -67,7 +67,7 @@ ODY.episode({
     'N: They feast. They sing about the horse. Nobody watches the hills.',
     '@sfx clunk',
     '@fx shake',
-    'eurylochus.spear~angry: Captain! Torches on the ridge! Hundreds of them!',
+    'eurylochus.lookout~angry: Captain! Torches on the ridge! Hundreds of them!',
     'N: Dawn attack. This is a quick-time event. Answer before the clock runs out, and do it three times. Every miss costs a sailor.',
     { qte: { t: ['concepts', 'methods'], n: 3, timer: 16, title: 'Dawn attack at Ismarus', lv: 1 } },
     'odysseus.sword~shout: To the ships! Leave the cattle! Row!',

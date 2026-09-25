@@ -410,6 +410,8 @@ button.card:hover { border-color: var(--gold); }
 .mastery-list { display: grid; gap: 8px; }
 .mastery-list .row { display: grid; grid-template-columns: 200px 1fr 56px; gap: 10px; align-items: center; font-size: 14.5px; }
 .print-sheet { display: none; }
+.feedback-cta { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: rgba(79, 179, 199, .1); border: 1px solid rgba(79, 179, 199, .35); display: grid; gap: 8px; justify-items: start; }
+.feedback-cta p { margin: 0; }
 
 /* ---------- compact heights (school laptops) ---------- */
 @media (max-height: 800px) {

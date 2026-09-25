@@ -304,13 +304,13 @@
   var TOPIC_ORDER = ['concepts', 'classical', 'operant', 'slt', 'schema', 'msm', 'wmm', 'lop', 'load', 'dpt', 'biases', 'models', 'exam', 'methods'];
   SC.topicOrder = function () { return TOPIC_ORDER.filter(function (t) { return ODY.topics[t] || QB.byTopic(t).length; }); };
   var SPECIAL = {
-    operant: [['reinforce', 'The lotus grove: reinforcement schedules']],
-    schema: [['bj', 'Bransford and Johnson: title or no title?'], ['bartlett', 'Bartlett: the ghost story retold']],
+    operant: [['reinforce', 'Reinforcement schedules: an unpredictable reward']],
+    schema: [['bj', 'Bransford and Johnson: title or no title?'], ['bartlett', 'Bartlett: reconstructing an unfamiliar story']],
     msm: [['flash', 'Sperling: the flash of letters'], ['span', 'Digit span and chunking'], ['serial', 'The serial position curve']],
     lop: [['lop', 'Depth of processing: a surprise test']],
     wmm: [['dualtask', 'Twin tasks: the dual-task method']],
     dpt: [['crt', 'Fast and slow: reflection puzzles']],
-    biases: [['anchor', "Poseidon's wheel: anchoring"], ['rule246', "The Oracle's rule: confirmation bias"]]
+    biases: [['anchor', 'Anchoring: a random first number'], ['rule246', 'Confirmation bias: the 2-4-6 task']]
   };
   SC.drillsFor = function (t) {
     var list = (SPECIAL[t] || []).map(function (x) { return { type: x[0], id: null, title: x[1] }; });
@@ -373,18 +373,20 @@
 
   function lessonView(t) {
     var tp = ODY.topics[t] || {};
-    var spoken = h('p.notes-spoken', tp.voice && tp.voice[0] ? '' : '');
-    var play = h('button.btn.btn-primary', { type: 'button', html: U.icon('play', 16) + ' Hear the Chronicler' });
+    // Study mode is for students who chose to skip the story: the narrator is a plain tutor here.
+    var lines = (tp.tutor && tp.tutor.length) ? tp.tutor : (tp.voice || []);
+    var spoken = h('p.notes-spoken', '');
+    var play = h('button.btn.btn-primary', { type: 'button', html: U.icon('play', 16) + ' Listen to the lesson' });
     var i = 0, playing = false;
     play.addEventListener('click', function () {
-      if (playing) { AUDIO.stop(); playing = false; play.innerHTML = U.icon('play', 16) + ' Hear the Chronicler'; return; }
+      if (playing) { AUDIO.stop(); playing = false; play.innerHTML = U.icon('play', 16) + ' Listen to the lesson'; return; }
       playing = true; i = 0;
       play.innerHTML = U.icon('x', 16) + ' Stop';
       (function next() {
         if (!playing) return;
-        if (i >= (tp.voice || []).length) { playing = false; play.innerHTML = U.icon('replay', 16) + ' Hear it again'; return; }
-        spoken.innerHTML = U.md(tp.voice[i]);
-        var v = AUDIO.say('narrator', tp.voice[i++]);
+        if (i >= lines.length) { playing = false; play.innerHTML = U.icon('replay', 16) + ' Hear it again'; return; }
+        spoken.innerHTML = U.md(lines[i]);
+        var v = AUDIO.say('narrator', lines[i++]);
         v.done.then(function (nat) { if (nat) setTimeout(next, 250); });
       })();
     });
@@ -619,6 +621,7 @@
           h('li', 'Crew are lives: a wrong quick-time answer loses a sailor. Losing all of them ends the episode; students retry with six crew. Mastery is never lost.'),
           h('li', 'Missed questions return a few questions later and in later sessions (spaced repetition).'),
           h('li', 'Story choices change dialogue, callbacks and which of five endings a student reaches. They never affect marks.'),
+          h('li', 'Every written answer (the Trials, the mock papers and the story\'s written Captain\'s log) has an optional "Get AI feedback" button. It copies one self-contained request that turns any AI chatbot into a Socratic Paper 1 tutor: a rough mark band first, then one question at a time, a rewrite and a re-estimate. It is told never to write the answer for the student. Students use whichever tool your school allows; nothing is sent from this page.'),
           h('li', 'Calm mode removes every timer. Presenter mode (below) unlocks Continue for projector use; arrow keys and clickers move the story on.'))),
       h('label', { style: { display: 'flex', gap: '10px', alignItems: 'center' } }, presenter, h('b', 'Presenter mode'), h('span.small.muted', 'No reading pauses, no timers.')),
       h('h3', 'Episodes'), eps,
