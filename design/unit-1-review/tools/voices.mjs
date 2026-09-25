@@ -8,6 +8,7 @@
 //   node tools/voices.mjs --only narrator render one speaker
 //   node tools/voices.mjs --audition      one sample per cast member into ../voice-auditions
 //   node tools/voices.mjs --limit 50      stop after 50 new lines (free-tier friendly)
+//   node tools/voices.mjs --resplit       re-split failed batches kept in ../voice-raw (no quota)
 //   node tools/voices.mjs --manifest      just rebuild data/voice-manifest.js from files on disk
 //
 // Output: assets/voice/<speaker>_<hash>.mp3 (mono MP3, 48 kbps) and data/voice-manifest.js.
@@ -140,43 +141,90 @@ function frames(pcm, rate) {
 function splitBatch(pcm, rate, texts) {
   const { rms, frame } = frames(pcm, rate);
   const loud = rms.map(v => v > 450);
-  // Silent runs between the first and last loud frame.
-  let first = loud.indexOf(true), last = loud.lastIndexOf(true);
+  const first = loud.indexOf(true), last = loud.lastIndexOf(true);
   if (first < 0) return null;
+  const n = texts.length, need = n - 1;
+  const fsec = frame / rate;
+  // Candidate cut points: silent runs of at least 0.25 s between the first and last loud frame.
   const gaps = [];
-  let i = first;
-  while (i < last) {
-    if (!loud[i]) {
-      let j = i;
-      while (j < last && !loud[j]) j++;
-      gaps.push({ start: i, end: j, len: j - i });
-      i = j;
-    } else i++;
+  for (let i = first; i < last;) {
+    if (loud[i]) { i++; continue; }
+    let j = i;
+    while (j < last && !loud[j]) j++;
+    if (j - i >= 12) gaps.push({ start: i, end: j, len: j - i });
+    i = j;
   }
-  const need = texts.length - 1;
   if (gaps.length < need) return null;
-  const cuts = gaps.slice().sort((a, b) => b.len - a.len).slice(0, need).sort((a, b) => a.start - b.start);
+  // Speaking rate estimated from the whole take, minus the n-1 longest gaps.
+  const chars = texts.map(t => t.length), totalChars = chars.reduce((a, b) => a + b, 0);
+  const longest = gaps.map(g => g.len).sort((a, b) => b - a).slice(0, need).reduce((a, b) => a + b, 0);
+  const rate0 = (last + 1 - first - longest) * fsec / totalChars;
+  // Choose the n-1 gaps whose pieces best fit each line's expected length, preferring long gaps
+  // (dynamic programming, so a dramatic mid-line pause no longer derails the whole batch).
+  const G = gaps.length, INF = 1e18;
+  const pts = [{ end: first }].concat(gaps).concat([{ start: last + 1 }]); // pts[0] start, pts[G+1] end
+  const cost = (a, b, k) => { const s = (pts[b].start - pts[a].end) * fsec; if (s <= 0) return INF; const r = Math.log(s / Math.max(0.3, chars[k] * rate0)); return r * r * 4; };
+  const bonus = g => -Math.log(pts[g].len / 12);
+  // dp[k][g]: best cost with line k ending at point g.
+  const dp = Array.from({ length: n }, () => new Float64Array(G + 2).fill(INF));
+  const back = Array.from({ length: n }, () => new Int32Array(G + 2).fill(-1));
+  for (let g = 1; g <= G; g++) dp[0][g] = cost(0, g, 0) + bonus(g);
+  if (n === 1) { dp[0][G + 1] = cost(0, G + 1, 0); }
+  for (let k = 1; k < n; k++) {
+    const lastLine = k === n - 1;
+    for (let g = k + 1; g <= G + 1; g++) {
+      if (lastLine !== (g === G + 1)) continue;
+      for (let p = k; p < g; p++) {
+        if (dp[k - 1][p] >= INF) continue;
+        const c = dp[k - 1][p] + cost(p, g, k) + (lastLine ? 0 : bonus(g));
+        if (c < dp[k][g]) { dp[k][g] = c; back[k][g] = p; }
+      }
+    }
+  }
+  if (dp[n - 1][G + 1] >= INF) return null;
+  const chosen = [];
+  for (let k = n - 1, g = G + 1; k > 0; k--) { g = back[k][g]; chosen.unshift(g); }
   // The shortest chosen gap must be clearly longer than ordinary speech pauses.
-  if (need && cuts[cuts.length - 1] && Math.min(...cuts.map(c => c.len)) < 25) return null; // < 0.5 s
-  const bounds = [first].concat(cuts.map(c => Math.round((c.start + c.end) / 2))).concat([last + 1]);
-  const pieces = [];
-  for (let k = 0; k < texts.length; k++) pieces.push(pcm.subarray(bounds[k] * frame, bounds[k + 1] * frame));
-  // Sanity check: each piece's length should roughly follow its text length.
-  // Spoken length of each piece (first to last loud frame), not counting the silence around it.
-  const secs = [];
-  for (let k = 0; k < texts.length; k++) {
+  if (need && Math.min(...chosen.map(g => pts[g].len)) < 20) return null; // < 0.4 s
+  const bounds = [first].concat(chosen.map(g => Math.round((pts[g].start + pts[g].end) / 2))).concat([last + 1]);
+  const pieces = [], secs = [];
+  for (let k = 0; k < n; k++) {
+    pieces.push(pcm.subarray(bounds[k] * frame, bounds[k + 1] * frame));
     let a = bounds[k], b = bounds[k + 1] - 1;
     while (a < b && !loud[a]) a++;
     while (b > a && !loud[b]) b--;
-    secs.push((b - a + 1) * frame / rate);
+    secs.push((b - a + 1) * fsec);
   }
-  const chars = texts.map(t => t.length);
-  const rate0 = secs.reduce((a, b) => a + b, 0) / chars.reduce((a, b) => a + b, 0);
-  for (let k = 0; k < texts.length; k++) {
-    const expect = chars[k] * rate0;
+  // Sanity check: each piece's length should roughly follow its text length.
+  const r1 = secs.reduce((a, b) => a + b, 0) / totalChars;
+  for (let k = 0; k < n; k++) {
+    const expect = chars[k] * r1;
     if (secs[k] < expect * 0.4 - 0.5 || secs[k] > expect * 2.4 + 1.0) return null;
   }
   return pieces;
+}
+
+const RAW = path.join(HERE, '..', 'voice-raw');
+function saveRaw(wav, lines) {
+  fs.mkdirSync(RAW, { recursive: true });
+  const id = lines[0].who + '_' + hash(lines.map(l => l.text).join('|'));
+  fs.writeFileSync(path.join(RAW, id + '.wav'), wav);
+  fs.writeFileSync(path.join(RAW, id + '.json'), JSON.stringify(lines.map(l => ({ who: l.who, text: l.text }))));
+}
+/* --resplit: retry the splitter on failed batches saved in voice-raw (costs no quota). */
+function resplit() {
+  if (!fs.existsSync(RAW)) return console.log('Nothing in voice-raw.');
+  let n = 0;
+  fs.readdirSync(RAW).filter(f => f.endsWith('.json')).forEach(f => {
+    const lines = JSON.parse(fs.readFileSync(path.join(RAW, f), 'utf8'));
+    const { rate, pcm } = pcmFromWav(fs.readFileSync(path.join(RAW, f.replace('.json', '.wav'))));
+    const pieces = splitBatch(pcm, rate, lines.map(l => l.text));
+    if (!pieces) return console.log('still unsplittable:', f);
+    pieces.forEach((p, k) => fs.writeFileSync(path.join(OUT, keyOf(lines[k].who, lines[k].text) + '.mp3'), toMp3(trim(p, rate), rate)));
+    n += pieces.length;
+    fs.unlinkSync(path.join(RAW, f)); fs.unlinkSync(path.join(RAW, f.replace('.json', '.wav')));
+  });
+  console.log('Recovered ' + n + ' lines. Manifest lists ' + writeManifest() + ' files.');
 }
 
 async function batchMain(key, ODY, lines) {
@@ -196,10 +244,25 @@ async function batchMain(key, ODY, lines) {
     { model: 'gemini-3.8-flash-lite-tts', jobs: jobs.filter(j => j.who !== 'narrator') }
   ];
   let saved = 0;
+  // When flash runs out of narrator work it takes whole speakers the lite queue has not started,
+  // from the back of that queue, so every voice still comes from a single model.
+  queues[0].steal = queues[1];
+  const started = new Set(lines.filter(l => fs.existsSync(path.join(OUT, keyOf(l.who, l.text) + '.mp3'))).map(l => l.who));
+  function nextJob(q) {
+    if (q.jobs.length) return q.jobs.shift();
+    const o = q.steal;
+    if (!o) return null;
+    for (let i = o.jobs.length - 1; i >= 0; i--) {
+      const who = o.jobs[i].who;
+      if (!started.has(who) && o.jobs.filter(j => j.who === who).length === 1) return o.jobs.splice(i, 1)[0];
+    }
+    return null;
+  }
   async function worker(q) {
-    const stack = q.jobs.slice();
-    while (stack.length) {
-      const job = stack.shift();
+    const stack = q.jobs;
+    let job;
+    while ((job = nextJob(q))) {
+      started.add(job.who);
       const c = ODY.cast[job.who] || ODY.cast.narrator;
       const text = job.lines.map(l => l.text).join(' <long pause> <long pause> ');
       let wav;
@@ -215,6 +278,7 @@ async function batchMain(key, ODY, lines) {
       const { rate, pcm } = pcmFromWav(wav);
       const pieces = splitBatch(pcm, rate, job.lines.map(l => l.text));
       if (!pieces) {
+        saveRaw(wav, job.lines);
         console.log(`${new Date().toLocaleTimeString()} split failed for ${job.who} x${job.lines.length}; retrying as two smaller batches.`);
         if (job.lines.length > 1) {
           const half = Math.ceil(job.lines.length / 2);
@@ -238,6 +302,7 @@ async function batchMain(key, ODY, lines) {
 }
 
 async function main() {
+  if (flag('--resplit')) return resplit();
   if (flag('--manifest')) { console.log('Manifest lines:', writeManifest()); return; }
   if (flag('--prune')) {
     const keep = new Set(voicedLines(loadData()).map(l => keyOf(l.who, l.text) + '.mp3'));
