@@ -272,6 +272,8 @@ async function batchMain(key, ODY, lines) {
         if (e.status === 429 && /per day/i.test(e.message)) { console.log(`DAILY QUOTA reached on ${q.model}. ${stack.length + 1} batches left for this model; run again after the reset (09:00 Danish time).`); return; }
         if (e.status === 429) { const m = e.message.match(/retry in (\d+)/i); await sleep(((m ? +m[1] : 30) + 2) * 1000); stack.unshift(job); continue; }
         console.log(`FAILED batch ${job.who} x${job.lines.length}: ${String(e.message).slice(0, 160)}`);
+        // Network hiccups: put the batch back once rather than dropping it for the day.
+        if (!job.retried) { job.retried = true; stack.push(job); }
         await sleep(15000);
         continue;
       }
