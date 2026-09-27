@@ -20,6 +20,7 @@ import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { loadData, voicedLines, LESSON } from './audit.mjs';
+import { DIRECT, applyFx } from './voice-fx.mjs';
 
 const require = createRequire(import.meta.url);
 // lamejs's CommonJS entry is broken under Node; its bundled build works in a VM context.
@@ -220,7 +221,7 @@ function resplit() {
     const { rate, pcm } = pcmFromWav(fs.readFileSync(path.join(RAW, f.replace('.json', '.wav'))));
     const pieces = splitBatch(pcm, rate, lines.map(l => l.text));
     if (!pieces) return console.log('still unsplittable:', f);
-    pieces.forEach((p, k) => fs.writeFileSync(path.join(OUT, keyOf(lines[k].who, lines[k].text) + '.mp3'), toMp3(trim(p, rate), rate)));
+    pieces.forEach((p, k) => fs.writeFileSync(path.join(OUT, keyOf(lines[k].who, lines[k].text) + '.mp3'), toMp3(applyFx(lines[k].who, trim(p, rate), rate), rate)));
     n += pieces.length;
     fs.unlinkSync(path.join(RAW, f)); fs.unlinkSync(path.join(RAW, f.replace('.json', '.wav')));
   });
@@ -291,7 +292,7 @@ async function batchMain(key, ODY, lines) {
         continue;
       }
       pieces.forEach((p, k) => {
-        fs.writeFileSync(path.join(OUT, keyOf(job.lines[k].who, job.lines[k].text) + '.mp3'), toMp3(trim(p, rate), rate));
+        fs.writeFileSync(path.join(OUT, keyOf(job.lines[k].who, job.lines[k].text) + '.mp3'), toMp3(applyFx(job.lines[k].who, trim(p, rate), rate), rate));
       });
       saved += pieces.length;
       writeManifest();
@@ -338,7 +339,8 @@ async function main() {
   const todo = lines.filter(l => !fs.existsSync(path.join(OUT, keyOf(l.who, l.text) + '.mp3')));
   console.log(`${lines.length} voiced lines, ${lines.length - todo.length} already rendered, ${todo.length} to go.`);
   // One model per speaker keeps each voice consistent. The narrator gets the flagship model.
-  const queues = [
+  // --model puts every selected line on that one model (e.g. a monster on the flagship).
+  const queues = opt('--model') ? [{ model: opt('--model'), items: todo }] : [
     { model: 'gemini-3.8-flash-tts', items: todo.filter(l => l.who === 'narrator') },
     { model: 'gemini-3.8-flash-lite-tts', items: todo.filter(l => l.who !== 'narrator') }
   ];
@@ -348,12 +350,14 @@ async function main() {
     for (const l of q.items) {
       if (done >= LIMIT) return;
       const c = ODY.cast[l.who] || ODY.cast.narrator;
-      const style = c.style + (l.face && MOODS[l.face] ? '; in this line: ' + MOODS[l.face] : '');
-      for (;;) {
+      const d = (DIRECT[l.who] || {})[l.text];
+      const mood = d ? d.dir : l.face && MOODS[l.face];
+      const style = c.style + (mood ? '; in this line: ' + mood : '');
+      for (let tries = 0; ; tries++) {
         try {
-          const wav = await tts(key, q.model, c.voice, l.text, style);
+          const wav = await tts(key, q.model, c.voice, d ? d.say : l.text, style);
           const { rate, pcm } = pcmFromWav(wav);
-          fs.writeFileSync(path.join(OUT, keyOf(l.who, l.text) + '.mp3'), toMp3(trim(pcm, rate), rate));
+          fs.writeFileSync(path.join(OUT, keyOf(l.who, l.text) + '.mp3'), toMp3(applyFx(l.who, trim(pcm, rate), rate), rate));
           done++; fails = 0;
           console.log(`${new Date().toLocaleTimeString()} ${done}/${todo.length} ${q.model.includes('lite') ? 'lite ' : 'flash'} ${l.who}: ${l.text.slice(0, 60)}`);
           if (done % 10 === 0) writeManifest();
@@ -369,6 +373,7 @@ async function main() {
           console.log(`${new Date().toLocaleTimeString()} FAILED ${l.who}: ${String(e.message).slice(0, 200)}`);
           if (++fails >= 5) { console.log(`Too many failures on ${q.model}; worker stops.`); return; }
           await sleep(10000);
+          if (tries < 1) continue; // one retry for network hiccups
           break;
         }
       }

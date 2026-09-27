@@ -28,6 +28,7 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - Every lesson has `assets/CREDITS.md`. **Ask before downloading** a new asset pack.
 - The user often makes art with ChatGPT and relays it; list exactly which assets are still needed.
 - **Voiced lessons** use Gemini text-to-speech, pre-rendered at build time to small MP3s (never an API key in the site), with the browser's speech as a fallback. Why: the user wants lessons "fully voiced" with a distinct voice per character (Odyssey review, 2026-09-24).
+- **Monsters get monster-movie voices**: push the TTS with per-line acting directions and inline audio tags (grunts, growls, giggles), then post-process (lower pitch, grit, reverb, chorus) so they sound inhuman. Humans stay natural. Why: the user asked to "push this technology to the limit" for the Cyclops and the Sirens (Odyssey review, 2026-09-27).
 - **Aim for free** tools and tiers. The user is new to API keys and similar setup, so give click-by-click steps and keep keys in a file outside the repo. Why: the user said so when setting up Gemini (2026-09-24).
 - **Every character must read apart from the protagonist at a glance**: a different silhouette, age or hair, and their own garment colour. Why: the user found crewmates that looked like Odysseus confusing (Odyssey review, 2026-09-25).
 
