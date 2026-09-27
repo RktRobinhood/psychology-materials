@@ -13,6 +13,7 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - A **teacher panel** with per-chapter notes, a lesson plan and presenter mode (unlocks Continue for projector use; arrow keys and clicker Page Up/Down navigate).
 - Timed checks offer a **Calm mode** with no timer.
 - Classroom tasks are **informal replications or demonstrations**, never diagnosis of a student.
+- **Group and peer-teaching activities keep the teaching students in the lead**: they run the task with visitors (paired, face to face) rather than handing the laptop over. Avoid "hand them the computer" steps. Why: in Two Minds (2026-09-27 feedback), handing over the device left the teaching group idle and broke the collaboration; talk through a better model before the next group lesson.
 
 ## Writing
 
