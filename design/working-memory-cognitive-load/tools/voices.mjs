@@ -9,7 +9,8 @@
 //   node voices.mjs --single         one request per line (paid tier, or to redo a few lines)
 //   node voices.mjs --only lyra,orin limit to some speakers; --match "text" limits to matching lines
 //   node voices.mjs --model <m>      put every selected line on one model
-//   node voices.mjs --force          with --single: re-render lines that already have a file
+//   node voices.mjs --force          re-render lines that already have a file
+//   node voices.mjs --keys flags.txt only the recordings whose names appear in that file
 //   node voices.mjs --resplit        re-split failed batches kept in ../voice-raw (no quota)
 //   node voices.mjs --prune          delete recordings whose line no longer exists
 //   node voices.mjs --manifest       just rebuild data/voice-manifest.js from files on disk
@@ -266,7 +267,7 @@ const modelOf = who => opt('--model') || CAST[who].model;
 
 async function batchMain(key, lines) {
   fs.mkdirSync(OUT, { recursive: true });
-  const todo = lines.filter(l => !fs.existsSync(fileOf(l)));
+  const todo = lines.filter(l => flag('--force') || !fs.existsSync(fileOf(l)));
   console.log(`BATCH MODE. ${lines.length} voiced lines, ${lines.length - todo.length} rendered, ${todo.length} to go.`);
   const bySpeaker = {};
   todo.forEach(l => { (bySpeaker[l.who] = bySpeaker[l.who] || []).push(l); });
@@ -289,10 +290,12 @@ async function batchMain(key, lines) {
     let job;
     while ((job = stack.shift())) {
       const c = CAST[job.who];
-      const text = job.lines.map(l => spoken(l.text)).join(' <long pause> <long pause> ');
+      // No written separator: the flash model read "<long pause>" aloud. Paragraph breaks plus
+      // the instruction give the silent gaps the splitter cuts at.
+      const text = job.lines.map(l => spoken(l.text)).join('\n\n');
       let wav;
       try {
-        wav = await tts(key, q.model, c.voice, text, c.style + '. Read each sentence group as a separate line, with a long, silent pause between them.');
+        wav = await tts(key, q.model, c.voice, text, c.style + `. The text has ${job.lines.length} separate paragraphs. Read each paragraph as its own line and leave two full seconds of complete silence after each one. Read only the words written; never say the word pause.`);
       } catch (e) {
         if (isDaily(e)) { console.log(`DAILY QUOTA reached on ${q.model}. ${stack.length + 1} batches left for this model; run again after the reset (09:00 Danish time).`); return; }
         if (e.status === 429) { const m = e.message.match(/retry in (\d+)/i); await sleep(((m ? +m[1] : 30) + 2) * 1000); stack.unshift(job); continue; }
@@ -382,6 +385,8 @@ async function main() {
   if (!key) { console.error('No API key. Save it in ' + path.join(os.homedir(), '.gemini_api_key') + ' or set GEMINI_API_KEY.'); process.exit(1); }
   if (opt('--only')) lines = lines.filter(l => opt('--only').split(',').includes(l.who));
   if (opt('--match')) lines = lines.filter(l => l.text.includes(opt('--match')));
+  // --keys file.txt: only the recordings named in a file (e.g. FLAG lines from pausecheck.mjs).
+  if (opt('--keys')) { const ks = fs.readFileSync(opt('--keys'), 'utf8'); lines = lines.filter(l => ks.includes(path.basename(fileOf(l), '.mp3'))); }
   return flag('--single') ? singleMain(key, lines) : batchMain(key, lines);
 }
-main().catch(e => { console.error(e); writeManifest(); process.exit(1); });
+if (process.argv[1] === fileURLToPath(import.meta.url)) main().catch(e => { console.error(e); writeManifest(); process.exit(1); });

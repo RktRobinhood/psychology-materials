@@ -25,14 +25,14 @@ for (const l of pick) {
 Symbols may be read out in words (for example "vs" as "versus", "p ≤ 0.01" as "p less than or equal to point zero one", "2 × 2" as "2 by 2"); that is fine.
 Reply in exactly three lines:
 HEARD: <verbatim transcript>
-OK: <yes if every script word is spoken clearly, nothing is cut off at the start or end, and no words from another line are included; otherwise no>
+OK: <yes if every script word is spoken clearly, nothing is cut off at the start or end, and nothing else is spoken (in particular not the words "long pause", and no words from another line); otherwise no>
 SOUND: <a few words on how the voice sounds>`;
   let res;
   for (let t = 0; t < 5; t++) { // the text model is sometimes briefly overloaded (503)
     res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
       method: 'POST',
       headers: { 'x-goog-api-key': key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ inline_data: { mime_type: 'audio/mpeg', data: fs.readFileSync(file).toString('base64') } }, { text: prompt }] }] })
+      body: JSON.stringify({ contents: [{ parts: [{ inline_data: { mime_type: 'audio/mpeg', data: fs.readFileSync(file).toString('base64') } }, { text: prompt }] }], generationConfig: { temperature: 0 } })
     });
     if (res.status !== 503 && res.status !== 429) break;
     const wait = res.status === 429 ? ((await res.clone().text()).match(/retry in (\d+)/i) || [0, 30])[1] * 1000 + 2000 : 8000 * (t + 1);
@@ -40,7 +40,7 @@ SOUND: <a few words on how the voice sounds>`;
   }
   const j = await res.json();
   const out = res.ok ? (j.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim() : 'HTTP ' + res.status + ' ' + JSON.stringify(j).slice(0, 200);
-  const ok = /OK:\s*yes/i.test(out);
+  const ok = /OK:\s*yes/i.test(out) && !/long pause/i.test(out);
   if (!ok) bad++;
   await new Promise(r => setTimeout(r, PACE));
   console.log(`--- ${ok ? 'ok ' : 'BAD'} ${keyOf(l.who, l.text)}: ${l.text.slice(0, 70)}\n${out}`);
