@@ -50,6 +50,9 @@ button:disabled { cursor: default; }
 .top-actions { display: flex; gap: 8px; }
 .icon-btn, .small-btn { border: 1px solid #5e6f80; background: #15202b; border-radius: 8px; min-height: 38px; min-width: 40px; padding: 6px 10px; }
 .icon-btn:hover, .small-btn:hover { border-color: var(--gold-bright); }
+.voice-btn { display: inline-grid; place-items: center; color: #fff6dd; }
+.voice-btn.off { color: #7d8b99; background: #101820 linear-gradient(to top right, transparent calc(50% - 1px), #c0705a calc(50% - 1px), #c0705a calc(50% + 1px), transparent calc(50% + 1px)); }
+.speaker-tab { cursor: pointer; }
 .small-btn { font-weight: 600; }
 .sigil-bar { display: flex; gap: 4px; }
 .sigil-mini { width: 32px; height: 32px; border-radius: 50%; opacity: .22; filter: grayscale(1); transition: .3s; }

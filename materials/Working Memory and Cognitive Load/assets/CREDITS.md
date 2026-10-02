@@ -21,5 +21,8 @@ Icons in `js/icons.js` are by **Lorc** and **Delapouite** from [game-icons.net](
 ## Characters, backgrounds and concept icons
 Generated with ChatGPT for this lesson (Memory Quest style boards).
 
+## Voices
+Character voices are synthetic, pre-rendered with Google's Gemini text-to-speech (prebuilt voices) from the lesson's own script.
+
 ## Fonts
 Cinzel, Crimson Pro and Inter via Google Fonts (SIL Open Font License).

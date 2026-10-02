@@ -189,7 +189,7 @@
 
   function renderStudy(mount, done, ctx, studyId) {
     const study = STUDIES[studyId];
-    let i = 0, seenAll = false;
+    let i = 0, seenAll = false, opened = false;
     mount.innerHTML = '';
     mount.classList.add('study-mode');
     const head = h('div', 'study-head');
@@ -228,6 +228,9 @@
       card.classList.remove('enter'); void card.offsetWidth; card.classList.add('enter');
       prev.disabled = i === 0;
       next.hidden = i === study.steps.length - 1;
+      // Selene reads each file; the first step waits for her introduction to finish.
+      if (ctx && ctx.say) { const l = MQVoice.studyLine(s); ctx.say(l.who, l.text, { after: !opened }); }
+      opened = true;
       if (i === study.steps.length - 1 && !seenAll) {
         seenAll = true;
         done({ viewed: true });
@@ -255,7 +258,7 @@
       you: 'Your knowledge of the alphabet helped crack codes later.' }
   ];
 
-  function renderModel(mount, done) {
+  function renderModel(mount, done, ctx) {
     mount.innerHTML = '';
     mount.append(h('h2', 'game-title', 'The Working Memory Model'), h('p', 'game-instruction', 'Baddeley & Hitch (1974), with the episodic buffer added by Baddeley (2000). Tap each part.'));
     const wrap = h('div', 'wmm');
@@ -277,9 +280,10 @@
       [...diagram.querySelectorAll('.wmm-node')].forEach(n => n.classList.remove('active'));
       node.classList.add('active', 'seen');
       info.innerHTML = `<h3>${p.name}</h3><p>${p.text}</p><p class="you">${p.you}</p><p class="count">${opened.size} of ${PARTS.length} opened</p>`;
+      if (ctx && ctx.say) { const l = MQVoice.partLine(p); ctx.say(l.who, l.text); }
       if (opened.size === PARTS.length) done({ viewed: true });
     }
   }
 
-  window.Studies = { renderStudy, renderModel, STUDIES, ic };
+  window.Studies = { renderStudy, renderModel, STUDIES, PARTS, ic };
 })();

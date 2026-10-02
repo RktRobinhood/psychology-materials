@@ -1,0 +1,9 @@
+{
+  "name": "memory-quest-tools",
+  "private": true,
+  "type": "module",
+  "description": "Build tools for Memory Quest (not published).",
+  "dependencies": {
+    "lamejs": "^1.2.1"
+  }
+}

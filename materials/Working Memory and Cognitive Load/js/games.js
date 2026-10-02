@@ -564,7 +564,7 @@
   /* ── 7. Story Loom (episodic buffer) ─────────────────────── */
   async function storyLoom(mount, done, ctx) {
     const { status, body } = header(mount, 'The Story Loom', 'Watch the scene AND listen to the message. You will need both.');
-    const message = 'When the bells ring at sunset, take it to the north tower. Tell no one.';
+    const message = MQVoice.loom.text;
     await gate(body, ['Turn your sound on. The scene and the spoken message each contain different details.'], 'Play the scene');
     body.innerHTML = '';
     const scene = h('div', 'loom-scene');
@@ -578,7 +578,7 @@
     status.textContent = 'Watch… and listen.';
     await ctx.sleep(600);
     scene.classList.add('play');
-    const spoken = await ctx.speak(message);
+    const spoken = await ctx.say(MQVoice.loom.who, message) || await ctx.speak(message);
     if (!spoken) {
       caption.textContent = `🔊 “${message}”`;
       await ctx.sleep(5500);

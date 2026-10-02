@@ -13,7 +13,7 @@
   };
 
   /* ── state ─────────────────────────────────────────────── */
-  const blank = () => ({ chapter: 0, screen: 0, earned: [], results: {}, polls: {}, writes: {}, checks: {}, tally: {}, memo: {}, done: {}, recap: {}, maxChapter: 0, presenterUsed: false, sound: true, presenter: false, reducedMotion: false, calm: false, name: '', group: '' });
+  const blank = () => ({ chapter: 0, screen: 0, earned: [], results: {}, polls: {}, writes: {}, checks: {}, tally: {}, memo: {}, done: {}, recap: {}, maxChapter: 0, presenterUsed: false, sound: true, voices: true, presenter: false, reducedMotion: false, calm: false, name: '', group: '' });
   let state = load();
   function load() {
     try { return { ...blank(), ...JSON.parse(localStorage.getItem(data.meta.storageKey) || '{}') }; }
@@ -79,6 +79,8 @@
     if (master) master.gain.value = VOLUMES[v];
     save();
   }
+  // Character voices (js/voice.js) follow the sound level and have their own on/off switch.
+  MQVoice.setVolume(() => state.voices === false ? 0 : { high: 1, low: .5, off: 0 }[state.volume]);
   function speak(text) {
     return new Promise(resolve => {
       if (!state.sound || !('speechSynthesis' in window)) return resolve(false);
@@ -111,6 +113,7 @@
       offKey: fn => keys.delete(fn),
       keys,
       sound, speak,
+      say: (who, text, opts) => MQVoice.say(who, text, opts),
       result: (chapterId, gameId) => state.results[`${chapterId}:${gameId}`],
       remember: (k, v) => { if (v !== undefined) { state.memo[k] = v; save(); } return state.memo[k]; },
       cancel: () => {
@@ -118,6 +121,7 @@
         timers.forEach(clearTimeout); intervals.forEach(clearInterval);
         timers.clear(); intervals.clear(); keys.clear();
         try { speechSynthesis.cancel(); } catch { /* none */ }
+        MQVoice.stop();
       }
     };
     run = r;
@@ -228,6 +232,8 @@
     els.dialogueBox.hidden = sc.type === 'title';
     els.scene.classList.toggle('no-dialogue', sc.type === 'title');
     typeText(sc.text || '');
+    const line = MQVoice.screenLine(sc);
+    if (line) MQVoice.say(line.who, line.text, { delay: 250 });
 
     const renderers = { keyfact, video, poll, game, study, model, sort, quiz, trial, recap, write, tally, title, finish };
     if (renderers[sc.type]) {
@@ -317,7 +323,7 @@
   function study(sc, r) {
     window.Studies.renderStudy(els.panel, () => markDone(), r, sc.studyId);
   }
-  function model() { window.Studies.renderModel(els.panel, () => markDone('Model complete')); }
+  function model(sc, r) { window.Studies.renderModel(els.panel, () => markDone('Model complete'), r); }
 
   function sort(sc) {
     const p = els.panel;
@@ -994,7 +1000,7 @@
     const rb = $('resetBtn');
     if (rb) rb.onclick = () => {
       if (!confirm('Reset all answers and results on this device?')) return;
-      const keep = { sound: state.sound, volume: state.volume, presenter: state.presenter };
+      const keep = { sound: state.sound, volume: state.volume, voices: state.voices, presenter: state.presenter };
       state = { ...blank(), ...keep };
       save(); els.teacher.close(); render();
     };
@@ -1027,6 +1033,26 @@
     sound('tap');
   };
   document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+  const voiceBtn = $('voiceBtn');
+  const drawVoice = () => {
+    const on = state.voices !== false;
+    voiceBtn.classList.toggle('off', !on);
+    voiceBtn.setAttribute('aria-pressed', on);
+    voiceBtn.title = on ? 'Voices on (click to mute the characters)' : 'Voices off (click to hear the characters)';
+  };
+  voiceBtn.onclick = () => {
+    state.voices = state.voices === false;
+    save(); drawVoice(); sound('tap');
+    const line = MQVoice.screenLine(screen());
+    if (state.voices && line) MQVoice.say(line.who, line.text); else MQVoice.stop();
+  };
+  // Tap the speaker's name to hear the line again.
+  els.speaker.onclick = () => { const line = MQVoice.screenLine(screen()); if (line) MQVoice.say(line.who, line.text); };
+  els.speaker.title = 'Hear this line again';
+  // A voice must never talk over a memory task: starting or answering one silences it.
+  els.panel.addEventListener('pointerdown', e => {
+    if (e.target.closest('button') && ['game', 'trial', 'quiz', 'sort', 'recap'].includes(screen().type)) MQVoice.stop();
+  });
 
   document.addEventListener('keydown', e => {
     if (document.querySelector('dialog[open]')) return;
@@ -1039,6 +1065,7 @@
 
   if (state.chapter >= data.chapters.length || state.screen >= chapter().screens.length) { state.chapter = 0; state.screen = 0; }
   drawSound();
+  drawVoice();
   applyMotion();
   render();
   // Console hook for teachers and testing: MemoryQuest.jump(chapter, screen)

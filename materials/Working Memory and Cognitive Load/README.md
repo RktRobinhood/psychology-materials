@@ -13,6 +13,7 @@ Open `index.html` directly, or use the published GitHub Pages site. The Teacher 
 - `js/games.js`: the interactive tasks.
 - `js/studies.js`: study walkthroughs and the working memory model.
 - `js/app.js`: navigation, sound, teacher panel and PDF.
+- `js/voice.js`: character voices. Recordings live in `assets/voice/` and are listed in `data/voice-manifest.js`. They are made by `design/working-memory-cognitive-load/tools/voices.mjs`; **any change to a spoken line's wording needs that line re-rendered** (run the tool again; it only renders what is missing).
 - `assets/CREDITS.md`: asset sources and licences.
 
 ## Background
