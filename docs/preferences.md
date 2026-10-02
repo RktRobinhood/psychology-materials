@@ -53,5 +53,6 @@ What the user wants from every lesson, learned by working together. Add to it wh
 ## Git
 
 - Work directly on `main`. "Commit" means commit and push; the site deploys from `main`.
+- Always push finished work to `main`, even when a session is set up on a feature branch. Why: the user wants fixes live on the site without merging branches by hand.
 - `design/` folders can be large (Memory Quest's is about 17 MB): ask before committing big design assets.
 - Assets rendered over several days (e.g. voice lines on a daily API quota) are committed after each run, not held back until complete. Why: the user wants students to see the lesson fill in gradually.
