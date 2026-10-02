@@ -267,6 +267,9 @@ a { color: var(--gold2); }
 .title-card .btn small { margin-left: auto; font-weight: 400; opacity: .75; font-size: 13px; }
 .field { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--muted); }
 .field input, .field select, textarea, input[type=text], select { font: inherit; color: var(--text); background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .18); border-radius: 10px; padding: 10px 12px; }
+select { color-scheme: dark; }
+select option { background: var(--navy); color: var(--text); }
+select option:disabled { color: var(--muted); }
 .field-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; }
 .title-points { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 8px; font-size: 16px; color: #dfe5ea; }
 .title-points li { display: flex; gap: 10px; align-items: flex-start; }
