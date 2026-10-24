@@ -84,9 +84,11 @@ assert.ok(await evaluate('verify(decodeRecord(encodeRecord(submission.record)))'
 ctx.legacy = structuredClone(ctx.submission.qrRecord);
 delete ctx.legacy.u;
 delete ctx.legacy.t;
+delete ctx.legacy.y;
 ctx.legacy.m = await evaluate("sha(canonical(Object.fromEntries(Object.entries(legacy).filter(([key])=>key!=='m'))))");
 assert.ok(await evaluate('verify(decodeRecord(encodeRecord(legacy)))'));
 assert.match(evaluate('humanReport(legacy)'), /Script-dispatched input events: not recorded/);
+assert.match(evaluate('humanReport(legacy)'), /typing rates were not recorded/);
 
 // Demonstrate the security boundary: checksum changes are detected, but can be recomputed.
 ctx.changed = structuredClone(ctx.submission.qrRecord);
@@ -102,9 +104,89 @@ ctx.bad.u = 0;
 ctx.bad.t = [1, -1, 3];
 assert.throws(() => evaluate('decodeRecord(encodeRecord(bad))'), /Invalid growth counts/);
 
+// Active-only cadence excludes idle gaps and untimed first characters in every burst.
+evaluate("run=newRun('Typing check',4);db.runs=[run];recordPace(run,'intro',1,0,true)");
+for (let i = 1; i <= 150; i++) evaluate(`recordPace(run,'intro',1,${i * 200},true)`);
+assert.equal(evaluate('paceRecord(run)[0]'), 30000);
+assert.equal(evaluate('paceRecord(run)[1]'), 150);
+assert.equal(evaluate('paceRecord(run)[2]'), 60);
+assert.equal(evaluate('paceRecord(run)[3]'), 60);
+evaluate("recordPace(run,'intro',1,330000,true)");
+assert.equal(evaluate('paceRecord(run)[0]'), 30000);
+evaluate("recordPace(run,'point',1,330100,true)");
+assert.equal(evaluate('paceRecord(run)[1]'), 150);
+evaluate("pausePace(run);recordPace(run,'point',1,330200,true)");
+assert.equal(evaluate('paceRecord(run)[0]'), 30000);
+evaluate("recordPace(run,'point',5,330300,false);recordPace(run,'point',1,330400,true)");
+assert.equal(evaluate('paceRecord(run)[1]'), 150);
+
+// Above-reference averages and sustained fast bursts are separate contextual flags.
+evaluate("run=newRun('Fast sample',4);db.runs=[run];recordPace(run,'intro',1,0,true)");
+for (let i = 1; i <= 110; i++) evaluate(`recordPace(run,'intro',1,${i * 150},true)`);
+evaluate("run.finish=run.start+60000;run.status='locked';run.reason='submitted'");
+ctx.fast = await evaluate('snapshot(run)');
+assert.equal(ctx.fast.qrRecord.y[2], 80);
+assert.ok(ctx.fast.qrRecord.x.includes('ABOVE_TYPING_REFERENCE'));
+assert.ok(!ctx.fast.qrRecord.x.includes('HIGH_TYPING_RATE'));
+for (let i = 1; i <= 80; i++) evaluate(`recordPace(run,'intro',1,${16500 + i * 80},true)`);
+ctx.fast = await evaluate('snapshot(run)');
+assert.equal(ctx.fast.qrRecord.y[3], 150);
+assert.ok(ctx.fast.qrRecord.x.includes('HIGH_TYPING_RATE'));
+assert.match(evaluate('humanReport(fast.qrRecord)'), /Peak minus average:/);
+assert.ok(await evaluate('verify(decodeRecord(fast.code))'));
+
+// A short burst cannot provide a stable average or a continuous five-second peak.
+evaluate("run=newRun('Short sample',4);recordPace(run,'intro',1,0,true);recordPace(run,'intro',1,100,true)");
+assert.equal(evaluate('paceRecord(run)[2]'), null);
+assert.equal(evaluate('paceRecord(run)[3]'), null);
+evaluate("delete run.pace;recordPace(run,'intro',1,200,true)");
+assert.equal(evaluate('paceRecord(run)[4]'), 1);
+
+// Input in an unfocused/hidden document remains evidence, but is not keyboard-active time.
+evaluate("run=newRun('Away sample',4);focused=false");
+element('write-intro').value = 'a';
+evaluate("input({isTrusted:true,inputType:'insertText'},'intro')");
+assert.equal(evaluate('run.pace.last'), null);
+assert.equal(evaluate('paceRecord(run)[0]'), 0);
+evaluate('focused=true;visible=false');
+element('write-intro').value = 'ab';
+evaluate("input({isTrusted:true,inputType:'insertText'},'intro')");
+assert.equal(evaluate('run.pace.last'), null);
+evaluate('visible=true');
+
+ctx.bad = structuredClone(ctx.fast.qrRecord);
+ctx.bad.y = [0, 0, null, -1, 0, 120];
+assert.throws(() => evaluate('decodeRecord(encodeRecord(bad))'), /Invalid typing sample/);
+ctx.bad.y = [0, 0, null, null, 0, 120];
+assert.doesNotThrow(() => evaluate('decodeRecord(encodeRecord(bad))'));
+
+// Student summary is deliberately brief; the teacher report retains the underlying context.
+const studentSummary = evaluate('summaryTable(fast,true)');
+assert.match(studentSummary, /Session at a glance/);
+assert.ok(!studentSummary.includes('SCRIPT_DISPATCHED_INPUT'));
+assert.ok(!studentSummary.includes('fingerprint'));
+assert.ok(html.includes("window.addEventListener('beforeprint',preparePrint)"));
+assert.ok(html.includes("$('printDraft').addEventListener('click',printWork)"));
+
+// Native print preparation works before a run, for drafts, and without a QR/PDF snapshot.
+vm.runInContext(scripts[3].slice(scripts[3].indexOf('function preparePrint(){'), scripts[3].indexOf("window.addEventListener('beforeprint'")), ctx);
+element('questionChoice').value = '4';
+evaluate('run=null;preparePrint()');
+assert.match(element('printArea').innerHTML, /Question 4/);
+evaluate("run=newRun('Paper check',4);run.answers.intro='Paper-only rescue <&>.';preparePrint()");
+assert.match(element('printArea').innerHTML, /DRAFT/);
+assert.match(element('printArea').innerHTML, /Paper-only rescue &lt;&amp;&gt;\./);
+assert.equal(evaluate('run.status'), 'running');
+evaluate("run.status='locked';run.finish=run.start+60000;run.reason='submitted';preparePrint()");
+assert.match(element('printArea').innerHTML, /QR process report unavailable/);
+assert.match(element('printArea').innerHTML, /Session summary/);
+evaluate('run.snapshot=submission;preparePrint()');
+assert.ok(element('printArea').innerHTML.includes(ctx.submission.answers.intro));
+assert.match(element('printArea').innerHTML, /print-stamp/);
+
 // No content-bearing input log is introduced.
 assert.ok(!JSON.stringify(evaluate('run.log')).includes('Typed normally'));
 assert.ok(!/id="(?:saveDraft|saveText|saveHTML|saveJSON|saveHistory|saveQR)"/.test(html));
-console.log('PASS: actual input handlers, clipboard protections, snapshots, legacy QR records, unsigned checksum boundary, and PDF-only controls.');
+console.log('PASS: input protections, active-only rates, peak/threshold flags, legacy QR records, brief summaries, and setup/draft/QR-failure print preparation.');
 
 export { ctx, evaluate, scripts };
