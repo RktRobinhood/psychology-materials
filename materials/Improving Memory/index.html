@@ -1,24 +1,28 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111f32">
-  <meta name="description" content="Six fun memory challenges. Try, practise a trick, and try again.">
-  <title>Memory Olympiad · Six little challenges</title>
-  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css">
-  <script defer src="js/events.js"></script>
-  <script defer src="js/export.js"></script>
-  <script defer src="js/app.js"></script>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#0b1728">
+ <meta name="description" content="Six randomized memory challenges, friendly explanations, detailed answer reviews, and unlimited practice. No sign-up.">
+ <title>Memory Olympiad · Practice your memory</title>
+ <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="css/styles.css">
+ <script defer src="js/faces-pack.js"></script>
+ <script defer src="js/events.js"></script>
+ <script defer src="js/export.js"></script>
+ <script defer src="js/app.js"></script>
 </head>
 <body>
-  <a class="skip" href="#app">Skip to content</a>
-  <div class="shell">
-    <header class="header"><div class="inner head-flex"><div class="logo" aria-label="Memory Olympiad"><span class="logo-mark">M<span class="spot">.</span></span><span><strong>MEMORY OLYMPIAD</strong><small>SIX LITTLE CHALLENGES</small></span></div><span class="top-pill">IB PSYCHOLOGY</span></div></header>
-    <main id="app" class="inner" tabindex="-1"><div class="loading">Loading memory games…</div></main>
-    <footer class="footer inner">Your scores stay in this browser until <strong>you download and send them</strong>. Nothing is sent automatically.</footer>
-  </div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<a class="skip" href="#app">Skip to challenges</a>
+<div class="shell">
+ <header class="header"><div class="inner head-flex">
+  <button type="button" class="logo logo-button" data-action="home" aria-label="Memory Olympiad home"><span class="logo-mark">M<span class="spot">.</span></span><span><strong>MEMORY OLYMPIAD</strong><small>TRY • REMEMBER • REPEAT</small></span></button>
+  <nav class="header-nav" aria-label="Main navigation"><button class="header-link" type="button" data-action="home">Home</button><button class="header-link" type="button" data-action="tips">Memory tricks</button></nav>
+ </div></header>
+ <main class="inner" id="app" tabindex="-1"><p>Loading memory games…</p></main>
+ <footer class="footer inner">No sign-up. No automatic uploads. Your last <strong>two completed runs</strong> stay in this browser until you clear them or a new run replaces the oldest.</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

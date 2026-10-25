@@ -27,3 +27,51 @@ main{padding:34px 0 64px}.hero{display:grid;grid-template-columns:minmax(0,1.3fr
 .resource-list a span{display:block;font-size:14px;color:var(--muted)}
 .resource-list a:hover,.resource-list a:focus{border-color:var(--teal);background:#f3fbf5}
 @media(max-width:700px){.trick-grid{grid-template-columns:1fr}.trick-card{padding:18px}}
+
+/* ============================================================
+   v5: a compact student-first, repeatable memory practice site.
+   ============================================================ */
+.logo-button{appearance:none;border:0;background:none;color:inherit;cursor:pointer;padding:0;text-align:left;font:inherit}
+.logo-button:focus-visible,.header-link:focus-visible{outline:3px solid #b8efac;outline-offset:4px}
+.header-nav{display:flex;gap:9px;align-items:center}
+.header-link{font:inherit;font-size:13px;font-weight:750;color:#e0efe7;background:#1e3546;border:1px solid #425b69;border-radius:9px;padding:10px 14px;cursor:pointer}
+.header-link:hover{background:#2b5162}.in-test .header-nav{display:none}
+.hero-card{background:#102e3c;color:#e8faf2;padding:26px;border-radius:20px;min-height:200px;text-align:center;border:1px solid #3e685d;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.hero-card .number{color:#dcf8a9;font-size:75px;line-height:1.05}
+.hero-card .hero-symbol{font-size:27px;color:#c5e0d3}.hero-card p{font-size:17px;font-weight:800;margin:2px 0 7px}.hero-card .tiny{color:#c9e0d3}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.badges .pill{background:#e2efe8;color:#23504c}
+.start-card{border-color:#bedbd0;background:#ffffff}.start-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0 8px}
+.card-badge{display:grid;place-items:center;border:1.5px solid #cce1d5;border-radius:12px;background:#e7f6ee;padding:12px;font:900 17px ui-monospace,monospace;color:#28786b;white-space:nowrap}
+.big-button{min-height:55px;font-size:16px;padding:14px 24px}.game-pick{cursor:pointer;text-align:left;font:inherit;transition:transform .15s,border-color .15s}
+.game-pick:hover{transform:translateY(-2px);border-color:var(--teal);background:#f1faf3}.game-pick:focus-visible{outline:3px solid #25a38d;outline-offset:2px}
+.game-pick small{line-height:1.35}.mini-cta{font-size:12px;font-weight:800;color:var(--teal);display:block;margin-top:11px}
+.two-panel{display:grid;grid-template-columns:1fr 1fr;gap:16px}.history-row{width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;background:#fafffc;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;margin-bottom:9px;cursor:pointer;color:var(--ink);font:inherit}
+.history-row:hover{border-color:var(--teal)}.history-row span:first-child{display:grid;gap:4px;min-width:0}.history-row small{color:var(--muted);font-size:12px}.history-row strong{font-size:25px;letter-spacing:-.03em;white-space:nowrap;color:var(--teal)}.history-arrow{font-size:12px;color:var(--teal);font-weight:850;white-space:nowrap}
+.event-glyph{color:var(--teal)}.intro-card{max-width:790px;margin:0 auto}.event-how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.event-how>div{padding:16px 12px;border:1px solid #dce7df;background:#f8fbf8;border-radius:12px;display:grid;align-content:start;gap:8px}
+.event-how b{font-size:14px}.event-how div span:last-child{font-size:13px;color:var(--muted)}.how-number{display:grid;place-items:center;width:28px;height:28px;background:#e1f4e9;color:#157d70;font-weight:900;border-radius:50%;font-size:14px}
+.active-test{max-width:970px;margin:0 auto;min-height:320px}.stage-panel h2{margin-bottom:8px}.stage-panel .muted{font-size:14px;max-width:650px}
+.study-board{min-height:170px}.test-exit{text-align:center;margin-top:27px}.test-exit .link{font-size:12px;color:#72847f}
+.between-card{text-align:center;max-width:660px;margin:15px auto}.between-card h1{font-size:clamp(28px,4vw,42px)}.big-check{width:66px;height:66px;border-radius:50%;background:#cfefdc;margin:5px auto 20px;display:grid;place-items:center;font-size:36px;color:#047669;font-weight:1000}
+.centered{justify-content:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.slot-no{font-weight:900;color:var(--muted);font-size:13px;min-width:20px}.word-inputs .recall-field{display:flex;align-items:center}
+.avatar-item img{width:100%;max-width:116px;height:auto;aspect-ratio:1;object-fit:cover;border-radius:9px;display:block}
+.avatar-item select{padding:8px 4px;font-size:14px;min-height:42px;width:100%;font-weight:650}.avatar-item label{min-width:0}
+.result-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}.result-header h1{font-size:clamp(30px,4vw,49px);margin-bottom:8px}.result-header .lead{font-size:15px;margin:0}
+.result-score{width:188px;flex:0 0 188px;border:1px solid #b2e1cf;background:#e5f6ec;border-radius:17px;padding:19px;text-align:center}
+.result-score strong{display:block;font-size:53px;letter-spacing:-.07em;line-height:1.15;color:var(--teal)}.result-score span{font-size:12px;color:#37665a;font-weight:780}
+.comparison-note{background:#f1f8f3;border-radius:10px;padding:12px 16px;color:#315b57;font-size:14px;line-height:1.5}
+.score-stack{display:grid;gap:7px;margin:18px 0 25px}.score-row{display:grid;grid-template-columns:minmax(0,210px) 1fr 55px;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid var(--line)}.score-row:last-child{border:0}
+.score-name{display:flex;align-items:baseline;justify-content:space-between;gap:6px}.score-name b{font-size:14px}.score-name span{font-size:13px;color:var(--muted);white-space:nowrap}
+.score-track{height:13px;background:#e6efeb;border-radius:99px;overflow:hidden}.score-fill{height:100%;border-radius:99px;background:#cf8b40}.score-fill.good-fill{background:#138772}.score-fill.medium-fill{background:#65aa83}.score-fill.low-fill{background:#e5a65f}.score-row>strong{text-align:right;font-variant-numeric:tabular-nums;font-size:14px}
+.review-section{scroll-margin-top:20px}.review-card{border:1px solid var(--line);border-radius:13px;margin:10px 0;background:#fff;overflow:hidden}.review-card summary{padding:15px 17px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none;background:#f8fcf8}
+.review-card summary::-webkit-details-marker{display:none}.review-card[open] summary{background:#ebf6ef;border-bottom:1px solid var(--line)}
+.review-title{display:flex;flex-direction:column;gap:5px}.review-title strong{font-size:15px}.review-title small{font-size:12px;color:var(--muted)}.review-chevron{color:var(--teal);font-size:13px;font-weight:800;white-space:nowrap}
+.review-body{padding:14px 16px 18px}.review-body .tiny{margin-bottom:14px}.answer-row{display:grid;grid-template-columns:56px minmax(0,1fr) 26px;align-items:center;gap:12px;border:1px solid #e3ebe6;padding:10px;border-radius:10px;margin:7px 0}
+.answer-row.is-wrong{background:#fff7f5;border-color:#f2d3cc}.answer-row.is-right{background:#f5fbf7}.answer-key{display:flex;justify-content:center;align-items:center}.answer-position{font-size:17px;font-weight:900;color:#365e63}.tiny-avatar{width:52px;height:52px;border-radius:10px;object-fit:cover}
+.answer-values{display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:0}.answer-values span{min-width:0}.answer-values small{display:block;font-size:11px;color:#6a7978;font-weight:750;margin-bottom:4px}.answer-values strong{font-size:13px;overflow-wrap:anywhere;display:block}.answer-mark{font-size:24px;font-weight:900;color:var(--red)}.is-right .answer-mark{color:#0b936e}.all-correct{background:#ebf8ec;padding:14px;border-radius:10px;font-size:14px;font-weight:650;color:#286754}
+.btn[disabled],.link[disabled]{opacity:.5;pointer-events:none}.print-only{display:none}
+@media(max-width:800px){.two-panel{grid-template-columns:1fr}.result-header{align-items:flex-start}.start-inputs{grid-template-columns:1fr}.hero-card{min-height:150px}}
+@media(max-width:640px){.hero-card{display:none}.header{padding:12px 0}.header-nav{gap:5px}.header-link{padding:9px 7px;font-size:11px}.result-header{flex-direction:column;align-items:stretch}.result-score{width:100%;flex-basis:auto;display:flex;justify-content:space-between;align-items:center;text-align:left;padding:15px}.result-score strong{font-size:48px}.result-score span{max-width:150px}.event-how{grid-template-columns:1fr}.event-how>div{grid-template-columns:34px 1fr;gap:3px 10px;padding:12px}.event-how div span:last-child{grid-column:2}.event-how .how-number{grid-row:1/3}.score-row{grid-template-columns:minmax(0,140px) 1fr 40px;gap:7px}.score-name{display:block}.score-name b{display:block;font-size:12px}.score-name span{display:block;font-size:11px}.review-body{padding:10px}.answer-row{grid-template-columns:42px minmax(0,1fr) 20px;gap:7px;padding:8px}.tiny-avatar{width:39px;height:39px}.answer-values{gap:4px}.answer-values strong{font-size:12px}.answer-mark{font-size:19px}.avatar-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.avatar-item{padding:5px;gap:3px;border-radius:10px}.avatar-item b{font-size:11px}.avatar-grid:has(select){grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.avatar-grid:has(select) .avatar-item{padding:8px}.avatar-grid:has(select) img{max-width:120px}.avatar-grid:has(select) select{font-size:13px}.buttons .btn{width:100%}.game-grid{gap:9px}.game-tile{padding:14px 12px}.logo-mark{font-size:26px;padding:7px 9px}.logo strong{font-size:11px}}
+@media(max-width:380px){.header-link{font-size:10px;padding:8px 5px}.logo small{font-size:8px;letter-spacing:.07em}.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{body{background:#fff!important}.header,.footer,.toast,.buttons,.header-nav,.test-exit,.link,.mini-cta{display:none!important}main{width:100%;max-width:none;padding:0!important}.card{border:0;box-shadow:none;break-inside:auto;padding:5px!important}.review-card{break-inside:auto}.review-card[open] .review-body{display:block!important}.result-header{margin-bottom:10px}.review-section{page-break-before:always}.review-body .answer-row{break-inside:avoid}.answer-row{border:1px solid #ddd!important}.answer-values{grid-template-columns:1fr 1fr}.two-panel{display:none}}
