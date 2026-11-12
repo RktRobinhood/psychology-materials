@@ -1,0 +1,66 @@
+{
+  "purpose": "Neural Lab - 12 original Ian narration clips bundled locally for GitHub Pages",
+  "count": 12,
+  "files": [
+    {
+      "path": "assets/audio/analysis-01.mp3",
+      "bytes": 150080,
+      "sha256": "dfe1c26caa9caf3fbfc247220e8aa1e5d418afcf442f60682f3e16337a89bb7e"
+    },
+    {
+      "path": "assets/audio/analysis-02.mp3",
+      "bytes": 153841,
+      "sha256": "99cdf1cb1ca2989532391fa0630a23502e777b9b61e8889369d1b461f628155d"
+    },
+    {
+      "path": "assets/audio/analysis-03.mp3",
+      "bytes": 145064,
+      "sha256": "12487457782bef02548a703d505d785b41b0e9f2a9bfe68c971c2ce60c7faa9a"
+    },
+    {
+      "path": "assets/audio/maze-01.mp3",
+      "bytes": 148826,
+      "sha256": "9f868eccf2f8b50efa62a5a783fd95201d221c6d1f9d2f9500aae11a38a77a0b"
+    },
+    {
+      "path": "assets/audio/maze-02.mp3",
+      "bytes": 132107,
+      "sha256": "1320d4f9627c75c4755665055cb1fcf03c2b0fec5dacad3b3f8803fa12635cee"
+    },
+    {
+      "path": "assets/audio/maze-03.mp3",
+      "bytes": 160111,
+      "sha256": "86e0a372a54953746ad274b43af9c40f307ccd2445ddda858a73f6b65f8718a9"
+    },
+    {
+      "path": "assets/audio/maze-04.mp3",
+      "bytes": 165544,
+      "sha256": "ed43ad1dff9ee4fa9f4346b976e9730e8128c564e22d6a79c8d19192d899e311"
+    },
+    {
+      "path": "assets/audio/synapse-01.mp3",
+      "bytes": 137123,
+      "sha256": "d15037b750780ce77e4897af7b824a5f57d9473260b9a45cde6916b5b6546d9d"
+    },
+    {
+      "path": "assets/audio/synapse-02.mp3",
+      "bytes": 196055,
+      "sha256": "871e57d0baaba35efe5269361cee8475cc946154077c224fdba740a4613e9eff"
+    },
+    {
+      "path": "assets/audio/synapse-03.mp3",
+      "bytes": 140884,
+      "sha256": "3917da927263de680f2a61e250dc8c02cd536a549ab7791ec8567aa508855e21"
+    },
+    {
+      "path": "assets/audio/synapse-04.mp3",
+      "bytes": 164290,
+      "sha256": "8d0d9c2ce9d7f7b2d85b62b1d1dea1c6fea934a0bffa0b7a4b717462e4f1935a"
+    },
+    {
+      "path": "assets/audio/synapse-05.mp3",
+      "bytes": 189786,
+      "sha256": "5c464b663388687a473a1055bfaff2a66460b50441ee2a8511111ed7828064e5"
+    }
+  ]
+}

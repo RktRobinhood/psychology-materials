@@ -1,1 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123b46">
+<meta name="description" content="An interactive online psychology lesson: neurotransmission, a guided rat-maze classroom model, and drug action at synapses.">
+<title>Neural Lab | From Signals to Memory</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to lesson</a>
+<header class="sitehead">
+ <div class="brand"><span class="brandmark" aria-hidden="true">✳</span><div><strong>NEURAL LAB</strong><small>PSYCHOLOGY FIELD SCHOOL</small></div></div>
+ <nav aria-label="Lesson sections" class="topnav">
+  <button data-page="intro" class="navbtn active" aria-current="step">Start</button>
+  <button data-page="synapse" class="navbtn">01 <span>Signal</span></button>
+  <button data-page="maze" class="navbtn">02 <span>Memory</span></button>
+  <button data-page="molecules" class="navbtn">03 <span>Drug lab</span></button>
+  <button data-page="notebook" class="navbtn">Recap</button>
+ </nav>
+ <span class="offline" title="GitHub Pages compatible"><span aria-hidden="true">●</span> ONLINE LESSON</span>
+</header>
+<main id="main">
+<section id="intro" class="page active" aria-labelledby="hero-title">
+ <div class="hero layout">
+  <div class="hero-copy">
+   <div class="eyebrow"><span class="line"></span> ONE LESSON · THREE INVESTIGATIONS</div>
+   <h1 id="hero-title">How can a <em>chemical</em> change a memory?</h1>
+   <p class="lede">First, watch a message cross the tiny gap between two neurons. Then run a classic memory experiment. Finally, discover how familiar substances change these signals.</p>
+   <button class="cta" data-go="synapse">Enter the lab <span aria-hidden="true">→</span></button>
+   <p class="quiet small">No login · No student data uploaded · YouTube video before the maze</p>
+  </div>
+  <div class="hero-visual" aria-label="Illustration: chemical messages travelling between two neurons">
+    <svg viewBox="0 0 570 430" role="img" aria-label="Sending neuron releases glowing messenger molecules toward receiving neuron">
+      <defs><radialGradient id="g1"><stop stop-color="#f9e9ac"/><stop offset=".6" stop-color="#e7ad6e"/><stop offset="1" stop-color="#c77e53"/></radialGradient><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9fced4"/><stop offset="1" stop-color="#4a8295"/></linearGradient></defs>
+      <path d="M-22 76 C80 73 102 130 155 145 C205 160 197 177 228 185" fill="none" stroke="#ca875a" stroke-width="25" stroke-linecap="round"/>
+      <path d="M-25 76 C80 73 102 130 155 145 C205 160 197 177 228 185" fill="none" stroke="#f2be83" stroke-width="14" stroke-linecap="round"/>
+      <path d="M190 159 C227 158 250 164 252 215 C250 250 227 259 192 251 C169 246 163 222 168 196 C171 180 178 162 190 159 Z" fill="url(#g1)" stroke="#aa674a" stroke-width="3"/>
+      <g fill="#f8e8bb" stroke="#b67952" stroke-width="3"><circle cx="195" cy="187" r="15"/><circle cx="226" cy="199" r="13"/><circle cx="190" cy="220" r="14"/><circle cx="228" cy="230" r="14"/></g>
+      <g fill="#ed985f"><circle cx="196" cy="183" r="4"/><circle cx="190" cy="190" r="3"/><circle cx="229" cy="196" r="4"/><circle cx="226" cy="203" r="3"/><circle cx="189" cy="216" r="4"/><circle cx="194" cy="224" r="3"/></g>
+      <path d="M365 297 C396 270 406 232 430 208 C469 182 516 225 600 177 L600 463 L312 463 C312 395 324 326 365 297Z" fill="url(#g2)" stroke="#396d7c" stroke-width="4"/>
+      <g stroke="#e0f1ee" stroke-width="7" fill="none" stroke-linecap="round"><path d="M350 320v-25q0-17 17-17q17 0 17 17v25"/><path d="M404 289v-25q0-17 17-17q17 0 17 17v25"/><path d="M465 251v-25q0-17 17-17q17 0 17 17v25"/></g>
+      <g class="floatdots" fill="#d7aa55"><circle cx="284" cy="213" r="8"/><circle cx="308" cy="240" r="7"/><circle cx="334" cy="209" r="6"/><circle cx="299" cy="178" r="7"/><circle cx="337" cy="264" r="7"/></g>
+      <g fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="2"><path d="M278 168l29-17"/><path d="M322 166l11-13"/><path d="M320 290l-16 23"/></g>
+      <rect x="58" y="300" width="145" height="48" rx="24" fill="#fff" opacity=".93"/><text x="130" y="330" font-size="17" text-anchor="middle" font-weight="700" fill="#7c4b30">SENDING</text>
+      <rect x="380" y="355" width="148" height="48" rx="24" fill="#fff" opacity=".93"/><text x="454" y="385" font-size="17" text-anchor="middle" font-weight="700" fill="#2a6777">RECEIVING</text>
+    </svg>
+    <div class="hero-stamp">A chemical message<br><strong>in motion</strong></div>
+  </div>
+ </div>
+ <div class="route-preview" aria-label="Lesson roadmap">
+  <div><span class="route-num">01</span><strong>See the signal</strong><span>What is a synapse?</span></div>
+  <div><span class="route-num">02</span><strong>Run the maze</strong><span>Why use a control?</span></div>
+  <div><span class="route-num">03</span><strong>Mouse Party</strong><span>What changes at a synapse?</span></div>
+ </div>
+</section>
 
+<section id="synapse" class="page" aria-labelledby="syn-title">
+ <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 01 · WATCH FIRST</div><h2 id="syn-title">A message crosses the gap.</h2><p>Neurons use an electrical signal inside a cell and chemical messengers between cells. Watch the five-part explainer, then try it yourself.</p></div><span class="lesson-time">About 8 minutes</span></div>
+ <div class="theatre">
+  <div class="theatre-screen">
+   <canvas id="synapseCanvas" width="1120" height="470" role="img" aria-label="Animated synapse showing vesicles, neurotransmitters, receptors, and an example of a blocked receptor. Captions describe the animation."></canvas>
+   <button id="synStart" class="play-overlay" aria-label="Play animated neurotransmission explainer"><span class="play-big">▶</span><span>Watch: how a chemical message works</span><small>5 short scenes · sound on · captions</small></button>
+   <div class="theatre-top"><span>MICROSCOPE · EXTREME CLOSE-UP</span><span class="live-dot">● LIVE MODEL</span></div>
+  </div>
+  <div class="theatre-controls"><button id="synPlay" class="control-btn primary">▶ Play</button><button id="synBack" class="control-btn" aria-label="Previous scene">← Previous</button><button id="synNext" class="control-btn">Next →</button><button id="synMute" class="control-btn audio-btn" aria-pressed="false">🔊 Narration on</button><span class="scene-count" id="synCount">01 / 05</span></div>
+  <div class="explain-band"><div><span class="eyebrow" id="synTerm">SYNAPSE</span><h3 id="synSceneTitle">Two neurons. One tiny gap.</h3></div><p id="synCaption" aria-live="polite">A synapse is where one neuron communicates with another. A tiny gap separates the cells.</p></div>
+  <div class="progress-track" aria-label="Explainer scene progress"><div id="synProgress"></div></div>
+ </div>
+ <div class="concept-bridge"><strong>What matters in psychology?</strong><span>The receiving cell's response can become more likely or less likely. That influences activity in brain networks involved in behaviour, emotion, and memory.</span></div>
+ <div class="next-row"><button class="text-next" data-go="maze">Now investigate memory <span aria-hidden="true">→</span></button></div>
+</section>
+
+<section id="maze" class="page" aria-labelledby="maze-title">
+ <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 02 · RECREATE THE EXPERIMENTAL LOGIC</div><h2 id="maze-title">The memory maze.</h2><p>Does acetylcholine (ACh) signalling affect how quickly rats learn a maze?</p></div><span class="lesson-time">About 25 minutes</span></div>
+
+ <div class="research-screening" id="studyVideo">
+  <div class="screening-copy">
+   <div class="eyebrow">WATCH FIRST · BEFORE YOU RUN THE MAZE</div>
+   <h3>A rat, a maze, and a chemical message.</h3>
+   <p>Watch the study video, then test the idea in our virtual maze.</p>
+   <p class="screening-distinction">Inspired by the teaching account of <strong>Martinez &amp; Kesner (1991)</strong>. Our maze and numbers are a teaching model, not real experimental data.</p>
+   <div class="watch-prompt"><span>WATCH FOR</span><p>The change · the control · the measure.</p></div>
+  </div>
+  <div class="screening-media">
+   <div class="screening-frame"><iframe id="studyVideoIframe" src="https://www.youtube-nocookie.com/embed/pyF6M4-nnuU?rel=0" title="Research video about acetylcholine, rats and memory" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+   <a class="screening-direct" href="https://www.youtube.com/watch?v=pyF6M4-nnuU" target="_blank" rel="noopener noreferrer">Watch on YouTube if the player does not load <span aria-hidden="true">↗</span></a>
+  </div>
+ </div>
+ <div class="study-intro"><div class="brain-emblem" aria-hidden="true"><svg viewBox="0 0 130 125"><path d="M64 10C37 8 20 26 22 48C4 55 9 79 24 86C19 102 40 113 53 107C61 118 80 114 85 104C108 112 124 91 112 76C132 56 110 38 100 39C96 21 77 9 64 10Z" fill="#ffdcc6" stroke="#bc735e" stroke-width="3"/><path d="M65 14V100M54 22C40 27 48 39 35 43M39 55Q28 47 20 61M56 62Q41 73 50 85M80 23Q90 37 77 44M95 58Q82 51 79 67M83 80Q97 85 92 99" stroke="#bc735e" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M53 77Q58 68 71 77Q79 89 68 95Q54 97 53 77" fill="#e2a4c5" stroke="#a65982" stroke-width="2"/></svg><small>HIPPOCAMPUS</small></div><div><strong>Our question</strong><p>Does changing acetylcholine (ACh) change how many wrong turns rats make?</p><span>The <b>hippocampus</b> helps with spatial memory. Fewer errors suggest better maze learning.</span></div></div>
+ <div class="method-ribbon"><span><b>1</b> Explore</span><span><b>2</b> Change the chemical</span><span><b>3</b> Run 12 trials</span><span><b>4</b> Count mistakes</span></div>
+ <div class="study-app">
+  <div class="maze-workbench">
+   <div class="workbench-header"><div><span class="instrument-code">TOP-DOWN LAB CAMERA · VIRTUAL MAZE</span><h3 id="mazeStageTitle">Before testing: let the rat explore.</h3></div><div class="maze-status-tools"><span class="badge-small" id="mazeBadge">READY</span><button id="mazeVoice" class="voice-toggle" aria-pressed="true" title="Mute or unmute automatic narration">🔊 Audio on</button></div></div>
+   <div class="maze-viewport"><canvas id="mazeCanvas" width="760" height="470" role="img" aria-label="A solid-walled overhead research maze with an animated rat walking through corridors. The live wrong-turn counter increases only when it enters a dead end."></canvas><span class="maze-vignette">MODELLED RAT · NO LIVE ANIMALS</span></div>
+   <div class="animal-readout"><span><small>VIRTUAL RAT</small><strong id="ratName">Pip</strong></span><span><small>TRIAL</small><strong id="trialReadout">—</strong></span><span><small>WRONG TURNS</small><strong id="errorReadout">0</strong></span><span><small>CONDITION</small><strong id="conditionReadout">Habituation</strong></span></div>
+  </div>
+  <div class="experiment-rail">
+   <div class="rail-header"><span class="eyebrow">YOUR EXPERIMENT</span><h3 id="expHeading">Step 1: Familiarize the rat</h3><p id="expHelp">Let the rat explore first. This run does not count.</p></div>
+   <div id="habituateArea"><button id="habituateBtn" class="big-action"><span aria-hidden="true">▶</span> Let the rat explore <span aria-hidden="true">→</span></button></div>
+   <div id="experimentArea" hidden>
+    <p class="step-caption">Choose a condition. Keep everything else the same.</p>
+    <div class="vial-list" id="vialList">
+     <button class="vial selected" data-group="saline" aria-pressed="true"><span class="vial-icon" aria-hidden="true">◉</span><span><strong>Saline</strong><small>Control · no active drug</small></span><span class="vial-status">READY</span></button>
+     <button class="vial" data-group="scop" aria-pressed="false"><span class="vial-icon" aria-hidden="true">⦸</span><span><strong>Block ACh receptors</strong><small>Scopolamine · antagonist</small></span><span class="vial-status"></span></button>
+     <button class="vial" data-group="physo" aria-pressed="false"><span class="vial-icon" aria-hidden="true">↺</span><span><strong>Slow ACh breakdown</strong><small>Physostigmine · enzyme inhibitor</small></span><span class="vial-status"></span></button>
+    </div>
+    <div class="prepared" id="preparedHelp">Saline: control for the injection.</div>
+    <button id="runGroup" class="big-action">▶ Test virtual group</button>
+    <div class="sim-caption">6 virtual rats per condition. Watch trials 1, 6 and 12. Other trials are calculated. All numbers are simulated.</div><div id="runSummary" class="run-summary" role="status">Run all 3 conditions to compare results here.</div>
+   </div>
+  </div>
+ </div>
+ <div id="graphZone" class="graph-zone" hidden>
+  <div class="graph-intro"><div><span class="eyebrow">SIMULATED RESULTS</span><h3>Wrong turns per trial</h3><p>Mean errors · 6 virtual rats per condition · fewer is better.</p></div><div class="legend" id="graphLegend"></div></div>
+  <canvas id="resultsCanvas" width="1100" height="234" role="img" aria-label="Line chart of synthetic average wrong turns across 12 maze trials. Receptor blocker has the most errors, control is in the middle, and breakdown inhibitor has the fewest."></canvas>
+  <div class="metrics" id="metrics"></div>
+  <div class="results-actions"><button id="nextCondition" class="pill-action secondary" hidden>Next condition</button><button id="revealStudy" class="pill-action" disabled>Compare with the study →</button><button id="exportCsv" class="pill-action secondary">Download modeled data (CSV)</button></div>
+  <div id="researchReveal" class="research-reveal" hidden>
+   <span class="eyebrow">CLASSROOM STUDY COMPARISON</span><h3>What does the pattern suggest?</h3>
+   <p>In the commonly taught Martinez &amp; Kesner (1991) account, blocking ACh receptors led to more maze errors, while slowing ACh breakdown was associated with fewer errors. The control group was in between. The curves above are <b>invented</b> to illustrate that pattern.</p>
+   <div class="study-summary"><div><span>AIM</span><p>Explore the role of ACh in spatial memory.</p></div><div><span>METHOD</span><p>Compare maze performance after changing ACh signalling.</p></div><div><span>MEASURE</span><p>Wrong turns. Fewer errors suggest better performance.</p></div></div>
+   <p class="scientific-note"><b>Important:</b> This is a simplified teaching account, not raw experimental data or an exact replication. A related later study, <a href="https://pubmed.ncbi.nlm.nih.gov/14521875/" target="_blank" rel="noopener">Rogers &amp; Kesner (2003)</a>, found that scopolamine impaired encoding, while physostigmine impaired retrieval. Those results should not be merged into this graph.</p>
+  </div>
+ </div>
+ <div class="evaluation" id="evaluation" hidden>
+  <div class="section-heading compact"><div><div class="eyebrow">RESEARCHER CHECK</div><h3>Think like a researcher</h3></div></div>
+  <div class="eval-grid"><details><summary>Why inject saline into the control group?</summary><p>It makes the injection procedure comparable. If the active-drug groups change, the difference is less likely to be due only to receiving an injection.</p><small>CONCEPT · CAUSALITY</small></details><details><summary>Why count errors rather than just watch the rats?</summary><p>Wrong turns give the researchers a consistent, countable measure of maze performance. It is a measure of performance—not a direct measurement of a memory itself.</p><small>CONCEPT · MEASUREMENT</small></details><details><summary>What can't this experiment tell us for certain?</summary><p>Rat behaviour cannot tell us everything about human memory. This is a teaching model—not new research.</p><small>CONCEPT · RESPONSIBILITY</small></details></div>
+  <div class="next-row"><button class="text-next" data-go="molecules">See more ways to change a message <span aria-hidden="true">→</span></button></div>
+ </div>
+</section>
+
+<section id="molecules" class="page" aria-labelledby="mol-title">
+ <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 03 · THE ORIGINAL UNIVERSITY OF UTAH ACTIVITY</div><h2 id="mol-title">Now visit Mouse Party.</h2><p>You've seen how a neurotransmitter sends a message. Now look at what happens when a substance changes that message inside a reward pathway.</p></div><span class="lesson-time">About 12 minutes</span></div>
+ <div class="mouseparty-feature">
+  <div class="mouseparty-illustration" aria-hidden="true">
+   <svg viewBox="0 0 610 430" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="mpFloor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f4e9d5"/><stop offset="1" stop-color="#dbe9de"/></linearGradient><linearGradient id="mpBody" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fafbf6"/><stop offset="1" stop-color="#c6c8bf"/></linearGradient></defs>
+    <rect x="0" y="0" width="610" height="430" rx="20" fill="url(#mpFloor)"/>
+    <g stroke="#89a8a5" fill="none" stroke-width="4" stroke-linecap="round" opacity=".8"><path d="M60 102h190q30 0 30 30v75"/><path d="M350 80v75q0 20 20 20h180"/><path d="M90 335h120q30 0 30-30v-45"/></g>
+    <g fill="#e1ab6c"><circle cx="111" cy="102" r="10"/><circle cx="163" cy="102" r="10"/><circle cx="229" cy="102" r="10"/><circle cx="371" cy="175" r="10"/><circle cx="432" cy="175" r="10"/><circle cx="520" cy="175" r="10"/></g>
+    <g transform="translate(295 240)">
+      <ellipse cy="118" rx="148" ry="21" fill="#376161" opacity=".13"/>
+      <path d="M-90 38 C-178 20 -177 96 -229 80" fill="none" stroke="#c0a69d" stroke-width="11" stroke-linecap="round"/>
+      <ellipse cx="-31" cy="21" rx="117" ry="85" fill="url(#mpBody)" stroke="#a2a9a3" stroke-width="5"/>
+      <ellipse cx="57" cy="-11" rx="46" ry="52" fill="url(#mpBody)" stroke="#a2a9a3" stroke-width="4"/>
+      <ellipse cx="25" cy="-60" rx="37" ry="40" fill="#d7b3af" stroke="#aaa39d" stroke-width="5"/>
+      <ellipse cx="24" cy="-59" rx="25" ry="28" fill="#efc4c1"/>
+      <ellipse cx="84" cy="-45" rx="29" ry="33" fill="#d7b3af" stroke="#aaa39d" stroke-width="4"/>
+      <ellipse cx="83" cy="-46" rx="19" ry="22" fill="#efc4c1"/>
+      <ellipse cx="100" cy="9" rx="44" ry="33" fill="#f2f0e6" stroke="#a2a9a3" stroke-width="4"/>
+      <circle cx="75" cy="-11" r="7" fill="#283c3b"/><circle cx="124" cy="16" r="8" fill="#de9a9c"/>
+      <path d="M118 21l51 5m-51-3l52 21m-52-28l52-10" fill="none" stroke="#8d9c95" stroke-width="2" stroke-linecap="round"/>
+      <path d="M-94 73l-22 21m86-7l-3 22" stroke="#b7b9ae" stroke-width="10" stroke-linecap="round"/>
+    </g>
+    <rect x="27" y="26" width="146" height="34" rx="17" fill="#ffffff" opacity=".86"/><text x="100" y="48" font-family="Arial" font-size="12" text-anchor="middle" fill="#426f6b" font-weight="bold">SYNAPSE FIELD TRIP</text>
+   </svg>
+  </div>
+  <div class="mouseparty-copy">
+   <span class="eyebrow">THE ACTUAL INTERACTIVE</span>
+   <h3>Mouse Party</h3>
+   <p>Take the University of Utah's interactive tour through several drug mechanisms. Choose a mouse, explore its synapse, and notice what the substance changes.</p>
+   <a id="mousePartyLink" class="cta mouseparty-link" href="https://learn.genetics.utah.edu/content/addiction/mouse/" target="_blank" rel="noopener noreferrer">Open Mouse Party <span aria-hidden="true">↗</span></a>
+   <p class="quiet small">Opens the original University of Utah activity in a new tab. Return here when you're done.</p>
+   <p class="mouseparty-credit">Developed by the Genetic Science Learning Center, University of Utah. External activity used by link; this lesson does not copy or embed its content.</p>
+  </div>
+ </div>
+ <div class="mouseparty-prompts">
+  <h3>Three things to notice</h3>
+  <div><span>01</span><p><strong>Which messenger?</strong> Find the neurotransmitter involved.</p></div>
+  <div><span>02</span><p><strong>What changed?</strong> Receptor activation, release, breakdown, or reuptake?</p></div>
+  <div><span>03</span><p><strong>So what?</strong> How might that change signalling and behaviour?</p></div>
+ </div>
+ <div class="next-row"><button class="text-next" data-go="notebook">Return for the take-home recap <span aria-hidden="true">→</span></button></div>
+</section>
+
+<section id="notebook" class="page" aria-labelledby="notes-title">
+ <div class="section-heading"><div><div class="eyebrow">OPTIONAL TAKE-HOME ACTIVITY - ABOUT 5 MINUTES</div><h2 id="notes-title">What did you figure out?</h2><p>Four short questions, in your own words. Write first, then open the self-check to see what a strong answer includes.</p></div></div>
+ <div class="recap-intro"><strong>From one chemical message to a memory</strong><span>You should be able to describe neurotransmission, explain the study's control group, interpret its findings, and apply a drug mechanism to behaviour.</span></div>
+ <div class="note-paper">
+  <div><label for="answer1"><b>01 / Send a signal</b> - How does a chemical message travel from one neuron to another?</label><textarea id="answer1" placeholder="Start with the electrical impulse and explain the vesicle, transmitter, gap and receptor ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>An impulse reaches the sending terminal. Vesicles release neurotransmitters into the synaptic cleft. The chemicals bind to receptors on the next cell, changing its activity. The response may be excitatory or inhibitory.</p></details></div>
+  <div><label for="answer2"><b>02 / Plan a fair test</b> - What was the research question, and why use saline as our control?</label><textarea id="answer2" placeholder="Their research question ... Saline controls for ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>We investigated whether ACh signalling changes maze errors. Saline is a comparison injection with no active drug in our model.</p></details></div>
+  <div><label for="answer3"><b>03 / Explain the evidence</b> - How did the three conditions compare?</label><textarea id="answer3" placeholder="Scopolamine ... Saline ... Physostigmine ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>The teaching model shows most errors after receptor blockade, fewer with saline, and fewest when ACh breakdown is slowed. These curves are invented; they are not original research results.</p></details></div>
+  <div><label for="answer4"><b>04 / Apply the idea</b> - Choose one mouse from Mouse Party. What does its substance change at the synapse, and why could behaviour change?</label><textarea id="answer4" placeholder="It acts on a receptor, transporter or vesicle release by ... Therefore ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>Name the neurotransmitter, describe the molecular change, then connect it to signalling or behaviour. A substance might activate a receptor, block it, change release, or slow reuptake. Effects depend on the circuit involved.</p></details></div>
+ </div>
+ <div class="notebook-actions"><button id="downloadNotes" class="cta">Save my recap (.txt)</button><button id="restartLesson" class="pill-action secondary">Restart lesson</button></div>
+ <p class="quiet small">Your draft stays in this browser unless you clear its data. It is not uploaded or graded. Save the text file if you want to keep it.</p>
+</section>
+</main>
+<footer><span>NEURAL LAB · CLASSROOM EDITION</span><span>All chart values are simulated for teaching. The video covers Martinez & Kesner (1991).</span><button id="teacherOpen" class="footer-action">Teacher notes</button></footer>
+<dialog id="teacherDialog"><form method="dialog"><button class="dialog-close" aria-label="Close">✕</button>
+<div class="eyebrow">TEACHER NOTES</div><h2>One lesson, three stops</h2>
+<p><b>Signal:</b> Neurotransmitter release and receptor binding. <b>Maze:</b> Three-condition classroom model. <b>Mouse Party:</b> Original Utah activity.</p>
+<p><b>Scientific distinction:</b> The visible YouTube video and the simplified three-condition teaching account refer to Martinez &amp; Kesner (1991). Our invented curves illustrate the familiar ordering (scopolamine highest, saline middle, physostigmine lowest). We have not verified a corresponding original primary-source dataset; do not describe these numbers as published findings or an exact replication. The saline injection is a classroom control used here so procedures remain comparable.</p>
+<p><b>Do not confuse with Rogers &amp; Kesner (2003):</b> Their published maze experiments compared saline/scopolamine and saline/physostigmine separately. Scopolamine impaired encoding; physostigmine impaired retrieval. Source: <a href="https://pubmed.ncbi.nlm.nih.gov/14521875/" target="_blank" rel="noopener">Rogers &amp; Kesner (2003) abstract</a>.</p>
+<p><b>All virtual rats and error counts are programmed illustrations.</b> Never present them as empirical observations. Physostigmine inhibits acetylcholinesterase; it is not a direct receptor agonist.</p>
+<p><b>Audio:</b> Automatically plays from the first student-initiated maze actions; use the small audio toggle to mute. YouTube playback is separate.</p>
+<p><b>Mouse Party:</b> Opens the original activity on the University of Utah site, not copied into the game.</p></form></dialog>
+<audio id="narration" preload="none"></audio>
+<script src="game.js"></script>
+</body></html>
