@@ -193,7 +193,7 @@ function finishRun(){
   }
  }
 }
-function selectGroup(key){if(sim.running)return;sim.selected=key;$$('.vial').forEach(b=>{const sel=b.dataset.group===key;b.classList.toggle('selected',sel);b.setAttribute('aria-pressed',sel?'true':'false');b.querySelector('.vial-status').textContent=sim.completed[b.dataset.group]?'DONE':(sel?'READY':'')});$('preparedHelp').textContent=groups[key].desc;$('conditionReadout').textContent=groups[key].short;$('runGroup').textContent=sim.completed[key]?'↻ Repeat group':'▶ Run 12 trials';$('expHelp').textContent=groups[key].desc;}
+function selectGroup(key){if(sim.running)return;sim.selected=key;$$('.vial').forEach(b=>{const sel=b.dataset.group===key;b.classList.toggle('selected',sel);b.setAttribute('aria-pressed',sel?'true':'false');b.querySelector('.vial-status').textContent=sim.completed[b.dataset.group]?'DONE':(sel?'READY':'')});$('conditionReadout').textContent=groups[key].short;$('runGroup').textContent=sim.completed[key]?'↻ Repeat group':'▶ Run 12 trials';$('expHelp').textContent=groups[key].desc;}
 $$('.vial').forEach(b=>b.addEventListener('click',()=>selectGroup(b.dataset.group)));
 function startDemoRoute(){
  const t=[0,5,11][sim.demoIndex],errors=sim.pending.rats[0][t];
@@ -242,7 +242,7 @@ function drawGraph(){
  $('graphLegend').innerHTML=['scop','saline','physo'].filter(k=>sim.completed[k]).map(k=>`<span><i style="background:${groups[k].color}"></i>${groups[k].short}</span>`).join('');
  $('metrics').innerHTML=['scop','saline','physo'].filter(k=>sim.completed[k]).map(k=>{const res=sim.completed[k];return `<div class="metric compact-metric"><b style="color:${groups[k].color}">${groups[k].short}</b><small>Early: ${averages(res.mean,0,3)} → Late: ${averages(res.mean,9,12)} errors</small></div>`}).join('');
 }
-function csvExport(){let rows=[['DATA TYPE','SYNTHETIC classroom illustration—NOT research measurements'],['condition','virtual_rat','trial','wrong_turns']];for(const [k,g] of Object.entries(sim.completed)){g.rats.forEach((rat,i)=>rat.forEach((v,t)=>rows.push([k,`virtual-${i+1}`,t+1,v])))}const csv=rows.map(r=>r.map(s=>`"${String(s).replaceAll('"','""')}"`).join(',')).join('\r\n');download('neural-lab-SYNTHETIC-maze.csv',csv,'text/csv')}
+function csvExport(){let rows=[['DATA TYPE','SYNTHETIC classroom illustration, NOT research measurements'],['condition','virtual_rat','trial','wrong_turns']];for(const [k,g] of Object.entries(sim.completed)){g.rats.forEach((rat,i)=>rat.forEach((v,t)=>rows.push([k,`virtual-${i+1}`,t+1,v])))}const csv=rows.map(r=>r.map(s=>`"${String(s).replaceAll('"','""')}"`).join(',')).join('\r\n');download('neural-lab-SYNTHETIC-maze.csv',csv,'text/csv')}
 $('exportCsv').addEventListener('click',csvExport);
 
 /* --- FIELD NOTES --- */
@@ -250,13 +250,14 @@ function download(filename,content,mime='text/plain'){const b=new Blob([content]
 const prompts=[...Array(4)].map((_,i)=>$('answer'+(i+1)));
 prompts.forEach((el,i)=>{try{el.value=localStorage.getItem('neural-reset-note-'+(i+1))||''}catch{}el.addEventListener('input',()=>{try{localStorage.setItem('neural-reset-note-'+(i+1),el.value)}catch{}})});
 /* No PDF worksheet - recap lives inside this HTML. */
-$('downloadNotes').addEventListener('click',()=>download('Neural_Lab_Take_Home_Recap.txt',['NEURAL LAB - TAKE-HOME RECAP','',...prompts.map((el,i)=>`${i+1}. ${el.previousElementSibling.textContent}\n${el.value.trim()}\n`),'','All numbers are invented for a classroom comparison inspired by Martinez & Kesner teaching materials.'].join('\n')));
+$('downloadNotes').addEventListener('click',()=>download('Neural_Lab_Take_Home_Recap.txt',['NEURAL LAB: RECAP','',...prompts.map((el,i)=>`${i+1}. ${el.previousElementSibling.textContent}\n${el.value.trim()}\n`),'','All numbers are invented for a classroom comparison inspired by Martinez & Kesner teaching materials.'].join('\n')));
 $('restartLesson').addEventListener('click',()=>{if(!confirm('Clear your notes and restart the lesson?'))return;prompts.forEach((el,i)=>{el.value='';try{localStorage.removeItem('neural-reset-note-'+(i+1))}catch{}});location.reload()});
 
 
 /* --- MAIN ANIMATION LOOP --- */
 function tick(now){let dt=clamp(now-lastTime,0,60);lastTime=now;if(S.page==='synapse'){if(S.syn.playing)S.syn.clock+=dt;synapsePaint(S.syn.clock)}else if(S.page==='maze'){mazeDraw(now)}requestAnimationFrame(tick)}
 requestAnimationFrame(tick);
+(window.MindfieldReport=window.MindfieldReport||{}).where=()=>({intro:'Start',synapse:`01 Signal, scene ${S.syn.index+1} / 5`,maze:'02 Memory (maze)',molecules:'03 Drug lab (Mouse Party)',notebook:'Recap'})[S.page]||S.page;
 // Test-only API: no effect on normal student use.
 window.__NEURAL_QA__={state:S,simulateGroup,routeFromErrors,chapters,selectGroup,finishRun,drawGraph,page,averages};
 })();

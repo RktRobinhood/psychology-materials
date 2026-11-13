@@ -19,7 +19,7 @@
   <button data-page="molecules" class="navbtn">03 <span>Drug lab</span></button>
   <button data-page="notebook" class="navbtn">Recap</button>
  </nav>
- <span class="offline" title="GitHub Pages compatible"><span aria-hidden="true">●</span> ONLINE LESSON</span>
+ <a class="report-link report-top" href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose" target="_blank" rel="noopener" data-report-problem>Report a problem</a>
 </header>
 <main id="main">
 <section id="intro" class="page active" aria-labelledby="hero-title">
@@ -27,9 +27,9 @@
   <div class="hero-copy">
    <div class="eyebrow"><span class="line"></span> ONE LESSON · THREE INVESTIGATIONS</div>
    <h1 id="hero-title">How can a <em>chemical</em> change a memory?</h1>
-   <p class="lede">First, watch a message cross the tiny gap between two neurons. Then run a classic memory experiment. Finally, discover how familiar substances change these signals.</p>
+   <p class="lede">Watch a message cross the gap between two neurons, run a classic memory experiment, then see how familiar substances change these signals.</p>
    <button class="cta" data-go="synapse">Enter the lab <span aria-hidden="true">→</span></button>
-   <p class="quiet small">No login · No student data uploaded · YouTube video before the maze</p>
+   <p class="quiet small">No login. Nothing you write is uploaded.</p>
   </div>
   <div class="hero-visual" aria-label="Illustration: chemical messages travelling between two neurons">
     <svg viewBox="0 0 570 430" role="img" aria-label="Sending neuron releases glowing messenger molecules toward receiving neuron">
@@ -46,7 +46,6 @@
       <rect x="58" y="300" width="145" height="48" rx="24" fill="#fff" opacity=".93"/><text x="130" y="330" font-size="17" text-anchor="middle" font-weight="700" fill="#7c4b30">SENDING</text>
       <rect x="380" y="355" width="148" height="48" rx="24" fill="#fff" opacity=".93"/><text x="454" y="385" font-size="17" text-anchor="middle" font-weight="700" fill="#2a6777">RECEIVING</text>
     </svg>
-    <div class="hero-stamp">A chemical message<br><strong>in motion</strong></div>
   </div>
  </div>
  <div class="route-preview" aria-label="Lesson roadmap">
@@ -57,12 +56,11 @@
 </section>
 
 <section id="synapse" class="page" aria-labelledby="syn-title">
- <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 01 · WATCH FIRST</div><h2 id="syn-title">A message crosses the gap.</h2><p>Neurons use an electrical signal inside a cell and chemical messengers between cells. Watch the five-part explainer, then try it yourself.</p></div><span class="lesson-time">About 8 minutes</span></div>
+ <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 01</div><h2 id="syn-title">A message crosses the gap.</h2><p>Neurons use an electrical signal inside a cell and chemical messengers between cells. Watch the five-scene explainer.</p></div><span class="lesson-time">About 8 minutes</span></div>
  <div class="theatre">
   <div class="theatre-screen">
    <canvas id="synapseCanvas" width="1120" height="470" role="img" aria-label="Animated synapse showing vesicles, neurotransmitters, receptors, and an example of a blocked receptor. Captions describe the animation."></canvas>
    <button id="synStart" class="play-overlay" aria-label="Play animated neurotransmission explainer"><span class="play-big">▶</span><span>Watch: how a chemical message works</span><small>5 short scenes · sound on · captions</small></button>
-   <div class="theatre-top"><span>MICROSCOPE · EXTREME CLOSE-UP</span><span class="live-dot">● LIVE MODEL</span></div>
   </div>
   <div class="theatre-controls"><button id="synPlay" class="control-btn primary">▶ Play</button><button id="synBack" class="control-btn" aria-label="Previous scene">← Previous</button><button id="synNext" class="control-btn">Next →</button><button id="synMute" class="control-btn audio-btn" aria-pressed="false">🔊 Narration on</button><span class="scene-count" id="synCount">01 / 05</span></div>
   <div class="explain-band"><div><span class="eyebrow" id="synTerm">SYNAPSE</span><h3 id="synSceneTitle">Two neurons. One tiny gap.</h3></div><p id="synCaption" aria-live="polite">A synapse is where one neuron communicates with another. A tiny gap separates the cells.</p></div>
@@ -73,11 +71,11 @@
 </section>
 
 <section id="maze" class="page" aria-labelledby="maze-title">
- <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 02 · RECREATE THE EXPERIMENTAL LOGIC</div><h2 id="maze-title">The memory maze.</h2><p>Does acetylcholine (ACh) signalling affect how quickly rats learn a maze?</p></div><span class="lesson-time">About 25 minutes</span></div>
+ <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 02</div><h2 id="maze-title">The memory maze.</h2></div><span class="lesson-time">About 25 minutes</span></div>
 
  <div class="research-screening" id="studyVideo">
   <div class="screening-copy">
-   <div class="eyebrow">WATCH FIRST · BEFORE YOU RUN THE MAZE</div>
+   <div class="eyebrow">WATCH FIRST</div>
    <h3>A rat, a maze, and a chemical message.</h3>
    <p>Watch the study video, then test the idea in our virtual maze.</p>
    <p class="screening-distinction">Inspired by the teaching account of <strong>Martinez &amp; Kesner (1991)</strong>. Our maze and numbers are a teaching model, not real experimental data.</p>
@@ -92,7 +90,7 @@
  <div class="method-ribbon"><span><b>1</b> Explore</span><span><b>2</b> Change the chemical</span><span><b>3</b> Run 12 trials</span><span><b>4</b> Count mistakes</span></div>
  <div class="study-app">
   <div class="maze-workbench">
-   <div class="workbench-header"><div><span class="instrument-code">TOP-DOWN LAB CAMERA · VIRTUAL MAZE</span><h3 id="mazeStageTitle">Before testing: let the rat explore.</h3></div><div class="maze-status-tools"><span class="badge-small" id="mazeBadge">READY</span><button id="mazeVoice" class="voice-toggle" aria-pressed="true" title="Mute or unmute automatic narration">🔊 Audio on</button></div></div>
+   <div class="workbench-header"><div><h3 id="mazeStageTitle">Before testing: let the rat explore.</h3></div><div class="maze-status-tools"><span class="badge-small" id="mazeBadge">READY</span><button id="mazeVoice" class="voice-toggle" aria-pressed="true" title="Mute or unmute automatic narration">🔊 Audio on</button></div></div>
    <div class="maze-viewport"><canvas id="mazeCanvas" width="760" height="470" role="img" aria-label="A solid-walled overhead research maze with an animated rat walking through corridors. The live wrong-turn counter increases only when it enters a dead end."></canvas><span class="maze-vignette">MODELLED RAT · NO LIVE ANIMALS</span></div>
    <div class="animal-readout"><span><small>VIRTUAL RAT</small><strong id="ratName">Pip</strong></span><span><small>TRIAL</small><strong id="trialReadout">—</strong></span><span><small>WRONG TURNS</small><strong id="errorReadout">0</strong></span><span><small>CONDITION</small><strong id="conditionReadout">Habituation</strong></span></div>
   </div>
@@ -100,13 +98,12 @@
    <div class="rail-header"><span class="eyebrow">YOUR EXPERIMENT</span><h3 id="expHeading">Step 1: Familiarize the rat</h3><p id="expHelp">Let the rat explore first. This run does not count.</p></div>
    <div id="habituateArea"><button id="habituateBtn" class="big-action"><span aria-hidden="true">▶</span> Let the rat explore <span aria-hidden="true">→</span></button></div>
    <div id="experimentArea" hidden>
-    <p class="step-caption">Choose a condition. Keep everything else the same.</p>
+    <p class="step-caption">Keep everything else the same.</p>
     <div class="vial-list" id="vialList">
      <button class="vial selected" data-group="saline" aria-pressed="true"><span class="vial-icon" aria-hidden="true">◉</span><span><strong>Saline</strong><small>Control · no active drug</small></span><span class="vial-status">READY</span></button>
      <button class="vial" data-group="scop" aria-pressed="false"><span class="vial-icon" aria-hidden="true">⦸</span><span><strong>Block ACh receptors</strong><small>Scopolamine · antagonist</small></span><span class="vial-status"></span></button>
      <button class="vial" data-group="physo" aria-pressed="false"><span class="vial-icon" aria-hidden="true">↺</span><span><strong>Slow ACh breakdown</strong><small>Physostigmine · enzyme inhibitor</small></span><span class="vial-status"></span></button>
     </div>
-    <div class="prepared" id="preparedHelp">Saline: control for the injection.</div>
     <button id="runGroup" class="big-action">▶ Test virtual group</button>
     <div class="sim-caption">6 virtual rats per condition. Watch trials 1, 6 and 12. Other trials are calculated. All numbers are simulated.</div><div id="runSummary" class="run-summary" role="status">Run all 3 conditions to compare results here.</div>
    </div>
@@ -116,7 +113,7 @@
   <div class="graph-intro"><div><span class="eyebrow">SIMULATED RESULTS</span><h3>Wrong turns per trial</h3><p>Mean errors · 6 virtual rats per condition · fewer is better.</p></div><div class="legend" id="graphLegend"></div></div>
   <canvas id="resultsCanvas" width="1100" height="234" role="img" aria-label="Line chart of synthetic average wrong turns across 12 maze trials. Receptor blocker has the most errors, control is in the middle, and breakdown inhibitor has the fewest."></canvas>
   <div class="metrics" id="metrics"></div>
-  <div class="results-actions"><button id="nextCondition" class="pill-action secondary" hidden>Next condition</button><button id="revealStudy" class="pill-action" disabled>Compare with the study →</button><button id="exportCsv" class="pill-action secondary">Download modeled data (CSV)</button></div>
+  <div class="results-actions"><button id="nextCondition" class="pill-action secondary" hidden>Next condition</button><button id="revealStudy" class="pill-action" disabled>Compare with the study →</button><button id="exportCsv" class="pill-action secondary">Download simulated data (CSV)</button></div>
   <div id="researchReveal" class="research-reveal" hidden>
    <span class="eyebrow">CLASSROOM STUDY COMPARISON</span><h3>What does the pattern suggest?</h3>
    <p>In the commonly taught Martinez &amp; Kesner (1991) account, blocking ACh receptors led to more maze errors, while slowing ACh breakdown was associated with fewer errors. The control group was in between. The curves above are <b>invented</b> to illustrate that pattern.</p>
@@ -126,26 +123,24 @@
  </div>
  <div class="evaluation" id="evaluation" hidden>
   <div class="section-heading compact"><div><div class="eyebrow">RESEARCHER CHECK</div><h3>Think like a researcher</h3></div></div>
-  <div class="eval-grid"><details><summary>Why inject saline into the control group?</summary><p>It makes the injection procedure comparable. If the active-drug groups change, the difference is less likely to be due only to receiving an injection.</p><small>CONCEPT · CAUSALITY</small></details><details><summary>Why count errors rather than just watch the rats?</summary><p>Wrong turns give the researchers a consistent, countable measure of maze performance. It is a measure of performance—not a direct measurement of a memory itself.</p><small>CONCEPT · MEASUREMENT</small></details><details><summary>What can't this experiment tell us for certain?</summary><p>Rat behaviour cannot tell us everything about human memory. This is a teaching model—not new research.</p><small>CONCEPT · RESPONSIBILITY</small></details></div>
+  <div class="eval-grid"><details><summary>Why inject saline into the control group?</summary><p>It makes the injection procedure comparable. If the active-drug groups change, the difference is less likely to be due only to receiving an injection.</p><small>CONCEPT · CAUSALITY</small></details><details><summary>Why count errors rather than just watch the rats?</summary><p>Wrong turns give the researchers a consistent, countable measure of maze performance. It is a measure of performance, not a direct measurement of a memory itself.</p><small>CONCEPT · MEASUREMENT</small></details><details><summary>What can't this experiment tell us for certain?</summary><p>Rat behaviour cannot tell us everything about human memory. This is a teaching model, not new research.</p><small>CONCEPT · RESPONSIBILITY</small></details></div>
   <div class="next-row"><button class="text-next" data-go="molecules">See more ways to change a message <span aria-hidden="true">→</span></button></div>
  </div>
 </section>
 
 <section id="molecules" class="page" aria-labelledby="mol-title">
- <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 03 · THE ORIGINAL UNIVERSITY OF UTAH ACTIVITY</div><h2 id="mol-title">Now visit Mouse Party.</h2><p>You've seen how a neurotransmitter sends a message. Now look at what happens when a substance changes that message inside a reward pathway.</p></div><span class="lesson-time">About 12 minutes</span></div>
+ <div class="section-heading"><div><div class="eyebrow">INVESTIGATION 03</div><h2 id="mol-title">Now visit Mouse Party.</h2><p>You've seen how a neurotransmitter sends a message. Now look at what happens when a substance changes that message inside a reward pathway.</p></div><span class="lesson-time">About 12 minutes</span></div>
  <div class="mouseparty-feature">
   <div class="mouseparty-illustration friendly-mouse-card" aria-hidden="true">
    <div class="friendly-mouse-stage">
-    <div class="friendly-mouse-badge">SYNAPSE FIELD TRIP</div>
     <img src="assets/images/mouse-party-friendly.png" alt="" class="friendly-mouse-image">
    </div>
   </div>
   <div class="mouseparty-copy">
-   <span class="eyebrow">THE ACTUAL INTERACTIVE</span>
    <h3>Mouse Party</h3>
    <p>Take the University of Utah's interactive tour through several drug mechanisms. Choose a mouse, explore its synapse, and notice what the substance changes.</p>
    <a id="mousePartyLink" class="cta mouseparty-link" href="https://learn.genetics.utah.edu/content/addiction/mouse/" target="_blank" rel="noopener noreferrer">Open Mouse Party <span aria-hidden="true">↗</span></a>
-   <p class="quiet small">Opens the original University of Utah activity in a new tab. Keep this notes page open and move back and forth.</p>
+   <p class="quiet small">Opens in a new tab. Keep this page open for your notes.</p>
    <p class="mouseparty-credit">Developed by the Genetic Science Learning Center, University of Utah. External activity used by link; this lesson does not copy or embed its content.</p>
   </div>
  </div>
@@ -158,16 +153,15 @@
  <section class="mouseparty-worksheet" aria-labelledby="worksheet-title">
   <div class="worksheet-head">
    <div>
-    <div class="eyebrow">LIVE COMPANION SHEET</div>
     <h3 id="worksheet-title">Mouse Party whiteboard</h3>
-    <p>Keep this tab open while you explore Mouse Party. Choose a substance, type your observations, and sketch what happens at the synapse.</p>
+    <p>For each substance, type what you observe and sketch what changes at the synapse.</p>
    </div>
    <div class="worksheet-actions">
     <button id="downloadWorksheet" class="pill-action">Download my PDF ↓</button><button id="printWorksheet" class="pill-action secondary">Print</button>
     <button id="clearWorksheet" class="pill-action secondary">Clear whiteboard</button>
    </div>
   </div>
-  <p class="worksheet-note">Your writing and sketches save automatically in this browser. This is an original companion board based on the University of Utah worksheet structure; use the <a href="https://learn.genetics.utah.edu/content/addiction/mouse/" target="_blank" rel="noopener noreferrer">official Mouse Party activity</a> in the other tab.</p><div class="whiteboard-tabs" id="whiteboardTabs" role="tablist" aria-label="Substances to investigate"></div><div class="whiteboard-progress"><span id="whiteboardCount">1 of 7</span><span id="whiteboardSaved">Saved in this browser</span></div>
+  <p class="worksheet-note">Your notes and sketches save automatically in this browser. This is an original companion board based on the University of Utah worksheet structure.</p><div class="whiteboard-tabs" id="whiteboardTabs" role="tablist" aria-label="Substances to investigate"></div><div class="whiteboard-progress"><span id="whiteboardCount">1 of 7</span></div>
   <div class="worksheet-grid" id="worksheetGrid">
    <article class="worksheet-row">
     <div class="drug-name"><span>01</span><strong>Heroin</strong></div>
@@ -212,25 +206,25 @@
     <div class="sketch-wrap"><div class="sketch-head"><span>Draw: what changes at the synapse?</span><button type="button" class="sketch-clear">Clear</button></div><canvas class="sketch-pad" width="640" height="420" data-key="lsd-sketch" aria-label="Sketch pad for LSD"></canvas></div>
    </article>
   </div>
-  <div class="whiteboard-bottom"><button class="pill-action secondary" id="whiteboardPrev" type="button">← Previous</button><span>Each substance has its own notes and drawing.</span><button class="pill-action secondary" id="whiteboardNext" type="button">Next substance →</button></div>
+  <div class="whiteboard-bottom"><button class="pill-action secondary" id="whiteboardPrev" type="button">← Previous</button><button class="pill-action secondary" id="whiteboardNext" type="button">Next substance →</button></div>
  </section>
- <div class="next-row"><button class="text-next" data-go="notebook">Return for the take-home recap <span aria-hidden="true">→</span></button></div>
+ <div class="next-row"><button class="text-next" data-go="notebook">Go to the recap <span aria-hidden="true">→</span></button></div>
 </section>
 
 <section id="notebook" class="page" aria-labelledby="notes-title">
- <div class="section-heading"><div><div class="eyebrow">OPTIONAL TAKE-HOME ACTIVITY - ABOUT 5 MINUTES</div><h2 id="notes-title">What did you figure out?</h2><p>Four short questions, in your own words. Write first, then open the self-check to see what a strong answer includes.</p></div></div>
+ <div class="section-heading"><div><div class="eyebrow">OPTIONAL RECAP · ABOUT 5 MINUTES</div><h2 id="notes-title">What did you figure out?</h2><p>Four short questions. Write first, then open the self-check.</p></div></div>
  <div class="recap-intro"><strong>From one chemical message to a memory</strong><span>You should be able to describe neurotransmission, explain the study's control group, interpret its findings, and apply a drug mechanism to behaviour.</span></div>
  <div class="note-paper">
-  <div><label for="answer1"><b>01 / Send a signal</b> - How does a chemical message travel from one neuron to another?</label><textarea id="answer1" placeholder="Start with the electrical impulse and explain the vesicle, transmitter, gap and receptor ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>An impulse reaches the sending terminal. Vesicles release neurotransmitters into the synaptic cleft. The chemicals bind to receptors on the next cell, changing its activity. The response may be excitatory or inhibitory.</p></details></div>
-  <div><label for="answer2"><b>02 / Plan a fair test</b> - What was the research question, and why use saline as our control?</label><textarea id="answer2" placeholder="Their research question ... Saline controls for ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>We investigated whether ACh signalling changes maze errors. Saline is a comparison injection with no active drug in our model.</p></details></div>
-  <div><label for="answer3"><b>03 / Explain the evidence</b> - How did the three conditions compare?</label><textarea id="answer3" placeholder="Scopolamine ... Saline ... Physostigmine ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>The teaching model shows most errors after receptor blockade, fewer with saline, and fewest when ACh breakdown is slowed. These curves are invented; they are not original research results.</p></details></div>
-  <div><label for="answer4"><b>04 / Apply the idea</b> - Choose one mouse from Mouse Party. What does its substance change at the synapse, and why could behaviour change?</label><textarea id="answer4" placeholder="It acts on a receptor, transporter or vesicle release by ... Therefore ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>Name the neurotransmitter, describe the molecular change, then connect it to signalling or behaviour. A substance might activate a receptor, block it, change release, or slow reuptake. Effects depend on the circuit involved.</p></details></div>
+  <div><label for="answer1"><b>01 / Send a signal:</b> How does a chemical message travel from one neuron to another?</label><textarea id="answer1" placeholder="Start with the electrical impulse and explain the vesicle, transmitter, gap and receptor ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>An impulse reaches the sending terminal. Vesicles release neurotransmitters into the synaptic cleft. The chemicals bind to receptors on the next cell, changing its activity. The response may be excitatory or inhibitory.</p></details></div>
+  <div><label for="answer2"><b>02 / Plan a fair test:</b> What was the research question, and why use saline as our control?</label><textarea id="answer2" placeholder="Their research question ... Saline controls for ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>We investigated whether ACh signalling changes maze errors. Saline is a comparison injection with no active drug in our model.</p></details></div>
+  <div><label for="answer3"><b>03 / Explain the evidence:</b> How did the three conditions compare?</label><textarea id="answer3" placeholder="Scopolamine ... Saline ... Physostigmine ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>The teaching model shows most errors after receptor blockade, fewer with saline, and fewest when ACh breakdown is slowed. These curves are invented; they are not original research results.</p></details></div>
+  <div><label for="answer4"><b>04 / Apply the idea:</b> Choose one mouse from Mouse Party. What does its substance change at the synapse, and why could behaviour change?</label><textarea id="answer4" placeholder="It acts on a receptor, transporter or vesicle release by ... Therefore ..." rows="3"></textarea><details class="selfcheck"><summary>Self-check: what should I include?</summary><p>Name the neurotransmitter, describe the molecular change, then connect it to signalling or behaviour. A substance might activate a receptor, block it, change release, or slow reuptake. Effects depend on the circuit involved.</p></details></div>
  </div>
  <div class="notebook-actions"><button id="downloadNotes" class="cta">Save my recap (.txt)</button><button id="restartLesson" class="pill-action secondary">Restart lesson</button></div>
- <p class="quiet small">Your draft stays in this browser unless you clear its data. It is not uploaded or graded. Save the text file if you want to keep it.</p>
+ <p class="quiet small">Your draft stays in this browser. It is not uploaded or graded.</p>
 </section>
 </main>
-<footer><span>NEURAL LAB · CLASSROOM EDITION</span><span>All chart values are simulated for teaching. The video covers Martinez & Kesner (1991).</span><button id="teacherOpen" class="footer-action">Teacher notes</button></footer>
+<footer><span>NEURAL LAB</span><span>All chart values are simulated for teaching. The video covers Martinez & Kesner (1991).</span><a class="report-link report-foot" href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose" target="_blank" rel="noopener" data-report-problem>Report a problem</a><button id="teacherOpen" class="footer-action">Teacher notes</button></footer>
 <dialog id="teacherDialog"><form method="dialog"><button class="dialog-close" aria-label="Close">✕</button>
 <div class="eyebrow">TEACHER NOTES</div><h2>One lesson, three stops</h2>
 <p><b>Signal:</b> Neurotransmitter release and receptor binding. <b>Maze:</b> Three-condition classroom model. <b>Mouse Party:</b> Original Utah activity.</p>
@@ -242,4 +236,5 @@
 <audio id="narration" preload="none"></audio>
 <script src="game.js"></script>
 <script src="mouseparty-whiteboard.js"></script>
+<script defer src="../../shared/report-problem.js" data-lesson="Neural Lab"></script>
 </body></html>

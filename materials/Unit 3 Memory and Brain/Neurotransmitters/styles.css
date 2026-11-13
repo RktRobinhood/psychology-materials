@@ -170,3 +170,8 @@ body.print-worksheet .worksheet-actions,body.print-worksheet .worksheet-note a{d
 .whiteboard-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:15px;color:#607477;font-size:13px}
 @media(max-width:820px){.worksheet-row{grid-template-columns:1fr;grid-template-rows:auto auto auto auto}.worksheet-row label:nth-of-type(1){grid-row:2}.worksheet-row label:nth-of-type(2){grid-row:3}.worksheet-row .sketch-wrap{grid-column:1;grid-row:4}.whiteboard-tabs{gap:7px}.whiteboard-tab{padding:9px 12px}.whiteboard-bottom{flex-wrap:wrap;justify-content:space-between}.whiteboard-bottom span{display:none}}
 @media print{body.print-worksheet .whiteboard-tabs,body.print-worksheet .whiteboard-bottom,body.print-worksheet .whiteboard-progress{display:none!important}.worksheet-row{break-inside:avoid;page-break-inside:avoid}}
+
+/* Report a problem: top bar on laptops, footer on narrow screens (where the top bar has no room). */
+.report-link{font-size:12px;color:#356d6b;white-space:nowrap;text-decoration:none;border-bottom:1px solid #56847d;padding:2px 0}
+.report-foot{display:none;padding-top:10px}
+@media(max-width:1020px){.report-top{display:none}.report-foot{display:inline-block}}

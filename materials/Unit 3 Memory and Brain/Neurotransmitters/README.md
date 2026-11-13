@@ -1,47 +1,22 @@
-# Neural Lab — GitHub Pages Classroom Edition
+# Neural Lab: From Signals to Memory
 
-An interactive IB Psychology lesson: neurotransmission, a synthetic rat-maze investigation inspired by the simplified Martinez & Kesner teaching account, and an external link to the University of Utah's original Mouse Party activity.
+Teacher note for an interactive IB Psychology lesson (Unit 3: Memory, Models and the Brain). About 45 minutes, plus an optional 5-minute recap.
 
-## Publish on GitHub Pages
+1. **Signal** (about 8 min): a narrated, captioned five-scene explainer of neurotransmission.
+2. **Memory** (about 25 min): a YouTube video on acetylcholine and memory, then a virtual rat maze with three conditions (saline, scopolamine, physostigmine) and a results graph.
+3. **Drug lab** (about 12 min): students open the University of Utah's Mouse Party in a new tab and record what they see on a built-in whiteboard (notes and a sketch for seven substances), which they can download as a PDF or print.
+4. **Recap** (optional): four short written questions with self-checks, saved as a text file.
 
-1. Unzip this archive. Upload **its contents**, not a parent folder, to the root of your GitHub Pages repository.
-2. Keep `index.html`, `game.js`, `styles.css`, and the entire `assets/` directory in their existing relative positions.
-3. In GitHub Settings → Pages, deploy from your chosen branch and the repository root (`/`).
-4. Open your published GitHub Pages URL. No build step or JavaScript framework is required.
+## What a teacher must know
 
-The YouTube lesson video requires internet access; the player is shown directly **before the maze experiment**. The final activity links to the University of Utah's **Mouse Party** website. It launches the original resource in a new tab rather than copying it into this project.
+- **The maze data are synthetic.** The maze, the virtual rats and every number are a programmed teaching simulation, not measurements from animals and not a replication. Do not present them as published findings.
+- **Martinez & Kesner (1991) vs Rogers & Kesner (2003).** The curves illustrate the commonly taught three-condition account associated with Martinez & Kesner (1991): receptor antagonist (scopolamine) most errors, saline in between, acetylcholinesterase inhibitor (physostigmine) fewest. This is an illustrative assumption; we have not verified it against a primary-source dataset. In the separate, peer-reviewed Rogers & Kesner (2003) maze experiments, scopolamine impaired **encoding** and physostigmine impaired **retrieval**, which is not a simple "more ACh is better" result. See https://pubmed.ncbi.nlm.nih.gov/14521875/. The in-lesson Teacher notes (footer) repeat this.
+- **Sound.** Narration is on by default in the explainer and during the maze; students can mute it. Browsers only start sound after the student's first click. The fifth explainer scene is captioned only.
+- **Internet.** The YouTube video and Mouse Party need internet access and are third-party services with their own privacy practices.
+- **Privacy.** No login and no upload. Notes, sketches and recap answers stay in the student's browser until they download them.
 
-## Audio assets
+## Licences and permissions
 
-All **12 previously approved Ian narration recordings** are included as MP3 files under `assets/audio/`. The game loads the files using relative URLs such as `assets/audio/synapse-01.mp3`; no audio files are hosted on external services. An integrity manifest is at `assets/audio_manifest.json`.
-
-The additional general excitatory/inhibitory explainer scene is captioned and has no separate recording. **Narration defaults ON** for the synapse explainer and automatically plays when a student starts maze actions. Students may mute it using the visible control; browser policy can require that first user interaction before sound starts.
-
-Before public redistribution, confirm that the original ElevenLabs-generated voice recordings may be distributed under your plan's terms.
-
-## Scientific accuracy
-
-Maze graphics and numerical observations are a deliberately simplified **synthetic teaching simulation**, not actual measurements from rats or an exact replication of the original apparatus. The default curves deliberately illustrate the three-condition classroom account associated with **Martinez & Kesner (1991)**: receptor antagonist = most errors, saline = intermediate, acetylcholinesterase inhibitor = fewest. They are **illustrative assumptions**, not measured outcomes or a verified primary-source replication. The video covers that teaching account. In the distinct, peer-reviewed **Rogers & Kesner (2003)** maze experiments, scopolamine impaired **encoding** and physostigmine impaired **retrieval**, rather than demonstrating a universal more-ACh-is-better result. See https://pubmed.ncbi.nlm.nih.gov/14521875/.
-
-## Student privacy
-
-No student answer upload or accounts are built into Neural Lab. Recap answers stay in the student's browser and can be exported as text. The embedded YouTube player and the outbound Mouse Party site are third-party services and have their own privacy practices.
-
-## What changed in the compact maze release
-
-- No automatic scroll to the chart after a trial. The chart appears once all three conditions finish.
-- Twelve simulated trials per group, with three animated sample traversals of one virtual rat.
-- Shortened maze text, reduced results chart height, simplified readings.
-- Verified relative MP3 loading for the existing 12 files in Chromium.
-
-## Mouse Party companion whiteboard (new)
-
-The Drug Lab page now includes a built-in, original observation whiteboard inspired by the structure of the classroom worksheet. Students keep the website open while they explore the official Mouse Party activity in a second tab. The board covers **heroin, ecstasy, marijuana, methamphetamine, alcohol, cocaine, and LSD**, with dedicated fields for neurotransmitters, mechanism, and a freehand synapse sketch.
-
-- Select substances using the tabs or Previous/Next; keyboard arrow keys work on tabs.
-- Type notes and draw with a mouse, touchscreen, or stylus. Undo and Clear controls are provided for each sketch.
-- Answers and sketches are saved locally in that browser, not uploaded to a teacher or server.
-- **Download my PDF** creates a seven-page A4 PDF directly in the browser, with all typed notes and sketches. The PDF requires no server or third-party JavaScript library. The optional Print button uses the browser's print dialog.
-- The original University of Utah worksheet PDF is *not redistributed* as part of this public GitHub bundle. Use the university's original site and teaching material when appropriate.
-
-Mouse art is an original generated illustration, not copied from the Utah site. The final release contains all local image and MP3 assets under `assets/`.
+- **Narration:** the 12 MP3s in `assets/audio/` are ElevenLabs-generated voice recordings. Before redistributing this lesson publicly beyond this site, confirm that the plan's terms allow it. The captions and on-screen text match the recordings, so do not edit narrated text without re-recording.
+- **Mouse Party:** developed by the Genetic Science Learning Center, University of Utah. The lesson links to the original activity and does not copy or embed it. The whiteboard is an original companion based on the structure of the Utah worksheet; the original worksheet PDF is not redistributed here.
+- **Mouse illustration:** an original generated image, not taken from the Utah site.
