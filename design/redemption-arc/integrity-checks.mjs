@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import { webcrypto } from 'node:crypto';
 
-const html = fs.readFileSync(new URL('../../materials/Redemtion Arc P1/index.html', import.meta.url), 'utf8');
+const html = fs.readFileSync(new URL('../../materials/Exam Practice/Redemption Arc P1/index.html', import.meta.url), 'utf8');
 const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
 scripts.forEach((source, i) => new vm.Script(source, { filename: `inline-${i}` }));
 const elements = new Map();

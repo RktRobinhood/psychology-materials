@@ -1,123 +1,141 @@
-import { StrictMode, useEffect, useMemo, useState } from 'react';
+import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowDown, ArrowUpRight, BookOpen, LibraryBig } from 'lucide-react';
 import './styles.css';
 
-type Material = {
-  slug: string;
+type Item = { href: string; title: string; description: string; tag: string };
+type Group = {
+  folder: string;
+  kind: 'guide' | 'unit' | 'extra';
   title: string;
-  description: string;
-  category: string;
+  number?: number;
+  year?: number;
+  short?: string;
+  question?: string;
+  items: Item[];
 };
 
+const BASE = import.meta.env.BASE_URL;
+const PLAN = `${BASE}materials/Course%20Guide/Two%20Year%20Plan/`;
+const CHECKLIST = `${BASE}materials/Course%20Guide/Syllabus%20Checklist/`;
+const REPORT = 'https://github.com/RktRobinhood/psychology-materials/issues/new/choose';
+const two = (value: number) => String(value).padStart(2, '0');
+
+function Cards({ items }: { items: Item[] }) {
+  return (
+    <div className="cards">
+      {items.map((item) => (
+        <a className="card" href={BASE + item.href} key={item.href}>
+          {item.tag && <span className="tag">{item.tag}</span>}
+          <h4>{item.title}</h4>
+          {item.description && <p>{item.description}</p>}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function Unit({ unit }: { unit: Group }) {
+  const number = unit.number ?? 0;
+  return (
+    <section className="unit" id={`unit-${number}`} aria-labelledby={`unit-${number}-title`}>
+      <header className="unit-head">
+        <p className="kicker">Unit {two(number)}</p>
+        <h3 id={`unit-${number}-title`}>{unit.title}</h3>
+        {unit.question && <p className="question">{unit.question}</p>}
+        <p className="unit-links">
+          <a href={`${PLAN}#guide-U${number}`}>Unit plan</a>
+          <a href={`${CHECKLIST}#check-U${number}`}>Checklist</a>
+        </p>
+      </header>
+      {unit.items.length > 0 ? <Cards items={unit.items} /> : <p className="empty">Lessons will appear here.</p>}
+    </section>
+  );
+}
+
 function App() {
-  const [materials, setMaterials] = useState<Material[]>([]);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [groups, setGroups] = useState<Group[] | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}materials.json`)
+    fetch(`${BASE}materials.json`)
       .then((response) => {
         if (!response.ok) throw new Error('Catalog unavailable');
-        return response.json() as Promise<Material[]>;
+        return response.json() as Promise<Group[]>;
       })
-      .then((data: Material[]) => {
-        setMaterials(data);
-        setStatus('ready');
-      })
-      .catch(() => setStatus('error'));
+      .then(setGroups)
+      .catch(() => setFailed(true));
   }, []);
 
-  const materialLabel = useMemo(
-    () => `${materials.length} ${materials.length === 1 ? 'resource' : 'resources'}`,
-    [materials.length],
-  );
+  // Honour links such as /#unit-3 once the units have rendered.
+  useEffect(() => {
+    if (groups && location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  }, [groups]);
+
+  const units = groups?.filter((group) => group.kind === 'unit') ?? [];
+  const extras = groups?.filter((group) => group.kind === 'extra' && group.items.length > 0) ?? [];
+  const guide = groups?.filter((group) => group.kind === 'guide').flatMap((group) => group.items) ?? [];
+  const years = [...new Set(units.map((unit) => unit.year ?? 1))].sort((a, b) => a - b);
 
   return (
-    <main>
-      <section className="hero" aria-labelledby="page-title">
-        <nav className="nav" aria-label="Main navigation">
-          <a className="brand" href={import.meta.env.BASE_URL} aria-label="Mindfield home">
-            <span className="brand-mark" aria-hidden="true"><span /></span>
-            <span>Mindfield</span>
-          </a>
-          <a className="nav-link" href="#materials">Browse materials</a>
-        </nav>
-
-        <div className="hero-content">
-          <p className="eyebrow"><span /> Psychology materials</p>
-          <h1 id="page-title">Ideas that help us understand the mind.</h1>
-          <p className="hero-copy">
-            A growing library of thoughtful resources for learning, reflection,
-            and psychological practice.
-          </p>
-          <a className="primary-action" href="#materials">
-            Explore the library <ArrowDown aria-hidden="true" size={18} />
-          </a>
+    <>
+      <header className="top">
+        <div className="wrap">
+          <p className="eyebrow">Mindfield · IB Psychology · First assessment 2027</p>
+          <h1>Our psychology course</h1>
+          {units.length > 0 && (
+            <nav className="jump" aria-label="Units">
+              {units.map((unit) => (
+                <a href={`#unit-${unit.number}`} key={unit.folder}>
+                  <b>{two(unit.number ?? 0)}</b> {unit.short ?? unit.title}
+                </a>
+              ))}
+              {extras.map((group, index) => (
+                <a href={`#extra-${index}`} key={group.folder}>{group.title}</a>
+              ))}
+            </nav>
+          )}
         </div>
+      </header>
 
-        <p className="hero-note">Curated with care · Open for learning</p>
-      </section>
+      <main className="wrap">
+        {failed && <p className="state" role="alert">The lessons could not be loaded. Please try again shortly.</p>}
+        {!groups && !failed && <p className="state">Loading…</p>}
 
-      <section className="library" id="materials" aria-labelledby="materials-heading">
-        <header className="library-header">
-          <div>
-            <p className="section-kicker">The library</p>
-            <h2 id="materials-heading">Psychology, made approachable.</h2>
-          </div>
-          {status === 'ready' && <p className="count">{materialLabel}</p>}
-        </header>
-
-        {status === 'loading' && (
-          <output className="state-card">Gathering the materials…</output>
-        )}
-
-        {status === 'error' && (
-          <div className="state-card" role="alert">
-            The library could not be loaded. Please try again shortly.
-          </div>
-        )}
-
-        {status === 'ready' && materials.length === 0 && (
-          <div className="empty-state">
-            <div className="empty-icon" aria-hidden="true"><LibraryBig size={30} /></div>
-            <p className="empty-label">The first collection is taking shape</p>
-            <h3>Materials will appear here as they are published.</h3>
-            <p>Each new resource is added to this library automatically.</p>
-          </div>
-        )}
-
-        {status === 'ready' && materials.length > 0 && (
-          <div className="material-grid">
-            {materials.map((material, index) => (
-              <a
-                className="material-card"
-                href={`${import.meta.env.BASE_URL}materials/${material.slug}/`}
-                key={material.slug}
-              >
-                <div className="card-top">
-                  <span className="card-number">{String(index + 1).padStart(2, '0')}</span>
-                  <ArrowUpRight aria-hidden="true" size={22} />
-                </div>
-                <p className="category"><BookOpen aria-hidden="true" size={15} /> {material.category}</p>
-                <h3>{material.title}</h3>
-                <p>{material.description}</p>
+        {guide.length > 0 && (
+          <section className="guide" aria-label="Course guide">
+            {guide.map((item) => (
+              <a className="card guide-card" href={BASE + item.href} key={item.href}>
+                <h4>{item.title}</h4>
+                {item.description && <p>{item.description}</p>}
               </a>
             ))}
-          </div>
+          </section>
         )}
-      </section>
 
-      <footer>
-        <a className="brand footer-brand" href={import.meta.env.BASE_URL}>
-          <span className="brand-mark" aria-hidden="true"><span /></span>
-          <span>Mindfield</span>
-        </a>
-        <p>Psychology resources for curious minds.</p>
-        <a className="footer-report" href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose" target="_blank" rel="noopener">
-          Found a problem in a lesson? Report it
-        </a>
+        {years.map((year) => (
+          <div key={year}>
+            <h2 className="year">Year {year}</h2>
+            {units.filter((unit) => (unit.year ?? 1) === year).map((unit) => <Unit unit={unit} key={unit.folder} />)}
+          </div>
+        ))}
+
+        {extras.map((group, index) => (
+          <div key={group.folder || group.title}>
+            <h2 className="year">{group.title}</h2>
+            <section className="unit" id={`extra-${index}`}>
+              <header className="unit-head">
+                {group.question && <p className="question">{group.question}</p>}
+              </header>
+              <Cards items={group.items} />
+            </section>
+          </div>
+        ))}
+      </main>
+
+      <footer className="wrap">
+        <a href={REPORT} target="_blank" rel="noopener">Found a problem in a lesson? Report it</a>
       </footer>
-    </main>
+    </>
   );
 }
 

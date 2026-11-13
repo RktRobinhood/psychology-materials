@@ -12,7 +12,7 @@ from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
 SL = os.path.join(HERE, '..', 'sliced')
 ENV = os.path.join(HERE, '..', 'source-assets', 'environments')
-OUT = os.path.join(HERE, '..', '..', '..', 'materials', 'Unit 1 Review - Learning and Cognition', 'assets')
+OUT = os.path.join(HERE, '..', '..', '..', 'materials', 'Unit 3 Memory and Brain', 'Learning and Cognition Review', 'assets')
 
 POSES = {
     'odysseus': dict(stand='odysseus_00', walk='odysseus_01', point='odysseus_02', think='odysseus_03', sword='odysseus_04',

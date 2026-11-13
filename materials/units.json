@@ -1,0 +1,67 @@
+[
+  {
+    "folder": "Course Guide",
+    "kind": "guide",
+    "title": "Course guide"
+  },
+  {
+    "folder": "Unit 1 Foundations",
+    "kind": "unit",
+    "number": 1,
+    "year": 1,
+    "short": "Foundations",
+    "title": "Psychology as a Way of Thinking",
+    "question": "How do psychologists develop, test and evaluate explanations of behaviour?"
+  },
+  {
+    "folder": "Unit 2 Learning and Bias",
+    "kind": "unit",
+    "number": 2,
+    "year": 1,
+    "short": "Learning and bias",
+    "title": "Learning, Bias and Decision-Making",
+    "question": "How do we learn, and why do our judgements go wrong?"
+  },
+  {
+    "folder": "Unit 3 Memory and Brain",
+    "kind": "unit",
+    "number": 3,
+    "year": 1,
+    "short": "Memory and brain",
+    "title": "Memory, Models and the Brain",
+    "question": "How can we explain memory, investigate the brain and improve cognition?"
+  },
+  {
+    "folder": "Unit 4 Relationships",
+    "kind": "unit",
+    "number": 4,
+    "year": 1,
+    "short": "Relationships",
+    "title": "Influence, Identity and Connection",
+    "question": "How do groups and personal relationships shape behaviour?"
+  },
+  {
+    "folder": "Unit 5 Health",
+    "kind": "unit",
+    "number": 5,
+    "year": 2,
+    "short": "Health",
+    "title": "Mental Health, Behaviour Change and Culture",
+    "question": "How are mental health and health problems explained, addressed and prevented?"
+  },
+  {
+    "folder": "Unit 6 Development",
+    "kind": "unit",
+    "number": 6,
+    "year": 2,
+    "short": "Development",
+    "title": "Development Across Time",
+    "question": "How and why do people develop, and what shapes their sense of self?"
+  },
+  {
+    "folder": "Exam Practice",
+    "kind": "extra",
+    "title": "Exam practice",
+    "question": "Timed writing and paper practice that runs across units."
+  }
+]
