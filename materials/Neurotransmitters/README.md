@@ -33,3 +33,15 @@ No student answer upload or accounts are built into Neural Lab. Recap answers st
 - Twelve simulated trials per group, with three animated sample traversals of one virtual rat.
 - Shortened maze text, reduced results chart height, simplified readings.
 - Verified relative MP3 loading for the existing 12 files in Chromium.
+
+## Mouse Party companion whiteboard (new)
+
+The Drug Lab page now includes a built-in, original observation whiteboard inspired by the structure of the classroom worksheet. Students keep the website open while they explore the official Mouse Party activity in a second tab. The board covers **heroin, ecstasy, marijuana, methamphetamine, alcohol, cocaine, and LSD**, with dedicated fields for neurotransmitters, mechanism, and a freehand synapse sketch.
+
+- Select substances using the tabs or Previous/Next; keyboard arrow keys work on tabs.
+- Type notes and draw with a mouse, touchscreen, or stylus. Undo and Clear controls are provided for each sketch.
+- Answers and sketches are saved locally in that browser, not uploaded to a teacher or server.
+- **Download my PDF** creates a seven-page A4 PDF directly in the browser, with all typed notes and sketches. The PDF requires no server or third-party JavaScript library. The optional Print button uses the browser's print dialog.
+- The original University of Utah worksheet PDF is *not redistributed* as part of this public GitHub bundle. Use the university's original site and teaching material when appropriate.
+
+Mouse art is an original generated illustration, not copied from the Utah site. The final release contains all local image and MP3 assets under `assets/`.
