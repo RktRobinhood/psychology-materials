@@ -75,25 +75,24 @@
     ['Counting how many times the letter “e” appears in a paragraph', 2],
   ];
 
-  const bandHead = (n, ic, kicker, title, what) => `
+  const bandHead = (n, title, what) => `
     <header class="band-head">
       <span class="band-num">${n}</span>
       <div>
-        <p class="band-kicker">${icon(ic)}${kicker}</p>
         <h2>${title}</h2>
-        <p class="band-what">${what}</p>
+        ${what ? `<p class="band-what">${what}</p>` : ''}
       </div>
     </header>`;
 
   function renderHome() {
-    document.title = 'Two Minds — Dual Process Theory & Cognitive Biases';
+    document.title = 'Two Minds: Dual Process Theory & Cognitive Biases';
     app.innerHTML = `
     <header class="home-hero">
       <div class="wrap hero-grid">
         <div class="hero-text">
         <p class="kicker">IB Psychology · Cognitive approach · Thinking &amp; decision-making</p>
         <h1 class="display">Two <span class="s1-word">Min</span><span class="s2-word">ds</span></h1>
-        <p class="lede">Your brain runs two kinds of thinking: one fast and automatic, one slow and effortful. Most of the time the fast one is in charge, and that is where cognitive biases come from. Ten stations, ten biases. Experience one, work out why it happened, then teach it.</p>
+        <p class="lede">Your brain runs two kinds of thinking: one fast and automatic, one slow and effortful. The fast one is usually in charge, and that is where cognitive biases come from. Ten stations, ten biases: experience one, work out why it happened, then teach it.</p>
         <div class="hero-sys">
           <div class="sys-chip s1">${icon('rabbit')}<b>System 1</b> fast · automatic · effortless · intuitive</div>
           <div class="sys-chip s2">${icon('turtle')}<b>System 2</b> slow · deliberate · effortful · logical</div>
@@ -121,18 +120,18 @@
     <main class="home-main">
       <section class="band band-how" id="how">
         <div class="wrap">
-          ${bandHead(1, 'route', 'Start here', 'How the lesson works', 'Three steps. Read them once so you know what happens at your station.')}
+          ${bandHead(1, 'How the lesson works')}
           <div class="how-grid how-flow">
-            <div class="how"><span class="how-ic">${icon('book-open')}</span><span class="how-n">1</span><h3>Learn your station</h3><p>Your group gets one station. Press <b>Learn</b>: do the experiment yourself first, then work through the step-by-step explanation and the quiz.</p></div>
-            <div class="how"><span class="how-ic">${icon('presentation')}</span><span class="how-n">2</span><h3>Host a visitor</h3><p>When a visitor arrives, press <b>Teach</b>. It skips the explanation and goes straight to the experiment. <b>You</b> do the explaining, from memory.</p></div>
-            <div class="how"><span class="how-ic">${icon('swords')}</span><span class="how-n">3</span><h3>Quiz each other</h3><p>Teach mode finishes with a head-to-head quiz for the host and the guest. It includes questions the host hasn't seen before.</p></div>
+            <div class="how"><span class="how-n">1</span><h3>Learn your station</h3><p>Your group gets one station. Press <b>Learn</b>: do the experiment, then work through the explanation and the quiz.</p></div>
+            <div class="how"><span class="how-n">2</span><h3>Host a visitor</h3><p>When a visitor arrives, press <b>Teach</b>. They do the experiment; <b>you</b> explain it from memory.</p></div>
+            <div class="how"><span class="how-n">3</span><h3>Quiz each other</h3><p>Teach mode ends with a head-to-head quiz, including questions the host hasn't seen.</p></div>
           </div>
         </div>
       </section>
 
       <section class="band band-theory" id="theory">
         <div class="wrap">
-          ${bandHead(2, 'book-open', 'Read', 'The theory in two minutes', 'The one idea every station comes back to.')}
+          ${bandHead(2, 'The theory in two minutes')}
           <div class="theory-grid">
             <div class="theory-intro">
               <p><b>Dual process theory</b> says that thinking and decision-making run on two systems.</p>
@@ -152,13 +151,13 @@
             <div class="chain-arrow">${icon('arrow-right')}</div>
             <div class="chain-step bias">${icon('triangle-alert')}<b>Cognitive bias</b><span>a systematic error</span></div>
           </div>
-          <p class="chain-note">A bias is <b>systematic</b>: most people make the same error in the same direction. That is what makes it predictable, and what every station lets you see for yourself.</p>
+          <p class="chain-note">A bias is <b>systematic</b>: most people make the same error in the same direction. That is what makes it predictable.</p>
         </div>
       </section>
 
       <section class="band band-warmup" id="warmup-band">
         <div class="wrap">
-          ${bandHead(3, 'zap', 'Try it', 'Warm-up: System 1 or System 2?', 'Tap S1 or S2 for each one. Most things use both, so pick whichever does most of the work.')}
+          ${bandHead(3, 'Warm-up: System 1 or System 2?', 'Most things use both, so pick whichever does most of the work.')}
           <div class="warmup-card">
             <div class="wu-progress"><div class="wu-bar"><div id="wuFill"></div></div><span id="wuCount">0 / ${WARMUP.length}</span></div>
             <div class="warmup" id="warmup"></div>
@@ -168,7 +167,7 @@
 
       <section class="band band-stations" id="stations">
         <div class="wrap">
-          ${bandHead(4, 'layout-grid', 'Choose your station', 'The ten stations', 'Go to the station your teacher gives you. Press Learn the first time, Teach when you host a visitor.')}
+          ${bandHead(4, 'The ten stations', 'Go to the station your teacher gives you.')}
           <div class="station-grid">
             ${DPT.stations.map(st => `
               <article class="st-card" style="${hueStyle(st)}">
@@ -273,7 +272,7 @@
         <div class="landing-modes">
           <a class="mode-btn learn" href="#s${st.num}/learn">
             <span class="mode-name">${icon('book-open')} Learn</span>
-            <span class="mode-desc">First time here? Do the experiment, then get a full step-by-step explanation and a quiz.</span>
+            <span class="mode-desc">First time here? Do the experiment, then the explanation and a quiz.</span>
           </a>
           <a class="mode-btn teach" href="#s${st.num}/teach">
             <span class="mode-name">${icon('presentation')} Teach</span>
@@ -297,7 +296,6 @@
     ['CRT', 'Cognitive Reflection Test'],
     ['MIT', 'Massachusetts Institute of Technology'],
     ['USA', 'United States'],
-    ['IB', 'International Baccalaureate'],
     ['S1', 'System 1'],
     ['S2', 'System 2'],
     ['TV', 'television'],
@@ -518,15 +516,15 @@
     if (st.concepts?.length) out.push({
       label: 'IB concepts',
       render(el) {
-        el.innerHTML = `${screenHead(learn ? 'Think deeper 1 of 2 · IB concepts' : 'Think deeper · IB concepts', 'Link it to the IB concepts')}
-          <p class="prose">IB Psychology is built around six concepts. The highlighted ones are the clearest links for this station. ${learn ? 'Using them in an essay shows you can go beyond describing a study.' : 'Host: talk your guest through at least one of them.'}</p>
+        el.innerHTML = `${screenHead(learn ? 'Think deeper 1 of 2' : 'Think deeper', 'Link it to the IB concepts')}
+          <p class="prose">The highlighted IB concepts are the clearest links for this station. ${learn ? 'Using them in an essay shows you can go beyond describing a study.' : 'Host: talk your guest through at least one of them.'}</p>
           ${conceptsHTML(st, !learn)}`;
       },
     });
     if (st.debate) out.push({
       label: 'When the evidence disagrees',
       render(el) {
-        el.innerHTML = screenHead(learn ? 'Think deeper 2 of 2 · Evaluating evidence' : 'Think deeper · Evaluating evidence', 'When the evidence disagrees');
+        el.innerHTML = screenHead(learn ? 'Think deeper 2 of 2' : 'Think deeper', 'When the evidence disagrees');
         debateBlock(el, st, mode);
       },
     });
@@ -540,12 +538,11 @@
       render(el, ctx) {
         el.innerHTML = `${screenHead(`Station ${st.num} · Learn mode`, esc(st.title))}
           <div class="prose">${resolve(st.intro?.learn, ctx)}</div>
-          ${ui.callout('note', `<b>Do the experiment before you read anything else.</b> Answer honestly and go with your first instinct if you have one. The bias is easiest to understand once you've fallen for it yourself.`)}
-          <div class="plan"><span>1 · Experiment</span><span>2 · Your results</span><span>3 · Step-by-step explanation</span><span>4 · IB concepts &amp; evidence</span><span>5 · Prepare to teach</span><span>6 · Quiz</span></div>`;
+          ${ui.callout('note', `<b>Answer honestly and go with your first instinct.</b> The bias is easiest to understand once you've fallen for it yourself.`)}`;
       },
     });
     list.push(experimentScreen(st, state, 'Experiment'));
-    list.push(revealScreen(st, 'Step 2 · Your results'));
+    list.push(revealScreen(st, 'Your results'));
     (st.steps || []).forEach((step, i) => {
       list.push({
         label: step.label || step.kicker,
@@ -565,10 +562,10 @@
       label: 'Prepare to teach',
       render(el, ctx) {
         el.innerHTML = `${screenHead('Get ready to host', 'Your turn to teach')}
-          <p class="prose">In <b>Teach mode</b> your visitor does the experiment, then you explain it <b>without the text</b>. You'll only see the headings below as a checklist. Read each hint, then cover it and say it out loud to your group.</p>
+          <p class="prose">In <b>Teach mode</b> you explain the experiment from these headings alone. Read each hint, then cover it and say it out loud to your group.</p>
           ${hostChecklist(st, true)}
           ${st.host?.ask?.length ? `<h3>Questions to ask your visitor</h3><ul class="ask">${st.host.ask.map(q => `<li>${q}</li>`).join('')}</ul>` : ''}
-          ${ui.callout('tip', `<b>Good hosting:</b> ask before you tell. Let your visitor say what they answered and why before you name the bias. Then walk them through step by step, exactly as you were walked through.`)}`;
+          ${ui.callout('tip', `<b>Good hosting:</b> ask before you tell. Let your visitor say what they answered and why before you name the bias.`)}`;
       },
     });
     list.push({
@@ -621,7 +618,7 @@
             </ul></div>
           </div>
           ${st.intro?.teach ? `<div class="prose">${resolve(st.intro.teach, ctx)}</div>` : ''}
-          <p class="handover">➜ Guest, you have the controls. Press <b>Next</b>.</p>`;
+          <p class="handover">Guest, you have the controls. Press <b>Next</b>.</p>`;
       },
     });
     list.push(experimentScreen(st, state, 'Experiment'));
@@ -751,7 +748,7 @@
       const q = qs[i];
       const picks = { guest: null, host: null };
       box.innerHTML = `
-        <div class="duel-bar"><span>Question ${i + 1} of ${qs.length}</span>${q.fresh ? '<span class="fresh">NEW: not in Learn mode</span>' : ''}<span class="duel-score">Guest <b>${scores.guest}</b> · Host <b>${scores.host}</b></span></div>
+        <div class="duel-bar"><span>Question ${i + 1} of ${qs.length}</span>${q.fresh ? '<span class="fresh">Not in Learn mode</span>' : ''}<span class="duel-score">Guest <b>${scores.guest}</b> · Host <b>${scores.host}</b></span></div>
         <div class="q-text">${q.q}</div>
         <div class="q-opts plain">${q.opts.map((o, k) => `<div class="q-opt" data-k="${k}"><span class="q-letter">${LETTERS[k]}</span><span>${o.t}</span></div>`).join('')}</div>
         <div class="lockrows">
@@ -768,7 +765,7 @@
           picks[who] = +b.dataset.k;
           row.classList.add('locked');
           row.querySelectorAll('.lock-b').forEach(x => x.disabled = true);
-          row.querySelector('.lock-status').textContent = '🔒 locked in';
+          row.querySelector('.lock-status').textContent = 'locked in';
           if (picks.guest !== null && picks.host !== null) reveal();
         });
       });

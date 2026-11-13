@@ -171,8 +171,6 @@ h3 { font-size: 1.1rem; margin: 1.4em 0 .5em; }
 .prose p { margin: 0 0 14px; }
 .prose ul, .prose ol { padding-left: 1.3em; }
 .prose li { margin: 4px 0; }
-.plan { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-.plan span { font-size: 13.5px; padding: 6px 12px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-2); }
 
 /* ── Content components ── */
 .callout { border-radius: 12px; padding: 14px 18px; margin: 16px 0; border-left: 5px solid; font-size: 16.5px; background: var(--paper); }
@@ -384,9 +382,6 @@ svg.lucide { width: 1.15em; height: 1.15em; vertical-align: -.2em; stroke-width:
 .report-btn svg { width: 18px; height: 18px; }
 .bar-tools { display: inline-flex; gap: 8px; }
 .mute-btn:hover, .report-btn:hover { color: var(--ink); border-color: var(--ink-2); }
-.how-ic { position: absolute; right: 18px; top: 18px; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--s2-soft); color: var(--s2); }
-.how:nth-child(3) .how-ic { background: var(--s1-soft); color: var(--s1); }
-.how-ic svg.lucide { width: 22px; height: 22px; }
 .st-top { display: flex; align-items: center; justify-content: space-between; }
 .st-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
 .st-icon svg.lucide { width: 24px; height: 24px; }
@@ -463,15 +458,11 @@ svg.lucide { width: 1.15em; height: 1.15em; vertical-align: -.2em; stroke-width:
 .band-teacher { background: var(--bg); padding: 44px 0 30px; }
 .band-head { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 28px; }
 .band-num { flex: none; width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; font-family: var(--f-display); font-weight: 900; font-size: 28px; background: var(--ink); color: var(--paper); }
-.band-kicker { display: flex; align-items: center; gap: 7px; margin: 2px 0 4px; font-family: var(--f-mono); font-size: 12.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 .band-head h2 { font-family: var(--f-display); font-size: clamp(30px, 4.4vw, 44px); margin: 0; line-height: 1.05; }
 .band-what { margin: 8px 0 0; font-size: 17px; color: var(--ink-2); max-width: 60ch; }
 .band-theory .band-num { background: var(--s2); color: #fff; }
-.band-theory .band-kicker { color: var(--s2-ink); }
 .band-warmup .band-num { background: var(--s1); color: #fff; }
-.band-warmup .band-kicker { color: var(--s1-ink); }
 .band-stations .band-num { background: #fff; color: #1d1b22; }
-.band-stations .band-kicker { color: #ffb4a3; }
 .band-stations .band-what { color: #cdc9d3; }
 
 /* how-it-works as a connected sequence */
