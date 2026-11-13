@@ -1,4 +1,4 @@
-/* Memory Olympiad v5: real multi-page PDF and a compact score QR, all offline. */
+/* Memory Olympiad: real multi-page PDF and a compact score QR, all offline. */
 (function(){
 'use strict';
 function fnv(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return (h>>>0).toString(16).padStart(8,'0').toUpperCase();}
@@ -23,7 +23,7 @@ function qrMatrix(text){const bytes=toBytes(text),data=[...bytes,...rsRemainder(
 }
 function escapeXml(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function qrSvgCard(run,events){const code=verification(run,events),grid=qrMatrix(code);let p='';for(let y=0;y<QRSIZE;y++)for(let x=0;x<QRSIZE;x++)if(grid[y][x])p+=`M${x+4} ${y+4}h1v1h-1z`;
- return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 67" width="650" height="670"><rect width="65" height="67" rx="2" fill="#fff"/><text x="4" y="5" font-family="Arial" font-size="2.7" font-weight="bold" fill="#152b42">MEMORY OLYMPIAD · v5</text><g transform="translate(4 9)"><rect x="0" y="0" width="45" height="45" fill="white"/><path fill="black" d="${p.replace(/M([0-9]+) ([0-9]+)/g,(_,x,y)=>`M${+x-4} ${+y-4}`)}"/></g><text x="4" y="60" font-family="monospace" font-size="1.4" fill="#222">${escapeXml(code)}</text><text x="4" y="63" font-family="Arial" font-size="1.8" fill="#333">Student-generated score record · keep your PDF/CSV too</text></svg>`;
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 67" width="650" height="670"><rect width="65" height="67" rx="2" fill="#fff"/><text x="4" y="5" font-family="Arial" font-size="2.7" font-weight="bold" fill="#152b42">MEMORY OLYMPIAD</text><g transform="translate(4 9)"><rect x="0" y="0" width="45" height="45" fill="white"/><path fill="black" d="${p.replace(/M([0-9]+) ([0-9]+)/g,(_,x,y)=>`M${+x-4} ${+y-4}`)}"/></g><text x="4" y="60" font-family="monospace" font-size="1.4" fill="#222">${escapeXml(code)}</text><text x="4" y="63" font-family="Arial" font-size="1.8" fill="#333">Student-generated score record · keep your PDF/CSV too</text></svg>`;
 }
 function plain(value){return String(value??'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/æ/g,'ae').replace(/Æ/g,'AE').replace(/ø/g,'oe').replace(/Ø/g,'OE').replace(/å/g,'aa').replace(/Å/g,'AA').replace(/ß/g,'ss').replace(/—/g,'--').replace(/–/g,'-').replace(/♠/g,'S').replace(/♥/g,'H').replace(/♦/g,'D').replace(/♣/g,'C').replace(/[^\x20-\x7e]/g,'?');}
 function pdfText(value){return plain(value).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');}

@@ -1,10 +1,10 @@
-/* Memory Olympiad v6: six standalone randomly generated memory challenges. */
+/* Memory Olympiad: six standalone randomly generated memory challenges. */
 (function () {
   'use strict';
   const EVENTS = [
     {id:'E01',title:'Ordered words',short:'Words',subtitle:'Remember 16 words in the right places.',max:16,study:60,recall:115,icon:'Aa',unit:'positions'},
     {id:'E02',title:'Digit sequence',short:'Digits',subtitle:'Remember 24 digits from the beginning.',max:24,study:55,recall:95,icon:'01',unit:'digits in a row'},
-    {id:'E03',title:'Faces & names',short:'Faces',subtitle:'Match 10 realistic or faces to their names.',max:10,study:80,recall:120,icon:'◉',unit:'correct names'},
+    {id:'E03',title:'Faces & names',short:'Faces',subtitle:'Match 10 faces to their names.',max:10,study:80,recall:120,icon:'◉',unit:'correct names'},
     {id:'E04',title:'Grid memory',short:'Grid',subtitle:'Follow 15 flashes on a 4×4 grid.',max:15,study:22,recall:85,icon:'▦',unit:'positions'},
     {id:'E05',title:'Card order',short:'Cards',subtitle:'Put 12 playing cards back in their order.',max:12,study:65,recall:95,icon:'♠',unit:'positions'},
     {id:'E06',title:'Symbol pairs',short:'Pairs',subtitle:'Remember 10 symbol-to-number matches.',max:10,study:70,recall:105,icon:'✦',unit:'pairs'}
