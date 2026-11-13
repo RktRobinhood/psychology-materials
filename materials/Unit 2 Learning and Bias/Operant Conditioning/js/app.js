@@ -128,7 +128,7 @@ function updateRail(){
   const pct = Math.round((done/roomOrder.length)*100);
   document.getElementById('fill').style.width = pct + '%';
   document.getElementById('rail-label').textContent = 'Lock ' + done + ' / ' + roomOrder.length;
-  document.getElementById('streak').textContent = done>0 && done<roomOrder.length ? done+' cleared' : (done===roomOrder.length ? 'escaped' : '');
+  document.getElementById('streak').textContent = done===roomOrder.length ? 'escaped' : '';
   document.querySelectorAll('#code .digit').forEach((d, i)=>{
     const got = state.done.includes(roomOrder[i]);
     d.textContent = got ? state.code[i] : '•';
@@ -314,7 +314,7 @@ function flagAndWarn(roomEl, msg){
     warn.className = 'field-warning';
     roomEl.querySelector('.room-footer').insertAdjacentElement('beforebegin', warn);
   }
-  warn.textContent = msg || '✏️ Fill in every box below with a real answer (not just a word or two) before continuing.';
+  warn.textContent = msg || 'Give a real answer in every box (more than a word or two) before continuing.';
   warn.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
@@ -450,9 +450,9 @@ function evaluateGame(game, silent){
   else { const allZonesFilled = [...zones].every(z => z.querySelectorAll('.chip').length === 1); win = allZonesFilled && allCorrect; }
   const status = game.querySelector('.game-status');
   const wasWon = status.classList.contains('ok');
-  if(win){ status.className = 'game-status ok'; status.textContent = '✓ Correct — this door is open.'; if(!wasWon && !silent) sfx('correct'); }
-  else if(anyPlaced){ status.className = 'game-status notyet'; status.textContent = 'Not quite — check the placements and try again.'; }
-  else { status.className = 'game-status notyet'; status.textContent = 'Keep going — place every card.'; }
+  if(win){ status.className = 'game-status ok'; status.textContent = '✓ Correct.'; if(!wasWon && !silent) sfx('correct'); }
+  else if(anyPlaced){ status.className = 'game-status notyet'; status.textContent = 'Not quite. Check the placements and try again.'; }
+  else { status.className = 'game-status notyet'; status.textContent = 'Place every card.'; }
   const roomEl = game.closest('.room');
   if(roomEl) checkRoomButtons(roomEl.id);
 }
@@ -505,7 +505,7 @@ document.getElementById('btn-r6').addEventListener('click', ()=>{
 document.getElementById('btn-r7').addEventListener('click', ()=>{ if(!document.getElementById('btn-r7').disabled) advanceUnlock('r7'); });
 document.getElementById('btn-vault').addEventListener('click', ()=>{
   const el = document.getElementById('vault');
-  if(!textFieldsFilled(el)){ flagAndWarn(el, '✏️ Fill in every box in both Part A and Part B — a real answer, not a placeholder — before you can escape.'); return; }
+  if(!textFieldsFilled(el)){ flagAndWarn(el, 'Give a real answer in every box in Part A and Part B to escape.'); return; }
   advanceUnlock('vault');
 });
 
@@ -578,7 +578,7 @@ document.querySelectorAll('.room textarea').forEach(ta=>{
     integ.paste.push({ id: st.id, label: st.label });
     ta.classList.add('flagged');
     saveNow();
-    flash('Pasting is disabled here — type your own answer.');
+    flash('Pasting is disabled here. Type your own answer.');
   });
   ta.addEventListener('drop', (e)=>{
     e.preventDefault();
@@ -586,7 +586,7 @@ document.querySelectorAll('.room textarea').forEach(ta=>{
     integ.drop.push({ id: st.id, label: st.label });
     ta.classList.add('flagged');
     saveNow();
-    flash('Dragging text in is disabled here — type your own answer.');
+    flash('Dragging text in is disabled here. Type your own answer.');
   });
   ta.addEventListener('dragover', (e)=> e.preventDefault());
   ta.addEventListener('keydown', (e)=>{
