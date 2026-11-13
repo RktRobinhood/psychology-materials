@@ -1,4 +1,4 @@
-/* Memory Quest — lesson content.
+/* Memory Quest: lesson content.
    All narrative, teacher notes and checks live here; js/app.js renders them.
    Screen types: dialogue, keyfact, video, poll, game, study, model, sort, quiz, trial (timed Static Surge), recap, write, tally, title, finish. */
 window.MEMORY_QUEST = {
@@ -12,7 +12,7 @@ window.MEMORY_QUEST = {
   characters: {
     Selene: { role: 'The Wise Owl · Mentor', color: '#8c6a3c', side: 'left',
       expressions: ['neutral', 'happy', 'serious', 'teaching'] },
-    Lyra: { role: 'The Guide · Student proxy', color: '#a8452f', side: 'left',
+    Lyra: { role: 'The Guide', color: '#a8452f', side: 'left',
       expressions: ['neutral', 'happy', 'surprised', 'concerned'] },
     Orin: { role: 'The Wordsmith · Phonological loop', color: '#3f6f9c', side: 'right',
       expressions: ['neutral', 'happy', 'confused', 'frustrated'] },
@@ -36,13 +36,13 @@ window.MEMORY_QUEST = {
   chapters: [
     /* ───────────────────────────── PROLOGUE ───────────────────────────── */
     {
-      id: 'prologue', title: 'Prologue — The Archive Flickers', short: 'Hook video + claim',
+      id: 'prologue', title: 'Prologue: The Archive Flickers', short: 'Hook video + claim',
       minutes: 8, core: true, background: 'mind_archive',
       teacher: {
         goal: 'Hook the class with a big claim, then turn it into a question we can test.',
         say: 'The video makes a big claim about attention and self-control. Today we will not decide whether a whole generation is getting worse. We will test the mental systems that claim depends on.',
         ask: 'What would you need to measure to know whether executive skills are really declining?',
-        expect: 'Most students lean towards "yes, it is getting worse". Keep their poll answer — we return to it at the end.',
+        expect: 'Most students lean towards "yes, it is getting worse". Keep their poll answer: we return to it at the end.',
         fidelity: 'Hook only. The clip stops at about 4:05, after it names executive function. The rest of the video makes causal claims (bread additives, AI) that are weakly supported.'
       },
       screens: [
@@ -65,12 +65,12 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 1 ───────────────────────────── */
     {
-      id: 'workshop', title: 'Chapter 1 — The Limit of the Workshop', short: 'Digit span · limited capacity',
+      id: 'workshop', title: 'Chapter 1: The Limit of the Workshop', short: 'Digit span · limited capacity',
       minutes: 5, core: true, background: 'mind_archive', sigil: 'working_memory',
       teacher: {
         goal: 'Students feel that short-term holding space runs out quickly.',
         say: 'Your number is not a score of how clever you are. Watch for the pattern: at some length, everyone starts to fail.',
-        ask: 'When the list got too long, did you stop trying — or did the space run out?',
+        ask: 'When the list got too long, did you stop trying, or did the space run out?',
         expect: 'Most students reach 5 to 8 digits. Ask for a show of hands at 5, 6, 7 and 8+ to see the class spread.',
         fidelity: 'Demonstration of limited capacity (digit span), not a replication of one specific study.'
       },
@@ -88,13 +88,13 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 2 ───────────────────────────── */
     {
-      id: 'echo', title: 'Chapter 2 — The Echo Chamber', short: 'Articulatory suppression · Landry & Bartling',
+      id: 'echo', title: 'Chapter 2: The Echo Chamber', short: 'Articulatory suppression · Landry & Bartling',
       minutes: 10, core: true, background: 'echo_chamber', sigil: 'phonological_loop',
       teacher: {
         goal: 'Run an informal replication of Landry & Bartling (2011) and link it to the phonological loop.',
-        say: 'In round 2 everybody must say "one, two, one, two" OUT LOUD — together with the ticking. It feels silly. That is the experiment.',
+        say: 'In round 2 everybody must say "one, two, one, two" OUT LOUD, together with the ticking. It feels silly. That is the experiment.',
         ask: 'Saying "1, 2" is incredibly easy. So why did it hurt your memory for letters?',
-        expect: 'Most students drop by 15–35 percentage points. Round 2 always comes second, so practice should help it — any drop is despite that.',
+        expect: 'Most students drop by 15–35 percentage points. Round 2 always comes second, so practice should help it: any drop is despite that. On the tally screen, ask for a show of hands in 10% bands and enter a rough class average.',
         fidelity: 'Close informal replication: same letter set, 5-second display, 5-second delay, "1–2" suppression. Fewer trials, repeated measures instead of independent samples.'
       },
       screens: [
@@ -113,7 +113,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 3 ───────────────────────────── */
     {
-      id: 'shards', title: 'Chapter 3 — The Map of Shards', short: 'Spatial memory · sketchpad',
+      id: 'shards', title: 'Chapter 3: The Map of Shards', short: 'Spatial memory · sketchpad',
       minutes: 4, core: false, background: 'map_of_shards', sigil: 'visuospatial',
       teacher: {
         goal: 'Give students a nonverbal memory task so they can feel a different kind of holding.',
@@ -134,13 +134,13 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 4 ───────────────────────────── */
     {
-      id: 'dual', title: 'Chapter 4 — Two Hands, Two Tools', short: 'Dual task · the model · patient KF',
+      id: 'dual', title: 'Chapter 4: Two Hands, Two Tools', short: 'Dual task · the model · patient KF',
       minutes: 16, core: true, background: 'map_of_shards',
       teacher: {
-        goal: 'Show that two tasks clash most when they use the same component — the key evidence for the WMM.',
+        goal: 'Show that two tasks clash most when they use the same component: the key evidence for the WMM.',
         say: 'The question is not "Can we multitask?" It is "What is competing?"',
         ask: 'If the spatial + spatial round was worse, what does that suggest about how short-term memory is organised?',
-        expect: 'On average, tapping (spatial) hurts the grid memory more than chanting (verbal). Individual results are noisy — compare the class pattern.',
+        expect: 'On average, tapping (spatial) hurts the grid memory more than chanting (verbal). Individual results are noisy: compare the class pattern.',
         fidelity: 'Conceptual replication of the dual-task / selective interference method. KF is shown as a case file, not a game. Static Surge I is a timed 6-question check (25 s per question; untimed if "Calm mode" is on).'
       },
       screens: [
@@ -183,7 +183,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 5 ───────────────────────────── */
     {
-      id: 'focus', title: 'Chapter 5 — The Gate of Focus', short: 'Stroop · central executive',
+      id: 'focus', title: 'Chapter 5: The Gate of Focus', short: 'Stroop · central executive',
       minutes: 6, core: true, background: 'focus_gate', sigil: 'executive_control',
       teacher: {
         goal: 'Link the video\'s "executive function" to the central executive through the Stroop effect.',
@@ -205,7 +205,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 6 ───────────────────────────── */
     {
-      id: 'switchyard', title: 'Chapter 6 — The Switchyard', short: 'Task switching cost',
+      id: 'switchyard', title: 'Chapter 6: The Switchyard', short: 'Task switching cost',
       minutes: 5, core: false, background: 'switchyard',
       teacher: {
         goal: 'Show that switching between rules has a cost, even when both rules are easy.',
@@ -228,7 +228,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 7 ───────────────────────────── */
     {
-      id: 'loom', title: 'Chapter 7 — The Story Loom', short: 'Episodic buffer',
+      id: 'loom', title: 'Chapter 7: The Story Loom', short: 'Episodic buffer',
       minutes: 4, core: false, background: 'story_loom', sigil: 'episodic_buffer',
       teacher: {
         goal: 'Show why the model needed a part that combines sights and sounds into one experience.',
@@ -248,7 +248,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 8 ───────────────────────────── */
     {
-      id: 'examiner', title: 'Chapter 8 — The Examiner\'s Desk', short: 'Evaluating the WMM',
+      id: 'examiner', title: 'Chapter 8: The Examiner\'s Desk', short: 'Evaluating the WMM',
       minutes: 10, core: true, background: 'pattern_shrine',
       teacher: {
         goal: 'Students evaluate the model and think about measurement. Static Surge II checks research-methods understanding (design, SD, p-values).',
@@ -303,7 +303,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 9 ───────────────────────────── */
     {
-      id: 'falseVictory', title: 'Chapter 9 — False Victory', short: 'Bridge to cognitive load',
+      id: 'falseVictory', title: 'Chapter 9: False Victory', short: 'Bridge to cognitive load',
       minutes: 3, core: true, background: 'overload_engine',
       teacher: {
         goal: 'Move from "what are the parts?" to "what happens when they are overloaded?"',
@@ -327,10 +327,10 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 10 ───────────────────────────── */
     {
-      id: 'loads', title: 'Chapter 10 — The Three Load Trials', short: 'Intrinsic · extraneous · germane',
+      id: 'loads', title: 'Chapter 10: The Three Load Trials', short: 'Intrinsic · extraneous · germane',
       minutes: 10, core: true, background: 'noisy_hall', sigils: ['intrinsic_load', 'extraneous_load', 'germane_load'],
       teacher: {
-        goal: 'Students experience each type of load and rate their effort — which is itself a way of measuring load.',
+        goal: 'Students experience each type of load and rate their effort, which is itself a way of measuring load.',
         say: 'After each trial, rate how hard your brain worked. That rating is a real research method: self-report.',
         ask: 'Which kind of load should a teacher try to remove first?',
         expect: 'Hard sums and cluttered screens both feel effortful, for different reasons. The second code should be faster once the pattern is known.',
@@ -357,14 +357,14 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 11 ───────────────────────────── */
     {
-      id: 'lecture', title: 'Chapter 11 — The Distracted Lecture', short: 'Multitasking · Sana et al.',
+      id: 'lecture', title: 'Chapter 11: The Distracted Lecture', short: 'Multitasking · Sana et al.',
       minutes: 10, core: true, background: 'mind_archive',
       teacher: {
         goal: 'Informal replication of Sana et al. (2013): does multitasking during learning reduce comprehension?',
         say: 'Each device is randomly given one of two conditions. Do not tell your neighbour which one you got until the end.',
         ask: 'What makes our class version weaker than the real experiment?',
-        expect: 'The pop-up group usually scores a little lower. With small groups it may not — that is a good discussion about sample size.',
-        fidelity: 'Short conceptual replication with random allocation per device. Use the class tally to compare groups.'
+        expect: 'The pop-up group usually scores a little lower. With small groups it may not: that is a good discussion about sample size.',
+        fidelity: 'Short conceptual replication with random allocation per device. On the tally screen, ask each group for their scores (hands up for 5, 4, 3…) and enter the group averages.'
       },
       screens: [
         { type: 'dialogue', speaker: 'Orin', expr: 'happy', text: 'I can listen to a lecture and clear a few messages. Easy.' },
@@ -378,7 +378,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 11b ───────────────────────────── */
     {
-      id: 'outsourced', title: 'Chapter 11½ — The Outsourced Memory', short: 'Google effect · Sparrow et al.',
+      id: 'outsourced', title: 'Chapter 11½: The Outsourced Memory', short: 'Google effect · Sparrow et al.',
       minutes: 6, core: false, background: 'pattern_shrine',
       teacher: {
         goal: 'A second environmental factor (technology) and a study that did not replicate: good material for evaluating research and for the HL extension.',
@@ -412,30 +412,30 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 12 ───────────────────────────── */
     {
-      id: 'worry', title: 'Chapter 12 — The Weight of Worry', short: 'Mani et al. · sugarcane farmers',
+      id: 'worry', title: 'Chapter 12: The Weight of Worry', short: 'Mani et al. · sugarcane farmers',
       minutes: 8, core: true, background: 'overload_engine',
       teacher: {
         goal: 'Show that extraneous load can come from inside: worry uses working memory too.',
         say: 'The farmers were not less intelligent before the harvest. They were carrying more.',
         ask: 'How did the researchers decide that cognitive load was high? Did they measure it directly?',
         expect: 'Key point: cognitive load was inferred (from income, or from a hypothetical car repair), not measured directly.',
-        fidelity: 'Animated study walkthrough only — financial stress cannot and should not be recreated in class.'
+        fidelity: 'Animated study walkthrough only: financial stress cannot and should not be recreated in class.'
       },
       screens: [
         { type: 'dialogue', speaker: 'Nova', expr: 'neutral', text: 'Pop-ups are one thing. What about a worry you cannot close?' },
         { type: 'study', studyId: 'mani', speaker: 'Selene', expr: 'teaching', text: 'Mani and colleagues tested this in two very different settings.' },
         { type: 'write', id: 'maniMeasure', minWords: 15, speaker: 'Selene', expr: 'neutral', text: 'This is exactly the kind of evaluation examiners look for.',
-          prompt: 'How was cognitive load operationalised in the two Mani et al. studies — and what is one limitation of that?',
+          prompt: 'How was cognitive load operationalised in the two Mani et al. studies, and what is one limitation of that?',
           hint: 'Lab study: a hypothetical car repair. Field study: before vs after the harvest. Was load ever measured directly?' }
       ]
     },
 
     /* ───────────────────────────── CHAPTER 13 ───────────────────────────── */
     {
-      id: 'measure', title: 'Chapter 13 — Measuring the Invisible', short: 'fNIRS · Modi et al. · measurement',
+      id: 'measure', title: 'Chapter 13: Measuring the Invisible', short: 'fNIRS · Modi et al. · measurement',
       minutes: 6, core: false, background: 'pattern_shrine',
       teacher: {
-        goal: 'Measurement: cognitive load can be measured by self-report, performance and physiology — none is perfect.',
+        goal: 'Measurement: cognitive load can be measured by self-report, performance and physiology. None is perfect.',
         say: 'Today you have used two of these methods already: effort ratings and reaction times.',
         ask: 'Which measure would you trust most for a surgeon mid-operation, and why?',
         expect: 'There is no single right answer; combining methods is the strongest approach.',
@@ -463,7 +463,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 13b: SURGE III ───────────────────────────── */
     {
-      id: 'surge3', title: 'Chapter 13½ — The Last Surge', short: 'Timed check · cognitive load',
+      id: 'surge3', title: 'Chapter 13½: The Last Surge', short: 'Timed check · cognitive load',
       minutes: 5, core: true, background: 'overload_engine',
       teacher: {
         goal: 'Timed retrieval practice on the cognitive load half of the lesson before the final challenge.',
@@ -509,7 +509,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── CHAPTER 14 ───────────────────────────── */
     {
-      id: 'boss', title: 'Chapter 14 — The Overload Engine', short: 'Final challenge',
+      id: 'boss', title: 'Chapter 14: The Overload Engine', short: 'Final challenge',
       minutes: 7, core: true, background: 'overload_engine',
       teacher: {
         goal: 'Apply everything: name the component, name the load, choose a fix.',
@@ -533,7 +533,7 @@ window.MEMORY_QUEST = {
 
     /* ───────────────────────────── EPILOGUE ───────────────────────────── */
     {
-      id: 'epilogue', title: 'Epilogue — Return to the Claim', short: 'Exam question + evidence PDF',
+      id: 'epilogue', title: 'Epilogue: Return to the Claim', short: 'Exam question + evidence PDF',
       minutes: 15, core: true, background: 'mind_archive',
       teacher: {
         goal: 'Return to the hook claim, recap the lesson, think like an examiner, write an application answer and save the evidence.',

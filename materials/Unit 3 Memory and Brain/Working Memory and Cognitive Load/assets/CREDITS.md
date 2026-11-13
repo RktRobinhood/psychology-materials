@@ -1,6 +1,6 @@
 # Credits
 
-## Sound effects — CC0 (public domain)
+## Sound effects: CC0 (public domain)
 From [Kenney](https://kenney.nl), converted to WAV and levelled for this lesson.
 
 | File | Source pack | Original |
@@ -12,10 +12,10 @@ From [Kenney](https://kenney.nl), converted to WAV and levelled for this lesson.
 | sigil, victory | Music Jingles | jingles_PIZZI03, jingles_PIZZI07 |
 | shatter | Impact Sounds | impactGlass_heavy_000 |
 
-## Frames — CC0 (public domain)
+## Frames: CC0 (public domain)
 `assets/ui/frame-*.png` and `divider-gold.png` are recoloured from Kenney's [Fantasy UI Borders](https://kenney.nl/assets/fantasy-ui-borders).
 
-## Icons — CC BY 3.0
+## Icons: CC BY 3.0
 Icons in `js/icons.js` are by **Lorc** and **Delapouite** from [game-icons.net](https://game-icons.net), licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
 
 ## Characters, backgrounds and concept icons

@@ -1,4 +1,4 @@
-/* Memory Quest — interactive tasks.
+/* Memory Quest: interactive tasks.
    Each game is fn(mount, done, ctx). ctx supplies cancellable timers (sleep/every),
    key handling, sound, speech and stored results; app.js cancels them when the screen changes. */
 (() => {
@@ -179,8 +179,8 @@
 
   /* ── 1. Digit span ───────────────────────────────────────── */
   async function digitSpan(mount, done, ctx) {
-    const { status, body } = header(mount, 'Memory Span Gate', 'Digits appear one at a time. Enter them in the same order.');
-    await gate(body, ['The list starts at <b>3 digits</b> and grows by one each time you get it right.', 'You get <b>two tries</b> at each length. Two misses and the gate closes.']);
+    const { status, body } = header(mount, 'Memory Span Gate');
+    await gate(body, ['The list starts at <b>3 digits</b> and grows by one each time you get it right.', '<b>Two tries</b> at each length. Two misses and the gate closes.']);
     body.innerHTML = '';
     const stim = h('div', 'big-stimulus');
     const slots = h('div', 'slots');
@@ -232,19 +232,19 @@
     body.innerHTML = '';
     status.textContent = 'Gate closed.';
     const big = h('div', 'big-result');
-    big.append(h('span', 'big-number', String(best)), h('span', '', best ? 'digits — your longest correct list' : 'digits — try again with Replay'));
+    big.append(h('span', 'big-number', String(best)), h('span', '', best ? 'digits: your longest correct list' : 'digits: try again with Replay'));
     body.append(big, verdict('Most people manage somewhere between 5 and 8. The exact number matters less than the pattern: everyone hits a limit.'));
     done({ span: best, summary: `Longest digit span: ${best}` });
   }
 
   /* ── 2. Articulatory suppression (Landry & Bartling) ─────── */
   async function letterRecall(mount, done, ctx) {
-    const { status, body } = header(mount, 'The Echo Chamber', 'Remember 7 letters in order. They stay on screen for 5 seconds, then you wait 5 seconds, then you answer.');
+    const { status, body } = header(mount, 'The Echo Chamber', '7 letters: shown for 5 seconds, then a 5-second wait, then you answer.');
     const scores = { normal: [], suppression: [] };
 
     async function trial(cond, n) {
       body.innerHTML = '';
-      status.textContent = `${cond === 'normal' ? 'Round 1 · quiet' : 'Round 2 · say "one, two" out loud'} — list ${n} of 3`;
+      status.textContent = `${cond === 'normal' ? 'Round 1 · quiet' : 'Round 2 · say "one, two" out loud'} · list ${n} of 3`;
       const stim = h('div', 'letter-stim');
       const chant = h('div', 'chant');
       const timer = h('div', 'timebar'); const fill = h('div'); timer.append(fill);
@@ -282,21 +282,21 @@
     }
 
     await gate(body, [
-      '<b>Round 1:</b> three lists. Just remember them, in silence.',
-      'Answer by tapping the letters in order (or typing them).'
+      '<b>Round 1:</b> three lists, in silence.',
+      'Answer by tapping or typing the letters in order.'
     ], 'Start round 1');
     for (let i = 1; i <= 3; i++) await trial('normal', i);
 
     await gate(body, [
       '<b>Round 2:</b> the same task, but say <b>"one, two, one, two…"</b> OUT LOUD, in time with the tick.',
-      'Start chanting when the ticking starts. <b>Keep going</b> until you have submitted your answer.'
+      '<b>Keep chanting</b> until you have submitted your answer.'
     ], 'Start round 2');
     for (let i = 1; i <= 3; i++) await trial('suppression', i);
 
     const normal = pct(scores.normal.reduce((a, b) => a + b, 0), 21);
     const suppression = pct(scores.suppression.reduce((a, b) => a + b, 0), 21);
     body.innerHTML = '';
-    status.textContent = 'Results — letters recalled in the correct position';
+    status.textContent = 'Results: letters recalled in the correct position';
     body.append(bars([
       { label: 'You · quiet', value: normal, max: 100, text: normal + '%', tone: 'you' },
       { label: 'You · chanting', value: suppression, max: 100, text: suppression + '%', tone: 'you alt' },
@@ -304,8 +304,8 @@
       { label: 'Study · suppression', value: 45, max: 100, text: '45%', tone: 'study alt' }
     ], 'Landry & Bartling (2011) found 76% vs 45%'));
     body.append(verdict(suppression < normal
-      ? `Chanting cost you ${normal - suppression} percentage points — the same direction as the original study.`
-      : 'Your two rounds were similar. Small samples are noisy — compare with the class. (Did you really chant out loud the whole time?)'));
+      ? `Chanting cost you ${normal - suppression} percentage points, the same direction as the original study.`
+      : 'Your two rounds were similar. Small samples are noisy: compare with the class. (Did you really chant out loud the whole time?)'));
     done({ normal, suppression, summary: `Quiet: ${normal}% · Chanting "1-2": ${suppression}%` });
   }
 
@@ -341,7 +341,7 @@
 
   /* ── 3. Spatial span (Corsi-style) ───────────────────────── */
   async function spatialSpan(mount, done, ctx) {
-    const { status, body } = header(mount, 'The Map of Shards', 'Tiles light up one at a time. Tap the same tiles in the same order.');
+    const { status, body } = header(mount, 'The Map of Shards');
     await gate(body, ['Starts at <b>3 tiles</b>. Each correct answer adds one.', 'Two misses at the same length ends the run.']);
     body.innerHTML = '';
     const { grid, cells } = makeGrid(4);
@@ -365,20 +365,20 @@
     body.innerHTML = '';
     status.textContent = 'Route complete.';
     const big = h('div', 'big-result');
-    big.append(h('span', 'big-number', String(best)), h('span', '', 'tiles — your longest correct route'));
+    big.append(h('span', 'big-number', String(best)), h('span', '', 'tiles: your longest correct route'));
     body.append(big, verdict('Did you picture the route, or name the squares to yourself? If you named them, you were borrowing the phonological loop.'));
     done({ span: best, summary: `Longest spatial span: ${best}` });
   }
 
   /* ── 4. Dual task: spatial memory + verbal vs spatial secondary task ── */
   async function dualTask(mount, done, ctx) {
-    const { status, body } = header(mount, 'Twin Paths', 'Remember a 5-tile route on the grid. While you remember it, you also do a second task.');
+    const { status, body } = header(mount, 'Twin Paths', 'Hold a 5-tile route in mind while you do a second task.');
     const results = { verbal: [], spatial: [], taps: [0, 0] };
     const LEN = 5;
 
     async function trial(kind, n) {
       body.innerHTML = '';
-      status.textContent = `${kind === 'verbal' ? 'Condition A · chant "the, the, the"' : 'Condition B · tap the glowing pad'} — route ${n} of 3`;
+      status.textContent = `${kind === 'verbal' ? 'Condition A · chant "the, the, the"' : 'Condition B · tap the glowing pad'} · route ${n} of 3`;
       const area = h('div', 'dual-area');
       const { grid, cells } = makeGrid(4);
       const side = h('div', 'dual-side');
@@ -430,14 +430,14 @@
     const v = pct(results.verbal.reduce((a, b) => a + b, 0), LEN * 3);
     const s = pct(results.spatial.reduce((a, b) => a + b, 0), LEN * 3);
     body.innerHTML = '';
-    status.textContent = 'Results — route tiles recalled in the right place';
+    status.textContent = 'Results: route tiles recalled in the right place';
     body.append(bars([
       { label: 'Route + chanting (different systems)', value: v, max: 100, text: v + '%', tone: 'you' },
       { label: 'Route + tapping (same system)', value: s, max: 100, text: s + '%', tone: 'you alt' }
     ]));
     body.append(verdict(s < v
-      ? 'Tapping hurt more than chanting — the two spatial tasks competed for the visuospatial sketchpad.'
-      : 'Your results did not show the usual pattern. That happens with small samples — check the class pattern.'));
+      ? 'Tapping hurt more than chanting: the two spatial tasks competed for the visuospatial sketchpad.'
+      : 'Your results did not show the usual pattern. That happens with small samples: check the class pattern.'));
     done({ verbal: v, spatial: s, summary: `Route + chanting: ${v}% · Route + tapping: ${s}%` });
   }
 
@@ -490,7 +490,7 @@
     const iRT = median(inc.filter(x => x.correct).map(x => x.rt));
     const cErr = c.filter(x => !x.correct).length, iErr = inc.filter(x => !x.correct).length;
     body.innerHTML = '';
-    status.textContent = 'Results — typical (median) response time';
+    status.textContent = 'Results: typical (median) response time';
     const max = Math.max(cRT, iRT, 1) * 1.15;
     body.append(bars([
       { label: 'Word matches ink', value: cRT, max, text: `${cRT} ms · ${cErr} errors`, tone: 'you' },
@@ -498,13 +498,13 @@
     ]));
     body.append(verdict(iRT > cRT
       ? `The clash cost you ${iRT - cRT} ms per word. That extra time is your central executive blocking the urge to read.`
-      : 'No slowdown this time — did you make more errors on the clashing words instead?'));
+      : 'No slowdown this time. Did you make more errors on the clashing words instead?'));
     done({ congruent: cRT, incongruent: iRT, cost: iRT - cRT, errors: cErr + iErr, summary: `Match: ${cRT} ms · Clash: ${iRT} ms · Cost: ${iRT - cRT} ms · Errors: ${cErr + iErr}` });
   }
 
   /* ── 6. Task switching ───────────────────────────────────── */
   async function taskSwitch(mount, done, ctx) {
-    const { status, body } = header(mount, 'The Switchyard', 'The rule tells you what to sort by. Left = RED or CIRCLE. Right = BLUE or SQUARE.');
+    const { status, body } = header(mount, 'The Switchyard');
     await gate(body, [
       'If the rule says <b>COLOUR</b>: red → left, blue → right.',
       'If the rule says <b>SHAPE</b>: circle → left, square → right.',
@@ -551,19 +551,19 @@
     const a = median(rep.filter(x => x.correct).map(x => x.rt)), b = median(sw.filter(x => x.correct).map(x => x.rt));
     const eRep = rep.filter(x => !x.correct).length, eSw = sw.filter(x => !x.correct).length;
     body.innerHTML = '';
-    status.textContent = 'Results — typical (median) response time';
+    status.textContent = 'Results: typical (median) response time';
     const max = Math.max(a, b, 1) * 1.15;
     body.append(bars([
       { label: 'Same rule as before', value: a, max, text: `${a} ms · ${eRep} errors`, tone: 'you' },
       { label: 'Rule just switched', value: b, max, text: `${b} ms · ${eSw} errors`, tone: 'you alt' }
     ]));
-    body.append(verdict(b > a ? `Each switch cost you about ${b - a} ms.` : 'No time cost this run — check your errors on switch trials.'));
+    body.append(verdict(b > a ? `Each switch cost you about ${b - a} ms.` : 'No time cost this run. Check your errors on switch trials.'));
     done({ repeat: a, switch: b, cost: b - a, summary: `Repeat: ${a} ms · Switch: ${b} ms · Cost: ${b - a} ms` });
   }
 
   /* ── 7. Story Loom (episodic buffer) ─────────────────────── */
   async function storyLoom(mount, done, ctx) {
-    const { status, body } = header(mount, 'The Story Loom', 'Watch the scene AND listen to the message. You will need both.');
+    const { status, body } = header(mount, 'The Story Loom');
     const message = MQVoice.loom.text;
     await gate(body, ['Turn your sound on. The scene and the spoken message each contain different details.'], 'Play the scene');
     body.innerHTML = '';
@@ -618,7 +618,7 @@
 
   /* ── 8a. Intrinsic load ──────────────────────────────────── */
   async function intrinsicTrial(mount, done, ctx) {
-    const { status, body } = header(mount, 'Chamber of Intrinsic Load', 'Pick the bigger value. Same layout both times — only the problems change.');
+    const { status, body } = header(mount, 'Chamber of Intrinsic Load', 'Pick the bigger value.');
     const easy = () => { let a, b; do { a = 10 + rand(89); b = 10 + rand(89); } while (a === b); return { l: String(a), r: String(b), lv: a, rv: b }; };
     const hard = () => {
       let L, R;
@@ -633,7 +633,7 @@
     async function block(label, gen) {
       const res = { correct: 0, times: [] };
       for (let i = 0; i < 4; i++) {
-        status.textContent = `${label} — problem ${i + 1} of 4`;
+        status.textContent = `${label} · problem ${i + 1} of 4`;
         body.innerHTML = '';
         const p = gen();
         const row = h('div', 'compare-row');
@@ -650,9 +650,9 @@
       res.effort = await effort(body);
       return res;
     }
-    await gate(body, ['<b>Part A:</b> compare two numbers.', '<b>Part B:</b> compare two sums — do them in your head.']);
+    await gate(body, ['<b>Part A:</b> compare two numbers.']);
     const a = await block('Part A', easy);
-    await gate(body, ['<b>Part B:</b> now each side is a sum. Work them out in your head.'], 'Start part B');
+    await gate(body, ['<b>Part B:</b> now each side is a sum. Work it out in your head.'], 'Start part B');
     const b = await block('Part B', hard);
     const ta = (mean(a.times) / 1000).toFixed(1), tb = (mean(b.times) / 1000).toFixed(1);
     body.innerHTML = '';
@@ -675,7 +675,7 @@
     async function block(noisy) {
       const res = { correct: 0, times: [] };
       for (let i = 0; i < 3; i++) {
-        status.textContent = `${noisy ? 'Noisy room' : 'Clean room'} — search ${i + 1} of 3`;
+        status.textContent = `${noisy ? 'Noisy room' : 'Clean room'} · search ${i + 1} of 3`;
         body.innerHTML = '';
         const syms = shuffle(POOL);
         const target = syms[0];
@@ -699,7 +699,7 @@
       res.effort = await effort(body);
       return res;
     }
-    await gate(body, ['<b>Round 1:</b> a clean, calm room.', '<b>Round 2:</b> the same search… in the Noisy Hall.']);
+    await gate(body, ['<b>Round 1:</b> a clean, calm room.']);
     const clean = await block(false);
     await gate(body, ['<b>Round 2:</b> same task. Different room. Ignore everything else.'], 'Enter the Noisy Hall');
     const noisy = await block(true);
@@ -756,7 +756,7 @@
       const check = () => {
         tries++;
         if (input.value.trim().toUpperCase() === answer) { ctx.sound('correct'); resolveCode({ time: performance.now() - t0, tries, gaveUp: false }); }
-        else { ctx.sound('wrong'); fb.textContent = 'Not yet — try again.'; input.select(); }
+        else { ctx.sound('wrong'); fb.textContent = 'Not yet. Try again.'; input.select(); }
       };
       input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
       if (withHint) {
@@ -776,7 +776,7 @@
     worked.innerHTML = `<h3>${c1.gaveUp ? 'The answer was HELLO.' : 'Cracked: HELLO.'} Here is the pattern:</h3>
       <div class="worked-row"><span>I→H</span><span>F→E</span><span>M→L</span><span>M→L</span><span>P→O</span></div>
       <p>Every letter was moved <b>one step forward</b> in the alphabet. To decode, move each one step back.</p>
-      <p class="muted">You just built a <b>schema</b> — a pattern you can reuse.</p>`;
+      <p class="muted">You just built a <b>schema</b>: a pattern you can reuse.</p>`;
     body.append(worked);
     await new Promise(r => body.append(btn('Try code 2', r, 'jrpg-btn primary big')));
     status.textContent = 'Code 2';
@@ -801,14 +801,14 @@
   async function microLecture(mount, done, ctx) {
     let condition = ctx.remember('sanaCondition');
     if (!condition) condition = ctx.remember('sanaCondition', Math.random() < .5 ? 'focus' : 'multitask');
-    const label = condition === 'focus' ? 'Group F — Focus' : 'Group M — Multitask';
+    const label = condition === 'focus' ? 'Group F: Focus' : 'Group M: Multitask';
     const { status, body } = header(mount, 'The Distracted Lecture', '');
     const READ = 50;
     await gate(body, [
       `Your device has been randomly placed in <b class="cond">${label}</b>.`,
       condition === 'focus'
         ? 'Read the lesson carefully. You have 50 seconds.'
-        : 'Read the lesson carefully. You have 50 seconds. <b>Messages will pop up — answer each one.</b>',
+        : 'Read the lesson carefully. You have 50 seconds. <b>Messages will pop up. Answer each one.</b>',
       'Then there is a 5-question quiz. Remember your group!'
     ], 'Start reading');
     body.innerHTML = '';
@@ -816,7 +816,7 @@
     lesson.innerHTML = `<h3>Signal Towers</h3>
       <p>Before the telegraph, some countries sent messages using chains of signal towers built on hilltops. Each tower had large wooden arms that could be set in different positions. Every position stood for a letter or a word in a shared code book.</p>
       <p>An operator watched the next tower through a telescope, copied its signal, and passed it on. Because each tower had to see the next one, fog and darkness stopped the whole line.</p>
-      <p>A message could cross a country in a few hours instead of the days a rider needed. But one careless operator could copy a signal wrongly — and the mistake travelled down the whole line.</p>`;
+      <p>A message could cross a country in a few hours instead of the days a rider needed. But one careless operator could copy a signal wrongly, and the mistake travelled down the whole line.</p>`;
     const timer = h('div', 'timebar'); const fill = h('div'); timer.append(fill);
     body.append(timer, lesson);
     fill.style.animation = `drain ${READ}s linear forwards`;
@@ -882,11 +882,11 @@
     const scenarios = [
       { q: 'Sam memorises a phone number by repeating it silently while someone reads out a list of names.', o: ['Two tasks competing for the phonological loop', 'Two tasks competing for the visuospatial sketchpad', 'No competition at all'], why: 'Both the number and the names are sounds or words, so they fight over the phonological loop.' },
       { q: 'Aisha drives a familiar route while chatting to a passenger. She copes fine.', o: ['Different components are used, so they clash less', 'The central executive has unlimited capacity', 'Driving uses the phonological loop'], why: 'Driving is mostly visuospatial; talking is phonological. Different components can run side by side.' },
-      { q: 'A student keeps reading the word instead of naming its ink colour.', o: ['The central executive failing to block an automatic response', 'The episodic buffer is full', 'Intrinsic load from a hard task'], why: 'Blocking a habit (reading) is an executive control job — the Stroop effect.' },
-      { q: 'A revision sheet has tiny text, flashing banners and the instructions on a different page from the questions.', o: ['Extraneous load', 'Intrinsic load', 'Germane load'], why: 'None of that clutter is part of the content. It is extraneous load — and it can be removed.' },
-      { q: 'A first-time learner finds balancing chemical equations hard even in a silent room.', o: ['Intrinsic load — the task has many parts to combine', 'Extraneous load from the room', 'Phonological loop overload'], why: 'The difficulty is built into the task. Break it into steps and use worked examples.' },
+      { q: 'A student keeps reading the word instead of naming its ink colour.', o: ['The central executive failing to block an automatic response', 'The episodic buffer is full', 'Intrinsic load from a hard task'], why: 'Blocking a habit (reading) is an executive control job: the Stroop effect.' },
+      { q: 'A revision sheet has tiny text, flashing banners and the instructions on a different page from the questions.', o: ['Extraneous load', 'Intrinsic load', 'Germane load'], why: 'None of that clutter is part of the content. It is extraneous load, and it can be removed.' },
+      { q: 'A first-time learner finds balancing chemical equations hard even in a silent room.', o: ['Intrinsic load: the task has many parts to combine', 'Extraneous load from the room', 'Phonological loop overload'], why: 'The difficulty is built into the task. Break it into steps and use worked examples.' },
       { q: 'After studying three worked examples, a student solves a new problem of the same type much faster.', o: ['A schema has formed, lowering the load (germane effort paid off)', 'Their working memory capacity doubled', 'The problem had no intrinsic load'], why: 'Effort spent understanding built a schema in long-term memory, freeing working memory.' },
-      { q: 'Farmers score higher on reasoning tests after the harvest than before it.', o: ['Money worries take up working memory (extraneous load)', 'The harvest improves intelligence', 'They practised the test'], why: 'Mani et al. (2013): worry about money uses up capacity — the same people did better once the worry eased. (Practice is a fair limitation to discuss, though!)' },
+      { q: 'Farmers score higher on reasoning tests after the harvest than before it.', o: ['Money worries take up working memory (extraneous load)', 'The harvest improves intelligence', 'They practised the test'], why: 'Mani et al. (2013): worry about money uses up capacity, and the same people did better once the worry eased. (Practice is a fair limitation to discuss, though!)' },
       { q: 'A student studying for an exam tomorrow wants the best conditions. Which is best?', o: ['Phone in another room, quiet space, past-paper practice', 'Music with lyrics and notifications on', 'Switch subject every five minutes'], why: 'Remove extraneous load, avoid switch costs, and build schemas through practice.' }
     ].map(s => ({ ...s, answer: s.o[0] }));
     const hp = h('div', 'boss-hp');
@@ -916,7 +916,7 @@
     status.textContent = '';
     const win = score >= 6;
     const big = h('div', 'big-result');
-    big.append(h('span', 'big-number', `${score}/${scenarios.length}`), h('span', '', win ? 'The Engine is broken. The Archive is safe.' : 'The Engine is weakened — replay to finish it off.'));
+    big.append(h('span', 'big-number', `${score}/${scenarios.length}`), h('span', '', win ? 'The Engine is broken. The Archive is safe.' : 'The Engine is weakened. Replay to finish it off.'));
     body.append(big);
     if (win) ctx.sound('victory');
     done({ score, of: scenarios.length, summary: `Final challenge: ${score}/${scenarios.length}` });
@@ -926,5 +926,12 @@
     digitSpan, letterRecall, spatialSpan, dualTask, stroop, taskSwitch, storyLoom,
     intrinsicTrial, extraneousTrial, germaneTrial, microLecture, bossBattle
   };
-  window.MQHelpers = { h, btn, shuffle, bars, verdict, reveal, explain };
+  /* House style has no em dashes. Voiced lines keep theirs in the data (the wording names the
+     audio file), so they are swapped for a comma or colon only when shown on screen. */
+  const tidy = s => String(s ?? '')
+    .replace(/ — ([^—.?!]*?) — /g, ', $1, ')
+    .replace(/ — (?=(?:and|but|even|if|with|without|leaving)\b)/g, ', ')
+    .replace(/([^.?!>]*) — /g, (m, before) => before + (before.includes(': ') ? ', ' : ': '));
+
+  window.MQHelpers = { h, btn, shuffle, bars, verdict, reveal, explain, tidy };
 })();

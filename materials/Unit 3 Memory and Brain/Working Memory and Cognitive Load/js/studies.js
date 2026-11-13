@@ -1,7 +1,7 @@
-/* Memory Quest — evidence files (step-through study walkthroughs) and the interactive model.
+/* Memory Quest: evidence files (step-through study walkthroughs) and the interactive model.
    Wording is original; figures come from the published studies. */
 (() => {
-  const { h, btn, bars } = window.MQHelpers;
+  const { h, btn, bars, tidy } = window.MQHelpers;
   const ic = (name, cls = '') => {
     const d = window.MQIcons && window.MQIcons[name];
     return d ? `<svg class="gi ${cls}" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="${d}"/></svg>` : '';
@@ -215,7 +215,7 @@
       [...dots.children].forEach((d, n) => { d.classList.toggle('on', n === i); d.classList.toggle('seen', n < i || d.classList.contains('seen')); });
       card.innerHTML = '';
       const text = h('div', 'study-text');
-      text.innerHTML = withIcons(`<div class="step-tag">${s.tag}</div><h3>${s.title}</h3>${s.html}`);
+      text.innerHTML = withIcons(`<div class="step-tag">${s.tag}</div><h3>${tidy(s.title)}</h3>${tidy(s.html)}`);
       card.append(text);
       const extra = resultPanel(study, s, ctx);
       if (extra || s.visual) {
@@ -260,11 +260,11 @@
 
   function renderModel(mount, done, ctx) {
     mount.innerHTML = '';
-    mount.append(h('h2', 'game-title', 'The Working Memory Model'), h('p', 'game-instruction', 'Baddeley & Hitch (1974), with the episodic buffer added by Baddeley (2000). Tap each part.'));
+    mount.append(h('h2', 'game-title', 'The Working Memory Model'), h('p', 'game-instruction', 'Baddeley & Hitch (1974). Episodic buffer added by Baddeley (2000).'));
     const wrap = h('div', 'wmm');
     const diagram = h('div', 'wmm-diagram');
     const info = h('div', 'wmm-info');
-    info.innerHTML = '<p class="muted">Tap a component to open it.</p>';
+    info.innerHTML = '<p class="muted">Tap a part to open it.</p>';
     const opened = new Set();
     PARTS.forEach(p => {
       const node = btn('', () => open(p, node), `wmm-node ${p.id} ${p.tone}`);
@@ -279,7 +279,7 @@
       opened.add(p.id);
       [...diagram.querySelectorAll('.wmm-node')].forEach(n => n.classList.remove('active'));
       node.classList.add('active', 'seen');
-      info.innerHTML = `<h3>${p.name}</h3><p>${p.text}</p><p class="you">${p.you}</p><p class="count">${opened.size} of ${PARTS.length} opened</p>`;
+      info.innerHTML = `<h3>${p.name}</h3><p>${p.text}</p><p class="you">${tidy(p.you)}</p><p class="count">${opened.size} of ${PARTS.length} opened</p>`;
       if (ctx && ctx.say) { const l = MQVoice.partLine(p); ctx.say(l.who, l.text); }
       if (opened.size === PARTS.length) done({ viewed: true });
     }

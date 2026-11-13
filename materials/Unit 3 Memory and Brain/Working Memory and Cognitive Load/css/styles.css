@@ -1,4 +1,4 @@
-/* Memory Quest — dark fantasy archive with parchment dialogue (from the ChatGPT style boards). */
+/* Memory Quest: dark fantasy archive with parchment dialogue (from the ChatGPT style boards). */
 :root {
   --bg: #070b10;
   --panel: rgba(9, 14, 21, .93);
@@ -342,7 +342,8 @@ button:disabled { cursor: default; }
 .study-nav { display: flex; justify-content: space-between; margin-top: 14px; }
 
 /* study visuals */
-.v-letters { display: flex; gap: 6px; }
+.v-letters { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.study-text, .study-visual { min-width: 0; }
 .v-letters span { width: 44px; height: 54px; display: grid; place-items: center; font: 800 28px var(--f-ui); background: #1d2a38; color: #fff; border-radius: 8px; animation: fadein .4s both; }
 .v-letters span:nth-child(2) { animation-delay: .08s; } .v-letters span:nth-child(3) { animation-delay: .16s; } .v-letters span:nth-child(4) { animation-delay: .24s; } .v-letters span:nth-child(5) { animation-delay: .32s; } .v-letters span:nth-child(6) { animation-delay: .4s; } .v-letters span:nth-child(7) { animation-delay: .48s; }
 .v-groups { display: flex; gap: 16px; }
@@ -558,8 +559,8 @@ button:disabled { cursor: default; }
 .recap-levels { display: flex; gap: 6px; }
 .recap-levels .answer-btn { min-width: 0; padding: 6px 10px; font-size: 14px; }
 .recap-levels .answer-btn.chosen { background: #5a4520; border-color: var(--gold-bright); color: #fff3d6; }
-.recap-remind { max-width: 820px; margin: 8px auto 0; height: 3.6em; overflow: hidden; padding: 6px 12px; border-radius: 6px; font-size: 15px; line-height: 1.2; color: var(--muted); border: 1px dashed rgba(233, 189, 104, .3); }
-.recap-remind.on { color: #ffe9bd; background: rgba(233, 189, 104, .08); }
+.recap-remind { max-width: 820px; margin: 8px auto 0; height: 3.6em; overflow: hidden; padding: 6px 12px; border-radius: 6px; font-size: 15px; line-height: 1.2; color: var(--muted); border: 1px dashed transparent; }
+.recap-remind.on { color: #ffe9bd; background: rgba(233, 189, 104, .08); border-color: rgba(233, 189, 104, .3); }
 .recap-nav { display: flex; justify-content: center; gap: 10px; margin-top: 8px; }
 @media (max-width: 760px) { .recap-item { grid-template-columns: 1fr; } .recap-remind { height: auto; } }
 

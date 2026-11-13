@@ -1,7 +1,7 @@
-/* Memory Quest — lesson engine: navigation, screens, teacher tools, evidence PDF. */
+/* Memory Quest: lesson engine: navigation, screens, teacher tools, evidence PDF. */
 (() => {
   const data = window.MEMORY_QUEST;
-  const { h, btn, shuffle, bars, reveal, explain } = window.MQHelpers;
+  const { h, btn, shuffle, bars, reveal, explain, tidy } = window.MQHelpers;
   const $ = id => document.getElementById(id);
   const els = {
     scene: $('scene'), portrait: $('portraitImg'), portraitStage: $('portraitStage'),
@@ -254,10 +254,9 @@
         <p class="kicker">IB Psychology · Cognitive approach</p>
         <h1 class="logo">Memory <em>Quest</em></h1>
         <p class="logo-sub">The Mind Archive</p>
-        <p class="lede">The Archive is failing. Five guides, fourteen chambers, one question: <b>is something broken — or is it simply overloaded?</b> Along the way you will test your own working memory and discover how cognitive load works.</p>
+        <p class="lede">The Archive is failing. <b>Is something broken, or is it simply overloaded?</b> Test your own working memory to find out.</p>
         <div class="party"></div>
-        <div class="meta-row"><span><b>~90 min</b> core · optional extras</span><span><b>Sound on</b> for some tasks</span><span><b>Evidence PDF</b> at the end</span></div>
-        <div class="attendance"><b>Working alone?</b> That is how it is built: go at your own pace, and use headphones for the sound tasks. <b>Attendance:</b> the final screen saves your evidence. Upload it to <b>Elevfeedback</b>.</div>
+        <div class="meta-row"><span><b>About ${Math.round(data.chapters.filter(c => c.core).reduce((n, c) => n + c.minutes, 0) / 10) * 10} min</b>, plus optional chapters</span><span><b>Headphones</b> for the sound tasks</span><span><b>Evidence PDF</b> at the end, for Elevfeedback</span></div>
       </div>`;
     const party = p.querySelector('.party');
     Object.entries(data.characters).forEach(([name, c]) => {
@@ -274,7 +273,7 @@
     const card = h('div', 'keyfact');
     card.innerHTML = `
       ${sc.icon ? `<img class="keyfact-icon" src="assets/icons/${sc.icon}.webp" alt="">` : ''}
-      <div><div class="keyfact-label">Key idea</div><h2>${esc(sc.title || '')}</h2><p class="keyfact-main">${esc(sc.text)}</p>${sc.detail ? `<p class="keyfact-detail">${esc(sc.detail)}</p>` : ''}</div>`;
+      <div><div class="keyfact-label">Key idea</div><h2>${esc(sc.title || '')}</h2><p class="keyfact-main">${esc(tidy(sc.text))}</p>${sc.detail ? `<p class="keyfact-detail">${esc(tidy(sc.detail))}</p>` : ''}</div>`;
     p.append(card);
     // The dialogue box would repeat the card, so it gives a spoken-style cue instead.
     typeText(sc.title ? `Remember this: ${sc.title.toLowerCase()}.` : '');
@@ -285,8 +284,8 @@
     const v = data.meta.video;
     const p = els.panel;
     const url = `https://www.youtube.com/watch?v=${v.id}&t=${v.start}s`;
-    p.innerHTML = `<h2 class="game-title">Opening hook</h2>
-      <p class="game-instruction">Watch from the start to about <b>4:05</b> (the part about executive function). Your teacher may pause earlier.</p>
+    p.innerHTML = `<h2 class="game-title">The rumour</h2>
+      <p class="game-instruction">Watch from the start to about <b>4:05</b>.</p>
       <div class="video-frame"><iframe title="Hook video: Why are humans dumber now?" src="https://www.youtube-nocookie.com/embed/${v.id}?start=${v.start}&end=${v.end}&rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
       <p class="video-fallback">Video not playing? <a href="${url}" target="_blank" rel="noopener">Open it on YouTube ↗</a></p>`;
   }
@@ -365,7 +364,7 @@
           record.firstTry = sc.items.length - missed.size;
           state.checks[sc.id] = record;
           save();
-          p.append(h('p', 'verdict', `All sorted — ${record.firstTry}/${sc.items.length} right first time.`));
+          p.append(h('p', 'verdict', `All sorted: ${record.firstTry}/${sc.items.length} right first time.`));
           markDone();
         }
       } else {
@@ -444,10 +443,10 @@
       const best = state.checks[sc.id];
       const box = h('div', 'brief');
       box.innerHTML = `<p>${n} questions. Get <b>${sc.pass} or more</b> right to hold back the Static.</p>
-        <p>${state.calm ? 'Calm mode is on: no clock.' : `You have <b>${sc.seconds} seconds</b> per question. The explanation after each answer is untimed, so read it.`}</p>
+        <p>${state.calm ? 'Calm mode is on: no clock.' : `<b>${sc.seconds} seconds</b> per question. The explanations are untimed, so read them.`}</p>
         ${best ? `<p class="muted">Your best so far: ${best.score}/${best.total}${best.calm ? ' (calm mode)' : ''}.</p>` : ''}`;
       const calm = h('label', 'switch calm-switch');
-      calm.innerHTML = `<input type="checkbox" ${state.calm ? 'checked' : ''}> <span>Calm mode: no timer (for anyone who needs it)</span>`;
+      calm.innerHTML = `<input type="checkbox" ${state.calm ? 'checked' : ''}> <span>Calm mode: no timer</span>`;
       calm.querySelector('input').onchange = e => { state.calm = e.target.checked; save(); intro(); };
       const go = btn('Face the surge ▸', play, 'jrpg-btn primary big');
       box.append(calm, go);
@@ -533,7 +532,7 @@
     p.append(h('h2', 'game-title', 'What can you do now?'), head, list, remindBox, nav);
     const check = () => { if (sc.items.every((_, k) => ratings[k])) markDone(); };
     function draw() {
-      head.textContent = `${names[page] || `Part ${page + 1}`} · rate yourself honestly. Tap ? for a reminder.`;
+      head.textContent = `${names[page] || `Part ${page + 1}`}. Tap ? for a reminder.`;
       remindBox.textContent = '';
       remindBox.classList.remove('on');
       list.innerHTML = '';
@@ -578,7 +577,7 @@
     }
     const ta = h('textarea', 'answer-box' + (sc.large ? ' large' : ''));
     ta.value = state.writes[sc.id] || '';
-    ta.placeholder = 'Type your answer here. It is saved automatically and goes into your PDF.';
+    ta.placeholder = 'Type your answer here. It goes into your PDF.';
     const count = h('div', 'word-count');
     const min = sc.minWords || 10;
     const upd = () => {
@@ -598,21 +597,21 @@
   const TALLIES = {
     echoTally: {
       title: 'Class results: quiet vs chanting',
-      help: 'Working alone? You can skip the boxes: the next screen compares your own result with the study. In class, the teacher asks for a show of hands in 10% bands and enters a rough class average.',
+      help: 'For class use: your teacher enters the class averages. Working alone? Skip the boxes.',
       max: 100, unit: '%',
       fields: [['quiet', 'Class · quiet'], ['chant', 'Class · chanting']],
       mine: () => { const r = state.results['echo:letterRecall']; return r && `You scored ${r.normal}% quiet and ${r.suppression}% while chanting.`; },
       extra: [{ label: 'Study · control', value: 76, tone: 'study' }, { label: 'Study · suppression', value: 45, tone: 'study alt' }],
-      verdict: (a, b) => b < a ? 'The class dropped when chanting — the same direction as Landry & Bartling.' : 'No drop this time. Did everyone really chant out loud?'
+      verdict: (a, b) => b < a ? 'The class dropped when chanting, the same direction as Landry & Bartling.' : 'No drop this time. Did everyone really chant out loud?'
     },
     sanaTally: {
       title: 'Class results: Focus vs Multitask',
-      help: 'Working alone? You can skip the boxes: the next screen shows what the real study found. In class, the teacher asks each group for their scores (hands up for 5, 4, 3…) and enters the group averages.',
+      help: 'For class use: your teacher enters the group averages. Working alone? Skip the boxes.',
       max: 5, unit: '/5',
-      fields: [['focus', 'Group F · Focus'], ['multi', 'Group M · Multitask']],
+      fields: [['focus', 'Group F: Focus'], ['multi', 'Group M: Multitask']],
       mine: () => { const r = state.results['lecture:microLecture']; return r && `You were in ${r.condition === 'focus' ? 'Group F (Focus)' : 'Group M (Multitask)'} and scored ${r.score}/5.`; },
       extra: [],
-      verdict: (a, b) => b < a ? 'The multitask group learned less — the same direction as Sana et al.' : 'No difference this time. Think about sample size, and whether everyone read carefully.'
+      verdict: (a, b) => b < a ? 'The multitask group learned less, the same direction as Sana et al.' : 'No difference this time. Think about sample size, and whether everyone read carefully.'
     }
   };
 
@@ -655,7 +654,7 @@
   function finish() {
     const p = els.panel;
     p.innerHTML = `<h2 class="game-title">Your evidence of work</h2>
-      <p class="game-instruction">Enter your details, then save your evidence. Everything you did today is included automatically.</p>
+      <p class="game-instruction">Enter your name and class, download your evidence, then upload it to <b>Elevfeedback</b> before you leave.</p>
       <div class="finish-grid">
         <label class="tally-field"><span>Name</span><input id="subName" autocomplete="name"></label>
         <label class="tally-field"><span>Class / group</span><input id="subGroup"></label>
@@ -665,10 +664,9 @@
           <div class="summary"></div>
           <button class="jrpg-btn primary big" id="pdfBtn">Download evidence PDF</button>
           <div id="pdfStatus" class="pdf-status" role="status"></div>
-          <div class="attendance"><b>Required:</b> upload your evidence to <b>Elevfeedback</b> before you leave.</div>
         </div>
         <div class="save-help" id="saveHelp">
-          <p class="save-help-head">Download failed, or the PDF will not open? Try these in order:</p>
+          <p class="save-help-head">PDF not working? Try these in order:</p>
           <div class="save-options">
             <button type="button" class="jrpg-btn secondary" id="openBtn">1 · Open PDF in a new tab</button>
             <button type="button" class="jrpg-btn secondary" id="printBtn">2 · Print → Save as PDF</button>
@@ -686,7 +684,7 @@
     const secs = collectSections();
     const done = secs.reduce((n, s) => n + s.items.filter(i => !i.missing).length, 0);
     const all = secs.reduce((n, s) => n + s.items.length, 0);
-    sumEl.innerHTML = `<b>${done}</b> of <b>${all}</b> activities recorded.` + (done < all ? ' <span class="muted">Missing ones show as "not completed". Optional chapters are fine to skip; use the chapter menu (☰) to go back to anything else.</span>' : '');
+    sumEl.innerHTML = `<b>${done}</b> of <b>${all}</b> activities recorded.` + (done < all ? ' <span class="muted">Optional chapters are fine to skip. Use the menu (☰) to go back to anything else.</span>' : '');
     ensurePdfLib(); // start loading now so the click is quick
     const status = (t, ok) => { st.textContent = t; st.className = 'pdf-status ' + (ok ? 'ok' : 'error'); };
     const who = () => {
@@ -745,7 +743,7 @@
     data.chapters.forEach((c, i) => {
       if (!c.core) return;
       c.screens.forEach((sc, k) => { if (GATED.has(sc.type)) { need++; if (state.done[key(i, k)]) got++; } });
-      if (!chapterComplete(i)) unfinished.push(c.title.split(/ [—-] /).pop());
+      if (!chapterComplete(i)) unfinished.push(c.title.replace(/^[^:]+: /, ''));
     });
     const progress = [
       item('Core activities completed', `${got} of ${need}`),
@@ -980,12 +978,12 @@
       const core = data.chapters.filter(c => c.core).reduce((n, c) => n + c.minutes, 0);
       const all = data.chapters.reduce((n, c) => n + c.minutes, 0);
       body = `<p>Full quest ≈ <b>${all} min</b>. Core chapters only ≈ <b>${core} min</b>. Skip optional chapters from the ☰ menu.</p>
-        <ol class="plan">${data.chapters.map(c => `<li class="${c.core ? '' : 'opt'}"><b>${esc(c.title)}</b> — ${esc(c.short)} <span>${c.minutes} min${c.core ? '' : ' · optional'}</span></li>`).join('')}</ol>
+        <ol class="plan">${data.chapters.map(c => `<li class="${c.core ? '' : 'opt'}"><b>${esc(c.title)}</b> · ${esc(c.short)} <span>${c.minutes} min${c.core ? '' : ' · optional'}</span></li>`).join('')}</ol>
         <p class="muted">These are informal classroom demonstrations. They illustrate research logic and do not diagnose anyone's ability.</p>`;
     } else {
-      body = `<label class="switch"><input type="checkbox" id="presenterToggle" ${state.presenter ? 'checked' : ''}> <span><b>Presenter mode</b> — Continue is never locked, so you can click through activities on the projector without completing them.</span></label>
-        <label class="switch"><input type="checkbox" id="motionToggle" ${state.reducedMotion ? 'checked' : ''}> <span><b>Reduce motion</b> — no typing effect or animations.</span></label>
-        <label class="switch"><input type="checkbox" id="calmToggle" ${state.calm ? 'checked' : ''}> <span><b>Calm mode</b> — the three Static Surge checks have no timer. Students can also switch this on themselves before each surge; the PDF notes it.</span></label>
+      body = `<label class="switch"><input type="checkbox" id="presenterToggle" ${state.presenter ? 'checked' : ''}> <span><b>Presenter mode:</b> Continue is never locked, so you can click through on the projector.</span></label>
+        <label class="switch"><input type="checkbox" id="motionToggle" ${state.reducedMotion ? 'checked' : ''}> <span><b>Reduce motion:</b> no typing effect or animations.</span></label>
+        <label class="switch"><input type="checkbox" id="calmToggle" ${state.calm ? 'checked' : ''}> <span><b>Calm mode:</b> no timer on the three Static Surge checks. Students can also switch it on before each surge; the PDF notes it.</span></label>
         <p><b>Keyboard / clicker:</b> → or Page Down = continue · ← or Page Up = back.</p>
         <p><button type="button" class="jrpg-btn secondary" id="resetBtn">Reset all progress on this device</button></p>`;
     }
