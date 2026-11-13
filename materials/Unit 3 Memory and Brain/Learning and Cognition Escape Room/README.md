@@ -1,26 +1,15 @@
-# MINDVAULT — IB Psychology Escape Room
+# Mindvault: Learning and Cognition Escape Room
 
-## Deploy on GitHub Pages
-Upload **index.html**, **style.css**, **questions.js**, and **main.js** together in the repository root. In repository Settings → Pages, select **Deploy from a branch**, choose `main` and `/ (root)`, and publish. Open the resulting HTTPS URL. No server, framework, external dependency or YAML configuration is needed.
+A review of Units 2 and 3 (learning, bias, memory and the brain) for students working alone. About 40 to 65 minutes.
 
-## Student use
-1. Begin the escape and work through nine rooms (five questions per room, six for concepts). Each new browser session's first question selection is randomized; saved runs resume where they left off.
-2. Read feedback for every question. Both correct and incorrect responses are retained in the browser-based report.
-3. Open the notes workshop, develop nine topic pages, and connect the six IB concepts.
-4. Download **Submission report** (JSON) for the teacher and **Obsidian ZIP** for personal notes. Extract the Obsidian ZIP into a folder, then choose 'Open folder as vault' in Obsidian.
-5. Use Backup/Restore JSON before changing devices or clearing site data.
+- **Nine rooms** of multiple-choice questions: short- and long-term memory, Glanzer and Cunitz, neuroplasticity, localization, classical conditioning, operant conditioning, cognitive load, cognitive bias and the six IB concepts. Each room draws five questions at random (six for the concepts), with an explanation after every answer.
+- **Notes workshop**: students write a note per topic and link the six concepts. They download a submission report (JSON) for the teacher and an Obsidian ZIP for themselves (extract it, then "Open folder as vault").
 
-## Teacher customization
-Question objects are in `questions.js`, grouped by room ID. Format: `[room id, question, unused field, four choices, index of correct choice (0–3), explanation]`. You may edit/add questions; preserve the array structure. There is no answer secrecy on static hosting: students can inspect the published source. This is a practice and formative accountability tool, not a secure exam.
+## Editing questions
 
-## Learning design
-- Rooms: Short- & long-term memory; Glanzer and Cunitz; neuroplasticity; localization; classical conditioning; operant conditioning; cognitive load; cognitive bias; six IB concepts.
-- Neuroplasticity includes developmental branching, pruning, myelination, adult training and the limits of structural MRI inference.
-- Multiple-choice is a starting point; the final independent note-writing step elicits student explanations and links.
-- Content is original practice, not official IB questions or marking guidance.
+Questions live in `questions.js`, grouped by room ID. Format: `[room id, question, unused field, four choices, index of correct choice (0 to 3), explanation]`. Keep the array structure. The questions are original practice items, not official IB questions.
 
-## Data, limits and privacy
-- No external analytics, no network uploads and no required personal names.
-- Scores/attempts are self-reported local browser data, freely editable by a technically skilled user. No trusted timestamps, proctoring or identity checks.
-- Browser storage is local to origin/device; backup/export is essential. Serving from GitHub Pages will preserve storage on that origin when students return on the same browser, subject to browser policies.
-- Submitted JSON can be opened by the teacher in any text editor; do not treat it as cryptographic evidence. For formal collection use a school-approved LMS.
+## Limits and privacy
+
+- Nothing is uploaded and no names are required. Progress is saved in the browser on that device only; students should use Backup before switching device or clearing site data.
+- Answers are visible in the page source, and the report is self-reported browser data with no identity check or tamper protection. Treat it as formative practice, not a secure test.
