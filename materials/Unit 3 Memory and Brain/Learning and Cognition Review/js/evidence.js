@@ -79,18 +79,18 @@
     var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
     var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
     var M = 16, CW = W - M * 2, FY = H - 9, y = 18, page = 1;
-    doc.setProperties({ title: safe(name + ' - Odyssey Unit 1 Review'), author: safe(name), creator: 'Odyssey: The Long Way Home' });
+    doc.setProperties({ title: safe(name + ' - Odyssey Learning and Cognition Review'), author: safe(name), creator: 'Odyssey: The Long Way Home' });
     function footer() {
       doc.setDrawColor(210, 200, 180); doc.setLineWidth(0.2); doc.line(M, FY - 4, W - M, FY - 4);
       doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(100, 92, 80);
-      doc.text('Odyssey: The Long Way Home - IB Psychology Unit 1 Review', M, FY);
+      doc.text('Odyssey: Learning and Cognition Review - IB Psychology', M, FY);
       doc.text('Page ' + page, W - M, FY, { align: 'right' });
     }
     function newPage() { footer(); doc.addPage(); page++; y = 18; }
     function need(mm) { if (y + mm > FY - 7) newPage(); }
     doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.setTextColor(28, 24, 19);
-    doc.text('ODYSSEY: THE LONG WAY HOME', M, y); y += 7;
-    doc.setFontSize(12); doc.text('Unit 1 Review (Learning and Cognition) - Evidence of Work', M, y); y += 6;
+    doc.text('ODYSSEY: LEARNING AND COGNITION REVIEW', M, y); y += 7;
+    doc.setFontSize(12); doc.text('The Long Way Home (Units 2 and 3) - Evidence of Work', M, y); y += 6;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(90, 82, 70);
     doc.text(safe(name + ' | ' + cls + ' | ' + new Date().toLocaleString()), M, y); y += 5;
     doc.text(safe(flags()), M, y); y += 7;
@@ -130,10 +130,10 @@
   function filename(name) {
     var a = String(name || '').replace(/æ/g, 'ae').replace(/Æ/g, 'Ae').replace(/ø/g, 'oe').replace(/Ø/g, 'Oe').replace(/å/g, 'aa').replace(/Å/g, 'Aa')
       .normalize('NFD').replace(/[̀-ͯ]/g, '');
-    return (a.trim().replace(/[^a-zA-Z0-9._-]+/g, '_').replace(/^_+|_+$/g, '') || 'student') + '_Odyssey_Unit1_Review.pdf';
+    return (a.trim().replace(/[^a-zA-Z0-9._-]+/g, '_').replace(/^_+|_+$/g, '') || 'student') + '_Odyssey_Learning_and_Cognition_Review.pdf';
   }
   function text(name, cls) {
-    return ['ODYSSEY: THE LONG WAY HOME - EVIDENCE OF WORK', name + ' | ' + cls + ' | ' + new Date().toLocaleString(), flags(), ''].concat(
+    return ['ODYSSEY: LEARNING AND COGNITION REVIEW - EVIDENCE OF WORK', name + ' | ' + cls + ' | ' + new Date().toLocaleString(), flags(), ''].concat(
       sections().reduce(function (a, s) { return a.concat(['== ' + s.heading + ' ==']).concat(s.items.map(function (i) { return '- ' + i.label + (i.value ? ': ' + i.value : ''); })).concat(['']); }, [])).join('\n');
   }
 
@@ -172,7 +172,7 @@
     pr.addEventListener('click', function () {
       if (!valid()) return;
       var sheet = document.getElementById('printSheet');
-      sheet.innerHTML = '<h1>Odyssey: The Long Way Home - Evidence of Work</h1><p>' + U.esc(name.value + ' | ' + cls.value + ' | ' + new Date().toLocaleString()) + '<br>' + U.esc(flags()) + '</p>' +
+      sheet.innerHTML = '<h1>Odyssey: Learning and Cognition Review. Evidence of Work</h1><p>' + U.esc(name.value + ' | ' + cls.value + ' | ' + new Date().toLocaleString()) + '<br>' + U.esc(flags()) + '</p>' +
         sections().map(function (s) { return '<h2>' + U.esc(s.heading) + '</h2><dl>' + s.items.map(function (i) { return '<dt>' + U.esc(i.label) + '</dt><dd>' + U.esc(i.value) + '</dd>'; }).join('') + '</dl>'; }).join('');
       window.print();
     });

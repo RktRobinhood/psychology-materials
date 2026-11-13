@@ -57,7 +57,7 @@
       tabs.appendChild(b);
     });
     inner.append(h('p.kicker', 'Paper 1 practice'), h('h1', "The Oracle's Trials"),
-      h('p.lede', 'Write real answers, mark them against the examiner\'s checklist, then compare with a model. Your answers are saved on this device, so you can come back to them.'), tabs, body);
+      h('p.lede', 'Write an answer, mark it against the examiner\'s checklist, then compare with a model. Answers are saved on this device.'), tabs, body);
     function show(which) {
       U.$$('.tab', tabs).forEach(function (b) { b.classList.toggle('on', b.dataset.tab === which); });
       body.innerHTML = '';
@@ -70,16 +70,16 @@
 
   function howView() {
     var E = ODY.exam;
-    var wrap = h('div', { style: { display: 'grid', gap: '16px' } });
+    var wrap = h('div', { style: { display: 'grid', gap: '16px', gridTemplateColumns: 'minmax(0, 1fr)' } });
     wrap.appendChild(h('p', 'Paper 1 lasts ' + E.format.minutes + ' minutes and is worth ' + (E.format.marks || 35) + ' marks. It is the same paper for SL and HL.'));
     wrap.appendChild(h('div.cards', E.format.sections.map(function (s) {
       return h('div.card', h('span.chip.chip-gold', s.marks + ' marks each · ~' + s.minutes + ' min'), h('h3', s.title), h('p', s.what));
     })));
-    wrap.appendChild(h('p.small.muted', 'For this class test, both Section C options come from Learning and Cognition. In the real May exam, the two Section C options come from different contexts.'));
+    wrap.appendChild(h('p.small.muted', 'Here, both Section C options come from Learning and Cognition. In the real exam, they come from different contexts.'));
     if (E.bands && E.bands.length) {
       wrap.appendChild(h('h3', 'Section C markbands (paraphrased)'));
-      wrap.appendChild(h('table.bands', h('thead', h('tr', h('th', 'Marks'), h('th', 'Knowledge and understanding'), h('th', 'Critical analysis'), h('th', 'Terminology'))),
-        h('tbody', E.bands.map(function (b) { return h('tr', h('td', b.range), h('td', b.k), h('td', b.a), h('td', b.t)); }))));
+      wrap.appendChild(h('div', { style: { overflowX: 'auto' } }, h('table.bands', h('thead', h('tr', h('th', 'Marks'), h('th', 'Knowledge and understanding'), h('th', 'Critical analysis'), h('th', 'Terminology'))),
+        h('tbody', E.bands.map(function (b) { return h('tr', h('td', b.range), h('td', b.k), h('td', b.a), h('td', b.t)); })))));
     }
     if (ODY.topics.exam && ODY.topics.exam.key) {
       wrap.appendChild(h('div', h('h3', 'Technique'), h('ul.notes-list', ODY.topics.exam.key.map(function (k) { return h('li', { html: U.md(k) }); }))));
@@ -212,7 +212,7 @@
   function mockList() {
     var mocks = ODY.exam.mocks || [];
     var wrap = h('div', { style: { display: 'grid', gap: '14px' } },
-      h('p', 'A full paper: two Section A questions, two Section B questions and one Section C essay from a choice of two. Suggested time 90 minutes' + (S.opt('calm') ? ' (Calm mode is on, so there is no clock).' : '. The clock runs, but you can finish late.') + ' For this class test, both Section C options come from Learning and Cognition; in May they come from different contexts.'));
+      h('p', 'A full paper: two Section A questions, two Section B questions and one Section C essay from a choice of two. Suggested time 90 minutes' + (S.opt('calm') ? ' (Calm mode is on, so there is no clock).' : '. The clock runs, but you can finish late.')));
     wrap.appendChild(h('div.cards', mocks.map(function (m, i) {
       var done = store()['mock' + i];
       var c = h('button.card', { type: 'button' }, h('h3', m.title), h('p', 'A: ' + m.A.join(', ') + ' · B: ' + m.B.join(', ') + ' · C: choose ' + m.C.join(' or ')),

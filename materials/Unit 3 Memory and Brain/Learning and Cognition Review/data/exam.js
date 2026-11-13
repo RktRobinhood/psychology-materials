@@ -1,4 +1,4 @@
-/* Odyssey: The Long Way Home. Paper 1 practice content (Unit 1: Learning and Cognition).
+/* Odyssey: The Long Way Home. Paper 1 practice content (Learning and Cognition, Units 2 and 3).
    IB Psychology, guide first assessed 2027. All prose is original; study facts only are reused.
    Sections A and B use approach-table content only. Memory as a cognitive process and
    strategies to improve memory appear in Section C only. */
@@ -10,11 +10,11 @@ window.ODY.exam = {
     marks: 35,
     sections: [
       { id: "A", title: "Section A: Short answers", questions: 2, marks: 4, minutes: 20,
-        what: "Two compulsory questions, 4 marks each, about 10 minutes each. Describe or explain one content point (for example operant conditioning or dual process theory) and give one example, either a study or an everyday case. Write two paragraphs: the theory first, then the example and how it links back. Only your first example is marked." },
+        what: "Two compulsory questions, about 10 minutes each. Describe or explain one content point (for example operant conditioning or dual process theory) and give one example, either a study or an everyday case. Write two paragraphs: the theory first, then the example and how it links back. Only your first example is marked." },
       { id: "B", title: "Section B: Theory meets scenario", questions: 2, marks: 6, minutes: 30,
-        what: "Two compulsory questions, 6 marks each, about 15 minutes each. You read an unseen scenario and explain how a theory could explain or change what happens in it. Open with a short, accurate explanation of the theory, then make two or three developed links to details in the scenario. Do not evaluate." },
+        what: "Two compulsory questions, about 15 minutes each. You read an unseen scenario and explain how a theory could explain or change what happens in it. Open with a short, accurate explanation of the theory, then make two or three developed links to details in the scenario. Do not evaluate." },
       { id: "C", title: "Section C: Concept essay", questions: 1, of: 2, marks: 15, minutes: 40,
-        what: "Choose one of two questions, 15 marks, about 40 minutes. Each question pairs one of the six concepts (bias, causality, change, measurement, perspective, responsibility) with an area of study. Most use 'discuss'. The concept must drive every paragraph, links must run throughout, and the conclusion must follow from your argument." }
+        what: "Choose one of two questions. Each question pairs one of the six concepts (bias, causality, change, measurement, perspective, responsibility) with an area of study. Most use 'discuss'. The concept must drive every paragraph, links must run throughout, and the conclusion must follow from your argument." }
     ]
   },
 

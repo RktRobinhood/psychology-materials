@@ -36,7 +36,7 @@
     name.addEventListener('input', function () { S.data.name = name.value; S.save(); });
     cls.addEventListener('input', function () { S.data.cls = cls.value; S.save(); });
     var card = h('div.title-card',
-      h('div.field-row', h('label.field', 'Name (optional, for a progress PDF)', name), h('label.field', 'Class', cls)),
+      h('div.field-row', h('label.field', 'Name (optional)', name), h('label.field', 'Class', cls)),
       run && run.ep ? h('button.btn.btn-primary.btn-lg', { type: 'button', onclick: function () { APP.continueRun(); } },
         U.icon('play', 18), 'Continue the voyage', h('small', epLabel(run))) : null,
       h('button.btn' + (run ? '' : '.btn-primary.btn-lg'), { type: 'button', onclick: function () { APP.newVoyage(); } },
@@ -48,15 +48,15 @@
       h('button.btn', { type: 'button', onclick: function () { APP.go('progress'); } }, U.icon('star', 18), 'Progress and laurels', h('small', 'Mastery and endings')));
     s.appendChild(h('div.title-wrap',
       h('div',
-        h('p.kicker', 'IB Psychology · Unit 1 Review · Learning and Cognition'),
+        h('p.kicker', 'IB Psychology · Learning and Cognition Review'),
         h('h1.logo', 'Odyssey'),
         h('p.logo-sub', 'The Long Way Home'),
-        h('p.lede', 'A voiced, branching voyage through everything in Unit 1, built to get you ready for Paper 1. Your choices change the story. Your knowledge keeps your crew alive.'),
+        h('p.lede', 'A voiced, branching review of Units 2 and 3 for Paper 1. Your choices change the story. Your knowledge keeps your crew alive.'),
         h('ul.title-points',
-          h('li', U.img('medal_ship'), h('span', h('b', 'Eight episodes, one topic per island. '), 'Play start to finish or jump in anywhere.')),
-          h('li', U.img('coin'), h('span', h('b', 'Quick-time recall with real stakes. '), 'Miss and the sea takes a sailor. Earn drachmae and spend them on help.')),
-          h('li', U.img('moly'), h('span', h('b', 'Choices are final. '), 'Unless you buy a Moly herb. Different choices, different endings.')),
-          h('li', U.img('medal_exam'), h('span', h('b', 'Paper 1 practice built in. '), 'Section A, B and C, with checklists and model answers.')))),
+          h('li', U.img('medal_ship'), h('span', h('b', 'Eight islands. '), 'Play in order or jump in anywhere.')),
+          h('li', U.img('coin'), h('span', h('b', 'Quick-time recall. '), 'Miss and the sea takes a sailor.')),
+          h('li', U.img('moly'), h('span', h('b', 'Final choices. '), 'Different choices, different endings.')),
+          h('li', U.img('medal_exam'), h('span', h('b', 'Paper 1 practice. '), 'Checklists and model answers.')))),
       card));
   };
   function epLabel(run) {
@@ -71,7 +71,7 @@
     var run = S.run();
     var inner = h('div.screen-inner');
     inner.append(h('p.kicker', 'The voyage'), h('h1', 'Choose your island'),
-      h('p.lede', 'Each island reviews one part of the unit. Sail in order for the full story, or jump straight to what you need to revise. Jumping in starts you with a fresh crew of ten.'));
+      h('p.lede', 'Sail in order for the full story, or jump to what you need to revise. Jumping in starts a fresh crew of ten.'));
     if (run) {
       var ep = ODY.episodes[run.ep];
       inner.appendChild(h('div.run-bar',
@@ -202,7 +202,7 @@
               h('img.narr-medal', { src: 'assets/ui/narrator-medallion.svg', alt: '' }),
               h('div.narr-body', h('span.narr-name', 'The Chronicler'), h('p.narr-text', line))),
             h('p', 'Your purse: ', purse),
-            h('p.small.muted', 'Stock changes every visit, and prices rise a little with every purchase on this voyage. You can carry ' + ODY.itemMax + ' items. Quick-time items appear as buttons during a question.')),
+            h('p.small.muted', 'Stock changes every visit. Prices rise with each purchase. You can carry ' + ODY.itemMax + ' items.')),
           itemsBox),
         h('div.panel-foot', h('span'), h('button.btn.btn-primary', { type: 'button', onclick: function () { AUDIO.stop(); if (opts.inline) STORY.closePanel(); resolve(); } }, 'Leave the stall')));
       AUDIO.say('narrator', line);
@@ -328,7 +328,7 @@
     var s = screen('garden');
     var inner = h('div.screen-inner');
     inner.append(h('p.kicker', 'Study mode'), h('h1', "Athena's Library"),
-      h('p.lede', 'Every topic without the story: the Chronicler\'s lesson, the studies, drills and rapid recall. Your mastery here is shared with the voyage.'));
+      h('p.lede', 'Every topic without the story: lesson, studies, drills and rapid recall. Mastery here counts on the voyage too.'));
     var cards = h('div.cards');
     SC.topicOrder().forEach(function (t) {
       var tp = ODY.topics[t] || { name: t };
@@ -450,7 +450,7 @@
 
   function recallView(t) {
     var host = h('div.qte-host', { style: { minHeight: '420px' } });
-    var info = h('p.lede', 'Ten questions from this topic, weighted towards the ones you find hard. No crew at stake. ' + (S.opt('calm') ? 'Calm mode is on: no timer.' : 'Each has a 20 second timer (turn on Calm mode in Settings to remove it).'));
+    var info = h('p.lede', 'Ten questions, weighted towards the ones you find hard. No crew at stake. ' + (S.opt('calm') ? 'Calm mode is on: no timer.' : '20 seconds each (Calm mode in Settings removes the timer).'));
     var start = h('button.btn.btn-primary.btn-lg', { type: 'button' }, 'Start rapid recall');
     var wrap = h('div', info, host);
     host.appendChild(h('div.big-center', start));
@@ -548,7 +548,7 @@
       h('div.two-col', { style: { marginTop: '18px' } },
         h('div', h('h2', 'Mastery by topic'), mastery,
           h('p.small.muted', 'Revise these next: ' + weakest.map(function (t) { return (ODY.topics[t] || { name: t }).name; }).join(', ') + '.')),
-        h('div', h('h2', 'Save a record (optional)'), h('p.small.muted', 'Useful if you want to keep track of your review, or show your teacher what you did. Not required.'), EVIDENCE.panel())),
+        h('div', h('h2', 'Save a record (optional)'), h('p.small.muted', 'To keep track of your review, or to show your teacher.'), EVIDENCE.panel())),
       h('h2', { style: { marginTop: '24px' } }, 'Endings'), ends,
       h('h2', { style: { marginTop: '24px' } }, 'Laurels'), achs);
     s.appendChild(inner);
@@ -565,7 +565,7 @@
       ['book', "Athena's Library", function () { APP.go('library'); }],
       ['pen', "Oracle's Trials (Paper 1)", function () { APP.go('trials'); }],
       ['trident', "Scylla's Gauntlet", function () { APP.go('gauntlet'); }],
-      ['star', 'Progress and evidence', function () { APP.go('progress'); }],
+      ['star', 'Progress and laurels', function () { APP.go('progress'); }],
       ['settings', 'Settings', function () { SC.settings(); }],
       inEp ? ['log', 'Dialogue log', function () { STORY.showLog(); }] : null,
       ['teacher', 'Teacher guide', function () { SC.teacher(); }]
@@ -609,7 +609,7 @@
         e.teacher ? h('p.small', { style: { margin: '4px 0 0' } }, e.teacher) : null);
     }));
     U.modal('Teacher guide', h('div', { style: { display: 'grid', gap: '14px' } },
-      h('p', 'Odyssey reviews Unit 1 Learning and Cognition for a full Paper 1. Students can play the story (eight episodes, about 90 to 120 minutes in total), study each topic in the Library, and practise Paper 1 in the Oracle\'s Trials. It is built for independent review. Everything saves in the browser; the Progress page can make an optional progress PDF, but nothing needs to be submitted.'),
+      h('p', 'Odyssey: Learning and Cognition Review covers Units 2 and 3 for a full Paper 1. Students can play the story (eight episodes, about 90 to 120 minutes in total), study each topic in the Library, and practise Paper 1 in the Oracle\'s Trials. It is built for independent review. Everything saves in the browser; the progress PDF is optional and nothing needs to be submitted.'),
       h('div.study-card', h('h4', 'Suggested plan'),
         h('ul.notes-list.small',
           h('li', 'Lesson 1 (70 min): Episodes 1 to 3 in class, headphones on. Students who finish start the Library for their weakest topic.'),
@@ -621,7 +621,7 @@
           h('li', 'Crew are lives: a wrong quick-time answer loses a sailor. Losing all of them ends the episode; students retry with six crew. Mastery is never lost.'),
           h('li', 'Missed questions return a few questions later and in later sessions (spaced repetition).'),
           h('li', 'Story choices change dialogue, callbacks and which of five endings a student reaches. They never affect marks.'),
-          h('li', 'Every written answer (the Trials, the mock papers and the story\'s written Captain\'s log) has an optional "Get AI feedback" button. It copies one self-contained request that turns any AI chatbot into a Socratic Paper 1 tutor: a rough mark band first, then one question at a time, a rewrite and a re-estimate. It is told never to write the answer for the student. Students use whichever tool your school allows; nothing is sent from this page.'),
+          h('li', 'Every written answer has an optional "Get AI feedback" button. It copies a request that makes any AI chatbot a Socratic Paper 1 tutor: a rough mark band, then one question at a time. It is told never to write the answer. Students use whichever tool your school allows; nothing is sent from this page.'),
           h('li', 'Calm mode removes every timer. Presenter mode (below) unlocks Continue for projector use; arrow keys and clickers move the story on.'))),
       h('label', { style: { display: 'flex', gap: '10px', alignItems: 'center' } }, presenter, h('b', 'Presenter mode'), h('span.small.muted', 'No reading pauses, no timers.')),
       h('h3', 'Episodes'), eps,

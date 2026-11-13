@@ -1,4 +1,4 @@
-/* Odyssey: The Long Way Home. Rapid-recall question bank, Unit 1 Learning and Cognition.
+/* Odyssey: The Long Way Home. Rapid-recall question bank, Learning and Cognition (Units 2 and 3).
    Fields: id, t (topic), lv (1 recall, 2 understand/classify, 3 apply/evaluate), q, a, d (3 distractors),
    tf:1 for true/false items (a is true/false, no d), why (shown after answering). */
 window.ODY = window.ODY || {};

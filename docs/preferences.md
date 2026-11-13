@@ -11,7 +11,7 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - **Redemption Arc stays a single HTML file**: use practical watermarks and process counters, and label browser checksums as unsigned rather than promising forgery-proof records. Why: the user chose this scope over a hosted signing service (2026-10-24).
 - **Redemption Arc keeps native paper printing, including drafts**, gives students brief summary tables, and shows teachers active-only average/5-second peak typing rates with contextual review thresholds. Treat integrity features as deterrents, not proof of cheating. Why: the user wants an accessible print rescue and readable evidence (2026-10-24).
 - Danish names must survive the PDF (æ, ø, å).
-- **Review games for independent study** (e.g. the Odyssey Unit 1 review) do not need a work-alone submission: the PDF is an optional record, never a requirement. Why: the user said so on 2026-09-24.
+- **Review games for independent study** (e.g. the Odyssey Learning and Cognition review) do not need a work-alone submission: the PDF is an optional record, never a requirement. Why: the user said so on 2026-09-24.
 - **Study-only modes are direct tutoring**: when a student skips the story, the narrator drops the story and teaches plainly (definition, study, evaluation, exam move), breaking the fourth wall. Why: those students chose to bypass the story, so it should not be snuck back in (user, 2026-09-24).
 - A **teacher panel** with per-chapter notes, a lesson plan and presenter mode (unlocks Continue for projector use; arrow keys and clicker Page Up/Down navigate).
 - Timed checks offer a **Calm mode** with no timer.

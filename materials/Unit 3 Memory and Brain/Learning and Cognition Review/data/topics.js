@@ -1,4 +1,4 @@
-/* Odyssey: The Long Way Home. Unit 1 Learning and Cognition.
+/* Odyssey: The Long Way Home. Learning and Cognition (Units 2 and 3).
    Topic lessons (ODY.topics) and drill content (ODY.drills).
    All prose is original. Facts come from design/unit-1-review/research/ digests.
    Voice lines are spoken aloud by the Chronicler (see narrator bible). */

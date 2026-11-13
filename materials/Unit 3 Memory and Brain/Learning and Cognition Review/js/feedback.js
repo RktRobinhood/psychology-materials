@@ -87,7 +87,7 @@
     return [
       '# IB Psychology feedback session: Paper 1 practice',
       '',
-      'I am a student practising for an IB Psychology Paper 1 test (Unit 1: Learning and Cognition, IB guide first assessed in 2027). Below are instructions for you, the marking information, the question and my answer. Please follow the instructions exactly.',
+      'I am a student practising for an IB Psychology Paper 1 test (Odyssey: Learning and Cognition Review; IB guide first assessed in 2027). Below are instructions for you, the marking information, the question and my answer. Please follow the instructions exactly.',
       '',
       '## Instructions for the AI tutor',
       '',
