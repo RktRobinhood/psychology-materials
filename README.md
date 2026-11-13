@@ -1,31 +1,25 @@
-# Mindfield — Psychology Materials
+# Mindfield: IB Psychology
 
-A polished GitHub Pages library for publishing standalone psychology resources.
+Lessons, the two-year plan and the syllabus checklist for our IB Psychology course (first assessment 2027), published at https://rktrobinhood.github.io/psychology-materials/.
 
-## Publish a material
+## Add a lesson
 
-1. Open the [`materials`](materials) folder.
-2. Create a new subfolder with a short URL-friendly name, such as `cognitive-biases`.
-3. Put the material's `index.html` and any supporting files inside that subfolder.
-4. Commit the change to `main`.
+1. Open [`materials`](materials) and go into the unit folder the lesson belongs to (for example `Unit 4 Relationships`).
+2. Add a folder for the lesson with its `index.html` and any supporting files inside. A single `.html` file dropped straight into the unit folder works too.
+3. Commit to `main`.
 
-The deployment workflow finds every `materials/*/index.html`, reads its title and meta description, adds it to the homepage, and publishes the complete site automatically.
+The site rebuilds itself and lists the lesson under its unit. See [`materials/README.md`](materials/README.md) for titles, ordering and moving things.
 
-See [`materials/README.md`](materials/README.md) for the optional metadata format.
-
-## Local preview
+## Preview on your own computer
 
 ```bash
 npm install
-npm run dev
 ```
 
-## Production build
-
 ```bash
-npm run build
+npm run dev
 ```
 
 ## How lessons are made
 
-Every lesson goes through the same five stages (Spark, Examiner, Designer, Playtester, Release). See [`AGENTS.md`](AGENTS.md) for the workflow and [`docs/lessons.md`](docs/lessons.md) for where each lesson stands.
+Every lesson goes through five stages (Spark, Examiner, Designer, Playtester, Release). See [`AGENTS.md`](AGENTS.md) for the workflow and [`docs/lessons.md`](docs/lessons.md) for where each lesson stands.

@@ -51,7 +51,11 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - Lesson content in `data/lesson-data.js`; engine in `js/app.js`; tasks in their own `js/` files.
 - External libraries from cdnjs at a pinned version, with jsDelivr as a backup.
 - Every lesson has a **Report a problem** entry in its menu or top bar, wired to `materials/shared/report-problem.js` (see [materials/README.md](../materials/README.md#report-a-problem)). It opens the student-friendly GitHub issue forms with the lesson, place and device filled in. Why: the user wants students to report bugs straight to GitHub issues.
-- Folder names: `materials/<Lesson Name>/` in Title Case with spaces (matches existing lessons); `design/<lesson-slug>/` in kebab-case.
+- Folder names: `materials/<Unit folder>/<Lesson Name>/` in Title Case with spaces; `design/<lesson-slug>/` in kebab-case.
+- **The site is organised by the six course units** (`materials/units.json`); every lesson sits in its unit folder and the homepage catalog is generated from the folders, so a new lesson folder or single `.html` file appears without any other edit. Never replace this with a hand-written list. Why: the user uploads new HTML through GitHub and wants it to show up by itself (2026-11-13).
+- **When a lesson folder moves or is renamed, add the old path to `materials/redirects.json`.** Why: students and Redemption Arc QR codes hold old links.
+- **Name things by unit number and title from the two-year plan**, never by the old "Unit 1: Learning and Cognition" numbering (that context is now Units 2 and 3).
+- **Keep student-facing pages lean**: short wording, few badges and boxes, nothing dated to one school year. Why: the user asked for a focused, low-clutter site for reuse next year (2026-11-13).
 
 ## Git
 

@@ -4,7 +4,7 @@ Interactive, self-guiding IB Psychology lessons for students at Ikast-Brande Gym
 
 ## Where things live
 
-- `materials/<Lesson Name>/`: the **student-facing** lesson. Everything in here is published, so only clean, finished files belong here (see [Release](docs/workflow/5-release.md)).
+- `materials/<Unit folder>/<Lesson Name>/`: the **student-facing** lesson, filed under its unit (`Unit 1 Foundations` to `Unit 6 Development`, plus `Exam Practice` and `Course Guide`; the units are defined in `materials/units.json` and described in the [two-year plan](materials/Course%20Guide/Two%20Year%20Plan/index.html)). The homepage lists whatever is in these folders automatically. Everything in here is published, so only clean, finished files belong here (see [Release](docs/workflow/5-release.md)).
 - `design/<lesson-slug>/`: the lesson's **workshop** (kebab-case slug). Briefs, stage reports, prototypes, source crops. Never published.
 - `docs/`: how we work. This file points into it.
 

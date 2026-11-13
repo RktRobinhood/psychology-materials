@@ -13,7 +13,7 @@
    - format, length, hook, the chapter or station outline
    - sources, with copyright status
    - open questions and assumed defaults
-4. **Build the first playable version** in `materials/<Lesson Name>/`, following the build conventions in [preferences.md](../preferences.md). Lay it out for the laptop and the phone from the first version (see [Layout](../preferences.md#layout)): it is much harder to retrofit a phone-width lesson for laptops, or the reverse. Salvage what is good from any prototype; move prototype leftovers (docs, style boards, crops) into `design/<lesson-slug>/`.
+4. **Build the first playable version** in `materials/<Unit folder>/<Lesson Name>/` (the unit it is taught in; see `materials/units.json`), following the build conventions in [preferences.md](../preferences.md). Lay it out for the laptop and the phone from the first version (see [Layout](../preferences.md#layout)): it is much harder to retrofit a phone-width lesson for laptops, or the reverse. Salvage what is good from any prototype; move prototype leftovers (docs, style boards, crops) into `design/<lesson-slug>/`.
 5. **List what is missing**: assets the user needs to make or source (the user often generates art with ChatGPT and relays it), content gaps, anything you stubbed.
 
 ## Done when
