@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c151e"><meta name="description" content="Three hands-on demonstrations of attention, task switching and dual-task interference."><title>Mind Lab · Cognitive Multitasking v13</title><style>
+:root{color-scheme:dark;--bg:#0c151e;--surface:#13222d;--surface2:#172b37;--border:#304958;--text:#edf4f3;--muted:#a5bbc3;--mint:#91ddd0;--blue:#aaaaf2;--amber:#f3c98e;--error:#f3a5a4;font:16px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse 80% 52% at 102% -17%,#214153 0,transparent 77%),var(--bg)}a{color:#a9e9e0;text-underline-offset:3px}a:hover{color:#eaffff}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:3px}::selection{background:#397d76;color:#fff}
+.ambient{display:none}.app-shell{width:min(1080px,calc(100% - 56px));margin:auto}.topbar{height:84px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #25404e}.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}.logo-mark{display:grid;place-items:center;border:1px solid var(--mint);border-radius:9px;width:37px;height:37px;color:var(--mint);font-size:25px}.logo strong{font-size:17px;letter-spacing:.6px}.logo-accent{color:var(--mint)}.logo small{display:block;font-size:9px;color:#91aab5;letter-spacing:1px}.topbar-right{display:flex;gap:8px;align-items:center}.topbar-right .quiet-action{color:#a4b9c0;border:none;background:transparent;font-size:13px;padding:10px 0 10px 15px}.topbar-right .quiet-action:hover{color:white}.progress-nav{min-height:52px;margin-top:4px;display:flex;align-items:center;gap:20px;color:var(--muted);font-size:12px}.stage-counter{font-weight:650}.progress-dots{display:flex;gap:6px}.progress-dots .dot{width:26px;height:5px;background:#355063;border-radius:6px}.progress-dots .dot.current{background:var(--mint)}.progress-dots .dot.complete{background:#759a9c}.stage-name{color:#c2d2d5}.site-foot{margin:62px 0 28px;padding-top:15px;border-top:1px solid #263c49;display:flex;gap:20px;justify-content:space-between;color:#819ba6;font-size:11px}.site-foot span:last-child{text-align:right}
+#app{min-height:420px}.eyebrow{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;font-weight:750;color:var(--mint)}h1,h2,h3,p{overflow-wrap:break-word}.screen-title{font-size:clamp(39px,5.5vw,60px);letter-spacing:-1.8px;line-height:1.08;margin:15px 0 18px;font-weight:710}.narrow{max-width:760px;margin:24px auto 80px}.lead{font-size:18px;line-height:1.65;color:#b7c9cf;max-width:615px}.lead.small{font-size:15px}.actions,.welcome-actions,.finish-actions{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-top:26px}.btn{border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:11px;border-radius:11px;padding:11px 19px;min-height:48px;font-size:14px;font-weight:700;transition:background .13s,transform .13s}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn.primary{color:#0e292d;background:var(--mint);border-color:var(--mint)}.btn.primary:hover{background:#b1f5e7}.btn.secondary{color:#dbe7e6;background:#1a333f;border-color:#385564}.btn.secondary:hover{background:#214452}.btn.ghost{color:#b1c3cc;border-color:transparent;background:transparent}.btn.ghost:hover{color:#f3fafa;background:#1b303b}.btn.small{min-height:37px;font-size:12px;padding:8px 13px}.text-link{background:transparent;border:0;padding:4px 0;color:#9cd9d2;text-align:left;font-size:13px;text-decoration:underline;text-underline-offset:4px}.text-link:hover{color:#ebfffb}.subnote,.tiny{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}
+/* First screen: one action, three promises. */
+.welcome{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(280px,.8fr);align-items:center;gap:26px;padding:60px 0 20px}.welcome-copy h1{font-weight:730;letter-spacing:-2.8px;font-size:clamp(52px,6.9vw,78px);line-height:1.09;margin:20px 0}.welcome-copy h1 em{font-style:normal;color:var(--mint)}.welcome-copy .lead{margin:0 0 30px}.welcome-actions{margin:0}.welcome-meta{font-size:12px;color:#8da7b0;margin:24px 0 0}.welcome-art{position:relative;display:grid;place-items:center;min-width:0;aspect-ratio:1;max-height:360px}.welcome-art svg{max-width:100%;width:100%;height:100%;filter:drop-shadow(0 18px 55px #102f3c)}.three-teasers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;margin:42px 0}.three-teasers>div{border-top:1px solid #3a5360;padding-top:15px;display:grid;grid-template-columns:32px 1fr;grid-template-rows:auto auto;gap:2px 3px}.three-teasers span{font-size:12px;color:var(--mint);grid-row:1/3}.three-teasers strong{font-size:14px;font-weight:710}.three-teasers p{font-size:13px;color:#96adb7;margin:3px 0}
+/* Compact, optional settings. */
+.settings-box{background:#142732;border:1px solid var(--border);border-radius:17px;padding:27px 31px;margin-top:27px}.settings-box h2{font-size:18px;margin:0 0 15px}.settings-box hr{border:0;border-top:1px solid #34515f;margin:25px 0}.choice-row{display:flex;gap:9px;flex-wrap:wrap}.choice-chip,.prediction{background:transparent;color:#d0e2e5;border:1px solid #43616e;border-radius:10px;padding:10px 16px;min-height:46px;font-size:14px}.choice-chip:hover,.prediction:hover{border-color:var(--mint)}.choice-chip.selected,.prediction.selected{border-color:var(--mint);background:#1d4948;color:#edfffb;box-shadow:inset 0 0 0 1px #6bbdb3}.settings-label{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:14px 0;font-size:14px;color:#c3d4d9}.settings-label select{background:#0e1d26;color:white;border:1px solid #46616d;border-radius:8px;padding:8px}.check-label{display:flex;align-items:center;gap:11px;margin:13px 0;color:#c5d6da;font-size:14px}.check-label input{width:18px;height:18px;accent-color:var(--mint)}
+/* The learning loop. */
+.lesson-intro{margin-top:25px}.lesson-intro .screen-title{max-width:740px}.fact-feature{margin:27px 0 20px;padding:22px 25px;border:1px solid #365e64;border-radius:16px;background:#17343c}.fact-heading{display:flex;align-items:center;gap:10px;font-size:13px;color:#afe6df;font-weight:650}.research-mark{font-size:24px;color:var(--mint);line-height:1}.fact-feature>p{font-size:21px;font-weight:660;line-height:1.44;max-width:680px;margin:12px 0 14px}.fact-feature>a{font-size:12px;text-decoration:none;color:#a5ccce}.fact-feature>a:hover{text-decoration:underline}.one-idea,.doing{display:grid;grid-template-columns:125px 1fr;gap:20px;align-items:baseline;border-bottom:1px solid #2b4451;padding:14px 4px}.one-idea strong,.doing strong{font-size:13px;color:var(--mint)}.one-idea p,.doing p{color:#cededf;margin:0;font-size:15px;line-height:1.6}.doing{grid-template-columns:125px 1fr}.doing .keys-inline,.doing .btn,.doing .signal-check{grid-column:2}.signal-check{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.motion-advice{font-size:13px;color:#d7e1eb;border-left:3px solid var(--amber);padding:6px 0 6px 12px;margin:12px 0 0}.keys-inline{display:flex;flex-wrap:wrap;gap:17px;font-size:12px;color:#c9dada;margin:0 0 5px}.keys-inline kbd{padding:3px 7px;border:1px solid #45616d;border-radius:5px;color:#fff;margin-right:4px}.predict{margin-top:30px}.predict h2{font-size:23px;letter-spacing:-.5px;line-height:1.2;margin:9px 0 17px}.prediction-options{display:flex;flex-wrap:wrap;gap:9px}.predict small{display:block;color:#8fa8b3;margin-top:11px;font-size:12px}.player-note{color:#a9c5ca;font-size:13px}
+/* Experiments are visually separate from instructions. */
+.run-screen{max-width:985px;margin:12px auto 60px}.run-top{display:flex;justify-content:space-between;align-items:center;gap:24px}.run-top .screen-title{font-size:clamp(34px,5vw,47px);margin:8px 0}.run-top p{color:#acbfc8;margin:0 0 22px;font-size:15px}.round-indicator{font-size:36px;color:var(--mint);font-weight:700;white-space:nowrap}.round-indicator small{font-size:15px;color:#9db0b8;font-weight:400}.hairline-progress{height:3px;background:#29424d;border-radius:4px;overflow:hidden;margin:0 0 19px}.hairline-progress span{display:block;height:100%;background:var(--mint);transition:width .25s}.task-panel{background:radial-gradient(ellipse at 52% 0,#1c3b48,#101f2b 75%);border:1px solid #355462;min-height:390px;padding:29px;border-radius:18px;position:relative;overflow:hidden}.task-ready{min-height:324px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:20px}.task-ready p{color:#b8cdd1;font-size:17px;max-width:460px;margin:0}.ready-symbol{font-size:56px;line-height:1;color:var(--mint)}.phase-indicator{color:#91c8c4;text-transform:uppercase;letter-spacing:1.5px;font-size:11px;font-weight:800}.task-title{font-size:clamp(22px,3vw,30px);margin:8px 0;font-weight:690;line-height:1.25}.fade-label{font-size:14px;color:#a9c2c9}.field{margin:16px 0}.field label{display:block;font-size:12px;color:#bdd3d6;margin-bottom:7px}.field textarea,.field input{width:100%;display:block;min-height:120px;border-radius:11px;border:1px solid #496774;background:#0c202b;color:#f4ffff;padding:13px 15px;font-size:16px;resize:vertical}.task-count{text-align:right;color:var(--mint);font-size:13px;font-weight:650}.task-panel .actions{margin-top:20px}.error-note{padding:11px 16px;background:#513135;border:1px solid #a66872;border-radius:9px;color:#ffd8d7;font-size:13px}
+/* Memory stage + optional simulated notifications. */
+.memory-lab-frame{display:grid;grid-template-columns:minmax(0,1fr) 246px;align-items:stretch;gap:19px;margin:24px 0}.memory-word-space{display:flex;align-items:center;min-width:0}.word-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}.word{min-height:66px;display:grid;place-items:center;border:1px solid #41636e;border-radius:10px;background:#1e3947;color:#fff;font-size:19px;letter-spacing:.3px;text-transform:uppercase;font-weight:700}.memory-phone{background:#0a1c27;border:1px solid #38535e;border-radius:15px;min-height:255px;position:relative;overflow:hidden}.memory-phone.is-live{border-color:#8a6264}.phone-status{background:#142a36;color:#aec4c9;padding:10px;font-size:10px;letter-spacing:.6px;display:flex;justify-content:space-between;gap:8px}.phone-status #notification-count{color:#efc4b5}.phone-screen{padding:10px;display:grid;gap:7px;align-content:start;height:193px;overflow:hidden}.phone-placeholder,.phone-silent{text-align:center;margin:auto;color:#a1b4bb;font-size:13px}.phone-silent{color:#82b8aa}.phone-bottom{position:absolute;bottom:0;inset-inline:0;font-size:10px;color:#acc1c8;background:#142a36;padding:9px}.fake-push{background:#e5eff0;color:#16303a;border-radius:9px;padding:8px;display:grid;grid-template-columns:27px minmax(0,1fr) 18px;gap:7px;align-items:start;min-height:55px;box-shadow:0 7px 22px #0007;animation:pushin .22s ease}.fake-push:nth-child(2){opacity:.83}.fake-push:nth-child(3){opacity:.7}.fake-push .push-icon{display:grid;place-items:center;background:#d96e79;color:white;border-radius:7px;height:26px}.fake-push b{font-size:9px;color:#49626a;display:block;letter-spacing:.5px}.fake-push span{font-size:11px;display:block;line-height:1.3;font-weight:650}.fake-push em{font-size:9px;font-style:normal;color:#66828a}.memory-timer{display:flex;justify-content:space-between;align-items:center;gap:14px}.memory-timer strong{font-size:20px;color:var(--amber)}@keyframes pushin{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+/* Rapid rule classification. */
+.classify-box{display:grid;justify-items:center;text-align:center;margin:12px auto 0}.classify-rule{display:inline-block;border-radius:10px;border:1px solid #5a95a0;background:#205063;padding:9px 19px;font-size:20px;font-weight:800;letter-spacing:.7px}.shape-stage{height:180px;display:grid;place-items:center;width:100%}.symbol{width:92px;height:92px;box-shadow:0 7px 30px #0006}.symbol.cyan{background:#82d5e3}.symbol.orange{background:#efa16e}.symbol.circle{border-radius:50%}.symbol.square{border-radius:9px}.keypads{display:grid;grid-template-columns:1fr 1fr;gap:13px;width:min(100%,460px)}.keypad{background:#1d3a49;color:#ebf7fb;border:1px solid #457485;min-height:76px;padding:10px;border-radius:12px}.keypad:hover{background:#2b5563}.keypad b{display:block;font-size:16px}.keypad small{font-size:11px;color:#bfd6dc}.classify-box .subnote{margin-top:16px}
+/* Visual tracking and audio / flash signals. */
+.track-wrap{width:min(100%,640px);height:270px;background:#0d202c;border:1px solid #456371;border-radius:13px;overflow:hidden;position:relative;margin:13px auto 11px}.track-dot{position:absolute;width:28px;height:28px;background:#3b7b92;border:2px solid #afdeec;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 14px #58b1da30}.track-dot.target-preview{background:#eec574;border-color:#fff0c8;box-shadow:0 0 0 7px #f5cf6640,0 0 24px #efc77d}.track-dot.selectable{cursor:pointer}.track-dot.selectable:hover{box-shadow:0 0 0 7px #8bdedb33}.track-dot.selected{background:#e6b967;border-color:white;box-shadow:0 0 0 7px #f6ca715a}.dual-controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}.signal-lamp{display:inline-flex;align-items:center;justify-content:center;min-height:47px;min-width:175px;background:#0d2530;color:#accbd0;border:1px solid #3c6270;border-radius:10px;padding:7px 11px;font-size:12px;letter-spacing:.6px}.signal-lamp.active.target{background:#2c6d64;color:#fff;border-color:#b2ead6}.signal-lamp.active.other{background:#3d5962}.tracking-instruction{text-align:center;color:#bfd1d5;font-size:13px}.countdown{font-size:84px;color:var(--mint);text-align:center;margin:33px 0}.track-select{font-size:14px;color:#f4e7c6}
+/* Results and real-life transfer. */
+.debrief{margin:17px auto 55px;max-width:1030px}.debrief>.screen-title{font-size:clamp(40px,5vw,54px)}.debrief-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:18px;align-items:start}.result-cards{display:grid;gap:13px}.results-card,.explanation{border:1px solid #36515d;border-radius:16px;padding:23px;background:#132732}.results-card>h2{font-size:22px;letter-spacing:-.5px;margin:12px 0 20px;line-height:1.4}.two-meters{display:grid;gap:12px}.meter-row{display:grid;grid-template-columns:110px minmax(0,1fr) 48px;gap:12px;align-items:center;font-size:12px;color:#c6d6dc}.meter-row>span{line-height:1.3}.meter-track{height:11px;background:#274250;overflow:hidden;border-radius:10px}.meter-track>span{display:block;height:100%;background:var(--mint);border-radius:10px}.meter-track>span.interference{background:#a2aaf1}.meter-row b{text-align:right;color:#dcecee}.data-foot{font-size:12px;line-height:1.7;color:#a8bfc8;margin:18px 0 0}.data-foot b{color:#eef6f6}.prediction-return{display:grid;grid-template-columns:56px 1fr;gap:8px 12px;border-top:1px solid #36535c;padding-top:15px;margin-top:17px;align-items:baseline;font-size:12px}.prediction-return span{color:#8db3bb}.prediction-return strong{font-weight:600;color:#d8e8e8}.explanation h2{font-size:21px;margin:9px 0 12px}.explain-lead{font-size:15px;color:#d5e4e3;line-height:1.7}.terms-compact{display:grid;gap:0;border-top:1px solid #344c59;margin-top:13px}.terms-compact>div{display:grid;grid-template-columns:125px 1fr;gap:9px;border-bottom:1px solid #2d4754;padding:12px 0;align-items:start}.terms-compact b{font-size:13px;color:var(--mint);line-height:1.35}.terms-compact span{color:#b4cbd0;font-size:12px;line-height:1.5}.caution{padding-top:17px;font-size:12px;color:#a2b9bd}.caution b{color:#e1e9e8}.caution p{margin:4px 0 0;line-height:1.7}.think-section{max-width:100%;border-top:1px solid #35515d;border-bottom:1px solid #35515d;margin:25px 0 0;padding:20px 0}.think-head{display:flex;align-items:center;justify-content:space-between;gap:16px}.think-tabs{display:flex;gap:5px}.think-tabs button{background:transparent;border:1px solid #3f5a68;border-radius:8px;color:#9eb9bf;padding:7px 15px;font-size:12px}.think-tabs button.selected{background:#1f4c4e;color:#def9f1;border-color:#73b6af}.think-prompt{font-size:18px;font-weight:600;max-width:830px;line-height:1.55}.model-response{border-left:3px solid var(--mint);background:#16313a;padding:15px 18px;border-radius:0 9px 9px 0;font-size:14px;line-height:1.7;color:#d3e9e4;max-width:870px;margin-top:14px}.debrief-actions{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:22px}.method-detail{padding:15px 18px;margin-top:14px;border:1px solid #35515c;border-radius:10px;font-size:13px;color:#bcd0d4}.method-detail p{margin:5px 0 0;line-height:1.6}
+/* Finish: three insights and an optional, constructive exam check. */
+.finish{margin:22px auto 70px}.finish>.screen-title{font-size:clamp(45px,5.7vw,64px)}.finish-lead{max-width:760px;color:#c2d3d7;font-size:17px;line-height:1.65}.finish-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:30px 0 40px}.finish-card{border:1px solid #365360;background:#142832;border-radius:13px;padding:20px;min-height:190px;display:flex;flex-direction:column}.finish-card-top{display:flex;gap:10px;align-items:baseline}.finish-card-top span{font-size:11px;color:var(--mint)}.finish-card-top strong{font-size:15px}.finish-card p{flex:1;color:#b9cbd1;font-size:13px;line-height:1.6}.finish-card .text-link{align-self:start}.exam{max-width:890px}.exam-header{display:flex;justify-content:space-between;align-items:end;gap:30px}.exam-header h2{font-size:29px;letter-spacing:-.8px;margin:8px 0 20px}.exam-header>p{max-width:240px;font-size:12px;color:#a6b8be;line-height:1.5}.exam-question{border-top:1px solid #39515e}.exam-question:last-of-type{border-bottom:1px solid #39515e}.exam-question summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:35px 1fr 25px;align-items:baseline;gap:8px;padding:18px 5px;color:#e5f0ef}.exam-question summary::-webkit-details-marker{display:none}.exam-question summary b{font-size:12px;color:var(--mint)}.exam-question summary>span:nth-child(2){font-size:15px;line-height:1.5}.exam-question .chevron{color:#96c6c2;text-align:right;font-size:22px}.exam-question[open] .chevron{transform:rotate(45deg)}.exam-answer{padding:0 35px 18px 43px;color:#bdcfd2;font-size:14px;line-height:1.7}.exam-answer b{color:#a5e2d9}.exam-answer p{margin:6px 0}.finish-note{font-size:12px;color:#829ca4;margin-top:20px}
+#print-root{display:none}.loading{padding:80px 0;text-align:center;color:var(--mint)}
+@media(max-width:850px){.welcome{grid-template-columns:1fr;gap:0;padding-top:28px}.welcome-art{max-height:215px;aspect-ratio:auto}.welcome-art svg{max-height:245px}.debrief-grid{grid-template-columns:1fr}.explanation{order:1}.finish-grid{grid-template-columns:1fr}.finish-card{min-height:140px}.two-meters{max-width:500px}}
+@media(max-width:600px){.app-shell{width:calc(100% - 30px)}.topbar{height:67px}.logo small{font-size:8px}.topbar-right .quiet-action{font-size:12px}.site-foot{display:block;margin-top:35px}.site-foot span{display:block;margin-top:6px;text-align:left!important}.progress-nav{gap:10px;font-size:11px}.progress-dots .dot{width:17px}.stage-name{display:none}.welcome-copy h1{letter-spacing:-1.5px;font-size:48px}.welcome-art{max-height:170px}.three-teasers{grid-template-columns:1fr;gap:10px;margin:12px 0}.three-teasers>div{padding-top:10px}.lesson-intro .screen-title{font-size:39px}.fact-feature{padding:18px}.fact-feature>p{font-size:18px}.one-idea,.doing{grid-template-columns:1fr;gap:4px}.doing .keys-inline,.doing .btn,.doing .signal-check{grid-column:1}.settings-box{padding:18px}.task-panel{padding:16px;min-height:340px}.run-top .screen-title{font-size:34px}.round-indicator{font-size:26px}.memory-lab-frame{grid-template-columns:1fr;gap:12px}.memory-word-space .word-grid{gap:7px}.word{min-height:52px;font-size:14px}.memory-phone{min-height:130px}.phone-screen{display:flex;max-height:100px;height:80px}.phone-screen .fake-push{min-width:200px;flex:1}.phone-screen .fake-push:nth-child(n+2){display:none}.phone-bottom{display:none}.meter-row{grid-template-columns:97px minmax(0,1fr) 44px;gap:7px}.results-card,.explanation{padding:17px}.terms-compact>div{grid-template-columns:115px 1fr}.debrief-actions{flex-direction:column-reverse;align-items:stretch}.debrief-actions .btn{width:100%}.exam-header{display:block}.exam-header>p{max-width:100%}.think-head{align-items:start;flex-direction:column}.track-wrap{height:235px}.finish>.screen-title{font-size:44px}.keypads{gap:8px}.keypad{min-height:69px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media print{@page{size:A4 portrait;margin:12mm}body{background:#fff!important;color:#111!important;font:10pt/1.35 Arial,sans-serif}.app-shell,body>.ambient{display:none!important}#print-root{display:block!important;color:#111!important;background:#fff;padding:0 5mm}#print-root h1{font-size:20pt;margin:0 0 2mm}#print-root h2{font-size:11pt;margin:6mm 0 2mm}#print-root p{font-size:9pt;margin:2mm 0;line-height:1.4}#print-root table{border-collapse:collapse;width:100%;font-size:9pt;margin:4mm 0}#print-root th,#print-root td{border-bottom:1px solid #aaa;padding:2mm;text-align:left;vertical-align:top}#print-root .print-sheet{break-inside:avoid}}
+
+.research-procedure{color:#b6ccd0;font-size:13px;line-height:1.6;margin:-2px 0 13px;max-width:665px}.fact-feature>a{display:inline-block}
+
+.exam-answer label{display:block;color:#a8dacf;font-size:12px;margin:2px 0 9px}.exam-answer textarea{display:block;resize:vertical;width:100%;max-width:700px;min-height:80px;background:#102631;color:#e9f6f4;border:1px solid #425f68;border-radius:9px;padding:12px;margin-bottom:10px}.sample-answer{margin-top:14px;padding:15px 18px;background:#1a353e;border-radius:10px;max-width:750px}.sample-answer[hidden]{display:none}.self-check{font-size:12px;color:#98c1bd!important}
+
+/* V4: keep the measured prediction and research result compact, not another step. */
+.prediction-verdict{grid-column:1/-1;margin:7px 0 0;padding:8px 11px;border-radius:8px;background:#1d3942;color:#d0eee7;font-size:12px;line-height:1.45}
+.research-result{font-size:16px;color:#edf7f3;line-height:1.55;margin:11px 0 6px;font-weight:600}
+.research-citation{font-size:12px;color:#a7dad4;text-decoration:none}
+.research-citation:hover{text-decoration:underline}
+.mechanism-head{font-size:14px;color:#a5e6dd;margin:20px 0 8px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}}
+
+.extra-terms{font-size:12px;color:#a8c5c9;border-top:1px solid #31505b;padding-top:12px;margin-top:12px}
+.extra-terms summary{cursor:pointer;color:#b1e0dc;font-size:12px;font-weight:600}
+.extra-terms summary:focus-visible{outline:2px solid var(--mint);outline-offset:5px}
+.extra-terms p{line-height:1.6;margin:9px 0 0}
+
+/* Optional, no-motion data route: not shown during ordinary rounds. */
+.data-route-note{border:1px solid #3b5864;border-radius:10px;padding:12px 15px;margin:12px 0;color:#b9d2d5;font-size:13px;line-height:1.55}
+.data-route-note summary{cursor:pointer;color:#a8dcd7;font-weight:650}
+.data-route-note p{margin:10px 0}
+.data-route-note button{margin:4px 0 2px}
+.data-route-note[data-active="true"]{border-color:#75b9a9;background:#15343b}
+.data-route-card{max-width:720px;margin:0 auto;text-align:left}
+.data-route-card h2{font-size:clamp(25px,4vw,34px);line-height:1.25;margin:9px 0}
+.data-route-card>p{font-size:14px;color:#bdd1d6;line-height:1.65}
+.data-table{width:100%;border-collapse:collapse;table-layout:fixed;margin:16px 0;color:#e4efee;font-size:14px}
+.data-table caption{text-align:left;font-size:12px;color:#a6cec9;margin-bottom:9px}
+.data-table th,.data-table td{padding:11px 9px;border-bottom:1px solid #34535c;text-align:left;overflow-wrap:anywhere}
+.data-table th{font-size:12px;color:#a8c9cb;font-weight:650;line-height:1.4}
+.data-table tbody tr:nth-child(odd){background:#19333f}
+.data-table td:first-child{font-weight:650;color:#a8dcd7}
+.data-total{color:#e7f7ee!important;border-left:3px solid #96ded3;background:#173640;border-radius:0 9px 9px 0;padding:12px 15px;line-height:1.6}
+@media(max-width:500px){.data-table{font-size:12px}.data-table th,.data-table td{padding:9px 5px}}
+
+/* Keyboard/assistive-technology affordances for the selection and results. */
+h1[tabindex="-1"]:focus{outline:none}
+.countdown small{display:block;font-size:clamp(14px,2vw,18px);font-weight:700;line-height:1.4;letter-spacing:1px;margin:0 auto 14px;color:var(--mint)}
+.track-dot.selectable{width:40px;height:40px;min-width:40px;min-height:40px;touch-action:manipulation}
+.track-dot.selectable:focus-visible{outline:3px solid var(--amber);outline-offset:4px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.signal-explainer{margin-top:9px}
+.audio-fallback:not(:empty){margin:9px auto 0;color:var(--amber);text-align:center;font-size:13px}
+
+/* Optional, hypothetical score explainer. Hidden until the learner chooses it. */
+.score-sandbox{margin-top:15px;padding-top:13px;border-top:1px solid #34515d;color:#c3d8d9;font-size:13px}
+.score-sandbox summary{cursor:pointer;color:#b8ede5;font-weight:650;font-size:13px}
+.score-sandbox>p{line-height:1.55;margin:12px 0}
+.score-sandbox .score-example-note{color:#c5d6d9;font-size:12px}
+.score-controls{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
+.score-controls label{display:block;font-size:12px;color:#d0e3e4}
+.score-controls output{display:block;font-weight:700;margin:4px 0 6px;color:#eef5f5}
+.score-controls input[type=range]{width:100%;accent-color:var(--mint);min-height:36px;cursor:pointer}
+.score-example-meter{display:grid;grid-template-columns:100px minmax(0,1fr) 46px;align-items:center;gap:9px;margin:11px 0;font-size:12px}
+.score-example-meter b{text-align:right;color:#eef5f5}
+.score-score-note{font-size:12px;line-height:1.5;color:#b8ced1;margin:13px 0 4px}
+@media(max-width:600px){.score-controls{grid-template-columns:1fr;gap:9px}.score-example-meter{grid-template-columns:94px minmax(0,1fr) 44px}}
+/* In very short portrait viewports, keep all nine words and the simulated
+   alert visible together instead of making exposure dependent on scrolling. */
+@media(max-width:600px) and (max-height:540px){
+ .memory-task{min-height:0;padding:12px}
+ .memory-task .task-title{font-size:20px;margin:4px 0 5px}
+ .memory-task .memory-lab-frame{margin:9px 0;gap:7px}
+ .memory-task .word-grid{gap:4px}
+ .memory-task .word{min-height:43px;font-size:12px;letter-spacing:0}
+ .memory-task .memory-phone{min-height:85px}
+ .memory-task .phone-status{padding:5px 8px}
+ .memory-task .phone-screen{height:54px;max-height:54px;padding:5px 8px}
+ .memory-task .fake-push{min-height:43px;padding:4px 6px}
+ .memory-task .memory-timer strong{font-size:17px}
+}
+/* v13: one discreet escape from an unusable live task; recovery comes before retry. */
+.run-escape{display:flex;align-items:baseline;gap:10px 18px;flex-wrap:wrap;margin:15px 2px 0;padding:4px 0}
+.run-escape.aborted{margin:10px 0 16px;padding:11px 14px;background:#18323e;border:1px solid #486473;border-radius:11px}
+.run-escape .text-link{font-weight:700;font-size:14px;padding:7px 0}
+.run-escape p{font-size:12px;line-height:1.5;color:#b9cdd2;max-width:590px;margin:2px 0}
+@media(max-width:600px){.run-escape{display:block}.run-escape p{margin:4px 0 7px}}
+
+/* Visual wrapper for the unchanged recovered core experiment engines. */
+body{background:#e6e1d5;background-image:radial-gradient(circle at 9% 8%,#f8f5ed,transparent 52%)}
+.app-shell{background:#0c151e;width:min(1100px,calc(100% - 36px));padding:0 22px 18px;margin:23px auto 48px;border:1px solid #cfc7b6;box-shadow:12px 17px 0 #c5baa8,0 20px 42px #423d3133}
+.topbar{height:76px}.logo small{font-size:.68rem}
+@media(max-width:540px){.app-shell{width:calc(100% - 12px);padding:0 7px 12px;margin:6px auto 25px;box-shadow:none;border:1px solid #bdb6a7}.topbar{height:66px}}
+@media print{body{background:white}.app-shell{width:100%;box-shadow:none;border:none}}
+</style><style id="guided-core-style">
+/* ATTENTION / LAB: quiet paper-notebook wrapper. Frozen scoring engine remains intact. */
+:root{color-scheme:light;--bg:#e9e6dc;--surface:#fcfaf3;--surface2:#f1eee3;--border:#c7d0c3;--text:#213e33;--muted:#51695d;--mint:#2a6551;--blue:#315f62;--amber:#a34e32;--error:#81392f}
+body{background:#e9e6dc!important;background-image:radial-gradient(ellipse at 16% 8%,#fff8e8 0,transparent 62%)!important;color:var(--text)}
+.app-shell{background:#fffdf6;border-left:1px solid #c8c4b7;border-right:1px solid #c8c4b7;min-height:100vh;padding:0 clamp(16px,3vw,34px);box-shadow:0 18px 35px #292e262a;width:min(1130px,100%)}
+.topbar{border-color:#d4d1c4;height:68px}.logo,.logo strong{color:#163d30}.logo-mark{color:#285d4c;border-color:#39765d}.logo small{color:#577264}.topbar-right .quiet-action{color:#566b60}.topbar-right .quiet-action:hover{color:#a44b31}
+.progress-nav{color:#466557}.progress-dots .dot{background:#d9ddcf}.progress-dots .dot.current{background:#266348}.progress-dots .dot.complete{background:#73a693}.stage-name{color:#355d48}
+.site-foot{border-color:#d2d1c4;color:#657a6c;margin-top:39px}.eyebrow{color:#397357}.screen-title,.finish h1,.welcome-copy h1{font-family:Georgia,'Palatino Linotype',serif;font-weight:500;letter-spacing:-.044em;color:#193c2f;line-height:1.05}.lesson-intro .screen-title{font-size:clamp(2.4rem,5vw,3.9rem);margin:12px 0 22px;max-width:670px}
+.lead,.lead.small,.finish-lead{color:#466558}.narrow{max-width:820px;margin:20px auto 53px}.lesson-intro{margin-top:33px}
+.fact-feature{border:1px solid #d9dccd;border-left:4px solid #3c745c;background:#f3f2e8;border-radius:3px 12px 12px 3px;padding:19px 24px;margin:20px 0}.fact-heading{color:#315e4b}.fact-feature>p{font-size:1.22rem;line-height:1.45;margin:10px 0}.research-procedure{color:#495f53}.fact-feature>a{color:#245f4b;text-decoration:underline;text-underline-offset:3px}.research-mark{color:#2a6b51}
+.one-idea,.doing{border-color:#dbdfd6;padding:11px 3px}.one-idea strong,.doing strong{color:#336b55}.one-idea p,.doing p{color:#294739}.doing .keys-inline{color:#405b4e}.keys-inline kbd{color:#184d36;border-color:#aabfb3}
+.btn{border-radius:6px}.btn.primary{color:#fffdf2;background:#1a4b3a;border-color:#1a4b3a}.btn.primary:hover{background:#286c54}.btn.secondary{color:#1b4938;background:#e5ebdf;border-color:#9fb9a7}.btn.secondary:hover{background:#d2dfd1}.btn.ghost{color:#245d46}.btn.ghost:hover{color:#143a2d;background:#eef2e7}.text-link{color:#245c44}.text-link:hover{color:#a54a31}
+.choice-chip,.prediction{color:#204d3b;background:#fffdf8;border-color:#adbfaf}.choice-chip.selected,.prediction.selected{color:#17432f;background:#dcead9;border-color:#2c7456;box-shadow:inset 0 0 0 1px #448869}
+.predict h2{color:#244b3a}.predict small{color:#536b5c}.player-note{color:#466252}.subnote,.tiny,.muted{color:#547064}
+/* Active experiments remain a strong, static instrument surface with readable contrast. */
+.run-top .screen-title,.run-top h1{color:#1b4032}.run-top p{color:#4b6558}.round-indicator,.round-indicator small{color:#2e6a50}.hairline-progress{background:#d4ded2}.hairline-progress span{background:#297453}
+.task-panel{background:#15392f;border:1px solid #1c5440;color:#f3f8ed;border-radius:8px}.task-panel .task-title,.task-panel h2,.task-panel h3{color:#fffdf3}.task-panel .phase-indicator{color:#a9e6cc}.task-panel .fade-label,.task-panel .subnote,.task-panel .tracking-instruction{color:#e4f1e8}.task-panel .task-count{color:#b7edcf}.task-panel .btn.secondary{color:#174331}.task-panel .memory-timer strong{color:#fff0ba}
+.word{background:#faf8ec;color:#1b4a37;border-color:#a9bcad;box-shadow:0 2px 0 #a8bea9;font-size:clamp(1rem,1.55vw,1.22rem);border-radius:6px}.memory-phone{background:#f3f0e6;border:3px solid #99b3a4;border-radius:13px;box-shadow:6px 7px 0 #14332b38}.memory-phone.is-live{border-color:#e8b478}.phone-status,.phone-bottom{background:#2d5242;color:#fff3d7}.phone-screen{background:#e1e5d9}.phone-placeholder,.phone-silent{color:#345b47}.fake-push{background:#fffdf4;color:#193c30;border:1px solid #d7ded1;box-shadow:0 4px 7px #264a3b29}.fake-push span{color:#183d31}.fake-push b{color:#54685b}.fake-push em{color:#62786b}.push-icon{background:#aa523a!important}
+/* Notification copies now appear in the focus area as a small OS-like banner. */
+.guided-alert-toast{position:fixed;top:14px;left:50%;width:min(380px,calc(100vw - 24px));transform:translate(-50%,-120%);z-index:2000;pointer-events:none;border:1px solid #bdcfc2;border-radius:14px;background:#fcfdf7;box-shadow:0 13px 31px #0b251f62,0 0 0 3px #f6f9ec;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:center;padding:11px 14px;color:#183c30;opacity:0;font-size:.9rem;line-height:1.34}
+.guided-alert-toast .app-icon{width:31px;height:31px;border-radius:9px;background:#bd6749;display:grid;place-items:center;color:#fff8ea;font-weight:800;font-size:1.1rem}.guided-alert-toast strong{display:block;font-size:.69rem;letter-spacing:.1em;color:#45685a;text-transform:uppercase}.guided-alert-toast.visible{animation:guided-notice .85s ease both}@keyframes guided-notice{0%{opacity:0;transform:translate(-50%,-110%)}19%{opacity:1;transform:translate(-50%,0)}77%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-108%)}}
+/* Research/results remain readable, rather than a dense dashboard. */
+.debrief .screen-title{color:#153d2e}.results-card,.explanation{border-color:#d0d9cc;background:#f7f5ea;border-radius:8px;color:#274737}.results-card h2,.explanation h2,.explanation h3{color:#1d4937}.result-cards .eyebrow,.explanation .eyebrow{color:#31694d}.two-meters .meter-track{background:#dbe3d7}.two-meters .meter-track>span{background:#33725a}.two-meters .meter-track>span.interference{background:#a96b50}.meter-row,.meter-row b{color:#2a4f3c}.data-foot,.data-foot b,.explain-lead,.research-result{color:#365647}.research-citation{color:#285e4a}.terms-compact,.terms-compact div,.terms-compact b,.terms-compact span{color:#284d3a}.caution{background:#eee9dc;border-color:#d2cfbc;color:#385642}.caution p{color:#3b5849}
+.think-section,.exam{background:#f1efe5;border-color:#d7d5c8}.think-section p,.think-head,.think-head button,.exam p{color:#26493b}.debrief-actions{margin-top:22px}
+.guided-extra{margin:18px 0;color:#37634e;font-size:.87rem}.guided-extra>summary{cursor:pointer;font-weight:720;padding:10px 0;text-decoration:underline;text-underline-offset:4px}.guided-extra .think-section{margin-top:9px}.guided-extra .method-detail{margin-top:9px}
+.finish{padding-top:22px}.finish .finish-card,.finish .exam,.exam-question{background:#f6f4ea;border-color:#cfd8cb;color:#1f4434}.finish-card p,.finish-lead{color:#355744}.finish-card strong,.finish-card-top,.exam h2{color:#19412f}.finish-actions{display:flex;align-items:center;gap:15px}.finish .sample-answer{color:#29483b}
+.guided-sound-note{font-size:.85rem;color:#4b6557;line-height:1.5;margin:10px 0}
+@media(max-width:760px){.app-shell{padding:0 15px}.lesson-intro{margin-top:18px}.narrow{margin-bottom:36px}.fact-feature{padding:17px 15px}.fact-feature>p{font-size:1.08rem}.task-panel{padding:14px}.memory-lab-frame{gap:9px}.memory-phone{border-width:2px}.guided-alert-toast{top:4px}.guided-alert-toast{font-size:.82rem;padding:9px}.site-foot{margin-top:28px}}
+@media(prefers-reduced-motion:reduce){.guided-alert-toast.visible{animation:none;opacity:1;transform:translate(-50%,0)}.btn:hover:not(:disabled){transform:none}}
+@media print{.guided-alert-toast,.guided-extra>summary{display:none}}
+
+.data-route-note>summary{color:#2d624b!important;background:#eef3e9;border-color:#b0c5b3!important}.data-route-note>summary:hover{color:#a64c30!important}.guided-mute{font-size:.89rem;display:flex;gap:8px;align-items:center;margin:5px 0 8px;color:#284d39}.guided-mute input{width:18px;height:18px;accent-color:#2d664a}.caution #guided-notice-caveat{margin-top:12px;padding-top:12px;border-top:1px solid #cbc6b8;color:#3f5949}
+
+</style>
+<style>
+/* Clean classroom route: one prediction, one experiment, one next step. */
+.data-route-note,.run-escape,.motion-advice,.topbar-right,.finish-actions,.finish-grid [data-replay],.exam,.think-section,#method-toggle,.finish-note,.guided-extra,.signal-check #switch-signal-mode,.site-foot{display:none!important}
+.lesson-intro .predict{display:block!important;background:transparent;border-top:2px solid #315b47;margin:24px 0 0;padding:21px 0 0}
+.lesson-intro .predict h2{font-size:clamp(1.35rem,3vw,1.8rem);max-width:680px}
+.prediction-options{gap:10px}.prediction{min-height:52px;font-size:1rem}.prediction.selected{box-shadow:inset 0 0 0 2px #287b5d}
+#start-experiment{min-width:200px}#start-experiment:disabled{opacity:.48;cursor:not-allowed}
+#clean-pred-hint{margin:0 0 6px;color:#345c48;font-size:.95rem}
+.clean-next{display:inline-flex;min-height:54px;align-items:center;padding:13px 22px;background:#225a3e;color:white!important;text-decoration:none;font-size:1.04rem;font-weight:800;border-radius:9px;margin:10px 0 22px}
+.clean-next:hover{background:#2c7850}.clean-next:focus-visible{outline:3px solid #a84e2d;outline-offset:3px}
+.guided-alert-toast{position:fixed;left:50%;top:36%;transform:translate(-50%,-14px);z-index:10000;width:min(88vw,430px);padding:16px 18px;display:flex;align-items:center;gap:12px;background:#fff8ec;color:#17372d;border:2px solid #386b57;border-radius:17px;box-shadow:0 0 0 900px #162c2110,0 18px 45px #10291c75;font:600 1.08rem/1.35 system-ui,sans-serif;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .12s,transform .12s}
+.guided-alert-toast.visible{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.guided-alert-toast .app-icon{width:46px;height:46px;flex:0 0 46px;background:#cf6246;color:white;border-radius:13px;display:grid;place-items:center;font-size:1.35rem}
+.guided-alert-toast strong{display:block;font-size:.71rem;letter-spacing:.12em;color:#85432b;margin-bottom:4px;text-transform:uppercase}
+@media(prefers-reduced-motion:reduce){.guided-alert-toast{transition:none!important}}
+@media(max-width:480px){.guided-alert-toast{top:30%;padding:12px;font-size:1rem}.guided-alert-toast .app-icon{width:40px;height:40px;flex-basis:40px}}
+@media print{.guided-alert-toast,.clean-next{display:none!important}}
+</style></head>
+<body><div class="app-shell"><header class="topbar"><a class="logo" href="../index.html" aria-label="Return to the paper laboratory notebook"><span class="logo-mark">⌘</span><span><strong>MIND<span class="logo-accent">/</span>LAB</strong><small>COGNITIVE MULTITASKING</small></span></a><div class="topbar-right"><button id="reset-btn" class="quiet-action" type="button">Restart</button></div></header><nav id="progress-nav" class="progress-nav" aria-label="Progress"></nav><main id="app" tabindex="-1"><div class="loading">Loading…</div></main><footer class="site-foot"><span>IB Psychology · Learning and cognition</span><span>Learning demo · No results saved or transmitted</span></footer></div><div id="print-root" aria-hidden="true"></div><script>
+/* Local, original task stimuli. No student information or remote content. */
+window.LAB_CONTENT={
+  modules:[
+    {id:'memory',n:'01',title:'Memory under distraction'},
+    {id:'switch',n:'02',title:'Task switching'},
+    {id:'dual',n:'03',title:'Dual-task interference'}
+  ],
+  memorySets:[
+    ['garden','mirror','candle','rocket','pillow','tunnel','rabbit','silver','forest'],
+    ['window','pencil','island','bottle','basket','planet','jacket','marble','castle'],
+    ['ladder','coffee','yellow','circle','button','hammer','beach','guitar','winter'],
+    ['wallet','butter','camera','turtle','magnet','sailor','cotton','orange','pocket'],
+    ['flower','shadow','ticket','carpet','bridge','finger','puzzle','purple','market'],
+    ['donkey','ribbon','bucket','summer','dragon','pepper','canvas','valley','napkin'],
+    ['helmet','apple','needle','sugar','thunder','kitchen','feather','anchor','tower'],
+    ['saddle','cactus','fossil','ranger','medal','soap','spider','lantern','ocean']
+  ]
+};
+
+</script>
+<script>
+/* Pure scoring and deterministic stimulus generation functions used by app and tests. */
+(function(root){
+  'use strict';
+  const median = a => { const v=a.filter(Number.isFinite).sort((x,y)=>x-y);return v.length?(v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2):null; };
+  const mean = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+  const round=(n,d=0)=>Number.isFinite(n)?Number(n.toFixed(d)):null;
+  const clamp=(a,lo,hi)=>Math.max(lo,Math.min(hi,a));
+  const pct=(n,d)=>d?100*n/d:null;
+  function hash(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+  function rng(seed){let x=seed>>>0;return ()=>{x+=0x6D2B79F5;let t=x;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
+  function shuffle(a,rand){const b=a.slice();for(let i=b.length-1;i>0;i--){let j=Math.floor(rand()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+  function memoryBlocks(player,levels=2,sessionSeed='default'){
+    const out=[];
+    const startingPair=hash(String(sessionSeed)+':lists')%4;
+    const flip=hash(String(sessionSeed)+':assignment')%2;
+    for(let level=0;level<levels;level++){
+      const pair=(startingPair+level)%4;
+      // Same two lists and exposures for both players, reversed A/B assignment;
+      // condition order is also counterbalanced. This reduces list/condition
+      // confounding in 1v1 (it cannot eliminate it for one individual).
+      const quietList=2*pair+((flip+player+level)%2);
+      const distractedList=2*pair+(1-((flip+player+level)%2));
+      const order=((player+level)%2===0)?['quiet','distracted']:['distracted','quiet'];
+      for(const cond of order)out.push({kind:'memory',condition:cond,level:level+1,setIndex:cond==='quiet'?quietList:distractedList,length:8+level,pair});
+    }
+    return out;
+  }
+  function switchBlocks(player,levels=2){let out=[];for(let level=0;level<levels;level++){let order=((player+level)%2===0)?['fixed','mixed']:['mixed','fixed'];for(let cond of order)out.push({kind:'switch',condition:cond,level:level+1,count:level?24:24});}return out;}
+  function dualBlocks(player,levels=2){let out=[];for(let level=0;level<levels;level++){let single=(player%2===0?['track','tone']:['tone','track']);for(let cond of [...single,'both'])out.push({kind:'dual',condition:cond,level:level+1,duration:9000+level*1000});}return out;}
+  function blocksFor(id,player,levels=2,sessionSeed='default'){return id==='memory'?memoryBlocks(player,levels,sessionSeed):id==='switch'?switchBlocks(player,levels):dualBlocks(player,levels);}
+  function stimulusTrials(seed,condition,count){
+    const rand=rng(hash(seed)),base=[];
+    for(let i=0;i<count;i++){base.push({color:i%2?'orange':'cyan',shape:(Math.floor(i/2)%2)?'square':'circle'});}
+    const order=shuffle(base,rand);
+    let rules=[];
+    if(condition==='fixed')rules=Array(count).fill('color');
+    else{
+      // Balanced, predictable runs of varying lengths with enough repeats and switches.
+      const pattern=['color','color','shape','shape','shape','color','color','shape'];
+      rules=Array.from({length:count},(_,i)=>pattern[(i+Math.floor(rand()*pattern.length))%pattern.length]);
+      // Shifting the pattern for each index would break runs; use one rotation instead.
+      const shift=Math.floor(rand()*pattern.length);rules=Array.from({length:count},(_,i)=>pattern[(i+shift)%pattern.length]);
+    }
+    return order.map((obj,i)=>({id:i,rule:rules[i],color:obj.color,shape:obj.shape,answer:(rules[i]==='color'?(obj.color==='cyan'?0:1):(obj.shape==='circle'?0:1)),isSwitch:condition==='mixed'&&i>0&&rules[i]!==rules[i-1]}));
+  }
+  function toneEvents(seed,duration){const r=rng(hash(seed));const n=8,base=shuffle([1,1,1,0,0,0,0,0],r);const step=(duration-1800)/(n-1);return base.map((target,i)=>({target:!!target,at:850+i*step+(r()-.5)*140}));}
+  function trackSeed(seed,n=6){const r=rng(hash(seed)),dots=[];for(let i=0;i<n;i++){const angle=r()*Math.PI*2;dots.push({id:i,x:.15+(i%3)*.33+(r()-.5)*.09,y:.22+Math.floor(i/3)*.53+(r()-.5)*.08,vx:Math.cos(angle),vy:Math.sin(angle)});}return shuffle(dots,r).map((x,i)=>({...x,id:i,target:i<2}));}
+  function evaluateMemory(blocks,untimed){const quiet=blocks.filter(b=>b.condition==='quiet'),dist=blocks.filter(b=>b.condition==='distracted');const sum=a=>a.reduce((acc,b)=>({hits:acc.hits+b.hits,targets:acc.targets+b.targets,intrusions:acc.intrusions+b.intrusions,recallMs:acc.recallMs+b.recallMs}),{hits:0,targets:0,intrusions:0,recallMs:0});const q=sum(quiet),d=sum(dist),qa=pct(q.hits,q.targets),da=pct(d.hits,d.targets);const accuracy=pct(q.hits+d.hits,q.targets+d.targets)||0;const speed=Math.max(0,250-Math.round((q.recallMs+d.recallMs)/1000)*4);return {quiet:{...q,accuracy:qa},distracted:{...d,accuracy:da},differencePP:round(qa-da,1),arcade:Math.round(accuracy*15)+(!untimed&&speed>0?speed:0),rtCostMs:null};}
+  function evaluateSwitch(blocks,untimed){const fixed=blocks.filter(b=>b.condition==='fixed').flatMap(b=>b.trials),mixed=blocks.filter(b=>b.condition==='mixed').flatMap(b=>b.trials);function stats(a){const correct=a.filter(t=>t.correct&&Number.isFinite(t.rt)&&t.rt>=80);return {n:a.length,correct:a.filter(t=>t.correct).length,accuracy:pct(a.filter(t=>t.correct).length,a.length),medianRT:median(correct.map(t=>t.rt))};}const f=stats(fixed),m=stats(mixed);const sw=mixed.filter(t=>t.isSwitch&&t.correct&&Number.isFinite(t.rt)&&t.rt>=80).map(t=>t.rt),rp=mixed.filter(t=>!t.isSwitch&&t.index>0&&t.correct&&Number.isFinite(t.rt)&&t.rt>=80).map(t=>t.rt);const sufficient=sw.length>=5&&rp.length>=5;const cost=sufficient?round(median(sw)-median(rp)):null;const acc=mean([f.accuracy,m.accuracy])||0;const bonus=(!untimed&&acc>=70&&m.medianRT!=null)?Math.max(0,Math.round(350-m.medianRT/5)):0;return {fixed:f,mixed:m,switchN:sw.length,repeatN:rp.length,switchMedian:median(sw),repeatMedian:median(rp),validCost:sufficient&&!untimed,switchCostMs:untimed?null:cost,arcade:Math.round(acc*15)+bonus,untimed:!!untimed};}
+  // A custom, intentionally conservative teaching score (NOT d-prime).
+  // Missed highs reduce the hit fraction; any false presses (including presses
+  // outside a signal window) reduce it further. Five low signals define the
+  // normalising denominator in this short block. Cap the false-press fraction
+  // at 1, so spam pressing cannot create a positive score.
+  function netDetection(hits,targets,falsePresses,lowSignals){
+    if(!(Number.isFinite(hits)&&Number.isFinite(targets)&&targets>0&&
+         Number.isFinite(falsePresses)&&Number.isFinite(lowSignals)&&lowSignals>0))return null;
+    const hitRate=clamp(hits/targets,0,1);
+    const falsePenalty=clamp(falsePresses/lowSignals,0,1);
+    return round(100*Math.max(0,hitRate-falsePenalty),1);
+  }
+  // Explicitly fictional demonstration observations, never student scores.
+  // Five rounds of two tracking targets and three highs/five lows per sound round.
+  // The model does not imply an actual sample or a published experimental effect.
+  function exampleData(){
+    const tracking=[2,2,1,2,1], combinedTrack=[1,1,1,1,1];
+    const aloneHits=[3,2,3,2,3], aloneFalse=[0,1,0,1,0];
+    const bothHits=[2,2,3,1,2], bothFalse=[1,1,2,1,1];
+    const rows=[];
+    for(let i=0;i<5;i++){
+      rows.push({kind:'dual',condition:'track',level:1,visualCorrect:tracking[i],hits:0,targets:0,lowSignals:0,falseAlarms:0,example:true});
+      rows.push({kind:'dual',condition:'tone',level:1,visualCorrect:null,hits:aloneHits[i],targets:3,lowSignals:5,falseAlarms:aloneFalse[i],example:true});
+      rows.push({kind:'dual',condition:'both',level:1,visualCorrect:combinedTrack[i],hits:bothHits[i],targets:3,lowSignals:5,falseAlarms:bothFalse[i],example:true});
+    }
+    return rows;
+  }
+  function evaluateDual(blocks){function get(cond){return blocks.filter(b=>b.condition===cond);}const tb=get('track'),to=get('tone'),both=get('both');const visual=a=>({n:a.length,correct:a.reduce((x,b)=>x+(Number.isFinite(b.visualCorrect)?b.visualCorrect:0),0),accuracy:pct(a.reduce((x,b)=>x+(Number.isFinite(b.visualCorrect)?b.visualCorrect:0),0),a.length*2)});const audio=a=>{const hits=a.reduce((x,b)=>x+(b.hits||0),0),targets=a.reduce((x,b)=>x+(b.targets||0),0),falseAlarms=a.reduce((x,b)=>x+(b.falseAlarms||0),0),lowSignals=a.reduce((x,b)=>x+(Number.isFinite(b.lowSignals)?b.lowSignals:0),0);return {n:a.length,hits,targets,lowSignals,falseAlarms,hitRate:pct(hits,targets),accuracy:netDetection(hits,targets,falseAlarms,lowSignals)};};const t=visual(tb),tt=audio(to),dt=visual(both),dtt=audio(both);return {track:t,tone:tt,dualTrack:dt,dualTone:dtt,trackDifferencePP:round(t.accuracy-dt.accuracy,1),toneDifferencePP:round(tt.accuracy-dtt.accuracy,1),arcade:Math.max(0,Math.round((dt.accuracy+dtt.accuracy)*7.5)-dtt.falseAlarms*35)};}
+  // Explicitly invented teaching examples; NEVER real individual trials or
+  // empirical data attributed to the cited papers. The two word conditions
+  // each represent 5 fictional 8-word rounds (not matched word lists).
+  function exampleMemoryData(){
+    const quiet=[6,7,5,6,7],distracted=[4,5,4,3,5];
+    return ['quiet','distracted'].flatMap((condition)=>
+      (condition==='quiet'?quiet:distracted).map(hits=>({kind:'memory',condition,hits,targets:8,intrusions:0,recallMs:0,example:true})));
+  }
+  // Six shown switch and repeat latencies; a separate initial warm-up is
+  // represented in the scored data to match the existing repeat-trial rule.
+  function exampleSwitchData(){
+    const fixed=[470,450,490,460,480,500];
+    const repeats=[500,520,505,510,530,495],switches=[660,670,640,680,650,690];
+    const trials=[{index:0,isSwitch:false,correct:true,rt:505}];
+    for(let i=0;i<6;i++){
+      trials.push({index:trials.length,isSwitch:false,correct:true,rt:repeats[i]});
+      trials.push({index:trials.length,isSwitch:true,correct:true,rt:switches[i]});
+    }
+    return [{kind:'switch',condition:'fixed',trials:fixed.map((rt,index)=>({index,isSwitch:false,correct:true,rt})),example:true},
+      {kind:'switch',condition:'mixed',trials,example:true}];
+  }
+  const evals={memory:evaluateMemory,switch:evaluateSwitch,dual:evaluateDual};
+  root.LAB_ENGINE={median,mean,pct,round,clamp,hash,rng,shuffle,blocksFor,stimulusTrials,toneEvents,trackSeed,netDetection,exampleData,exampleMemoryData,exampleSwitchData,evals};
+})(window);
+
+</script>
+<script>
+/* Short, research-grounded learning notes. The arcade trials are original classroom analogues, not replications. */
+window.LAB_LEARNING={
+  memory:{
+    title:'Can a notification break your focus?',
+    study:'Stothart, Mitchum & Yehnert (2015)',
+    url:'https://doi.org/10.1037/xhp0000100',
+    question:'Could an alert interrupt attention even when you do not open the notification?',
+    finding:'Even an unanswered phone alert disrupted performance on an attention task.',
+    originalProcedure:'Participants pressed for every digit except 3. Call and text groups received alerts during the second block; a control group did not.',
+    simple:'Selective attention means focusing on what matters while filtering out competing information.',
+    doing:'Memorise words twice: once in quiet, once with fake notifications. Then compare your recall.',
+    prediction:'With alerts, I think I will remember…',
+    lower:'fewer words',same:'about the same',higher:'more words',
+    unpack:'Irrelevant alerts can draw attention away from encoding. They may add extraneous cognitive load: mental work that does not help you learn the material.',
+    terms:[
+      ['Selective attention','Focusing on relevant information.'],
+      ['Extraneous / intrinsic load','Avoidable distraction / demand inherent in the material.'],
+      ['Working memory','Holding and processing a limited amount of information.'],
+      ['Encoding','Processing information so it can be remembered.']
+    ],
+    method:'Independent variable: notifications on/off. Dependent variable: percentage of words recalled. Each person tries both conditions (repeated measures).',
+    shortLimit:'Our word lists differ from the original study and may not be equally difficult.',
+    limit:'Both lists have eight or nine words and similar lengths; they are not psychometrically matched. In 1v1, their assignment is reversed. Order, recall strategies and chance still matter. Stothart et al. tested attention, not word recall.',
+    apply:{q:'You are revising vocabulary while group-chat alerts appear. What practical change would you test?',a:'Turn off previews for one revision block and compare later recall with an otherwise similar block. The idea is to reduce extraneous demands during encoding.'},
+    evaluate:{q:'You recalled fewer words with alerts. Can you conclude that phones always harm memory?',a:'No. You observed a difference in a short teaching demonstration. Different word lists, the order of tasks, practice and chance are alternative explanations; a larger controlled study would strengthen the conclusion.'},
+    exam:{q:'Explain one way environmental distractions may influence memory, referring to cognitive load theory.',a:'Stothart et al. (2015) found that unanswered phone notifications disrupted performance on an attention task. Alerts might draw attention away from encoding and add extraneous load to working memory. Our word-recall demonstration illustrates a related idea, not a replication of their study.'}
+  },
+  switch:{
+    title:'Why does changing the rule slow us down?',
+    study:'Rogers & Monsell (1995)',
+    url:'https://doi.org/10.1037/0096-3445.124.2.207',
+    question:'Does switching between two simple rules slow responses, compared with repeating one rule?',
+    finding:'In classification tasks, changing the task usually took longer than repeating it.',
+    originalProcedure:'Participants classified digits as odd/even or letters as vowels/consonants. Rules changed in predictable runs, so researchers could compare switch and repeat trials.',
+    simple:'A task set is the rule you hold in mind about what matters and how to respond.',
+    doing:'Classify shapes using one rule, then switch between colour and shape. Use F / J or the two on-screen buttons.',
+    prediction:'When the rule changes, I think my responses will be…',
+    lower:'slower',same:'about the same',higher:'faster',
+    unpack:'Changing the task set requires executive control. Switch cost is measured by subtracting the median response time on repeat trials from the median on switch trials, using correct responses only.',
+    terms:[
+      ['Task set','The rule currently guiding your decision.'],
+      ['Switch cost','Switch-trial reaction time minus repeat-trial reaction time.'],
+      ['Executive control','Keeping, selecting or changing a goal-relevant rule.']
+    ],
+    method:'Compare colour-only and mixed-rule accuracy. Within the mixed-rule block, estimate switch cost from correct switch and repeat trials.',
+    shortLimit:'Practice and browser input timing can affect the result.',
+    limit:'The browser is not laboratory equipment; practice, cue preparation and key or screen latency can affect reaction time. Our colour/shape task is not the original procedure.',
+    apply:{q:'You are writing an essay but check your messages every minute. What could you change?',a:'Batch writing and message checking into separate periods to reduce repeated changes of task set. This is a plausible strategy, not proof that every switch is costly.'},
+    evaluate:{q:'Your switch trials were slower. Does that prove you are bad at multitasking?',a:'No. This is a within-session task-specific difference, not a personal trait. Preparation time, accuracy, practice, response strategies and device timing also matter.'},
+    exam:{q:'Explain how switch cost can be operationalised in a task-switching experiment, and identify one limitation.',a:'Rogers and Monsell (1995) studied changes between simple classification tasks. Switch cost can be operationalised as median response time on correct switch trials minus correct repeat trials. Practice and preparation time may affect the result, so it should not be taken as a personal trait.'}
+  },
+  dual:{
+    title:'What happens when two tasks overlap?',
+    study:'Pashler (1994) · research review',
+    url:'https://doi.org/10.1037/0033-2909.116.2.220',
+    question:'When two tasks overlap, can they interfere with one another?',
+    finding:'Doing two tasks at once can create bottlenecks in processing and response selection.',
+    originalProcedure:'Pashler reviewed dual-task experiments on overlapping responses and processing bottlenecks. It was not one tracking-and-tone experiment.',
+    simple:'Divided attention is the attempt to manage two ongoing demands, not merely switch back and forth.',
+    doing:'Track two moving targets. Detect high sounds. Then try both at once. Each task has its own baseline.',
+    prediction:'When I do both at once, I think performance will be…',
+    lower:'worse',same:'about the same',higher:'better',
+    unpack:'Two overlapping tasks may interfere with one another. This can affect tracking, signal detection, or both. Some well-practised, compatible tasks can coexist without a measurable cost.',
+    terms:[
+      ['Divided attention','Managing more than one ongoing demand.'],
+      ['Dual-task interference','A performance change when tasks overlap.'],
+      ['Separate baselines','Compare each task with its own single-task result.']
+    ],
+    method:'Compare tracking with and without a second task. Compare net signal detection with and without tracking. Net detection subtracts false-press penalty from high-signal hit rate; it is a teaching score, not d-prime.',
+    shortLimit:'Few signals, accidental presses and device delays can change the result.',
+    limit:'Only three high and five low signals appear per round. Net detection is our own score, not an established sensitivity index. Repeated or off-cue presses count against it. Audio, visual and input timing vary between devices, and this is not a replication of Pashler’s review.',
+    apply:{q:'You are navigating an unfamiliar road while answering a spoken question. What might happen?',a:'Navigation or answering could suffer when the demands overlap, especially when decisions compete for attention. The effect depends on task difficulty, practice and conditions.'},
+    evaluate:{q:'You detect all three high sounds but also press for every low sound. Is that accurate detection?',a:'No. The hit rate is 100%, but false presses show poor discrimination. Our net score subtracts a penalty for those presses. Compare tracking and signal detection against their own single-task baselines.'},
+    exam:{q:'Distinguish task switching from dual-task interference. How could false alarms mislead your conclusion?',a:'Task switching alternates rules; a dual task overlaps demands. Pashler (1994) reviewed processing bottlenecks. Compare tracking alone with combined tracking, and net detection alone with combined detection. A high hit rate can be misleading if a participant presses for low signals too. Both missed highs and false presses matter.'}
+  }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const C=window.LAB_CONTENT,E=window.LAB_ENGINE,L=window.LAB_LEARNING;
+const $=s=>document.querySelector(s),app=$('#app'),nav=$('#progress-nav');
+const fresh=()=>({stage:'welcome',options:{mode:'solo',teamSize:3,names:['Player 1','Player 2','Player 3'],signalMode:'audio',untimed:false,rounds:1,notificationSound:true,dataAlternative:false,exampleRoutes:{memory:false,switch:false}},seed:Math.floor(Math.random()*1e9).toString(36),moduleIndex:0,playerCursor:0,results:{memory:{},switch:{},dual:{}},taskProgress:null,predictions:{},reflection:'apply',showAnswer:false});
+let state=fresh(),active=null,audioContext=null;
+// This edition deliberately stores nothing in localStorage, cookies, or a server.
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function button(id,label,klass='btn'){return `<button type="button" id="${id}" class="${klass}">${label}</button>`;}
+function mod(){return C.modules[state.moduleIndex];}
+function playerCount(){return state.options.mode==='duel'?2:1;}
+function rosterCount(){return state.options.mode==='team'?state.options.teamSize:playerCount();}
+function pName(i){return (state.options.names[i]||`Player ${i+1}`).trim();}
+function activePlayer(){return state.options.mode==='team'?state.moduleIndex%rosterCount():state.playerCursor;}
+function usesExample(id){return id==='dual'?state.options.dataAlternative:!!state.options.exampleRoutes[id];}
+function focusScreen(){
+  const heading=app.querySelector('h1');
+  const target=heading||app;
+  if(heading)heading.tabIndex=-1;
+  target.focus({preventScroll:true});
+}
+function view(stage){state.stage=stage;render();window.scrollTo?.({top:0,behavior:'instant'});focusScreen();}
+function commit(){render();}
+function renderNav(){
+  if(state.stage==='welcome'||state.stage==='setup'){nav.innerHTML='';return;}
+  const names=['Memory','Switching','Dual task'];const finished=state.stage==='results';
+  nav.innerHTML=`<span class="stage-counter">${finished?'Your findings':`Experiment ${state.moduleIndex+1} of 3`}</span><div class="progress-dots" aria-hidden="true">${names.map((t,i)=>`<span class="dot ${finished||i<state.moduleIndex?'complete':i===state.moduleIndex?'current':''}" title="${t}"></span>`).join('')}</div><span class="stage-name">${finished?'Finished':names[state.moduleIndex]}</span>`;
+}
+function render(){renderNav();if(state.stage==='welcome')renderWelcome();else if(state.stage==='setup')renderSetup();else if(state.stage==='module-brief')renderBrief();else if(state.stage==='run')renderRun();else if(state.stage==='reveal')renderReveal();else if(state.stage==='results')renderResults();else view('welcome');}
+function renderWelcome(){
+ app.innerHTML=`<section class="welcome"><div class="welcome-copy"><div class="eyebrow">LEARNING & COGNITION</div><h1>How much attention<br>can you <em>split?</em></h1><p class="lead">Three short experiments. Make a prediction, try it, then see what your results can—and cannot—tell you.</p><div class="welcome-actions">${button('start','Start exploring <span aria-hidden="true">→</span>','btn primary')}${button('options','Options','btn secondary')}</div><p class="welcome-meta">About 15–25 minutes · Works offline · Nothing is saved</p></div>
+ <div class="welcome-art" aria-hidden="true"><svg viewBox="0 0 390 330"><defs><linearGradient id="lg" x1="0" x2="1"><stop stop-color="#78d7d0"/><stop offset="1" stop-color="#aabafa"/></linearGradient></defs><circle cx="192" cy="160" r="122" fill="none" stroke="#48636f" stroke-width="1"/><circle cx="192" cy="160" r="89" fill="none" stroke="#425665" stroke-dasharray="3 10"/><circle cx="192" cy="160" r="51" fill="#172e3d" stroke="#7199a7"/><path d="M192 160 L83 101 M192 160 L308 137 M192 160 L181 281" fill="none" stroke="url(#lg)" stroke-width="2"/><circle cx="83" cy="101" r="19" fill="#162e3d" stroke="#7edcd2" stroke-width="2"/><circle cx="308" cy="137" r="19" fill="#162e3d" stroke="#aaacf3" stroke-width="2"/><circle cx="181" cy="281" r="19" fill="#162e3d" stroke="#eabf88" stroke-width="2"/><text x="192" y="171" font-size="38" font-family="Arial" fill="#dcf8f8" text-anchor="middle">↔</text><circle cx="83" cy="101" r="4" fill="#7edcd2"/><rect x="303" y="132" width="10" height="10" rx="2" fill="#aaacf3"/><path d="M176 287l5-10 5 10z" fill="#eabf88"/></svg></div></section><div class="three-teasers">${C.modules.map((m,i)=>`<div><span>0${i+1}</span><strong>${esc(['Remember','Switch','Divide'][i])}</strong><p>${esc(['Do alerts affect recall?','What changes when rules change?','What if two tasks overlap?'][i])}</p></div>`).join('')}</div>`;
+ $('#start').onclick=()=>launchModule(0);$('#options').onclick=()=>view('setup');
+}
+function renderSetup(){const o=state.options;
+ app.innerHTML=`<div class="narrow"><div class="eyebrow">OPTIONAL</div><h1 class="screen-title">Make it yours.</h1><p class="lead small">The default is one person, short rounds and sound for the signal task.</p>
+ <section class="settings-box"><h2>Who is playing?</h2><div class="choice-row">${[['solo','Just me'],['duel','Two people'],['team','Group rotation']].map(([v,t])=>`<button type="button" class="choice-chip ${o.mode===v?'selected':''}" data-mode="${v}" aria-pressed="${o.mode===v}">${t}</button>`).join('')}</div>${o.mode==='team'?`<label class="settings-label">Group size <select id="team-size"><option value="2" ${o.teamSize===2?'selected':''}>2</option><option value="3" ${o.teamSize===3?'selected':''}>3</option></select></label>`:''}
+ <hr><h2>How to run it</h2><label class="settings-label">Signal detection <select id="signal-mode"><option value="audio" ${o.signalMode==='audio'?'selected':''}>High and low sounds</option><option value="visual" ${o.signalMode==='visual'?'selected':''}>High and low flashes</option></select></label>
+ <label class="check-label"><input type="checkbox" id="notif-sound" ${o.notificationSound?'checked':''}> Play sounds for message notifications</label>
+ <label class="check-label"><input type="checkbox" id="extra-rounds" ${o.rounds===2?'checked':''}> Extra rounds (more measurements, more time)</label>
+ <label class="check-label"><input type="checkbox" id="untimed" ${o.untimed?'checked':''}> No reaction-time limit (timing scores omitted)</label></section>
+ <div class="actions">${button('settings-start','Start the lab →','btn primary')}${button('back','Back','btn ghost')}</div></div>`;
+ document.querySelectorAll('[data-mode]').forEach(x=>x.onclick=()=>{state.options.mode=x.dataset.mode;commit();document.querySelector(`[data-mode="${x.dataset.mode}"]`)?.focus();});
+ $('#team-size')?.addEventListener('change',e=>{o.teamSize=+e.target.value});
+ $('#signal-mode').onchange=e=>o.signalMode=e.target.value;$('#notif-sound').onchange=e=>o.notificationSound=e.target.checked;
+ $('#extra-rounds').onchange=e=>o.rounds=e.target.checked?2:1;$('#untimed').onchange=e=>o.untimed=e.target.checked;
+ $('#settings-start').onclick=()=>launchModule(0);$('#back').onclick=()=>view('welcome');
+}
+function launchModule(i){if(active)active.clean();state.moduleIndex=i;state.playerCursor=0;state.taskProgress=null;state.results[C.modules[i].id]={};state.reflection='apply';state.showAnswer=false;view('module-brief');}
+function renderBrief(){const m=mod(),d=L[m.id],p=activePlayer(),key=`${m.id}:${p}`,selected=state.predictions[key]||'',reducedMotion=!!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches,example=usesExample(m.id);
+ const side=state.options.mode==='duel'?`<p class="player-note">${example?'Work through the invented example together.':esc(pName(p))+"'s turn. The other player should look away during the test."}</p>`:state.options.mode==='team'?`<p class="player-note">${esc(pName(p))} plays. Others observe, then explain.</p>`:'';
+ app.innerHTML=`<div class="lesson-intro narrow"><div class="eyebrow">${esc(['01 · Memory','02 · Switching','03 · Divided attention'][state.moduleIndex])}</div><h1 class="screen-title">${esc(d.title)}</h1><section class="fact-feature"><div class="fact-heading"><span class="research-mark">⌁</span><span>What researchers asked</span></div><p>${esc(d.question)}</p><div class="research-procedure">${esc(d.originalProcedure)}</div><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.study)} <span aria-hidden="true">↗</span></a></section>
+ <div class="one-idea"><strong>The idea</strong><p>${esc(d.simple)}</p></div><div class="doing"><strong>${example?'Your data activity':'Your experiment'}</strong><p>${esc(example?(m.id==='memory'?'Compare invented word-recall counts in quiet and with alerts. No timed recall required.':m.id==='switch'?'Compare invented reaction times for repeat and switch trials. No timed responses required.':'Explore invented practice records for two tasks, separately and together. No moving targets or sound required.'):m.id==='dual'&&state.options.signalMode==='visual'?d.doing.replace('Detect high sounds','Detect high flashes'):d.doing)}</p>${m.id==='switch'&&!example?`<div class="keys-inline"><span><kbd>F</kbd> blue / circle</span><span><kbd>J</kbd> orange / square</span></div>`:''}${m.id==='dual'&&!example?`<div class="signal-check">${state.options.signalMode==='audio'?button('test-tone','Hear a sample high tone','btn ghost small'):''}<button type="button" id="switch-signal-mode" class="text-link">${state.options.signalMode==='audio'?"No sound? Use flashes":"Use sounds instead"}</button></div>`:''}</div>${m.id==='dual'&&reducedMotion&&!example?'<p class="motion-advice" role="note">Reduced motion is on. The tracking game still moves; use the still-data route below if you need a non-moving activity.</p>':''}
+ <details class="data-route-note" ${example?'open data-active="true"':''}><summary>${example?'Using invented sample data':'Prefer a still-data activity?'}</summary><p>${example?'These are <strong>invented example observations</strong>, not your performance or a published dataset.':'You can practise analysing the same comparison with <strong>invented numbers</strong>, without the timed or moving task. No personal result is measured.'}</p>${button('toggle-data',example?'Use the interactive experiment':'Use invented example data','btn secondary small')}</details>
+ <div class="predict"><span class="eyebrow">BEFORE</span><h2>${esc(example?(m.id==='memory'?'With alerts, these example recall scores will be…':m.id==='switch'?'When the rule changes, these example response times will be…':'When both tasks overlap, these example scores will be…'):d.prediction)}</h2><div class="prediction-options">${[['lower',d.lower],['same',d.same],['higher',d.higher]].map(([v,t])=>`<button type="button" class="prediction ${selected===v?'selected':''}" data-prediction="${v}" aria-pressed="${selected===v}">${esc(t)}</button>`).join('')}</div><small>${example?'No right answer. Compare with the invented records.':'No right answer. We will compare this with your results.'}</small></div>${side}
+ <div class="actions">${button('start-experiment',example?'Explore the example <span aria-hidden="true">→</span>':'Try the experiment <span aria-hidden="true">→</span>','btn primary')}</div></div>`;
+ document.querySelectorAll('[data-prediction]').forEach(el=>el.onclick=()=>{const choice=el.dataset.prediction;state.predictions[key]=choice;commit();document.querySelector(`[data-prediction=\"${choice}\"]`)?.focus();});
+ $('#test-tone')?.addEventListener('click',async()=>{await audioReady();if(state.options.signalMode==='audio')beep(true);else{commit();$('#switch-signal-mode')?.focus();}});
+ $('#switch-signal-mode')?.addEventListener('click',()=>{state.options.signalMode=state.options.signalMode==='audio'?'visual':'audio';commit();$('#switch-signal-mode')?.focus();});
+ $('#toggle-data')?.addEventListener('click',()=>{if(m.id==='dual')state.options.dataAlternative=!state.options.dataAlternative;else state.options.exampleRoutes[m.id]=!state.options.exampleRoutes[m.id];commit();$('.data-route-note summary')?.focus();});
+ $('#start-experiment').onclick=()=>{state.taskProgress={module:m.id,player:p,blockIndex:0,rows:[],aborted:'',alternative:usesExample(m.id)};view('run');};
+}
+function renderRun(){const pr=state.taskProgress;if(!pr||pr.module!==mod().id){view('module-brief');return;}
+ if(pr.alternative){if(pr.module==='dual')renderDataRound(pr);else renderStillRound(pr);return;}
+ const blocks=E.blocksFor(pr.module,pr.player,state.options.rounds,state.seed),b=blocks[pr.blockIndex];if(!b){finishPlayer();return;}
+ const headings={quiet:'Focus mode',distracted:'Incoming messages',fixed:'One rule',mixed:'Changing rules',track:'Follow the targets',tone:'Detect the signal',both:'Do both'};
+ const instructions={quiet:'Memorise the words without alerts.',distracted:'Memorise the words while the simulated messages arrive.',fixed:'Classify every symbol by its colour.',mixed:'Watch the cue. Sometimes colour matters, sometimes shape.',track:'Keep your eyes on the two highlighted targets.',tone:'Press DETECT only for the high signal.',both:'Track two targets and detect high signals at the same time.'};
+ // Students who discover a visibility, sound or motion barrier AFTER starting
+ // must not be trapped in a retry loop. This escape is available only when
+ // no timed trial is running; it discards ALL this module's live measurements.
+ const escapeToData=`<div class="run-escape ${pr.aborted?'aborted':''}"><button type="button" id="switch-to-example" class="text-link">Use the still-data activity instead</button><p>Untimed, invented examples—not your performance. Switching clears this module's rounds and player results.</p></div>`;
+ app.innerHTML=`<div class="run-screen"><div class="run-top"><div><span class="eyebrow">${esc(mod().title)}</span><h1 class="screen-title">${headings[b.condition]}</h1><p>${instructions[b.condition]}</p></div><div class="round-indicator">${pr.blockIndex+1}<small> / ${blocks.length}</small></div></div><div class="hairline-progress"><span style="width:${100*(pr.blockIndex)/blocks.length}%"></span></div>${pr.aborted?`<p class="error-note" role="alert">${esc(pr.aborted)}</p>${escapeToData}`:''}
+ <section class="task-panel" id="active-task"><div class="task-ready"><div class="ready-symbol">${b.kind==='memory'?'◈':b.kind==='switch'?'⬡':'◎'}</div><p>${b.kind==='memory'?'Look carefully. Recall comes next.':b.kind==='switch'?'Remember: F = blue or circle · J = orange or square':'The gold targets will lose their glow.'}</p>${button('begin-block','Begin round →','btn primary')}</div></section>${pr.aborted?'':escapeToData}</div>`;
+ $('#begin-block').onclick=()=>startBlock(b,pr);
+ $('#switch-to-example').onclick=()=>{
+   if(active)return; // Never change routes mid-measurement.
+   const id=pr.module;
+   if(id==='dual')state.options.dataAlternative=true;
+   else state.options.exampleRoutes[id]=true;
+   // A teammate's earlier live result must never be mixed with the fictional
+   // shared example, nor should the original personal prediction be reused.
+   state.results[id]={};
+   Object.keys(state.predictions).filter(k=>k.startsWith(id+':')).forEach(k=>delete state.predictions[k]);
+   state.playerCursor=0;
+   state.taskProgress=null;
+   view('module-brief');
+ };
+}
+// Two additional keyboard-accessible, non-timed teaching alternatives.
+// Invented records are visibly labelled on EACH screen and in results.
+// Neither route invents personal results, and the two-player route is shared.
+function renderStillRound(pr){
+ const id=pr.module,records=id==='memory'?E.exampleMemoryData():E.exampleSwitchData();
+ const conditions=id==='memory'?['quiet','distracted']:['fixed','mixed'];
+ if(pr.blockIndex>=2){finishPlayer();return;}
+ const condition=conditions[pr.blockIndex],title=id==='memory'?(condition==='quiet'?'Quiet recall':'Recall with notifications'):(condition==='fixed'?'Repeat one rule':'Switch and repeat'),stage=pr.blockIndex+1;
+ const all=records.filter(b=>b.condition===condition);
+ let headers=[],lines=[],note='',summary='';
+ if(id==='memory'){
+   headers=['Fictional round','Words remembered','Words available'];
+   lines=all.map((b,i)=>[i+1,b.hits,b.targets]);
+   const hits=all.reduce((n,b)=>n+b.hits,0),total=all.reduce((n,b)=>n+b.targets,0);
+   note='Five invented attempts, with eight words available in each.';
+   summary=`${hits} of ${total} words recalled (${E.pct(hits,total)}%).`;
+ }else if(condition==='fixed'){
+   headers=['Fictional trial','Correct?','Response time (ms)'];
+   lines=all[0].trials.map((t,i)=>[i+1,'Yes',t.rt]);
+   note='Six invented correct trials using the same rule.';
+   summary=`Median response time: ${E.median(all[0].trials.map(t=>t.rt))} ms.`;
+ }else{
+   headers=['Fictional pair','Repeat trial (ms)','Switch trial (ms)'];
+   const mixed=all[0].trials;
+   const repeat=mixed.filter(t=>t.index>0&&!t.isSwitch).map(t=>t.rt);
+   const switched=mixed.filter(t=>t.isSwitch).map(t=>t.rt);
+   lines=repeat.map((rt,i)=>[i+1,rt,switched[i]]);
+   const diff=E.round(E.median(switched)-E.median(repeat));
+   note='Six invented correct repeats and six switches. A first warm-up response is excluded from this comparison.';
+   summary=`Repeat median ${E.median(repeat)} ms; switch median ${E.median(switched)} ms; difference +${diff} ms.`;
+ }
+ app.innerHTML=`<div class="run-screen"><div class="run-top"><div><span class="eyebrow">${esc(id==='memory'?'Memory':'Task switching')} · invented practice data</span><h1 class="screen-title">${esc(title)}</h1><p>Still-data activity · fictional observations, not your results or the published study.</p></div><div class="round-indicator">${stage}<small> / 2</small></div></div><div class="hairline-progress"><span style="width:${50*(stage-1)}%"></span></div><section class="task-panel"><div class="data-route-card"><span class="phase-indicator">OBSERVE THE COUNTS</span><h2>What changed?</h2><p>${esc(note)}</p><table class="data-table"><caption>${esc(title)} — invented observations</caption><thead><tr>${headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${lines.map(row=>`<tr>${row.map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table><p class="data-total">${esc(summary)}</p><div class="actions">${button('next-data',stage===2?'Compare the conditions →':'Next record →','btn primary')}</div></div></section></div>`;
+ $('#next-data').onclick=()=>{if(state.taskProgress!==pr)return;pr.rows.push(...all);pr.blockIndex++;render();const heading=app.querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus();}window.scrollTo?.(0,0);};
+}
+// Still, screen-reader-compatible route. A progressive data inspection, not a timed
+// test: each condition is visible in a semantic table. Do not treat as performance.
+function renderDataRound(pr){
+ const stages=[
+  {condition:'track',title:'Tracking alone',hint:'Five fictional rounds. Each round has two targets to identify.',cols:['Round','Targets correct','Targets possible']},
+  {condition:'tone',title:'Signal detection alone',hint:'Five fictional rounds. Count high signals detected and false presses for low signals.',cols:['Round','High hits / 3','False presses / 5 lows']},
+  {condition:'both',title:'Two tasks together',hint:'Now the same kinds of measurements, while tasks overlap.',cols:['Round','Targets / 2','High hits / 3','False presses / 5 lows']}
+ ];
+ if(pr.blockIndex>=stages.length){finishPlayer();return;}
+ const st=stages[pr.blockIndex],rows=E.exampleData().filter(b=>b.condition===st.condition),
+  headings=st.cols.map(c=>`<th scope="col">${esc(c)}</th>`).join('');
+ const datum=(b,i)=>`<tr><td>${i+1}</td>${st.condition==='track'?`<td>${b.visualCorrect}</td><td>2</td>`:st.condition==='tone'?`<td>${b.hits}</td><td>${b.falseAlarms}</td>`:`<td>${b.visualCorrect}</td><td>${b.hits}</td><td>${b.falseAlarms}</td>`}</tr>`;
+ const t=rows.reduce((a,b)=>({tracked:a.tracked+(b.visualCorrect||0),hits:a.hits+b.hits,alarms:a.alarms+b.falseAlarms}),{tracked:0,hits:0,alarms:0});
+ const summary=st.condition==='track'?`${t.tracked} of 10 targets correctly identified.`:st.condition==='tone'?`${t.hits} of 15 high signals detected; ${t.alarms} false presses across 25 low signals.`:`${t.tracked} of 10 targets; ${t.hits} of 15 highs; ${t.alarms} false presses across 25 lows.`;
+ const title=`${pr.blockIndex+1} / 3`;
+ app.innerHTML=`<div class="run-screen"><div class="run-top"><div><span class="eyebrow">Dual-task interference · example data</span><h1 class="screen-title">${esc(st.title)}</h1><p>Still-data activity · invented numbers, not a live experiment.</p></div><div class="round-indicator">${title}</div></div><div class="hairline-progress"><span style="width:${100*pr.blockIndex/stages.length}%"></span></div><section class="task-panel"><div class="data-route-card"><span class="phase-indicator">OBSERVE / ${esc(st.condition.toUpperCase())}</span><h2 id="data-heading">Read the counts.</h2><p>${esc(st.hint)}</p><table class="data-table"><caption>${esc(st.title)} — five invented rounds</caption><thead><tr>${headings}</tr></thead><tbody>${rows.map(datum).join('')}</tbody></table><p class="data-total">${esc(summary)}</p><div class="actions">${button('next-data',pr.blockIndex===2?'Compare the conditions →':'Next record →','btn primary')}</div></div></section></div>`;
+ $('#next-data').onclick=()=>{if(!state.taskProgress||state.taskProgress!==pr)return;pr.rows.push(...rows);pr.blockIndex++;render();const heading=app.querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus();}window.scrollTo?.(0,0);};
+}
+function countNotifications(level){const ms=(11+(level-1)*2)*1000;return [1150,2500,3900,5400,6900,8300,9650,11400].filter(t=>t<ms-350).length;}
+function controller(){const ctl={timers:[],raf:[],listeners:[],running:true,abort:null};ctl.after=(fn,ms)=>{const id=setTimeout(()=>{if(ctl.running)fn()},ms);ctl.timers.push(id);return id;};ctl.every=(fn,ms)=>{let id=setInterval(()=>{if(ctl.running)fn()},ms);ctl.timers.push({interval:id});return id;};ctl.frame=fn=>{const id=requestAnimationFrame(fn);ctl.raf.push(id);return id;};ctl.listen=(el,type,fn,opts)=>{el.addEventListener(type,fn,opts);ctl.listeners.push([el,type,fn,opts]);};ctl.clean=()=>{ctl.running=false;ctl.timers.forEach(id=>typeof id==='object'?clearInterval(id.interval):clearTimeout(id));ctl.raf.forEach(cancelAnimationFrame);ctl.listeners.forEach(([el,type,fn,opts])=>el.removeEventListener(type,fn,opts));if(active===ctl)active=null;};ctl.abort=(reason='The window lost focus during measurement. This block was discarded; select Begin Block to restart it. No invalid trials were saved.')=>{if(!ctl.running)return;ctl.clean();state.taskProgress.aborted=reason;render();if(!document.hidden){const msg=$('.error-note');if(msg){msg.tabIndex=-1;msg.focus({preventScroll:true});msg.scrollIntoView({block:'start',behavior:'instant'});}else focusScreen();}};active=ctl;return ctl;}
+// During short mobile trials the learner must see both the stimulus and its
+// distraction/response controls. A Begin click can otherwise leave the live
+// content below the fold while the clock is already counting down.
+// Scroll immediately (never animated) only when the active task is clipped.
+// A short landscape window / high browser zoom can make part of a stimulus
+// invisible even when the scroll position is optimal. Never record a timed
+// result unless ALL essential parts fit simultaneously in the viewport.
+// This changes scrolling and trial validity, not the experimental scoring.
+function timedEssentials(){
+ const panel=$('#active-task');
+ if(!panel)return [];
+ if(panel.querySelector('#word-stage'))return ['.word-grid','.memory-phone','.memory-timer'];
+ if(panel.querySelector('#switch-count'))return ['#rule-cue','#shape-place','#left-key','#right-key'];
+ if(panel.dataset.phase==='dual-preview'||panel.dataset.phase==='dual-running'){
+   return panel.querySelector('#track-board')
+     ? ['#track-board',...(panel.querySelector('#detect-btn')?['#detect-btn']:[])]
+     : ['.countdown','#detect-btn'];
+ }
+ return [];
+}
+function keepTimedTaskVisible(){
+ const panel=$('#active-task'),selectors=timedEssentials();
+ if(!panel||!selectors.length)return true; // recall and untimed selection need no timed-fit gate
+ const nodes=selectors.map(s=>panel.querySelector(s)).filter(Boolean);
+ if(nodes.length!==selectors.length)return false;
+ const bounds=()=>{
+   const r=nodes.map(n=>n.getBoundingClientRect());
+   return {top:Math.min(...r.map(x=>x.top)),bottom:Math.max(...r.map(x=>x.bottom))};
+ };
+ const pad=4,area=bounds();
+ if(area.bottom-area.top>window.innerHeight-2*pad)return false;
+ // Move only as much as necessary. Unlike v10, this can scroll UP when the
+ // browser has clamped a taller panel to the bottom, hiding its first word.
+ let delta=area.top<pad?area.top-pad:area.bottom>window.innerHeight-pad?area.bottom-(window.innerHeight-pad):0;
+ if(Math.abs(delta)>1){
+   const html=document.documentElement,prior=html.style.scrollBehavior;
+   html.style.scrollBehavior='auto';window.scrollTo(0,Math.max(0,window.scrollY+delta));html.style.scrollBehavior=prior;
+ }
+ const after=bounds();
+ return after.top>=-2&&after.bottom<=window.innerHeight+2;
+}
+function guardTimedViewport(){
+ if(!active||!active.running)return;
+ if(!keepTimedTaskVisible())active.abort('This screen cannot display the complete timed task at once. Rotate to portrait or use a larger view, then choose Begin round again. This round was discarded; no result was saved.');
+}
+function installViewportGuard(){
+ const ctl=active;if(!ctl)return;
+ // Mobile browser toolbars and orientation changes may resize during exposure.
+ // A viewport change that STILL fits is harmless; one that clips stimuli
+ // discards the partial block. Recall and target selection are not timed here.
+ ctl.listen(window,'resize',()=>ctl.frame(()=>{if(ctl.running)guardTimedViewport();}));
+ guardTimedViewport();
+}
+function startBlock(b,pr){if(active)return;state.taskProgress.aborted='';$('#app .error-note')?.remove();if(b.kind==='memory'&&b.condition==='distracted'&&state.options.notificationSound)audioReady(true);if(b.kind==='memory')startMemory(b,pr);if(b.kind==='switch')startSwitch(b,pr);if(b.kind==='dual')startDual(b,pr);installViewportGuard();}
+function finishBlock(data){if(active)active.clean();const p=state.taskProgress;if(!p)return;p.rows.push(data);p.blockIndex++;p.aborted='';render();focusScreen();}
+function finishPlayer(){const pr=state.taskProgress,id=pr.module;let sum=E.evals[id](pr.rows,pr.alternative?false:state.options.untimed);sum.sampleData=!!pr.alternative;sum.blocks=pr.rows;sum.player=pr.player;sum.settings={untimed:state.options.untimed,signalMode:state.options.signalMode};state.results[id][pr.player]=sum;state.taskProgress=null;if(state.options.mode==='duel'&&state.playerCursor===0&&!pr.alternative){state.playerCursor=1;state.stage='module-brief';}else{state.stage='reveal';state.revealCorrect=false;}commit();focusScreen();}
+function startMemory(b,pr){
+ const ctl=controller(),words=E.shuffle(C.memorySets[b.setIndex].slice(0,b.length),E.rng(E.hash(state.seed+':memory:'+pr.player+':'+pr.blockIndex))),root=$('#active-task');
+ root.classList.add('memory-task');
+ const normalSec=11+(b.level-1)*2;let exposureStart=performance.now(),recallStart=0,exposed=true;
+ function recall(){
+  if(!ctl.running||!exposed)return;exposed=false;root.dataset.phase='memory-recall';
+  ctl.timers.forEach(t=>{if(typeof t!=='object')clearTimeout(t)});
+  root.innerHTML=`<div class="phase-indicator">RECALL / ${b.condition.toUpperCase()}</div><h2 class="task-title">What do you remember?</h2>
+  <p class="fade-label">List the words in any order. Do not use notes.</p><div class="field"><label for="recall-input">YOUR WORDS</label>
+  <textarea id="recall-input" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Type each word you remember…"></textarea></div>
+  <div class="actions">${button('submit-recall','SUBMIT RECALL →','btn large')}</div>`;
+  recallStart=performance.now();$('#recall-input').focus();
+  $('#submit-recall').onclick=()=>{let entered=($('#recall-input').value||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').split(/[\s,;.!?]+/).map(s=>s.trim()).filter(Boolean);let uniq=[...new Set(entered)],hits=uniq.filter(w=>words.includes(w)).length;
+    finishBlock({kind:'memory',condition:b.condition,level:b.level,targets:words.length,hits,intrusions:uniq.filter(w=>!words.includes(w)).length,recallMs:Math.round(performance.now()-recallStart),entered:uniq,wordSet:b.setIndex,notices:b.condition==='distracted'?countNotifications(b.level):0,valid:true});};
+ }
+ const disturbed=b.condition==='distracted';
+ root.dataset.phase='memory-encoding';
+ root.innerHTML=`<div class="phase-indicator">${disturbed?'NOTIFICATION STORM':'FOCUS MODE'} / ENCODING</div><h2 class="task-title">Remember these words</h2>
+ <div class="memory-lab-frame"><div class="memory-word-space"><div id="word-stage" class="word-grid">${words.map(w=>`<span class="word">${w}</span>`).join('')}</div></div>
+ <aside class="memory-phone ${disturbed?'is-live':'is-muted'}" aria-label="Simulated notification channel"><div class="phone-status"><span>SIMULATED FEED</span><span id="notification-count">${disturbed?'● LIVE':'MUTED'}</span></div><div class="phone-screen" id="notification-holder">${disturbed?'<div class="phone-placeholder">Keep studying.<br>Alerts may arrive.</div>':'<div class="phone-silent">No alerts.<br>Focus mode is on.</div>'}</div><div class="phone-bottom">${disturbed?'UNREAD MESSAGES · 0':'DO NOT DISTURB'}</div></aside></div>
+ <div class="memory-timer"><strong id="memory-count">${state.options.untimed?'SELF-PACED':normalSec+' SEC'}</strong>${state.options.untimed?button('ready-recall','I AM READY TO RECALL','btn secondary'):''}</div>`;
+ if(state.options.untimed)$('#ready-recall').onclick=recall;else{ctl.every(()=>{const rem=Math.max(0,Math.ceil((normalSec*1000-(performance.now()-exposureStart))/1000));if($('#memory-count'))$('#memory-count').textContent=rem+' SEC';},200);ctl.after(recall,normalSec*1000);}
+ if(disturbed){
+  const notifications=[
+   ['CHAT','8 messages in Group Chat','↗'],['SOCIAL','Someone reacted to your post','♥'],['CALENDAR','Weekend plan updated','◷'],
+   ['CHATS','3 people are typing…','•••'],['MEDIA','A new clip was shared','▷'],['COMMUNITY','You have 12 new mentions','@'],
+   ['SOCIAL','New photos in your feed','◈'],['CHAT','New message received','↗']
+  ];
+  const times=[1150,2500,3900,5400,6900,8300,9650,11400],count={n:0},history=[];
+  notifications.forEach(([channel,msg,glyph],i)=>{if(times[i]>=normalSec*1000-350)return;ctl.after(()=>{
+   if(!exposed)return;count.n++;
+   history.unshift(`<div class="fake-push"><div class="push-icon">${glyph}</div><div><b>${channel}</b><span>${msg}</span></div><em>now</em></div>`);
+   const h=$('#notification-holder'),nc=$('#notification-count'),pb=root.querySelector('.phone-bottom');
+   if(state.options.notificationSound)notificationPing();if(h)h.innerHTML=history.slice(0,3).join('');if(nc)nc.textContent=`● ${count.n} ALERTS`;if(pb)pb.textContent=`UNREAD MESSAGES · ${count.n*3}`;
+  },times[i]);});
+ }
+}
+function startSwitch(b,pr){const ctl=controller(),root=$('#active-task'),trials=E.stimulusTrials(`${state.seed}:${pr.player}:${b.level}:${b.condition}`,b.condition,b.count),answers=[];let index=0,locked=true,t0=0,timeoutId=null;const maxMs=3500;root.dataset.phase='switch-running';root.innerHTML=`<div class="phase-indicator">${b.condition==='fixed'?'FIXED RULE':'MIXED RULES'} · LEVEL ${b.level}</div><div class="task-count" id="switch-count">0 / ${b.count}</div><div class="classify-box"><span class="classify-rule" id="rule-cue">READY</span><div class="shape-stage" id="shape-place"><div class="symbol cyan circle" style="opacity:.3"></div></div><div class="keypads"><button class="keypad" id="left-key"><b>F / LEFT</b><small>BLUE or CIRCLE</small></button><button class="keypad" id="right-key"><b>J / RIGHT</b><small>ORANGE or SQUARE</small></button></div><p class="subnote" id="switch-feedback">Respond accurately; speed matters only after accuracy.</p></div>`;
+ function show(){if(!ctl.running)return;if(index>=trials.length){finishBlock({kind:'switch',condition:b.condition,level:b.level,trials:answers,valid:true});return;}locked=false;let t=trials[index];$('#rule-cue').textContent=t.rule==='color'?'RULE: COLOUR':'RULE: SHAPE';$('#shape-place').innerHTML=`<div class="symbol ${t.color} ${t.shape}" role="img" aria-label="${t.color==='cyan'?'blue':'orange'} ${t.shape}"></div>`;$('#switch-count').textContent=`${index+1} / ${b.count}`;$('#switch-feedback').textContent='F = blue/circle   •   J = orange/square';t0=performance.now();if(!state.options.untimed)timeoutId=ctl.after(()=>respond(null),maxMs);}
+ function respond(choice){if(!ctl.running||locked)return;locked=true;if(timeoutId)clearTimeout(timeoutId);let t=trials[index],rt=choice===null?null:Math.round(performance.now()-t0),correct=choice===t.answer;answers.push({...t,index,choice,correct,rt,timeout:choice===null});$('#rule-cue').textContent=correct?'CORRECT':choice===null?'NO RESPONSE':'CHECK THE RULE';$('#rule-cue').style.background=correct?'#296657':'#663b4a';$('#shape-place').innerHTML='<div class="subnote">'+(correct?'+ ACCURACY':'STAY FOCUSED')+'</div>';index++;ctl.after(()=>{$('#rule-cue')&&($('#rule-cue').style.background='');show()},180);}
+ ctl.listen(document,'keydown',ev=>{if(ev.repeat||!ctl.running)return;const key=ev.key.toLowerCase();if(key==='f'||key==='arrowleft'){ev.preventDefault();respond(0)}if(key==='j'||key==='arrowright'){ev.preventDefault();respond(1)}});$('#left-key').onclick=()=>respond(0);$('#right-key').onclick=()=>respond(1);ctl.after(show,300);}
+async function audioReady(force=false){if(!force&&state.options.signalMode!=='audio')return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){state.options.signalMode='visual';return;}audioContext=audioContext||new AC();if(audioContext.state!=='running')await audioContext.resume();}catch(_){state.options.signalMode='visual';}}
+function beep(target){if(state.options.signalMode!=='audio'||!audioContext||audioContext.state!=='running')return;try{let osc=audioContext.createOscillator(),gain=audioContext.createGain(),t=audioContext.currentTime;osc.type='sine';osc.frequency.value=target?820:370;gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.19,t+.015);gain.gain.exponentialRampToValueAtTime(.0001,t+.17);osc.connect(gain).connect(audioContext.destination);osc.start(t);osc.stop(t+.19);}catch(_){}}
+function notificationPing(){if(window.GuidedNotebookPrefs?.quiet)return;if(!audioContext||audioContext.state!=='running')return;try{const t=audioContext.currentTime;const o=audioContext.createOscillator();const g=audioContext.createGain();o.type='triangle';o.frequency.setValueAtTime(650,t);o.frequency.setValueAtTime(890,t+.07);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.055,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+.16);o.connect(g).connect(audioContext.destination);o.start(t);o.stop(t+.17);}catch(_){}}
+function startDual(b,pr){const ctl=controller(),root=$('#active-task'),hasTrack=b.condition!=='tone',hasTone=b.condition!=='track',dur=b.duration,seed=`${state.seed}:dual:${pr.player}:${b.level}:${b.condition}`;let dots=E.trackSeed(seed),selected=new Set(),events=hasTone?E.toneEvents(seed,dur):[],hits=0,falseAlarms=0,activeEvent=null,startAt=0,animationId=null,lastFrame=0,completed=false,toneStarted=false;root.dataset.phase='dual-preview';root.innerHTML=`<div class="phase-indicator">${b.condition==='both'?'DUAL TASK · TWO GOALS':b.condition==='track'?'SINGLE TASK · TRACKING':'SINGLE TASK · SIGNAL DETECTION'} / LEVEL ${b.level}</div><div class="task-count" id="dual-timer">READY</div>${hasTrack?`<div class="track-wrap" id="track-board" aria-label="Moving objects to track">${dots.map(d=>`<button type="button" class="track-dot ${d.target?'target-preview':''}" data-dot="${d.id}" aria-label="Object ${d.id+1}" aria-pressed="false" style="left:${d.x*100}%;top:${d.y*100}%" tabindex="-1"></button>`).join('')}</div>`:`<div class="countdown"><small>${state.options.signalMode==='visual'?'WATCH FOR THE HIGH FLASH':'LISTEN FOR THE HIGH SIGNAL'}</small>${state.options.signalMode==='visual'?'◎':'♪'}</div>`}<div class="dual-controls">${hasTone?`<span class="signal-lamp" id="tone-lamp">${state.options.signalMode==='visual'?'VISUAL SIGNAL':'LISTEN: HIGH = TARGET'}</span><button type="button" class="btn detect secondary" id="detect-btn">DETECT HIGH <span class="tiny">[SPACE]</span></button>`:''}</div><p class="audio-fallback" id="audio-fallback" role="status"></p><p class="tracking-instruction" id="dual-hint">${hasTrack?'Remember the TWO GOLD targets. Their glow will disappear after the preview.':state.options.signalMode==='visual'?'Only HIGH flashes count. Do not press for LOW flashes.':'Only HIGH tones count. Do not press for LOW tones.'}</p>`;
+ const board=$('#track-board'),els=hasTrack?Array.from(board.querySelectorAll('.track-dot')):[];
+ if(hasTrack)els.forEach(el=>{el.disabled=true;});
+ function animate(ts){if(!ctl.running||completed)return;if(!lastFrame)lastFrame=ts;let dt=Math.min(.05,(ts-lastFrame)/1000);lastFrame=ts;const speed=.105+b.level*.055;for(let i=0;i<dots.length;i++){let d=dots[i];d.x+=d.vx*speed*dt;d.y+=d.vy*speed*dt*1.15;if(d.x<.06||d.x>.94){d.vx*=-1;d.x=E.clamp(d.x,.06,.94)}if(d.y<.10||d.y>.90){d.vy*=-1;d.y=E.clamp(d.y,.10,.90)}els[i].style.left=(d.x*100)+'%';els[i].style.top=(d.y*100)+'%';}animationId=requestAnimationFrame(animate);ctl.raf.push(animationId);}
+ function signal(ev){activeEvent={...ev,time:performance.now(),responded:false};if(state.options.signalMode==='audio')beep(ev.target);else{const lamp=$('#tone-lamp');if(lamp){lamp.textContent=ev.target?'▲ HIGH':'● LOW';lamp.className='signal-lamp active '+(ev.target?'target':'other');ctl.after(()=>{if(lamp&&ctl.running){lamp.textContent='WATCH FOR SIGNAL';lamp.className='signal-lamp'}},430)}}}
+ function detect(){if(!ctl.running||completed||!toneStarted)return;if(activeEvent&&!activeEvent.responded&&performance.now()-activeEvent.time<=900){activeEvent.responded=true;if(activeEvent.target)hits++;else falseAlarms++;}else falseAlarms++;const btn=$('#detect-btn');if(btn){btn.style.background='#2c7774';ctl.after(()=>{if(btn)btn.style.background=''},95)}}
+ function answerTracking(){completed=true;if(animationId)cancelAnimationFrame(animationId);const count=selected.size,visualCorrect=hasTrack?[...selected].filter(id=>dots.find(d=>d.id===id).target).length:null;finishBlock({kind:'dual',condition:b.condition,level:b.level,visualCorrect,hits,targets:events.filter(x=>x.target).length,lowSignals:events.filter(x=>!x.target).length,falseAlarms,durationMs:dur,signalMode:state.options.signalMode,valid:true});}
+ function selectPhase(){
+   if(!ctl.running)return;
+   completed=true;root.dataset.phase='dual-selection';
+   if(animationId)cancelAnimationFrame(animationId);
+   if(!hasTrack){answerTracking();return;}
+   $('#dual-timer').textContent='SELECT TWO';
+   $('#dual-hint').innerHTML='<span class="track-select">Which were the <strong>TWO GOLD</strong> objects? Select exactly two. Use Tab and Space/Enter, or tap.</span>';
+   const lamp=$('#tone-lamp');if(lamp)lamp.textContent='SIGNALS COMPLETE';$('#detect-btn')?.remove();
+   $('#dual-hint').insertAdjacentHTML('afterend', '<div id="selection-status" class="sr-only" role="status" aria-live="polite">Select two objects. None selected.</div>');
+   board.setAttribute('role','group');board.setAttribute('aria-label','Choose the two previously highlighted targets');
+   els.forEach(el=>{
+     el.disabled=false;el.tabIndex=0;
+     el.setAttribute('aria-describedby','dual-hint selection-status');
+     el.classList.add('selectable');el.classList.remove('target-preview');
+     el.onclick=()=>{
+       let id=+el.dataset.dot;
+       if(selected.has(id)){selected.delete(id);el.classList.remove('selected');}
+       else if(selected.size<2){selected.add(id);el.classList.add('selected');}
+       el.setAttribute('aria-pressed',String(selected.has(id)));
+       const done=$('#track-submit');if(done)done.disabled=selected.size!==2;
+       $('#selection-status').textContent=`${selected.size} of 2 objects selected.`;
+     };
+   });
+   $('#dual-hint').insertAdjacentHTML('afterend', `<div class="actions" style="justify-content:center">${button('track-submit','LOCK IN TWO TARGETS','btn large')}</div>`);
+   $('#track-submit').disabled=true;$('#track-submit').onclick=answerTracking;
+   els[0]?.focus({preventScroll:true});
+ }
+ function begin(){if(!ctl.running)return;root.dataset.phase='dual-running';toneStarted=true;startAt=performance.now();$('#dual-hint').textContent=hasTrack?'TRACK YOUR TARGETS. RESPOND TO HIGH SIGNALS.':(state.options.signalMode==='visual'?'PRESS DETECT ONLY WHEN THE HIGH FLASH APPEARS.':'PRESS DETECT ONLY WHEN THE HIGH TONE SOUNDS.');els.forEach(e=>e.classList.remove('target-preview'));if(hasTrack)animationId=requestAnimationFrame(animate);ctl.every(()=>{const left=Math.max(0,Math.ceil((dur-(performance.now()-startAt))/1000));let el=$('#dual-timer');if(el)el.textContent=left+' SEC';},200);if(hasTone)events.forEach(ev=>ctl.after(()=>signal(ev),ev.at));ctl.after(selectPhase,dur+100);}
+ if(hasTone){$('#detect-btn').onclick=detect;ctl.listen(document,'keydown',ev=>{if(ev.code!=='Space'||ev.repeat||!ctl.running||completed||!toneStarted)return;if(ev.target instanceof Element&&ev.target.closest('button,input,textarea,select,summary,[role="button"]'))return;ev.preventDefault();detect();})}
+ // Start only after audio is resumed by the user's Begin click in renderRun.
+ const requestedAudio=state.options.signalMode==='audio';
+ (hasTone?audioReady():Promise.resolve()).then(()=>{
+   if(!ctl.running)return;
+   if(hasTone&&requestedAudio&&state.options.signalMode==='visual'){
+     const lamp=$('#tone-lamp');if(lamp)lamp.textContent='WATCH FOR HIGH FLASH';
+     const label=root.querySelector('.countdown small');if(label)label.textContent='WATCH FOR THE HIGH FLASH';
+     const icon=root.querySelector('.countdown');if(icon)icon.lastChild.textContent='◎';
+     $('#audio-fallback').textContent='Sound unavailable. Visual signals are now active.';
+     $('#dual-hint').textContent='Only HIGH flashes count. Do not press for LOW flashes.';
+   }
+   $('#dual-timer').textContent='TARGET PREVIEW';ctl.after(begin,1900);
+ });}
+function nfmt(n,d=0){return Number.isFinite(n)?Number(n).toFixed(d):'—';}
+function signed(n,d=0){return Number.isFinite(n)?`${n>0?'+':''}${nfmt(n,d)}`:'—';}
+function bar(label,val,kind=''){return `<div class="meter-row"><span>${esc(label)}</span><div class="meter-track"><span class="${kind}" style="width:${E.clamp(val??0,0,100)}%"></span></div><b>${Number.isFinite(val)?nfmt(val)+'%':'—'}</b></div>`;}
+function scoreSandbox(playerIndex){
+ const key=String(playerIndex);
+ return `<details class="extra-terms score-sandbox" data-score-sandbox><summary>How signal detection was scored: try an example</summary>
+ <p class="score-example-note" id="score-example-${key}">Hypothetical round — not your results or research data. There are 3 high and 5 low signals. Extra presses between signals also count as false.</p>
+ <div class="score-controls">
+  <div><label for="score-hit-${key}">High signals detected</label><output for="score-hit-${key}" data-hit-count>3 / 3</output><input id="score-hit-${key}" data-score-hits type="range" min="0" max="3" step="1" value="3" aria-describedby="score-example-${key}"></div>
+  <div><label for="score-false-${key}">False presses</label><output for="score-false-${key}" data-false-count>0 presses</output><input id="score-false-${key}" data-score-false type="range" min="0" max="8" step="1" value="0" aria-describedby="score-example-${key}"></div>
+ </div>
+ <div class="score-example-meter"><span>Hit rate</span><div class="meter-track"><span data-hit-bar style="width:100%"></span></div><b data-hit-rate>100%</b></div>
+ <div class="score-example-meter"><span>Net score</span><div class="meter-track"><span class="interference" data-net-bar style="width:100%"></span></div><b data-net-score>100%</b></div>
+ <p class="score-score-note" data-score-explain role="status" aria-live="polite">With no false presses, both scores are 100%.</p>
+ <p class="score-score-note">Our <b>invented teaching score</b> subtracts false presses ÷ 5 from high hits ÷ 3 (floor 0%, penalty capped at 100%). Five low cues are only the scaling denominator, <b>not</b> a measured false-alarm rate when off-cue presses occur. This is not a clinical test, not d′, not a diagnostic score, or evidence about anyone's ability.</p></details>`;
+}
+function resultPanel(id,r,playerIndex=0){
+ if(id==='memory')return `${r.sampleData?'<p class="data-foot"><strong>Invented practice data</strong> — not personal scores or a published study sample.</p>':''}<div class="two-meters">${bar('Quiet',r.quiet.accuracy)}${bar('Alerts',r.distracted.accuracy,'interference')}</div><p class="data-foot">${r.quiet.hits}/${r.quiet.targets} remembered in quiet · ${r.distracted.hits}/${r.distracted.targets} with alerts. <b>${signed(r.differencePP,1)} percentage points</b> (quiet minus alerts).</p>`;
+ if(id==='switch')return `${r.sampleData?'<p class="data-foot"><strong>Invented practice data</strong> — not personal scores or a published study sample.</p>':''}<div class="two-meters">${bar('Fixed rule',r.fixed.accuracy)}${bar('Changing rules',r.mixed.accuracy,'interference')}</div><p class="data-foot">Switch minus repeat reaction time: <b>${r.untimed?'not measured':r.validCost?signed(r.switchCostMs)+' ms':'not enough valid responses'}</b>. Correct switch / repeat trials: ${r.switchN} / ${r.repeatN}.</p>`;
+ return `${r.sampleData?'<p class="data-foot"><strong>Invented practice data</strong> — not personal scores or a real study sample.</p>':''}<div class="two-meters">${bar('Track alone',r.track.accuracy)}${bar(state.options.signalMode==='visual'?'Track + flashes':'Track + sounds',r.dualTrack.accuracy,'interference')}${bar(state.options.signalMode==='visual'?'Flashes alone · net':'Sounds alone · net',r.tone.accuracy)}${bar(state.options.signalMode==='visual'?'Flashes + tracking · net':'Sounds + tracking · net',r.dualTone.accuracy,'interference')}</div><p class="data-foot">Tracking change: <b>${signed(r.trackDifferencePP,1)} pp</b> · ${state.options.signalMode==='visual'?'flash':'sound'} detection change: <b>${signed(r.toneDifferencePP,1)} pp</b> (each single-task minus combined). ${r.dualTone.falseAlarms} false presses while doing both.</p><p class="data-foot signal-explainer">Signals alone: <b>${r.tone.hits}/${r.tone.targets} hits</b>, ${r.tone.falseAlarms}/${r.tone.lowSignals} false presses/low signals. With tracking: <b>${r.dualTone.hits}/${r.dualTone.targets} hits</b>, ${r.dualTone.falseAlarms}/${r.dualTone.lowSignals} false presses/low signals. These <b>net</b> bars use our custom false-press-adjusted teaching score, not raw hit rates.</p>${scoreSandbox(playerIndex)}`;
+}
+function resultSentence(id,r){
+ if(id==='memory'){const x=r.differencePP;return x>0?(r.sampleData?'In the invented example, fewer words were recalled with alerts.':'You recalled fewer words with alerts.'):x<0?(r.sampleData?'In the invented example, more words were recalled with alerts.':'You recalled more words with alerts.'):(r.sampleData?'In the invented example, recall was equal in both conditions.':'You recalled the same number in both conditions.');}
+ if(id==='switch'){return r.untimed?'You compared accuracy without measuring reaction time.':r.validCost?(r.switchCostMs>0?`${r.sampleData?'In the invented example, switch':'Switch'} responses were ${nfmt(r.switchCostMs)} ms slower than repeats.`:r.switchCostMs<0?`${r.sampleData?'In the invented example, switch':'Switch'} responses were ${nfmt(-r.switchCostMs)} ms faster than repeats.`:(r.sampleData?'In the invented example, switch and repeat times were equal.':'Switch and repeat response times were equal.')):'There were too few valid correct switch and repeat trials for a switch-time estimate.';}
+ const a=r.trackDifferencePP,b=r.toneDifferencePP;return `${r.sampleData?'In these example numbers, tracking':'Tracking'} ${a>0?'fell':a<0?'improved':'stayed the same'}; ${state.options.signalMode==='visual'?'flash':'sound'} detection ${b>0?'fell':b<0?'improved':'stayed the same'} during the combined task.`;
+}
+function predictedText(id,p){if(!p)return 'No prediction selected';const x=L[id];return p==='lower'?x.lower:p==='same'?x.same:x.higher;}
+function observedText(id,r){return resultSentence(id,r);}
+function predictionComparison(id,p,r){
+ if(!p)return 'Prediction skipped';
+ let outcome;
+ if(id==='memory')outcome=r.differencePP>0?'lower':r.differencePP<0?'higher':'same';
+ else if(id==='switch'){
+   if(!r.validCost)return 'No reliable timing comparison this time';
+   outcome=r.switchCostMs>0?'lower':r.switchCostMs<0?'higher':'same';
+ }else{
+   let a=r.trackDifferencePP,b=r.toneDifferencePP;
+   if(a>0&&b>=0||b>0&&a>=0)outcome='lower';
+   else if(a<0&&b<=0||b<0&&a<=0)outcome='higher';
+   else if(a===0&&b===0)outcome='same';
+   else return 'A mixed result: the two tasks changed in different directions';
+ }
+ return outcome===p?(r.sampleData?'The example agrees with your prediction.':'Your observation agreed with your prediction.'):(r.sampleData?'The example differs from your prediction.':'Your observation differed from your prediction.');
+}
+function renderReveal(){
+ const m=mod(),d=L[m.id],people=Object.keys(state.results[m.id]||{}).map(Number).sort(),idx=state.reflection||'apply',q=d[idx];
+ app.innerHTML=`<div class="debrief"><div class="eyebrow">AFTER · ${esc(m.title)}</div><h1 class="screen-title">What happened?</h1>
+ <div class="debrief-grid"><div class="result-cards">${people.map(i=>{let r=state.results[m.id][i],p=state.predictions[`${m.id}:${i}`];return `<section class="results-card"><span class="eyebrow">${r.sampleData?'INVENTED PRACTICE DATA':state.options.mode==='solo'?'YOUR RESULTS':esc(pName(i))}</span><h2>${esc(observedText(m.id,r))}</h2>${resultPanel(m.id,r,i)}<div class="prediction-return"><span>Before</span><strong>${esc(predictedText(m.id,p))}</strong><span>${r.sampleData?'Example':'After'}</span><strong>${esc(observedText(m.id,r))}</strong><p class="prediction-verdict">${esc(predictionComparison(m.id,p,r))}</p></div></section>`;}).join('')}</div>
+ <section class="explanation"><span class="eyebrow">THE RESEARCH</span><h2>What the researchers found</h2><p class="research-result">${esc(d.finding)}</p><a class="research-citation" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.study)} ↗</a><h3 class="mechanism-head">Why might this happen?</h3><p class="explain-lead">${esc(d.unpack)}</p><div class="terms-compact">${d.terms.slice(0,2).map(([t,v])=>`<div><b>${esc(t)}</b><span>${esc(v)}</span></div>`).join('')}</div><div class="caution"><b>Limitation</b><p>${esc(people.some(i=>state.results[m.id][i].sampleData)?'These illustrative numbers are constructed, not experimental evidence. They demonstrate measurement, not causation.':d.shortLimit)}</p></div>${d.terms.length>2?`<details class="extra-terms"><summary>More key terms and research limits</summary><div class="terms-compact">${d.terms.slice(2).map(([t,v])=>`<div><b>${esc(t)}</b><span>${esc(v)}</span></div>`).join('')}</div><p>${esc(d.limit)}</p></details>`:''}</section></div>
+ <section class="think-section"><div class="think-head"><span class="eyebrow">TAKE IT FURTHER</span><div class="think-tabs"><button type="button" class="${idx==='apply'?'selected':''}" data-reflection="apply" aria-pressed="${idx==='apply'}">Apply</button><button type="button" class="${idx==='evaluate'?'selected':''}" data-reflection="evaluate" aria-pressed="${idx==='evaluate'}">Evaluate</button></div></div><p class="think-prompt">${esc(q.q)}</p>${button('show-example',state.showAnswer?'Hide example answer':'Compare with an example','btn secondary small').replace('<button ',`<button aria-expanded="${state.showAnswer}" `)}${state.showAnswer?`<div class="model-response">${esc(q.a)}</div>`:''}</section>
+ <div class="debrief-actions"><button id="method-toggle" type="button" class="text-link" aria-controls="method-note" aria-expanded="false">How was this measured?</button>${button('next-experiment',state.moduleIndex===2?'See what you learned →':'Next experiment →','btn primary')}</div><div id="method-note" hidden class="method-detail"><b>Original research</b><p>${esc(d.originalProcedure)}</p><b>Our demonstration</b><p>${esc(people.some(i=>state.results[m.id][i].sampleData)?'Explore invented, labelled records and compare conditions; no student performance is measured.':d.method)}</p></div></div>`;
+ document.querySelectorAll('[data-score-sandbox]').forEach(lab=>{
+   const hits=lab.querySelector('[data-score-hits]'),falsePresses=lab.querySelector('[data-score-false]');
+   const recalc=()=>{
+     const h=Number(hits.value),f=Number(falsePresses.value),hr=E.round(E.pct(h,3),1),net=E.netDetection(h,3,f,5),penalty=Math.min(100,20*f);
+     lab.querySelector('[data-hit-count]').value=`${h} / 3`;
+     lab.querySelector('[data-false-count]').value=`${f} ${f===1?'press':'presses'}`;
+     lab.querySelector('[data-hit-rate]').textContent=`${hr}%`;
+     lab.querySelector('[data-net-score]').textContent=`${net}%`;
+     lab.querySelector('[data-hit-bar]').style.width=`${hr}%`;
+     lab.querySelector('[data-net-bar]').style.width=`${net}%`;
+     lab.querySelector('[data-score-explain]').textContent=f===0?
+       `No false-press penalty: ${hr}% hits gives ${net}% net.`:
+       `${hr}% hits minus a ${penalty}-point false-press penalty gives ${net}% net (never below zero).`;
+   };
+   hits.addEventListener('input',recalc);falsePresses.addEventListener('input',recalc);recalc();
+ });
+ document.querySelectorAll('[data-reflection]').forEach(el=>el.onclick=()=>{const choice=el.dataset.reflection;state.reflection=choice;state.showAnswer=false;commit();document.querySelector(`[data-reflection="${choice}"]`)?.focus();});
+ $('#show-example').onclick=()=>{state.showAnswer=!state.showAnswer;commit();$('#show-example')?.focus();};
+ $('#method-toggle').onclick=()=>{const el=$('#method-note');el.hidden=!el.hidden;$('#method-toggle').setAttribute('aria-expanded',String(!el.hidden));};
+ $('#next-experiment').onclick=()=>state.moduleIndex<2?launchModule(state.moduleIndex+1):view('results');
+}
+function renderResults(){
+ const people=state.options.mode==='duel'?[0,1]:[state.options.mode==='team'?0:0];
+ app.innerHTML=`<div class="finish"><div class="eyebrow">YOU'VE COMPLETED THE LAB</div><h1 class="screen-title">Three experiments.<br>Three different limits.</h1><p class="finish-lead">Attention can be drawn away, task rules can take time to change, and overlapping tasks can compete. Your results are a starting point—not a verdict about you.</p>
+ <div class="finish-grid">${C.modules.map((m,i)=>{const entries=Object.entries(state.results[m.id]||{});return `<section class="finish-card"><div class="finish-card-top"><span>0${i+1}</span><strong>${esc(['Selective attention','Task switching','Divided attention'][i])}</strong></div><p>${esc(entries[0]?(entries[0][1].sampleData?'Invented example: ':'')+resultSentence(m.id,entries[0][1]):'No completed trials')}</p><button type="button" data-replay="${i}" class="text-link">Try again</button></section>`;}).join('')}</div>
+ <section class="exam"><div class="exam-header"><div><span class="eyebrow">CHECK YOUR UNDERSTANDING</span><h2>Could you explain these?</h2></div><p>No multiple choice. Think, then compare your answer.</p></div>
+ ${C.modules.map((m,i)=>{const d=L[m.id];return `<details class="exam-question"><summary><b>0${i+1}</b><span>${esc(d.exam.q)}</span><span class="chevron">+</span></summary><div class="exam-answer"><label for="answer-${i}">Your explanation (optional)</label><textarea id="answer-${i}" rows="3" placeholder="Explain it in your own words…"></textarea><button type="button" class="btn secondary small" data-sample="${i}">Compare with an example</button><div class="sample-answer" id="sample-${i}" hidden><b>One strong answer</b><p>${esc(d.exam.a)}</p><p class="self-check">Look for: a defined concept · accurate evidence or measurement · one reasonable limitation.</p></div></div></details>`;}).join('')}
+ </section><div class="finish-actions">${button('print-summary','Print summary','btn secondary')}${button('start-over','Start again','btn ghost')}</div><p class="finish-note">Results exist only in this open page and disappear when it is closed or refreshed. Any sample data are invented and not student measurements.</p></div>`;
+ document.querySelectorAll('[data-replay]').forEach(el=>el.onclick=()=>launchModule(Number(el.dataset.replay)));
+ document.querySelectorAll('[data-sample]').forEach(el=>el.onclick=()=>{const panel=$('#sample-'+el.dataset.sample);panel.hidden=!panel.hidden;el.textContent=panel.hidden?'Compare with an example':'Hide example';});
+ $('#start-over').onclick=resetAll;$('#print-summary').onclick=()=>{renderPrint();window.print();};renderPrint();
+}
+function renderPrint(){const el=$('#print-root');el.innerHTML=`<article class="print-sheet"><h1>Cognitive Multitasking Lab</h1><p>Learning and cognition · Classroom demonstration (any labelled example data are fictional)</p><table><thead><tr><th>Experiment</th><th>Your observation</th><th>Key idea</th></tr></thead><tbody>${C.modules.map((m,i)=>{const r=Object.values(state.results[m.id]||{})[0];return `<tr><td>${esc(m.title)}</td><td>${esc(r?(r.sampleData?'Invented practice data: ':'')+resultSentence(m.id,r):'Not completed')}</td><td>${esc(L[m.id].terms[0][0])}</td></tr>`;}).join('')}</tbody></table><h2>How to use the evidence</h2><p>Stothart et al. (2015) tested phone notifications and attention. Rogers & Monsell (1995) tested switching between classification tasks. Pashler (1994) reviewed dual-task interference. This game illustrates related ideas; it does not replicate those procedures.</p><h2>Think like a psychologist</h2>${C.modules.map((m,i)=>`<p><b>${i+1}. ${esc(L[m.id].exam.q)}</b></p><p>${esc(L[m.id].exam.a)}</p>`).join('')}<p><b>Limit:</b> The short, unstandardised demonstrations have few trials and are vulnerable to practice, task-difficulty and device differences. Never generalise an individual's results to everyone.</p></article>`;}
+function resetAll(){if(!confirm('Start again? Your current results will disappear.'))return;if(active)active.clean();state=fresh();$('#print-root').innerHTML='';view('welcome');}
+$('#reset-btn').onclick=resetAll;
+window.addEventListener('visibilitychange',()=>{if(document.hidden&&active)active.abort();});
+window.addEventListener('blur',()=>{if(active)active.abort();});
+window.addEventListener('beforeunload',()=>{if(active)active.clean();});
+window.CognitiveLabDebug={getState:()=>JSON.parse(JSON.stringify(state)),engine:E};
+render();
+})();
+
+</script>
+
+<script id="clean-guided-core">(()=>{'use strict';
+const app=document.getElementById('app');if(!app)return;
+const brand=document.querySelector('.logo strong');if(brand)brand.textContent='ATTENTION / LAB';
+let started=false,lastHolder=null,holderWatcher=null,activeToastTimer=null,chimeContext=null;
+window.CleanLabQA={alerts:0,vibrations:0};
+// Minimal phone-like chime, triggered only by real scheduled notification DOM events.
+function chime(){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;if(!chimeContext)chimeContext=new A();if(chimeContext.state==='suspended')chimeContext.resume().catch(()=>{});for(const [delay,hz] of [[0,860],[.13,1090]]){const at=chimeContext.currentTime+delay,osc=chimeContext.createOscillator(),gain=chimeContext.createGain();osc.type='sine';osc.frequency.setValueAtTime(hz,at);gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(.1,at+.012);gain.gain.exponentialRampToValueAtTime(.0001,at+.17);osc.connect(gain).connect(chimeContext.destination);osc.start(at);osc.stop(at+.19);}}catch(_){}}
+function notify(){let n=lastHolder?.querySelector('.fake-push');if(!n)return;window.CleanLabQA.alerts++;
+let el=document.getElementById('guided-alert-toast');if(!el){el=document.createElement('div');el.id='guided-alert-toast';el.className='guided-alert-toast';el.setAttribute('aria-hidden','true');document.body.append(el)}
+const label=n.querySelector('b')?.textContent||'PHONE',message=n.querySelector('span')?.textContent||'New message';el.replaceChildren();const glyph=document.createElement('span');glyph.className='app-icon';glyph.textContent='●';const body=document.createElement('span'),head=document.createElement('strong');head.textContent=label;body.append(head,document.createTextNode(message));el.append(glyph,body);
+el.classList.remove('visible');void el.offsetWidth;el.classList.add('visible');clearTimeout(activeToastTimer);activeToastTimer=setTimeout(()=>el.classList.remove('visible'),1650);
+chime();try{if(typeof navigator.vibrate==='function'){window.CleanLabQA.vibrations++;navigator.vibrate([110,50,110]);}}catch(_){}
+}
+function checkPhone(){const el=app.querySelector('.memory-phone.is-live #notification-holder');if(el===lastHolder)return;if(holderWatcher)holderWatcher.disconnect();lastHolder=el;if(el){holderWatcher=new MutationObserver(()=>{if(el.querySelector('.fake-push'))notify()});holderWatcher.observe(el,{childList:true})}else document.getElementById('guided-alert-toast')?.classList.remove('visible')}
+function update(){
+ if(!started){const start=app.querySelector('#start');if(start){started=true;start.click();return}}
+ const intro=app.querySelector('.lesson-intro'),predict=intro?.querySelector('.predict');if(predict){const chosen=!!predict.querySelector('.prediction.selected');const go=intro.querySelector('#start-experiment');if(go&&go.disabled===chosen)go.disabled=!chosen;
+  // Original prediction comparison remains intact; no sample-data option.
+  const small=predict.querySelector('small');if(small&&small.textContent.includes('No right answer'))small.textContent='Predict first. Then test it.';
+ }
+ const finish=app.querySelector('.finish');if(finish&&!finish.querySelector('#clean-core-next')){const link=document.createElement('a');link.id='clean-core-next';link.href='../index.html#04';link.className='clean-next';link.textContent='Next · Study 04 →';const actions=finish.querySelector('.finish-actions');(actions||finish).before(link)}
+ checkPhone();
+}
+let queued=false;new MutationObserver(()=>{if(queued)return;queued=true;queueMicrotask(()=>{queued=false;update()})}).observe(app,{childList:true,subtree:true});update();
+})();</script></body></html>
