@@ -1,1 +1,221 @@
-[]
+{
+  "sections": [
+    {
+      "id": "course-tools",
+      "folder": "Course Tools",
+      "kind": "tools",
+      "number": null,
+      "year": null,
+      "title": "Course overview and tools",
+      "short": "Course tools",
+      "question": "The course map, the syllabus checklist and tools you will use in every unit.",
+      "context": "",
+      "practical": null,
+      "guide": null,
+      "checklist": null,
+      "order": 0,
+      "materials": [
+        {
+          "path": "Course Tools/Course Guide",
+          "title": "Two-Year Course Guide",
+          "description": "The route through our six units and four research practicals, with what each unit covers and where it sits in the IB syllabus.",
+          "category": "Course map",
+          "covers": [],
+          "order": 1
+        },
+        {
+          "path": "Course Tools/Syllabus Checklist",
+          "title": "Complete Syllabus Checklist",
+          "description": "Every examinable term and learning objective, sorted by our six units. Tick each one when you can explain it and use it in an answer. Ticks stay on your device.",
+          "category": "Study checklist",
+          "covers": [],
+          "order": 2
+        },
+        {
+          "path": "Course Tools/Redemption Arc P1",
+          "title": "Redemption Arc: Paper 1 Section C",
+          "description": "A timed 60-minute Paper 1 Section C essay (reinforcement and causality, or memory and measurement), with the markbands beside your writing and a PDF to hand in.",
+          "category": "Exam practice",
+          "covers": [],
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "unit-1",
+      "folder": "Unit 1 Foundations",
+      "kind": "unit",
+      "number": 1,
+      "year": "Year 1",
+      "title": "Psychology as a Way of Thinking",
+      "short": "Foundations",
+      "question": "How do psychologists develop, test and evaluate explanations of behaviour?",
+      "context": "Foundations across all four contexts",
+      "practical": null,
+      "guide": "guide-U1",
+      "checklist": "check-U1",
+      "order": 1,
+      "materials": []
+    },
+    {
+      "id": "unit-2",
+      "folder": "Unit 2 Learning and Bias",
+      "kind": "unit",
+      "number": 2,
+      "year": "Year 1",
+      "title": "Learning, Bias and Decision-Making",
+      "short": "Learning & bias",
+      "question": "How do we learn, and why do our judgements go wrong?",
+      "context": "Learning and cognition: thinking and learning",
+      "practical": null,
+      "guide": "guide-U2",
+      "checklist": "check-U2",
+      "order": 2,
+      "materials": [
+        {
+          "path": "Unit 2 Learning and Bias/Operant Conditioning",
+          "title": "Escape the Loop: Operant Conditioning",
+          "description": "An escape room about reinforcement and punishment. Crack each room by applying operant conditioning, then hand in your PDF.",
+          "category": "Escape room",
+          "covers": [],
+          "order": 1
+        },
+        {
+          "path": "Unit 2 Learning and Bias/Dual Process Theory and Cognitive Biases",
+          "title": "Two Minds: Dual Process Theory and Cognitive Biases",
+          "description": "Ten hands-on stations for group rotation: experience a cognitive bias, trace it back to System 1 and System 2, then teach it to a classmate with a head-to-head quiz.",
+          "category": "Group stations",
+          "covers": [],
+          "order": 2
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "folder": "Unit 3 Memory and the Brain",
+      "kind": "unit",
+      "number": 3,
+      "year": "Year 1",
+      "title": "Memory, Models and the Brain",
+      "short": "Memory & brain",
+      "question": "How can we explain memory, investigate the brain and improve cognition?",
+      "context": "Learning and cognition: cognitive processes",
+      "practical": "Experiment practical",
+      "guide": "guide-U3",
+      "checklist": "check-U3",
+      "order": 3,
+      "materials": [
+        {
+          "path": "Unit 3 Memory and the Brain/Models of Memory",
+          "title": "Memory Lab: Models of Memory",
+          "description": "Take part in classic memory demonstrations, from sensory memory to serial position, and test what the multi-store model can and cannot explain.",
+          "category": "Lab",
+          "covers": [],
+          "order": 1
+        },
+        {
+          "path": "Unit 3 Memory and the Brain/Working Memory and Cognitive Load",
+          "title": "Memory Quest: Working Memory and Cognitive Load",
+          "description": "A story-driven lab: test your own working memory, replicate Landry and Bartling and Sana et al., and discover intrinsic, extraneous and germane cognitive load.",
+          "category": "Story lab",
+          "covers": [
+            2
+          ],
+          "order": 2
+        },
+        {
+          "path": "Unit 3 Memory and the Brain/Neurotransmitters",
+          "title": "Neural Lab: From Signals to Memory",
+          "description": "How neurons signal, a guided rat-maze model of acetylcholine and memory, and how drugs act at the synapse.",
+          "category": "Lesson",
+          "covers": [],
+          "order": 3
+        },
+        {
+          "path": "Unit 3 Memory and the Brain/Environment and Memory",
+          "title": "Attention Lab: A Research Notebook",
+          "description": "Six guided studies on notifications, task switching and nearby screens. Predict, test yourself, then compare your result with the research.",
+          "category": "Lab",
+          "covers": [],
+          "order": 4
+        },
+        {
+          "path": "Unit 3 Memory and the Brain/Improving Memory",
+          "title": "Memory Olympiad",
+          "description": "Six randomised memory challenges with answer reviews and unlimited practice. Try strategies for improving memory and see what changes.",
+          "category": "Practice",
+          "covers": [],
+          "order": 5
+        },
+        {
+          "path": "Unit 3 Memory and the Brain/Odyssey Review",
+          "title": "Odyssey: The Long Way Home",
+          "description": "A voiced, branching Odyssey adventure that reviews the whole Learning and Cognition context for Paper 1: conditioning, social learning, schema theory, memory models, cognitive load, dual process theory and biases. Story mode, study mode and Paper 1 practice.",
+          "category": "Context review",
+          "covers": [
+            2
+          ],
+          "order": 10
+        },
+        {
+          "path": "Unit 3 Memory and the Brain/Mindvault Review",
+          "title": "Mindvault: Learning and Cognition Escape Room",
+          "description": "Nine quiz rooms on memory, the brain, conditioning, cognitive load, bias and the six concepts, then a notes workshop you can export.",
+          "category": "Context review",
+          "covers": [
+            2
+          ],
+          "order": 11
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "folder": "Unit 4 Relationships",
+      "kind": "unit",
+      "number": 4,
+      "year": "Year 1",
+      "title": "Influence, Identity and Connection",
+      "short": "Relationships",
+      "question": "How do groups and personal relationships shape behaviour?",
+      "context": "Human relationships",
+      "practical": "Survey and questionnaire practical",
+      "guide": "guide-U4",
+      "checklist": "check-U4",
+      "order": 4,
+      "materials": []
+    },
+    {
+      "id": "unit-5",
+      "folder": "Unit 5 Health",
+      "kind": "unit",
+      "number": 5,
+      "year": "Year 2",
+      "title": "Mental Health, Behaviour Change and Culture",
+      "short": "Health",
+      "question": "How are mental health and health problems explained, addressed and prevented?",
+      "context": "Health and well-being",
+      "practical": "Interview practical",
+      "guide": "guide-U5",
+      "checklist": "check-U5",
+      "order": 5,
+      "materials": []
+    },
+    {
+      "id": "unit-6",
+      "folder": "Unit 6 Development",
+      "kind": "unit",
+      "number": 6,
+      "year": "Year 2",
+      "title": "Development Across Time",
+      "short": "Development",
+      "question": "How and why do people develop, and what shapes their sense of self?",
+      "context": "Human development",
+      "practical": "Observation practical",
+      "guide": "guide-U6",
+      "checklist": "check-U6",
+      "order": 6,
+      "materials": []
+    }
+  ]
+}

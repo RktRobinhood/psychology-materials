@@ -51,7 +51,8 @@ What the user wants from every lesson, learned by working together. Add to it wh
 - Lesson content in `data/lesson-data.js`; engine in `js/app.js`; tasks in their own `js/` files.
 - External libraries from cdnjs at a pinned version, with jsDelivr as a backup.
 - Every lesson has a **Report a problem** entry in its menu or top bar, wired to `materials/shared/report-problem.js` (see [materials/README.md](../materials/README.md#report-a-problem)). It opens the student-friendly GitHub issue forms with the lesson, place and device filled in. Why: the user wants students to report bugs straight to GitHub issues.
-- Folder names: `materials/<Lesson Name>/` in Title Case with spaces (matches existing lessons); `design/<lesson-slug>/` in kebab-case.
+- Folder names: `materials/<Unit folder>/<Lesson Name>/` in Title Case with spaces; `design/<lesson-slug>/` in kebab-case.
+- **The site is sorted by the six teaching units** of the Two-Year Course Guide (Foundations, Learning and bias, Memory and the brain, Relationships, Health, Development), plus **Course Tools** for class info and anything that fits no single unit. A lesson that reviews several units lives in the unit where that context ends and lists the others in `covers`. Moving a published lesson needs a line in `scripts/legacy-redirects.json` so old links and QR codes keep working. Why: the user asked for the content to follow their units, with a separate tools and overview section (2026-11-20).
 
 ## Git
 

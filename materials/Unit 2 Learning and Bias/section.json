@@ -1,0 +1,12 @@
+{
+  "kind": "unit",
+  "number": 2,
+  "year": "Year 1",
+  "title": "Learning, Bias and Decision-Making",
+  "short": "Learning & bias",
+  "question": "How do we learn, and why do our judgements go wrong?",
+  "context": "Learning and cognition: thinking and learning",
+  "order": 2,
+  "guide": "guide-U2",
+  "checklist": "check-U2"
+}

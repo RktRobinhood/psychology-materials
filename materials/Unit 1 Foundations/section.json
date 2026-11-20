@@ -1,0 +1,12 @@
+{
+  "kind": "unit",
+  "number": 1,
+  "year": "Year 1",
+  "title": "Psychology as a Way of Thinking",
+  "short": "Foundations",
+  "question": "How do psychologists develop, test and evaluate explanations of behaviour?",
+  "context": "Foundations across all four contexts",
+  "order": 1,
+  "guide": "guide-U1",
+  "checklist": "check-U1"
+}

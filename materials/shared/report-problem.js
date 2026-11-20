@@ -2,7 +2,7 @@
  *
  * Classic script, no build step, works from file:// and GitHub Pages.
  *
- *   <script defer src="../shared/report-problem.js" data-lesson="Memory Quest"></script>
+ *   <script defer src="../../shared/report-problem.js" data-lesson="Memory Quest"></script>
  *   <a href="https://github.com/RktRobinhood/psychology-materials/issues/new/choose"
  *      target="_blank" rel="noopener" data-report-problem>Report a problem</a>
  *

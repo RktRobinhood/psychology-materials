@@ -1,6 +1,6 @@
 # Odyssey (Unit 1 Review): workshop
 
-The student-facing game is `materials/Unit 1 Review - Learning and Cognition/`. This folder holds everything behind it.
+The student-facing game is `materials/Unit 3 Memory and the Brain/Odyssey Review/` (it reviews the whole Learning and Cognition context, Units 2 and 3; until 2026-11 it lived at `materials/Unit 1 Review - Learning and Cognition/`). This folder holds everything behind it.
 
 | Path | What it is |
 |---|---|

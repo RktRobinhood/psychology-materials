@@ -1,0 +1,13 @@
+{
+  "kind": "unit",
+  "number": 3,
+  "year": "Year 1",
+  "title": "Memory, Models and the Brain",
+  "short": "Memory & brain",
+  "question": "How can we explain memory, investigate the brain and improve cognition?",
+  "context": "Learning and cognition: cognitive processes",
+  "practical": "Experiment practical",
+  "order": 3,
+  "guide": "guide-U3",
+  "checklist": "check-U3"
+}

@@ -6,7 +6,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-export const LESSON = path.resolve(HERE, '..', '..', '..', 'materials', 'Unit 1 Review - Learning and Cognition');
+export const LESSON = path.resolve(HERE, '..', '..', '..', 'materials', 'Unit 3 Memory and the Brain', 'Odyssey Review');
 
 export function loadData() {
   const ctx = { console };

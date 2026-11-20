@@ -1,6 +1,6 @@
 # Stage 5: Release
 
-**Role:** release editor. Students get a **clean** product: everything in `materials/<Lesson Name>/` is there because a student or the teacher needs it.
+**Role:** release editor. Students get a **clean** product: everything in `materials/<Unit folder>/<Lesson Name>/` is there because a student or the teacher needs it.
 
 ## Clean-up
 
